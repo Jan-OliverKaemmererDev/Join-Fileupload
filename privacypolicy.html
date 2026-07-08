@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg" />
+    <link rel="stylesheet" href="./styles/standard.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/privacypolicy.css" />
+    <link rel="stylesheet" href="./styles/mobile/style-mobile.css" />
+    <link rel="stylesheet" href="./styles/mobile/privacypolicy-mobile.css" />
+    <title>Join - Privacy Policy</title>
+  </head>
+  <body onload="initLegalPrivacy()">
+    <nav class="sidebar">
+      <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" />
+      <div class="nav-links">
+        <a href="summaryuser.html">
+          <img src="./assets/summary-page/summary-icon.svg" alt="" />
+          Summary
+        </a>
+        <a href="addtask.html">
+          <img src="./assets/summary-page/add-task-icon.svg" alt="" />
+          Add Task
+        </a>
+        <a href="board.html">
+          <img src="./assets/summary-page/board-icon.svg" alt="" />
+          Board
+        </a>
+        <a href="contacts.html">
+          <img src="./assets/summary-page/contacts-icon.svg" alt="" />
+          Contacts
+        </a>
+      </div>
+      <div class="legal-links">
+        <a href="privacypolicy.html" class="active">Privacy Policy</a>
+        <a href="legalnotice.html">Legal notice</a>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-content">
+          <span>Kanban Project Management Tool</span>
+          <div class="header-icons" id="header-icons">
+            <a href="help.html" class="help-link">
+              <img src="./assets/summary-page/help.svg" alt="Help" />
+            </a>
+            <div class="user-menu-container">
+              <div
+                class="user-initials"
+                id="user-initials"
+                onclick="toggleUserMenu()"
+                role="button"
+                tabindex="0"
+                aria-haspopup="true"
+                aria-expanded="false"
+              ></div>
+              <nav
+                class="user-dropdown"
+                id="user-dropdown"
+                aria-label="User menu"
+              >
+                <a href="legalnotice.html">Legal Notice</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a
+                  href="#"
+                  onclick="
+                    handleLogout();
+                    return false;
+                  "
+                  >Log out</a
+                >
+              </nav>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <article class="privacy-policy-container">
+        <h1>Privacy Policy</h1>
+
+        <p>
+          This Privacy Policy explains how we collect, use, and protect your
+          personal data when you use <span class="blue-text">Join</span>, a
+          project management tool developed as part of a student group project
+          at the <span class="blue-text">Developer Akademie GmbH</span>.
+        </p>
+
+        <h2>1. Data Collection</h2>
+        <p>
+          We collect personal data that you voluntarily provide when you
+          register for an account, create tasks, or add contacts. This may
+          include:
+        </p>
+        <ul>
+          <li>Name and surname</li>
+          <li>Email address</li>
+          <li>Login credentials (encrypted)</li>
+          <li>Profile information (e.g., initials)</li>
+          <li>Profile image (if uploaded)</li>
+        </ul>
+
+        <h2>2. Purpose of Data Processing</h2>
+        <p>
+          The data is stored and used exclusively for the functionality of the
+          <span class="blue-text">Join</span> application, such as:
+        </p>
+        <ul>
+          <li>User authentication and account management</li>
+          <li>Task assignment and collaboration</li>
+          <li>Managing contact lists within the tool</li>
+        </ul>
+
+        <h2>3. Data Storage and Security</h2>
+        <p>
+          Your data is stored in a secure cloud database (e.g., Firebase)
+          provided by Google. We implement industry-standard security measures
+          to protect your information. However, please be aware that
+          <span class="blue-text">Join</span> is a student project and not
+          intended for storing sensitive or production-level data.
+        </p>
+
+        <h2>4. User Rights</h2>
+        <p>
+          In accordance with the General Data Protection Regulation (GDPR), you
+          have the right to:
+        </p>
+        <ul>
+          <li>Access the data we store about you</li>
+          <li>Request correction or completion of your data</li>
+          <li>Request the deletion of your account and associated data</li>
+          <li>Object to the processing of your data</li>
+          <li>Withdraw consent for data processing</li>
+        </ul>
+
+        <h2>5. Third-Party Services</h2>
+        <p>
+          We use Firebase (a Google service) for data storage and
+          authentication. Google may process and store data on servers located
+          outside the European Union.
+        </p>
+
+        <h2>6. Contact Information</h2>
+        <p>
+          If you have any questions regarding this Privacy Policy or wish to
+          exercise your data rights, please contact the project team at
+          jowieja22@gmail.com.
+        </p>
+
+        <p>
+          <em>Last updated: July 26, 2023</em>
+        </p>
+      </article>
+    </main>
+
+    <script type="module" src="./scripts/firebase-init.js"></script>
+    <script src="./scripts/auth.js"></script>
+    <script src="./scripts/user-initials.js"></script>
+    <script src="./scripts/side-menu.js"></script>
+    <script src="./scripts/user-menu.js"></script>
+    <script src="./scripts/templates/legal-template.js"></script>
+    <script src="./scripts/legal-privacy.js"></script>
+  </body>
+</html>

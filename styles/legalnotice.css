@@ -1,0 +1,109 @@
+.legal-notice-container {
+  padding: 80px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.legal-notice-container h1 {
+  font-size: 61px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #000;
+}
+
+.legal-notice-container h2 {
+  font-size: 27px;
+  font-weight: 700;
+  margin-top: 40px;
+  margin-bottom: 24px;
+  color: #000;
+}
+
+.legal-notice-container h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: #000;
+}
+
+.legal-notice-container p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000;
+  margin-bottom: 16px;
+}
+
+.legal-notice-container ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+.legal-notice-container li {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.highlight-blue {
+  color: #29abe2;
+  text-decoration: none;
+  font-weight: 400;
+}
+
+.highlight-blue:hover {
+  text-decoration: underline;
+}
+
+.back-arrow-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.mobile-back-arrow {
+  display: none;
+}
+
+.sidebar-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+/* Legal Links auf Desktop ganz nach unten schieben */
+.sidebar-content-wrapper .legal-links {
+  margin-top: auto; /* Schiebt es ans Ende des Flex-Containers */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 16px; /* Abstand zum unteren Rand */
+}
+
+/* Auf Desktop wollen wir Log In Text NEBEN dem Icon (Standard) */
+.nav-links a.login-link {
+  display: flex;
+  align-items: center;
+  flex-direction: row; /* Nebeneinander auf Desktop */
+  gap: 10px;
+}
+
+@media (max-width: 1024px) {
+  .legal-notice-container {
+    padding: 40px;
+  }
+
+  .legal-notice-container h1 {
+    font-size: 47px;
+  }
+}
+
+@media (max-width: 480px) {
+  .legal-notice-container {
+    padding: 20px;
+  }
+
+  .legal-notice-container h1 {
+    font-size: 36px;
+  }
+}

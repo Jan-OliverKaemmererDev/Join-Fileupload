@@ -1,0 +1,382 @@
+{
+  "name": "Join - Issue Collector Komplett (Dummy)",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.count || 0 }}",
+              "value2": 10
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        736,
+        2636
+      ],
+      "id": "6c0d7dae-4fdb-455b-8a78-a086719e9653",
+      "name": "Check Daily Ticket Limit < 10"
+    },
+    {
+      "parameters": {
+        "fromEmail": "deine-email@beispiel.de",
+        "toEmail": "={{ $('Format Ticket Data').item.json[\"creator\"] }}",
+        "subject": "={{ 'Ticket erfolgreich erstellt: ' + $node[\"Format Ticket Data\"].json[\"title\"] }}",
+        "text": "={{ 'Hallo,\\n\\ndein Anliegen wurde erfolgreich als Ticket in unserem Join Kanban-Board angelegt.\\n\\nTitel: ' + ($('Format Ticket Data').first().json.title || 'Unbekannt') + '\\nKategorie: ' + ($('Format Ticket Data').first().json.category || 'Unbekannt') + '\\n\\nViele Grüße,\\nDein Join-Team' }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        2488
+      ],
+      "id": "a202cfd9-fe53-4e5c-a25d-6aded3a6efbf",
+      "name": "Ticket Created (Send Email)",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "smtp": {
+          "id": "YOUR_SMTP_CREDENTIAL_ID",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "PATCH",
+        "url": "={{ 'https://YOUR-FIREBASE-PROJECT.europe-west1.firebasedatabase.app/daily_limits/' + $now.toFormat('yyyy-MM-dd') + '.json' }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "auth",
+              "value": "YOUR_FIREBASE_AUTH_TOKEN"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"count\": {{ ($('Firebase: Check Limit').item.json.count || 0) + 1 }}\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1760,
+        2488
+      ],
+      "id": "b72896dd-c741-4c51-a1a4-fd40f50bb427",
+      "name": "Firebase: Increment Daily Ticket Count"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://YOUR-FIREBASE-PROJECT.europe-west1.firebasedatabase.app/tasks.json",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "auth",
+              "value": "YOUR_FIREBASE_AUTH_TOKEN"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        1536,
+        2488
+      ],
+      "id": "a8267c85-4619-4951-a34b-df05b8b86dd0",
+      "name": "Firebase: Save Ticket"
+    },
+    {
+      "parameters": {
+        "jsCode": "let rawText = $input.all()[0].json.text;\nlet cleanText = rawText.replace(/```json/gi, '').replace(/```/gi, '').trim();\nconst aiOutput = JSON.parse(cleanText);\n\nif (aiOutput.isRelevant === false || aiOutput.isRelevant === \"false\") {\n  return [];\n}\n\nlet emailSender = \"unknown\";\ntry {\n  const fromData = $('Email Trigger (IMAP)').first().json.from;\n  emailSender = fromData.value[0].address || fromData.address || fromData;\n} catch(e) {}\n\nlet emailReceiver = \"deine-email@beispiel.de\";\ntry { emailReceiver = $('Email Trigger (IMAP)').first().json.to.value[0].address; } catch(e) {}\n\nlet formattedSubtasks = [];\nif (Array.isArray(aiOutput.subtasks) && aiOutput.subtasks.length > 0) {\n  formattedSubtasks = aiOutput.subtasks.map((st, index) => ({\n    id: Date.now() + index,\n    text: st,\n    completed: false\n  }));\n}\n\nreturn {\n  title: aiOutput.title,\n  category: aiOutput.category,\n  priority: aiOutput.priority,\n  deadline: aiOutput.deadline,\n  description: aiOutput.description,\n  subtasks: formattedSubtasks,\n  creator: emailSender,\n  creatorName: aiOutput.creatorName || \"Externer Benutzer\",\n  receiver: emailReceiver,\n  creatorType: \"extern\",\n  status: \"triage\"\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1312,
+        2488
+      ],
+      "id": "c1a60b62-786b-41ae-a69c-bf486b67e5cb",
+      "name": "Format Ticket Data"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Du bist ein Projektmanager für das Kanban-Board \"Join\". Analysiere den E-Mail-Text und extrahiere die Daten in JSON.\n\nWICHTIG: Akzeptiere alle Anliegen, die als Aufgabe, To-Do oder Projekt formuliert sind - egal ob technisch, organisatorisch oder privat. Ignoriere nur offensichtlichen Spam oder komplett sinnlose Nachrichten.\n\nE-Mail Betreff: {{ $('Email Trigger (IMAP)').item.json.subject }}\nE-Mail Text: {{ $('Email Trigger (IMAP)').item.json.text }}\nHeutiges Datum: {{ $now.toFormat('yyyy-MM-dd') }}\n\nGib exakt dieses JSON-Format zurück:\n{\n  \"isRelevant\": \"true oder false (false nur bei offensichtlichem Spam oder sinnlosen Nachrichten)\",\n  \"title\": \"Prägnanter Titel\",\n  \"category\": \"technischer Task, User Story/Feature, oder Bug Request\",\n  \"priority\": \"urgent, medium, oder low\",\n  \"deadline\": \"Deadline im Format yyyy-MM-dd falls vorhanden, sonst das morgige Datum (heute + 1 Tag)\",\n  \"description\": \"Fasse das Anliegen zusammen. Füge am Ende hinzu: 'Dieses Ticket wurde KI-generiert'\",\n  \"subtasks\": \"Array mit Subtasks (Strings). Wenn der Stakeholder Subtasks explizit auflistet oder erwähnt, übernimm diese EXAKT. Falls keine Subtasks erwähnt werden, generiere zwei passende Subtasks.\",\n  \"creatorName\": \"Name des Erstellers, falls aus der E-Mail (z. B. Signatur oder Name des Senders) ableitbar, sonst null\"\n}\n\nGib NUR das JSON aus.",
+        "hasOutputParser": true
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        960,
+        2384
+      ],
+      "id": "10529aee-7233-410b-b87d-6b86ae924908",
+      "name": "Analyze Email & Extract JSON (AI)"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        1032,
+        2608
+      ],
+      "id": "2c77912a-65aa-4e96-a260-6c7a178f53a4",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "YOUR_GOOGLE_GEMINI_API_CREDENTIAL_ID",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "deine-email@beispiel.de",
+        "toEmail": "={{ $('Email Trigger (IMAP)').item.json.from.value[0].address || $('Email Trigger (IMAP)').item.json.from.address }}",
+        "subject": "Tageslimit erreicht - Ticket nicht erstellt",
+        "text": "Leider haben wir für heute das Limit für neue automatische Tickets erreicht. Dein Anliegen konnte daher nicht in das Join Kanban-Board übernommen werden. Bitte versuche es morgen noch einmal!",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [
+        1024,
+        2784
+      ],
+      "id": "7bf10df9-41ad-4ba0-9167-b7586523b492",
+      "name": "Limit Reached (Send Email)",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "smtp": {
+          "id": "YOUR_SMTP_CREDENTIAL_ID",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://YOUR-FIREBASE-PROJECT.europe-west1.firebasedatabase.app/daily_limits/' + $now.toFormat('yyyy-MM-dd') + '.json' }}",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "auth",
+              "value": "YOUR_FIREBASE_AUTH_TOKEN"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [
+        512,
+        2636
+      ],
+      "id": "1d9d7854-52a5-4269-8949-1a116baa0434",
+      "name": "Firebase: Check Limit"
+    },
+    {
+      "parameters": {
+        "format": "resolved",
+        "options": {
+          "trackLastMessageId": true
+        }
+      },
+      "type": "n8n-nodes-base.emailReadImap",
+      "typeVersion": 2.1,
+      "position": [
+        288,
+        2636
+      ],
+      "id": "472c07d2-819a-41fa-94d4-514e84b60fca",
+      "name": "Email Trigger (IMAP)",
+      "credentials": {
+        "imap": {
+          "id": "YOUR_IMAP_CREDENTIAL_ID",
+          "name": "IMAP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "deine-email@beispiel.de",
+        "toEmail": "={{ $json.body.creator }}",
+        "subject": "={{ 'Status-Update für dein Ticket: ' + $json.body.title }}",
+        "text": "={{ 'Hallo ' + ($json.body.creatorName || '') + ',\\n\\nder Status deines Tickets \"' + $json.body.title + '\" hat sich geändert.\\n\\nNeuer Status: ' + $json.body.newStatus + '\\n\\nViele Grüße,\\nDein Join-Team' }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [
+        512,
+        3008
+      ],
+      "id": "f43b681a-b2ca-4735-b1fc-1dbd351476ea",
+      "name": "Send Status Email",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "smtp": {
+          "id": "YOUR_SMTP_CREDENTIAL_ID",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "join-status-update",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        288,
+        3008
+      ],
+      "id": "5f9bbcc8-01df-4056-866b-cd4535590b40",
+      "name": "Webhook (Status Update)",
+      "webhookId": "YOUR_WEBHOOK_ID"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Check Daily Ticket Limit < 10": {
+      "main": [
+        [
+          {
+            "node": "Analyze Email & Extract JSON (AI)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Limit Reached (Send Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Firebase: Increment Daily Ticket Count": {
+      "main": [
+        [
+          {
+            "node": "Ticket Created (Send Email)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Firebase: Save Ticket": {
+      "main": [
+        [
+          {
+            "node": "Firebase: Increment Daily Ticket Count",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Ticket Data": {
+      "main": [
+        [
+          {
+            "node": "Firebase: Save Ticket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Email & Extract JSON (AI)": {
+      "main": [
+        [
+          {
+            "node": "Format Ticket Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Analyze Email & Extract JSON (AI)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Firebase: Check Limit": {
+      "main": [
+        [
+          {
+            "node": "Check Daily Ticket Limit < 10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Trigger (IMAP)": {
+      "main": [
+        [
+          {
+            "node": "Firebase: Check Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook (Status Update)": {
+      "main": [
+        [
+          {
+            "node": "Send Status Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "3296a93d-24ac-4a59-a38b-859cdc2338ad",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "YOUR_INSTANCE_ID"
+  },
+  "id": "tWJT2VoiaxOF0TFb",
+  "tags": []
+}

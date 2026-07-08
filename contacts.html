@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg" />
+    <title>Join - Contacts</title>
+    <link rel="stylesheet" href="./styles/standard.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/contacts.css" />
+    <link rel="stylesheet" href="./styles/contacts-details.css" />
+    <link rel="stylesheet" href="./styles/contacts-dialog.css" />
+    <link rel="stylesheet" href="./styles/board.css" />
+    <link rel="stylesheet" href="./styles/mobile/style-mobile.css" />
+    <link rel="stylesheet" href="./styles/mobile/contacts-mobile.css" />
+    <link rel="stylesheet" href="./styles/mobile/contacts-form-mobile.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+  </head>
+  <body onload="initContacts()">
+    <nav class="sidebar">
+      <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" />
+      <div class="nav-links">
+        <a href="summaryuser.html">
+          <img src="./assets/summary-page/summary-icon.svg" alt="" />
+          Summary
+        </a>
+        <a href="addtask.html">
+          <img src="./assets/summary-page/add-task-icon.svg" alt="" />
+          Add Task
+        </a>
+        <a href="board.html">
+          <img src="./assets/summary-page/board-icon.svg" alt="" />
+          Board
+        </a>
+        <a href="contacts.html" class="active">
+          <img src="./assets/summary-page/contacts-icon.svg" alt="" />
+          Contacts
+        </a>
+      </div>
+      <div class="legal-links">
+        <a href="privacypolicy.html">Privacy Policy</a>
+        <a href="legalnotice.html">Legal notice</a>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-content">
+          <a href="summaryuser.html" class="logo-mobile-link d-none-desktop">
+            <img
+              src="./assets/img/favicon.svg"
+              alt="Join Logo"
+              class="mobile-logo"
+            />
+          </a>
+
+          <span class="d-none-mobile">Kanban Project Management Tool</span>
+
+          <div class="header-icons">
+            <a href="help.html" class="help-link d-none-mobile">
+              <img src="./assets/summary-page/help.svg" alt="Help" />
+            </a>
+
+            <div class="user-menu-container">
+              <div
+                class="user-initials"
+                id="user-initials"
+                onclick="toggleUserMenu()"
+                role="button"
+                tabindex="0"
+                aria-haspopup="true"
+                aria-expanded="false"
+              ></div>
+              <nav id="user-dropdown" class="user-dropdown" aria-label="User menu">
+                <a href="legalnotice.html">Legal Notice</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a href="#" onclick="handleLogout()">Log out</a>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="contacts-container">
+        <aside class="contacts-list-container">
+          <div class="add-contact-btn-container">
+            <button class="btn-add-contact" onclick="openAddContactDialog()">
+              Add new contact
+                <img src="./assets/icons/person_add.svg" alt="Add Contact">
+                <path
+                  d="M16 8V24"
+                  stroke="white"
+                    stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M8 16H24"
+                  stroke="white"
+                    stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+            <div id="contacts-list" class="contacts-list-scroll" role="list"></div>
+        </aside>
+
+        <section class="contact-details-container">
+          <header class="details-header-static">
+            <h1>Contacts</h1>
+            <p>Better with a team</p>
+          </header>
+
+          <div id="contact-details-view" class="contact-details-view">
+            <div id="contact-details-content"></div>
+          </div>
+        </section>
+      </section>
+      <div
+        class="mobile-add-btn d-none-desktop"
+        onclick="openAddContactDialog()"
+        role="button"
+        tabindex="0"
+        aria-label="Add contact"
+      >
+        <img src="./assets/icons/person_add.svg" alt="Add Contact" />
+      </div>
+    </main>
+
+    <div id="add-contact-overlay" class="overlay-bg" role="dialog" aria-modal="true" aria-label="Add contact" onclick="closeAddContactDialog()"></div>
+
+    <script type="module" src="./scripts/firebase-init.js"></script>
+    <script src="./scripts/auth-defaults.js"></script>
+    <script src="./scripts/auth.js"></script>
+    <script src="./scripts/user-initials.js"></script>
+    <script src="./scripts/side-menu.js"></script>
+    <script src="./scripts/user-menu.js"></script>
+    <script src="./scripts/templates/contacts-template.js"></script>
+    <script src="./scripts/contacts-utils.js"></script>
+    <script src="./scripts/contacts-form.js"></script>
+    <script src="./scripts/contacts.js"></script>
+  </body>
+</html>

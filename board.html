@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg" />
+    <link rel="stylesheet" href="./styles/standard.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/board.css" />
+    <link rel="stylesheet" href="./styles/board-overlay.css" />
+    <link rel="stylesheet" href="./styles/board-task-card.css" />
+    <link rel="stylesheet" href="./styles/addtask-form-elements.css" />
+    <link rel="stylesheet" href="./styles/addtask.css" />
+    <link rel="stylesheet" href="./styles/mobile/style-mobile.css" />
+    <link rel="stylesheet" href="./styles/mobile/board-mobile.css" />
+
+    <title>Join - Board</title>
+  </head>
+  <body onload="initBoard()">
+    <nav class="sidebar">
+      <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" />
+      <div class="nav-links">
+        <a href="summaryuser.html">
+          <img src="./assets/summary-page/summary-icon.svg" alt="" />
+          Summary
+        </a>
+        <a href="addtask.html">
+          <img src="./assets/summary-page/add-task-icon.svg" alt="" />
+          Add Task
+        </a>
+        <a href="board.html" class="active">
+          <img src="./assets/summary-page/board-icon.svg" alt="" />
+          Board
+        </a>
+        <a href="contacts.html">
+          <img src="./assets/summary-page/contacts-icon.svg" alt="" />
+          Contacts
+        </a>
+      </div>
+      <div class="legal-links">
+        <a href="privacypolicy.html">Privacy Policy</a>
+        <a href="legalnotice.html">Legal notice</a>
+      </div>
+    </nav>
+
+    <main class="main-content">
+      <header class="dashboard-header">
+        <div class="header-content">
+          <span>Kanban Project Management Tool</span>
+          <div class="header-icons">
+            <a href="help.html" class="help-link">
+              <img src="./assets/summary-page/help.svg" alt="Help" />
+            </a>
+            <div class="user-menu-container">
+              <div
+                class="user-initials"
+                id="user-initials"
+                onclick="toggleUserMenu()"
+                role="button"
+                tabindex="0"
+                aria-haspopup="true"
+                aria-expanded="false"
+              ></div>
+              <nav
+                class="user-dropdown"
+                id="user-dropdown"
+                aria-label="User menu"
+              >
+                <a href="legalnotice.html">Legal Notice</a>
+                <a href="privacypolicy.html">Privacy Policy</a>
+                <a
+                  href="#"
+                  onclick="
+                    handleLogout();
+                    return false;
+                  "
+                  >Log out</a
+                >
+              </nav>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="board-container">
+        <header class="board-header">
+          <h1>Board</h1>
+          <div class="board-actions">
+            <div class="search-bar" role="search">
+              <input
+                type="text"
+                id="search-input"
+                placeholder="Find Task"
+                oninput="searchTasks()"
+              />
+              <div class="search-icon-container">
+                <img src="./assets/icons/search-icon.svg" alt="Search" />
+              </div>
+            </div>
+            <button class="btn-add-task" onclick="openAddTaskOverlay()">
+              <span>Add task</span>
+              <img src="./assets/icons/add-icon-white.svg" alt="Add Task" />
+            </button>
+          </div>
+        </header>
+
+        <div class="board-columns">
+          <div
+            class="board-column"
+            id="column-triage"
+            ondrop="drop(event, 'triage')"
+            ondragover="
+              allowDrop(event);
+              highlight('triage-list');
+            "
+            ondragleave="removeHighlight('triage-list')"
+          >
+            <header class="column-header">
+              <span id="column-title-triage">Triage</span>
+              <div class="column-header-plus" onclick="openAddTaskOverlay()">
+                <img src="./assets/icons/add-icon-blue.svg" alt="Add" />
+              </div>
+            </header>
+            <div class="task-list" id="triage-list"></div>
+          </div>
+
+          <div
+            class="board-column"
+            id="column-todo"
+            ondrop="drop(event, 'todo')"
+            ondragover="
+              allowDrop(event);
+              highlight('todo-list');
+            "
+            ondragleave="removeHighlight('todo-list')"
+          >
+            <header class="column-header">
+              <span id="column-title-todo">To do</span>
+              <div class="column-header-plus" onclick="openAddTaskOverlay()">
+                <img src="./assets/icons/add-icon-blue.svg" alt="Add" />
+              </div>
+            </header>
+            <div class="task-list" id="todo-list"></div>
+          </div>
+
+          <div
+            class="board-column"
+            id="column-inprogress"
+            ondrop="drop(event, 'inprogress')"
+            ondragover="
+              allowDrop(event);
+              highlight('inprogress-list');
+            "
+            ondragleave="removeHighlight('inprogress-list')"
+          >
+            <header class="column-header">
+              <span id="column-title-inprogress">In progress</span>
+              <div class="column-header-plus" onclick="openAddTaskOverlay()">
+                <img src="./assets/icons/add-icon-blue.svg" alt="Add" />
+              </div>
+            </header>
+            <div class="task-list" id="inprogress-list"></div>
+          </div>
+
+          <div
+            class="board-column"
+            id="column-awaitfeedback"
+            ondrop="drop(event, 'awaitfeedback')"
+            ondragover="
+              allowDrop(event);
+              highlight('awaitfeedback-list');
+            "
+            ondragleave="removeHighlight('awaitfeedback-list')"
+          >
+            <header class="column-header">
+              <span id="column-title-awaitfeedback">Await feedback</span>
+              <div class="column-header-plus" onclick="openAddTaskOverlay()">
+                <img src="./assets/icons/add-icon-blue.svg" alt="Add" />
+              </div>
+            </header>
+            <div class="task-list" id="awaitfeedback-list"></div>
+          </div>
+
+          <div
+            class="board-column"
+            id="column-done"
+            ondrop="drop(event, 'done')"
+            ondragover="
+              allowDrop(event);
+              highlight('done-list');
+            "
+            ondragleave="removeHighlight('done-list')"
+          >
+            <header class="column-header">
+              <span id="column-title-done">Done</span>
+            </header>
+            <div class="task-list" id="done-list"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div
+      class="overlay-container"
+      id="add-task-overlay"
+      onclick="closeAddTaskOverlay()"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Add Task"
+    >
+      <div
+        class="overlay-content add-task-overlay-card"
+        onclick="event.stopPropagation()"
+      >
+        <div class="close-btn-container">
+          <button
+            type="button"
+            title="Close add task overlay"
+            onclick="closeAddTaskOverlay()"
+            class="btn-close"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 12L18 18M18 6L12 12L18 6ZM12 12L6 18L12 12ZM12 12L6 6L12 12Z"
+                stroke="#2A3647"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <h1 class="add-task-title">Add Task</h1>
+
+        <form id="add-task-form" onsubmit="handleAddTask(event)">
+          <div class="form-container">
+            <div class="form-column">
+              <div class="form-group">
+                <label for="title">Title<span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="title"
+                  placeholder="Enter a title"
+                  oninput="validateForm()"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="description">Description</label>
+                <textarea
+                  id="description"
+                  placeholder="Enter a Description"
+                  rows="5"
+                  oninput="validateForm()"
+                ></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="due-date"
+                  >Due date<span class="required">*</span></label
+                >
+                <input
+                  type="date"
+                  id="due-date"
+                  oninput="validateForm()"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-column">
+              <div class="form-group">
+                <label>Priority</label>
+                <div class="priority-buttons">
+                  <button
+                    type="button"
+                    class="priority-btn"
+                    data-priority="urgent"
+                    onclick="selectPriority('urgent')"
+                  >
+                    Urgent
+                    <img
+                      src="./assets/icons/urgent-iconAddTask.png"
+                      alt="Urgent"
+                    />
+                  </button>
+                  <button
+                    type="button"
+                    class="priority-btn active"
+                    data-priority="medium"
+                    onclick="selectPriority('medium')"
+                  >
+                    Medium
+                    <img
+                      src="./assets/icons/medium-iconAddTask.png"
+                      alt="Medium"
+                    />
+                  </button>
+                  <button
+                    type="button"
+                    class="priority-btn"
+                    data-priority="low"
+                    onclick="selectPriority('low')"
+                  >
+                    Low
+                    <img src="./assets/icons/low-iconAddTask.png" alt="Low" />
+                  </button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Assigned to</label>
+                <div class="custom-select-wrapper" id="assigned-to-wrapper">
+                  <div
+                    class="custom-select-header"
+                    onclick="toggleAssignedToDropdown()"
+                  >
+                    <span>Select contacts to assign</span>
+                    <div class="dropdown-arrow-icon"></div>
+                  </div>
+                  <div
+                    class="custom-select-options d-none"
+                    id="assigned-to-options"
+                  >
+                    <!-- Contacts will be rendered here -->
+                  </div>
+                </div>
+                <div
+                  id="selected-contacts-initials"
+                  class="selected-contacts-initials"
+                ></div>
+              </div>
+
+              <div class="form-group">
+                <label for="category"
+                  >Category<span class="required">*</span></label
+                >
+                <div class="custom-select-wrapper" id="category-wrapper">
+                  <div
+                    class="custom-select-header"
+                    onclick="toggleCategoryDropdown()"
+                  >
+                    <span id="selected-category-text"
+                      >Select task category</span
+                    >
+                    <div class="dropdown-arrow-icon"></div>
+                  </div>
+                  <div
+                    class="custom-select-options d-none"
+                    id="category-options"
+                  >
+                    <div
+                      class="contact-option"
+                      onclick="selectCategory('Technical Task', event)"
+                    >
+                      <span class="contact-name">Technical Task</span>
+                    </div>
+                    <div
+                      class="contact-option"
+                      onclick="selectCategory('User Story', event)"
+                    >
+                      <span class="contact-name">User Story</span>
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" id="category" value="" />
+              </div>
+
+              <div class="form-group">
+                <label>Subtasks</label>
+                <div
+                  class="subtask-input-wrapper"
+                  id="subtask-wrapper"
+                  onclick="document.getElementById('subtask-input').focus()"
+                >
+                  <input
+                    type="text"
+                    id="subtask-input"
+                    placeholder="Add new subtask"
+                    onfocus="showSubtaskIcons()"
+                    onkeydown="handleSubtaskKeydown(event)"
+                  />
+                  <div
+                    class="subtask-icons-active v-hidden"
+                    id="subtask-icons-active"
+                  >
+                    <img
+                      src="./assets/icons/clear-X-icon.svg"
+                      alt="Clear"
+                      onclick="clearSubtaskInput()"
+                      class="subtask-icon"
+                    />
+                    <div class="subtask-divider"></div>
+                    <img
+                      src="./assets/icons/check-create-icon-black.svg"
+                      alt="Save"
+                      onclick="addSubtask()"
+                      class="subtask-icon"
+                    />
+                  </div>
+                </div>
+                <ul id="subtask-list" class="subtask-list"></ul>
+              </div>
+            </div>
+          </div>
+
+          <footer class="form-footer">
+            <p class="required-note">
+              <span class="required">*</span>This field is required
+            </p>
+            <div class="form-actions">
+              <button type="button" class="btn-clear" onclick="clearForm()">
+                Clear
+                <img src="./assets/icons/clear-X-icon.svg" alt="Clear" />
+              </button>
+              <button
+                type="submit"
+                id="create-task-btn"
+                class="btn-create"
+                disabled
+              >
+                Create Task
+                <img
+                  src="./assets/icons/check-create-icon.svg"
+                  alt="Create Task"
+                />
+              </button>
+            </div>
+          </footer>
+        </form>
+      </div>
+    </div>
+
+    <div
+      class="overlay-container"
+      id="task-details-overlay"
+      onclick="closeTaskDetails()"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Task details"
+    >
+      <div
+        class="overlay-content task-details-card"
+        id="task-details-content"
+        onclick="event.stopPropagation()"
+      ></div>
+    </div>
+
+    <!-- Mobile Edit Overlay -->
+    <div
+      class="mobile-edit-overlay"
+      id="mobile-edit-overlay"
+      onclick="closeMobileEditOverlay()"
+    >
+      <div class="mobile-edit-card" onclick="event.stopPropagation()">
+        <div class="mobile-edit-header">
+          <button class="mobile-edit-close" onclick="closeMobileEditOverlay()">
+            <img src="./assets/icons/clear-X-icon.svg" alt="Close" />
+          </button>
+        </div>
+
+        <div class="mobile-edit-body">
+          <div class="form-group">
+            <label for="mobile-edit-title"
+              >Title<span class="required">*</span></label
+            >
+            <input
+              type="text"
+              id="mobile-edit-title"
+              placeholder="Enter a title"
+              oninput="validateMobileEditForm()"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="mobile-edit-description">Description</label>
+            <textarea
+              id="mobile-edit-description"
+              placeholder="Enter a Description"
+              rows="3"
+            ></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="mobile-edit-due-date"
+              >Due date<span class="required">*</span></label
+            >
+            <input
+              type="date"
+              id="mobile-edit-due-date"
+              oninput="validateMobileEditForm()"
+            />
+          </div>
+
+          <div class="form-group">
+            <label>Priority</label>
+            <div class="priority-buttons">
+              <button
+                type="button"
+                class="priority-btn"
+                data-priority="urgent"
+                onclick="selectMobileEditPriority('urgent')"
+              >
+                Urgent
+                <img src="./assets/icons/urgent-iconAddTask.png" alt="Urgent" />
+              </button>
+              <button
+                type="button"
+                class="priority-btn"
+                data-priority="medium"
+                onclick="selectMobileEditPriority('medium')"
+              >
+                Medium
+                <img src="./assets/icons/medium-iconAddTask.png" alt="Medium" />
+              </button>
+              <button
+                type="button"
+                class="priority-btn"
+                data-priority="low"
+                onclick="selectMobileEditPriority('low')"
+              >
+                Low <img src="./assets/icons/low-iconAddTask.png" alt="Low" />
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Assigned to</label>
+            <div
+              class="custom-select-wrapper"
+              id="mobile-edit-assigned-to-wrapper"
+            >
+              <div
+                class="custom-select-header"
+                onclick="toggleMobileEditAssignedToDropdown()"
+              >
+                <span>Select contacts to assign</span>
+                <div class="dropdown-arrow-icon"></div>
+              </div>
+              <div
+                class="custom-select-options d-none"
+                id="mobile-edit-assigned-to-options"
+              ></div>
+            </div>
+            <div
+              id="mobile-edit-selected-contacts-initials"
+              class="selected-contacts-initials"
+            ></div>
+          </div>
+
+          <div class="form-group">
+            <label>Subtasks</label>
+            <div
+              class="subtask-input-wrapper"
+              onclick="
+                document.getElementById('mobile-edit-subtask-input').focus()
+              "
+            >
+              <input
+                type="text"
+                id="mobile-edit-subtask-input"
+                placeholder="Add new subtask"
+                onfocus="showMobileEditSubtaskIcons()"
+                onkeydown="handleMobileEditSubtaskKeydown(event)"
+              />
+              <div
+                class="subtask-icons-active v-hidden"
+                id="mobile-edit-subtask-icons-active"
+              >
+                <img
+                  src="./assets/icons/clear-X-icon.svg"
+                  alt="Clear"
+                  onclick="clearMobileEditSubtaskInput()"
+                  class="subtask-icon"
+                />
+                <div class="subtask-divider"></div>
+                <img
+                  src="./assets/icons/check-create-icon-black.svg"
+                  alt="Save"
+                  onclick="addMobileEditSubtask()"
+                  class="subtask-icon"
+                />
+              </div>
+            </div>
+            <ul id="mobile-edit-subtask-list" class="subtask-list"></ul>
+          </div>
+        </div>
+
+        <div class="mobile-edit-footer">
+          <button
+            class="btn-create"
+            id="mobile-edit-save-btn"
+            onclick="saveMobileEditTask()"
+          >
+            Ok <img src="./assets/icons/check-create-icon.svg" alt="Save" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav d-none-desktop" aria-label="Mobile navigation">
+      <a href="summaryuser.html" class="nav-item">
+        <img src="./assets/summary-page/summary-icon.svg" alt="" />
+        <span>Summary</span>
+      </a>
+      <a href="addtask.html" class="nav-item">
+        <img src="./assets/summary-page/add-task-icon.svg" alt="" />
+        <span>Add Task</span>
+      </a>
+      <a href="board.html" class="nav-item active">
+        <img src="./assets/summary-page/board-icon.svg" alt="" />
+        <span>Board</span>
+      </a>
+      <a href="contacts.html" class="nav-item">
+        <img src="./assets/summary-page/contacts-icon.svg" alt="" />
+        <span>Contacts</span>
+      </a>
+    </nav>
+
+    <!-- Landscape Warning -->
+    <div class="landscape-block" role="alert">
+      <p>Bitte drehe dein Gerät in den Hochformat-Modus</p>
+    </div>
+
+    <script type="module" src="./scripts/firebase-init.js"></script>
+    <script src="./scripts/auth-defaults.js"></script>
+    <script src="./scripts/auth.js"></script>
+    <script src="./scripts/user-initials.js"></script>
+    <script src="./script.js"></script>
+    <script src="./scripts/side-menu.js"></script>
+    <script src="./scripts/user-menu.js"></script>
+    <script src="./scripts/templates/addtask-template.js"></script>
+    <script src="./scripts/addtask-utils.js"></script>
+    <script src="./scripts/addtask-contacts.js"></script>
+    <script src="./scripts/addtask-subtasks.js"></script>
+    <script src="./scripts/addtask.js"></script>
+    <script src="./scripts/board-form.js"></script>
+    <script src="./scripts/templates/board-template.js"></script>
+    <script src="./scripts/board-rendering.js"></script>
+    <script src="./scripts/board-touch-drag.js"></script>
+    <script src="./scripts/board.js"></script>
+    <script src="./scripts/board-interactions.js"></script>
+    <script src="./scripts/board-mobile-edit.js"></script>
+  </body>
+</html>

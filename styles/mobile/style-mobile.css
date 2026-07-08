@@ -1,0 +1,455 @@
+/* Mobile Styles für Login und allgemeine Komponenten */
+
+/* Sidebar verstecken bei mobile */
+@media (min-width: 320px) and (max-width: 780px) {
+  .sidebar,
+  aside,
+  #sidebar {
+    display: none !important;
+    box-shadow: none;
+  }
+
+  .main-content,
+  .content-container {
+    margin-left: 0 !important;
+    width: 100% !important;
+  }
+}
+
+/* Standards außerhalb Media Query */
+.mobile-logo {
+  display: none;
+}
+
+.dropdown-help-mobile {
+  display: none;
+}
+
+/* Mobile Responsive Styles */
+@media (min-width: 320px) and (max-width: 780px) {
+  html {
+    height: 100%;
+  }
+
+  body {
+    background-color: var(--bg-color, #f0f2f5);
+    height: 100%;
+    position: relative;
+  }
+
+  /* Animation Container */
+  .animation-container {
+    background-color: rgba(42, 54, 71, 1);
+    z-index: 1002;
+    animation: fadeOutBackgroundMobile 0.4s ease-in-out 1.3s forwards;
+  }
+
+  @keyframes fadeOutBackgroundMobile {
+    to {
+      background-color: transparent;
+      pointer-events: none;
+    }
+  }
+
+  /* Desktop logo fliegt zur oberen linken Ecke, dann wird es unsichtbar */
+  #flying-logo {
+    opacity: 0;
+    z-index: 1002;
+    animation: moveLogoDiagonalMobile 0.8s ease-in-out 0.5s forwards;
+  }
+
+  @keyframes moveLogoDiagonalMobile {
+    0% {
+      opacity: 0;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+    }
+    99.9% {
+      opacity: 0;
+      top: 37px;
+      left: 38px;
+      transform: translate(0, 0);
+      width: 64px;
+    }
+    100% {
+      opacity: 1;
+      top: 37px;
+      left: 38px;
+      transform: translate(0, 0);
+      width: 64px;
+    }
+  }
+
+  /* Mobile Logo: startet mittig, fliegt nach oben links, dann wird es unsichtbar */
+  .mobile-logo {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    z-index: 1001;
+    animation: moveLogoMobileDiagonalAnim 0.8s ease-in-out 0.5s forwards;
+  }
+
+  @keyframes moveLogoMobileDiagonalAnim {
+    0% {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 150px;
+      opacity: 1;
+    }
+    99.9% {
+      top: 37px;
+      left: 38px;
+      transform: translate(0, 0);
+      width: 64px;
+      opacity: 1;
+    }
+    100% {
+      top: 37px;
+      left: 38px;
+      transform: translate(0, 0);
+      width: 64px;
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+
+  /* Logo permanent oben links sichtbar nach Animation */
+  #flying-logo {
+    position: fixed;
+    top: 37px;
+    left: 38px;
+    width: 64px;
+    height: auto;
+  }
+
+  /* Header ausblenden – wird durch mobile-signup ersetzt */
+  .login-header {
+    display: none;
+  }
+
+  /* Haupt-Layout */
+  .login-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+    padding: 120px 16px 100px;
+    box-sizing: border-box;
+  }
+
+  /* Login Card */
+  .login-card {
+    padding: 32px 24px 36px;
+    box-shadow: 0 0 14px 3px rgba(0, 0, 0, 0.06);
+    background: var(--white, #ffffff);
+    border-radius: 30px;
+    width: 100%;
+    max-width: 420px;
+    box-sizing: border-box;
+  }
+
+  .login-card h1 {
+    font-size: 44px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--dark-blue, #2a3647);
+    line-height: 1.1;
+  }
+
+  /* Blauer Unterstrich unter "Log in" */
+  .blue-underline {
+    width: 130px;
+    height: 3px;
+    background-color: var(--blue, #29abe2);
+    border-radius: 2px;
+    margin: 4px 0 20px 0;
+  }
+
+  /* Formular */
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* Input-Felder */
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    font-size: 16px;
+    padding: 14px 48px 14px 16px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--light-grey, #d1d5db);
+    border-radius: 12px;
+    background: var(--white, #ffffff);
+    color: var(--dark-blue, #2a3647);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input[type="email"]:focus,
+  input[type="password"]:focus,
+  input[type="text"]:focus {
+    border-color: var(--blue, #29abe2);
+  }
+
+  input::placeholder {
+    color: var(--grey, #a8a8a8);
+  }
+
+  #email,
+  #password {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .login-input-wrap {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Input Wrapper (für Icons) */
+  .input-wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .input-wrapper input {
+    width: 100%;
+  }
+
+  .input-wrapper .input-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+    opacity: 0.4;
+  }
+
+  /* Login Aktionen (Buttons) */
+  .login-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 8px;
+    gap: 12px;
+    width: 100%;
+  }
+
+  /* Primärer Button (dunkel) */
+  .btn-dark {
+    flex: unset;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 4px 10px;
+    width: 180px;
+    height: 51px;
+    border-radius: 8px;
+    background-color: var(--dark-blue, #2a3647);
+    color: var(--white, #ffffff);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background-color 0.2s,
+      transform 0.1s;
+  }
+
+  .btn-dark:hover {
+    background-color: var(--dark-blue-hover, #29abe2);
+  }
+
+  .btn-dark:active {
+    transform: scale(0.97);
+  }
+
+  /* Sekundärer Button (hell/outlined) */
+  .btn-light {
+    flex: unset;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 4px 10px;
+    width: 180px;
+    height: 51px;
+    border-radius: 8px;
+    background-color: var(--white, #ffffff);
+    color: var(--dark-blue, #2a3647);
+    border: 2px solid var(--dark-blue, #2a3647);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      transform 0.1s;
+  }
+
+  .btn-light:hover {
+    background-color: var(--dark-blue, #2a3647);
+    color: var(--white, #ffffff);
+  }
+
+  .btn-light:active {
+    transform: scale(0.97);
+  }
+
+  /* Mobile Signup-Bereich unter der Card */
+  .mobile-signup {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 420px;
+    margin-top: 24px;
+    font-size: 16px;
+    color: var(--dark-blue, #2a3647);
+  }
+
+  .mobile-signup span {
+    white-space: nowrap;
+  }
+
+  .mobile-signup .btn-signup {
+    padding: 13px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    background-color: var(--dark-blue, #2a3647);
+    color: var(--white, #ffffff);
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    white-space: nowrap;
+  }
+
+  .mobile-signup .btn-signup:hover {
+    background-color: var(--blue, #29abe2);
+  }
+
+  /* Footer fixiert am unteren Rand */
+  .login-footer {
+    position: fixed;
+    bottom: 22px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .login-footer a {
+    font-size: 14px;
+    color: var(--dark-blue, #2a3647);
+    text-decoration: none;
+    opacity: 0.7;
+  }
+
+  .login-footer a:hover {
+    opacity: 1;
+    text-decoration: underline;
+  }
+
+  /* Anpassungen für das Welcome Overlay auf Mobile */
+  .welcome-overlay {
+    padding-top: 120px;
+    box-sizing: border-box;
+  }
+
+  .welcome-overlay:not(.hidden) ~ .login-header {
+    display: flex;
+    position: fixed;
+    top: 100px;
+    right: 0;
+    left: 0;
+    justify-content: center;
+    padding: 0 16px;
+    z-index: 1002;
+    background: transparent;
+  }
+
+  .welcome-overlay:not(.hidden) ~ .login-header .header-right span {
+    color: var(--white, #ffffff);
+  }
+
+  .welcome-overlay:not(.hidden) ~ .login-header .btn-signup {
+    background-color: transparent;
+    color: var(--white, #ffffff);
+    padding: 0;
+    margin-left: 10px;
+    border: none;
+  }
+
+  .welcome-overlay:not(.hidden) ~ .login-footer {
+    z-index: 1002;
+  }
+
+  .welcome-overlay:not(.hidden) ~ .login-footer a {
+    color: var(--white, #ffffff);
+  }
+
+  .welcome-overlay .welcome-card {
+    padding: 32px 20px;
+    border-radius: 24px;
+  }
+
+  .welcome-overlay .welcome-card h2 {
+    font-size: 32px;
+  }
+
+  .welcome-overlay .welcome-card p {
+    font-size: 16px;
+    margin-bottom: 24px;
+  }
+
+  .welcome-overlay .option-header {
+    font-size: 16px;
+    gap: 8px;
+  }
+
+  .welcome-overlay .welcome-card .btn-stakeholder,
+  .welcome-overlay .welcome-card .btn-member {
+    width: auto;
+    padding: 12px 24px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+}
+
+@media (max-width: 400px) {
+  .mobile-signup {
+    margin-top: 16px !important;
+  }
+
+  .welcome-overlay .welcome-card {
+    padding: 24px 16px;
+  }
+
+  .welcome-overlay .welcome-card h2 {
+    font-size: 28px;
+  }
+
+  .welcome-overlay .welcome-card p {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+
+  .welcome-overlay .option-header {
+    font-size: 15px;
+  }
+}

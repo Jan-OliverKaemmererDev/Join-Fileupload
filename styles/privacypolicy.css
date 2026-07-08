@@ -1,0 +1,94 @@
+.privacy-policy-container {
+  padding: 80px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.privacy-policy-container h1 {
+  font-size: 61px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #000;
+}
+
+.privacy-policy-container h2 {
+  font-size: 27px;
+  font-weight: 700;
+  margin-top: 40px;
+  margin-bottom: 24px;
+  color: #000;
+}
+
+.privacy-policy-container p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000;
+  margin-bottom: 16px;
+}
+
+.back-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  margin-left: 40px;
+  margin-top: 40px;
+}
+
+.back-arrow:hover {
+  transform: scale(1.1);
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.mobile-back-arrow {
+  display: none;
+}
+
+.sidebar-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+/* Legal Links auf Desktop ganz nach unten schieben */
+.sidebar-content-wrapper .legal-links {
+  margin-top: auto; /* Schiebt es ans Ende des Flex-Containers */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 16px; /* Abstand zum unteren Rand */
+}
+
+/* Auf Desktop wollen wir Log In Text NEBEN dem Icon (Standard) */
+.nav-links a.login-link {
+  display: flex;
+  align-items: center;
+  flex-direction: row; /* Nebeneinander auf Desktop */
+  gap: 10px;
+}
+
+@media (max-width: 1024px) {
+  .privacy-policy-container {
+    padding: 40px;
+  }
+
+  .privacy-policy-container h1 {
+    font-size: 47px;
+  }
+}
+
+@media (max-width: 480px) {
+  .privacy-policy-container {
+    padding: 20px;
+  }
+
+  .privacy-policy-container h1 {
+    font-size: 36px;
+  }
+}

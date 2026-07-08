@@ -1,0 +1,120 @@
+.show-mobile {
+  display: none !important;
+}
+
+@media (max-width: 800px) {
+  .hide-mobile {
+    display: none !important;
+  }
+
+  .show-mobile {
+    display: block !important;
+  }
+
+  .show-mobile.mobile-welcome-row {
+    display: flex !important;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  .mobile-welcome-row .welcome-heading {
+    margin-bottom: 0;
+    margin-top: 0;
+    font-size: 48px;
+  }
+
+  .mobile-welcome-row .back-link {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mobile-welcome-row .back-link img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mobile-counter-row {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 32px;
+  }
+
+  .stakeholder-header {
+    padding: 20px 24px !important;
+  }
+
+  .stakeholder-main {
+    padding: 0 24px 24px 24px !important;
+  }
+
+  .content-wrapper {
+    margin-top: 20px;
+    align-items: flex-start;
+  }
+
+  .stakeholder-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .left-col:not(.d-none) {
+    display: contents;
+  }
+
+  .left-col > h2 {
+    order: 1;
+    font-size: 24px;
+  }
+
+  .right-col {
+    order: 2;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 16px 0;
+  }
+
+  .right-col img {
+    max-height: 200px;
+    object-fit: contain;
+  }
+
+  .left-col > .limit-warning {
+    order: 3;
+    font-size: 18px;
+  }
+
+  .left-col > p {
+    order: 4;
+    font-size: 16px;
+  }
+
+  .left-col > .btn-stakeholder-action {
+    order: 5;
+    margin: 16px auto 0 auto;
+    font-size: 18px;
+    padding: 8px 16px;
+  }
+
+  .left-col > .btn-stakeholder-action img {
+    display: none;
+  }
+
+  .login-footer {
+    position: static !important;
+    margin-top: 40px;
+    padding-bottom: 24px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+  }
+}

@@ -1,0 +1,374 @@
+/* ==========================================================================
+   RESPONSIVE DESIGN (320px bis 780px)
+   ========================================================================== */
+
+@media (min-width: 320px) and (max-width: 780px) {
+  /* 1. GLOBAL & MAIN CONTENT */
+  body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+
+  /* Sidebar bottom nav immer sichtbar */
+  .sidebar {
+    visibility: visible;
+  }
+
+  .main-content {
+    margin-left: 0 !important; /* Sidebar-Abstand vom Desktop entfernen */
+    padding-top: 80px !important; /* Platz für fixierten Header */
+    padding-bottom: 90px !important; /* Platz für fixierte Bottom-Nav */
+    width: 100% !important;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  /* 2. HEADER ANPASSUNGEN */
+  /* --- Header --- */
+  .dashboard-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    padding: 0 16px;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-content {
+    display: flex !important;
+    justify-content: flex-end !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .dashboard-header span {
+    display: none;
+  }
+
+  .dashboard-header::before {
+    content: "";
+    display: block;
+    width: 32px;
+    height: 38px;
+    background-image: url("../../assets/login-screen/join-logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  .header-icons {
+    gap: 12px;
+  }
+
+  .help-link {
+    display: none;
+  }
+
+  .user-initials {
+    width: 44px;
+    height: 44px;
+    font-size: 14px;
+    border: 2px solid #2a3647;
+    border-radius: 50%;
+    display: none !important;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: white;
+    font-weight: 700;
+    color: #29abe2;
+  }
+
+  body.is-logged-in .user-initials {
+    display: flex !important;
+  }
+
+  /* 3. BOTTOM NAVIGATION (Ehemals Sidebar) */
+  .sidebar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    top: auto !important;
+    width: 100% !important;
+    height: 80px !important;
+    background-color: #2a3647 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 0 16px !important;
+    z-index: 1000 !important;
+    border-radius: 0 !important;
+  }
+
+  .sidebar > img {
+    display: none !important; /* Weißes Logo aus der Sidebar entfernen */
+  }
+
+  .nav-links {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    width: 100% !important;
+    height: 80px !important;
+  }
+
+  .nav-links a {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    color: #a8a8a8 !important;
+    text-decoration: none !important;
+    font-size: 11px !important;
+    flex: 1 1 0 !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    height: auto !important;
+    padding: 4px 2px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .nav-links img {
+    width: 24px !important;
+    height: 24px !important;
+    margin: 0 !important;
+    filter: brightness(0) invert(1) opacity(0.6) !important;
+  }
+
+  .nav-links a.active {
+    background-color: #091931 !important;
+    border-radius: 12px !important;
+    color: white !important;
+  }
+
+  .nav-links a.active img {
+    filter: brightness(0) invert(1) opacity(1) !important;
+  }
+
+  .nav-links .login-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  /* Guest Navigation spezifische Styles */
+  .nav-links .guest-nav-link {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    height: 100% !important;
+  }
+
+  .nav-links .guest-text-only {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 100% !important;
+  }
+
+  .nav-links .guest-text-only span {
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+  }
+
+  /* Aktive Seite hervorheben */
+  .nav-links .guest-nav-link.active,
+  .nav-links .guest-text-only.active {
+    background-color: rgba(0, 0, 0, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 0px 5px !important;
+    margin: -5px 0 !important;
+  }
+
+  /* Leerer Platz in der Guest-Navigation */
+  .nav-links .empty-space {
+    flex: 1 !important;
+    display: block !important;
+  }
+
+  .legal-links {
+    display: flex !important;
+    justify-content: center;
+    gap: 16px;
+    padding-bottom: 16px; /* Etwas Abstand vom unteren Rand */
+    padding-right: 0px;
+  }
+
+  .legal-links a {
+    color: #a8a8a8; /* Farbe anpassen falls nötig */
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  .legal-links a.active {
+    color: #29abe2; /* Join-Blau für aktiven Link */
+    font-weight: bold;
+  }
+
+  /* 4. PRIVACY POLICY CONTENT ANPASSUNGEN */
+  .privacy-policy-container {
+    padding: 40px 16px 100px 16px !important; /* Unten mehr Padding wegen Nav */
+    max-width: 100% !important;
+  }
+
+  .privacy-policy-container h1 {
+    font-size: 36px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+  }
+
+  .privacy-policy-container h1,
+  .legal-notice-container h1 {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Der neue funktionale Pfeil */
+  .mobile-back-arrow {
+    display: flex !important;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .mobile-back-arrow img {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* Der blaue Pfeil im H1 */
+  .privacy-policy-container h1::after,
+  .legal-notice-container h1::after {
+    content: none !important; /* Entfernt den nicht-klickbaren Pfeil */
+  }
+
+  /* --- SIDEBAR MOBILE BOTTOM BAR --- */
+
+  .sidebar {
+    position: fixed !important;
+    bottom: 0 !important;
+    top: auto !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 80px !important; /* Höhe der unteren Leiste */
+    background-color: #2a3647 !important;
+    z-index: 999 !important;
+    padding: 0 !important;
+    /* Flexbox um alles zu zentrieren */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+  }
+
+  /* 1. Das große Desktop-Logo verstecken */
+  .sidebar .sidebar-logo {
+    display: none !important;
+  }
+
+  /* 2. Den Wrapper für die Inhalte quer anordnen */
+  .sidebar-content-wrapper {
+    display: flex !important;
+    flex-direction: row !important; /* Nebeneinander */
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    padding: 0 20px !important; /* Abstand links/rechts */
+    height: 100% !important;
+  }
+
+  /* 3. Linker Teil: Log In Button */
+  .nav-links {
+    margin: 0 !important;
+    flex: 1; /* Nimmt Platz ein */
+    display: flex !important;
+    justify-content: flex-start !important; /* Links bündig */
+  }
+
+  .nav-links a.login-link {
+    display: flex !important;
+    flex-direction: column !important; /* Bild OBEN, Text UNTEN */
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    color: #a8a8a8 !important;
+    gap: 4px !important; /* Abstand zwischen Pfeil und Text */
+  }
+
+  .nav-links .back-arrow-icon {
+    width: 20px !important; /* Icon etwas kleiner für Mobile Bar */
+    height: 20px !important;
+    filter: brightness(0) invert(1); /* Icon weiß machen */
+  }
+
+  .login-text {
+    white-space: nowrap;
+  }
+
+  .nav-links .login-text {
+    font-size: 12px !important; /* Text klein unter das Icon */
+    line-height: 1 !important;
+  }
+
+  /* 4. Rechter Teil: Legal Links */
+  .legal-links {
+    display: flex !important;
+    flex-direction: row !important; /* Nebeneinander */
+    gap: 8px !important;
+    padding-bottom: 0 !important;
+    justify-content: flex-end !important; /* Rechts bündig */
+    align-items: center !important;
+    height: 100% !important; /* Volle Höhe der Sidebar */
+  }
+
+  .legal-links a {
+    color: #cdcdcd !important;
+    text-decoration: none !important;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+    padding: 0 15px !important; /* Padding nur links/rechts */
+    transition: all 0.2s ease;
+    height: 80% !important; /* Etwas kleiner als die Sidebar für den Button-Look */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border-radius: 16px !important;
+  }
+
+  .legal-links a.active {
+    background-color: #091931 !important;
+    color: white !important;
+    font-weight: 400 !important;
+  }
+
+  /* Verstecke Legal Links in der mobilen Bottom-Nav wenn eingeloggt */
+  body.is-logged-in .legal-links {
+    display: none !important;
+  }
+
+  /* Korrektur der Verteilung der Nav-Links wenn eingeloggt */
+  body.is-logged-in .nav-links {
+    justify-content: space-between !important;
+  }
+}

@@ -1,0 +1,208 @@
+.custom-select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  height: 48px;
+  box-sizing: border-box;
+}
+
+.dropdown-arrow-icon {
+  width: 24px;
+  height: 24px;
+  background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10L12 15L17 10H7Z' fill='%232A3647'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.2s;
+}
+
+.custom-select-wrapper.open .dropdown-arrow-icon {
+  transform: rotate(180deg);
+}
+
+.custom-select-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #d1d1d1;
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contact-option {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  gap: 12px;
+}
+
+.contact-option:hover {
+  background-color: #f6f7f8;
+}
+
+.contact-option.selected {
+  background-color: #2a3647;
+  color: #fff;
+}
+
+.contact-option.selected:hover {
+  background-color: #091931;
+}
+
+.contact-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.contact-avatar {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  border: 2px solid #fff;
+}
+
+.contact-name {
+  font-size: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+  flex: 1;
+}
+
+.contact-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #2a3647;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.contact-option.selected .contact-checkbox {
+  border-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5.5L5 9.5L13 1.5' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.selected-contacts-initials {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  overflow-x: auto;
+  max-width: 376px;
+
+  /* HIER SIND DIE ANPASSUNGEN: */
+  height: 76px; /* Etwas mehr Höhe für den Puffer */
+  padding-top: 4px; /* Puffer nach oben gegen das Abschneiden */
+  padding-bottom: 12px; /* Platz für die Scrollbar + etwas Puffer nach unten */
+  padding-left: 4px; /* Verhindert Abschneiden am linken Rand beim Zoomen */
+  padding-right: 4px;
+  box-sizing: border-box;
+}
+
+.selected-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  flex-shrink: 0;
+}
+
+.priority-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.priority-btn {
+  flex: 1;
+  padding: 16px 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 400;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: #fff;
+  color: #000;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+.priority-btn:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.priority-btn[data-priority="urgent"].active {
+  background-color: #ff3d00;
+  color: #fff;
+  box-shadow: none;
+}
+
+.priority-btn[data-priority="medium"].active {
+  background-color: #ffa800;
+  color: #fff;
+  box-shadow: none;
+}
+
+.priority-btn[data-priority="low"].active {
+  background-color: #7ae229;
+  color: #fff;
+  box-shadow: none;
+}
+
+.priority-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.priority-btn img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.priority-btn.active img {
+  filter: brightness(0) invert(1);
+}

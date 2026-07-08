@@ -1,0 +1,151 @@
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter/static/Inter_18pt-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter/static/Inter_18pt-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter/static/Inter_18pt-Italic.ttf") format("truetype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/Inter/static/Inter_18pt-BoldItalic.ttf") format("truetype");
+  font-weight: bold;
+  font-style: italic;
+}
+
+:root {
+  --dark-blue: #2a3647;
+  --light-blue: #29abe2;
+  --bg-color: #f6f7f8;
+  --white: #ffffff;
+  --font-main: "Inter", sans-serif;
+}
+
+html {
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-main);
+  background-color: var(--bg-color);
+  overflow-x: hidden;
+}
+
+/* ---- Formular-Elemente ---- */
+
+form {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+input {
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  padding: 12px 21px;
+  padding-right: 50px;
+  font-size: 20px;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border 100ms;
+  cursor: pointer;
+}
+
+input:focus {
+  border: 1px solid var(--light-blue);
+}
+
+/* ---- Buttons ---- */
+
+button {
+  cursor: pointer;
+  border: unset;
+  font-weight: 700;
+  transition: all 100ms;
+}
+
+button:hover {
+  filter: brightness(1.2);
+}
+
+/* ---- Utility ---- */
+
+.d-none {
+  display: none;
+}
+
+.v-none {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.input-error {
+  border: 1px solid #ff8190 !important;
+}
+
+.no-select {
+  user-select: none !important;
+  -webkit-user-select: none !important;
+}
+
+.error-message {
+  color: #ff8190;
+  font-size: 14px;
+  margin-top: -15px;
+  margin-bottom: 5px;
+  width: 100%;
+  text-align: center;
+  transition: opacity 200ms ease-in-out;
+  white-space: normal;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+/* ---- Toast Nachricht ---- */
+
+.toast-message {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--dark-blue);
+  color: white;
+  padding: 20px 40px;
+  border-radius: 20px;
+  z-index: 200;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  transition: bottom 0.5s ease-in-out;
+}
+
+.toast-message:not(.d-none) {
+  bottom: 75%;
+}
+
+/* ---- Scroll Prevention ---- */
+
+html.no-scroll,
+body.no-scroll {
+  overflow: hidden !important;
+}
+
+body.no-scroll .main-content {
+  overflow: hidden !important;
+}

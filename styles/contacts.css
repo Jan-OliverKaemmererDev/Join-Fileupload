@@ -1,0 +1,270 @@
+body {
+  margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #f6f7f8;
+}
+
+.main-content {
+  margin-left: 232px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.contacts-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.contacts-list-container {
+  width: 456px;
+  max-width: 100%;
+  background-color: white;
+  box-shadow: 4px 0px 6px 0px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.add-contact-btn-container {
+  padding: 22px 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-add-contact {
+  background-color: #2a3647;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 0;
+  font-size: 21px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 352px;
+  height: 56px;
+}
+
+.btn-add-contact:hover {
+  background-color: #29abe2;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.contacts-list-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0 24px;
+}
+
+.contacts-list-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.contacts-list-scroll::-webkit-scrollbar-thumb {
+  background-color: #a8a8a8;
+  border-radius: 4px;
+}
+.contacts-list-scroll::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
+.contact-group-letter {
+  padding: 17px 36px;
+  font-size: 20px;
+  border-bottom: 1px solid #d1d1d1;
+  margin-bottom: 8px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 15px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: background-color 0.1s;
+  min-width: 0;
+}
+
+.contact-item:hover {
+  background-color: #2a3647;
+  color: white;
+}
+
+.contact-item.active {
+  background-color: #2a3647;
+  color: white;
+}
+
+.overlay-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2);
+  z-index: 999;
+
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.overlay-bg.active {
+  display: flex;
+  opacity: 1;
+}
+
+.contact-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 12px;
+  font-weight: 400;
+  flex-shrink: 0;
+  aspect-ratio: 1 / 1;
+  box-sizing: content-box;
+}
+
+.contact-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.contact-name-list {
+  font-size: 20px;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.contact-email-list {
+  text-decoration: none;
+  font-size: 16px;
+  color: #007cee;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar {
+  height: 100vh;
+  width: 232px;
+  background-color: rgba(42, 54, 71, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 64px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: flex-start;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+/* ---- Intermediate breakpoint: verhindern dass h1/"Better with a team" rausfliegen ---- */
+@media (min-width: 781px) and (max-width: 1100px) {
+  .details-header-static {
+    padding-left: 24px;
+    padding-top: 32px;
+    gap: 12px;
+  }
+
+  .details-header-static h1 {
+    font-size: 42px;
+  }
+
+  .details-header-static p {
+    font-size: 18px;
+    padding-left: 16px;
+  }
+
+  #contact-details-content {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+  }
+}
+
+/* ---- 900px–1100px: Liste schmäler ---- */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .contacts-list-container {
+    width: 320px;
+    min-width: 320px;
+  }
+
+  .btn-add-contact {
+    max-width: 100%;
+    font-size: 16px;
+    gap: 10px;
+  }
+
+  .contact-avatar-large {
+    width: 90px;
+    height: 90px;
+    font-size: 36px;
+  }
+}
+
+/* ---- 781px–900px: Sehr schmale Desktop-Ansicht ---- */
+@media (min-width: 781px) and (max-width: 900px) {
+  .contacts-list-container {
+    width: 240px;
+    min-width: 240px;
+  }
+
+  .btn-add-contact {
+    max-width: 100%;
+    font-size: 14px;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  .details-header-static {
+    padding-left: 16px;
+    padding-top: 24px;
+    gap: 8px;
+  }
+
+  .details-header-static h1 {
+    font-size: 32px;
+  }
+
+  .details-header-static p {
+    font-size: 15px;
+    padding-left: 12px;
+  }
+
+  #contact-details-content {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
+
+  .contact-avatar-large {
+    width: 72px;
+    height: 72px;
+    font-size: 28px;
+  }
+}

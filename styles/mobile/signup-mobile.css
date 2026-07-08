@@ -1,0 +1,123 @@
+/* Mobile Styles für Sign Up */
+
+@media (min-width: 320px) and (max-width: 780px) {
+  /* Logo: top: 37px, left: 38px, width: 64px */
+  .logo-top-left {
+    top: 37px;
+    left: 38px;
+    width: 64px;
+  }
+
+  /* Überschreibt style-mobile.css (padding: 225px 16px 0) */
+  .login-main {
+    padding: 120px 16px 100px;
+    justify-content: flex-start;
+    min-height: 100vh;
+  }
+
+  /* Karte */
+  .login-card {
+    margin-top: 0;
+    padding: 32px 24px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Signup Header: width: 500px (desktop) → width: 100% */
+  .signup-header {
+    width: 100%;
+  }
+
+  .signup-header h1 {
+    font-size: 44px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  /* Blauer Unterstrich */
+  .blue-underline {
+    width: 130px;
+    height: 3px;
+    margin: 4px 0 24px 0;
+  }
+
+  /* Formular: engere Abstände damit alles in den Screen passt */
+  form {
+    gap: 12px;
+  }
+
+  /* Inputs: kompakteres Padding */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"] {
+    font-size: 16px;
+    padding: 14px 48px 14px 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Name input: width: 450px (desktop) → width: 100% */
+  #name {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Input wrapper (password/confirm): width: 450px → width: 100% */
+  .input-wrapper {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Hint wrapper: width: 450px (desktop) → width: 100% */
+  .signup-input-wrap {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Privacy Policy Checkbox */
+  .privacy-policy-check {
+    font-size: 14px;
+    gap: 10px;
+    margin-top: 4px;
+    white-space: normal;
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+
+  .privacy-policy-check input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+
+  /* Error Text */
+  .error-text {
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  /* Sign up Button */
+  .center-button {
+    margin-top: 4px;
+  }
+
+  .btn-small {
+    font-size: 18px;
+    padding: 4px 10px;
+    width: 180px;
+    height: 51px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Footer: bottom: 22px */
+  .login-footer {
+    bottom: 22px;
+  }
+
+  .login-footer a {
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,325 @@
+.slide-in-dialog {
+  position: relative;
+  right: auto;
+  top: auto;
+  height: auto;
+  background: white;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  transform: translateX(200%);
+  transition: transform 0.4s ease-in-out;
+  z-index: 1000;
+  display: flex;
+  border-radius: 30px;
+  overflow: hidden;
+  max-width: 90vw;
+}
+
+.slide-in-dialog.active {
+  transform: translateX(0);
+}
+
+.dialog-left {
+  width: 364px;
+  background-color: #2a3647;
+  padding: 48px 40px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+
+.dialog-right {
+  padding: 66px 48px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.input-group input {
+  height: 50px;
+  border: 1px solid #d1d1d1;
+  border-radius: 10px;
+  padding: 13px 21px;
+  padding-right: 50px; /* Space for icon */
+  font-size: 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.input-icon {
+  position: absolute;
+  right: 21px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  opacity: 0.5;
+  pointer-events: none; /* Ensure clicks go to input */
+}
+
+.form-actions-dialog {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  justify-content: flex-start;
+}
+
+.btn-cancel {
+  background: white;
+  border: 1px solid #2a3647;
+  border-radius: 10px;
+  padding: 16px;
+  font-size: 20px;
+  color: #2a3647;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-cancel:hover {
+  border-color: #29abe2;
+  color: #29abe2;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.btn-create-submit {
+  background: #2a3647;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 16px 24px;
+  font-size: 21px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-create-submit:hover {
+  background: #29abe2;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.btn-create-submit:disabled,
+.btn-create-submit.btn-disabled {
+  background-color: #d1d1d1;
+  color: #a8a8a8;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-create-submit:disabled:hover,
+.btn-create-submit.btn-disabled:hover {
+  background-color: #d1d1d1;
+  box-shadow: none;
+}
+
+.close-btn-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+  position: absolute;
+  top: 30px;
+  right: 40px;
+}
+.btn-close {
+  background: none;
+  border: none;
+  margin-left: auto;
+  cursor: pointer;
+  padding: 5px;
+}
+.btn-close:hover {
+  background-color: #eeeeee;
+  border-radius: 50%;
+}
+
+.contact-form-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: #d1d1d1;
+  margin: 0 auto 40px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid white;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.success-alert {
+  position: fixed;
+  bottom: 20%;
+  left: 50%;
+  transform: translate(-50%, 100vh);
+  background-color: #2a3647;
+  color: white;
+  padding: 20px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  z-index: 2000;
+  transition: transform 0.5s ease;
+}
+
+.success-alert.show {
+  transform: translate(-50%, 0);
+}
+
+/* Desktop Edit Dialog Styling */
+.edit-content-container {
+  display: flex;
+  align-items: center;
+  gap: 64px;
+  margin-top: 48px;
+}
+
+.edit-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.dialog-title-white {
+  font-size: 61px;
+  font-weight: 700;
+  margin: 12px 0;
+}
+
+.contact-form-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 47px;
+  border: 3px solid white;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.btn-save-dark-icon {
+  background: #2a3647;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 16px 24px;
+  font-size: 21px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-save-dark-icon:hover {
+  background-color: #29abe2;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* Spezifisch für den Add-Contact Slogan */
+.dialog-subtitle-white {
+  color: white;
+  font-size: 20px;
+  margin: 0 0 16px 0;
+  font-weight: 400;
+}
+
+.dialog-logo-small {
+  width: 55px;
+  margin-bottom: 12px;
+}
+
+.blue-line-horizontal {
+  width: 90px;
+  height: 3px;
+  background-color: #29abe2;
+  margin-top: 4px;
+}
+
+/* Der graue Standard-Avatar für neue Kontakte */
+.contact-form-avatar-default {
+  width: 120px;
+  height: 120px;
+  background-color: #d1d1d1;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid white;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form-avatar-default img {
+  width: 64px;
+  filter: brightness(0) invert(1); /* Macht das Icon weiß */
+}
+
+/* Button-Styling für "Cancel X" */
+.btn-cancel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  font-size: 20px;
+  border: 1px solid #2a3647;
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.btn-cancel:hover {
+  border-color: #29abe2;
+  color: #29abe2;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.cancel-x {
+  font-size: 18px;
+}
+
+.check-icon-white {
+  filter: brightness(0) invert(1);
+  width: 20px;
+}
+
+/* ===== Validation Styles ===== */
+.input-error {
+  border: 1px solid #ff3d00 !important;
+  outline: none;
+}
+
+.field-error-msg {
+  display: block;
+  color: #ff3d00;
+  font-size: 12px;
+  margin-top: 4px;
+  padding-left: 2px;
+}
+
+.input-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 422px; /* Prevent expansion on desktop */
+  min-height: 80px; /* Reserved space for error message */
+}

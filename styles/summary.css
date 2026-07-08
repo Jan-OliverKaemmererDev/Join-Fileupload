@@ -1,0 +1,318 @@
+:root {
+  --bg-color: #f6f7f8;
+  --sidebar-color: #2a3647;
+  --hover-color: #091931;
+  --light-blue: #29abe2;
+  --white: #ffffff;
+}
+
+.summary-section {
+  padding: 40px 80px 40px 80px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.summary-title {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-bottom: 40px;
+}
+
+.vertical-line {
+  width: 3px;
+  height: 60px;
+  background-color: var(--light-blue);
+}
+
+.summary-title h1 {
+  font-size: 61px;
+  margin: 0;
+}
+
+.summary-container {
+  display: flex;
+  gap: 60px;
+  align-items: center;
+}
+
+.metrics-grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 550px;
+  gap: 20px;
+}
+
+.metric-card {
+  background: white;
+  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+}
+
+.metric-card.card-clicked,
+.metric-card.card-clicked:hover {
+  background-color: var(--white) !important;
+  color: black !important;
+  transform: scale(1) !important;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25) !important;
+}
+
+.metric-card.card-clicked .icon-badge,
+.metric-card.card-clicked:hover .icon-badge {
+  background-color: var(--sidebar-color) !important;
+}
+
+.metric-card.card-clicked .icon-badge img,
+.metric-card.card-clicked:hover .icon-badge img {
+  filter: none !important;
+}
+
+.metric-card:hover {
+  background-color: var(--sidebar-color);
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.metric-card b {
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+.metric-card p {
+  font-size: 20px;
+  margin: 0;
+}
+
+.sidebar {
+  height: 100vh;
+  width: 232px;
+  background-color: var(--sidebar-color);
+  display: flex;
+  flex-direction: column;
+  padding: 64px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  justify-content: flex-start;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+.card-small {
+  width: calc(50% - 10px);
+  height: 168px;
+  flex-direction: row;
+  gap: 20px;
+  padding: 25px;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-badge {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+  flex-shrink: 0;
+}
+
+.card-small .icon-badge {
+  background-color: var(--sidebar-color);
+}
+
+.icon-badge img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  transition: all 0.2s ease-in-out;
+}
+
+.metric-card.card-small:hover .icon-badge {
+  background-color: white !important;
+}
+
+.metric-card.card-small:hover .icon-badge img {
+  /* Filter to convert icon color to #273447 */
+  filter: brightness(0) saturate(100%) invert(18%) sepia(12%) saturate(1450%)
+    hue-rotate(178deg) brightness(96%) contrast(91%);
+}
+
+.card-small div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-small b {
+  font-size: 48px;
+  display: block;
+}
+
+.card-small p {
+  font-size: 20px;
+  white-space: nowrap;
+}
+
+.card-square {
+  width: calc(33.33% - 13.34px);
+  height: 168px;
+  gap: 15px;
+  padding: 20px 10px;
+}
+
+.card-square b {
+  font-size: 64px;
+}
+
+.card-square p {
+  font-size: 20px;
+  text-align: center;
+  margin: 0;
+}
+
+#count-emails {
+  background: linear-gradient(to bottom, #8933FC, #29ABE2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.card-large {
+  width: calc(66.66% - 6.67px);
+  height: 168px;
+  flex-direction: row;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px;
+}
+
+.urgent-info {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.urgent-info .icon-badge {
+  background-color: #ff3d00;
+}
+
+.urgent-info b {
+  font-size: 48px;
+}
+
+.urgent-info p {
+  font-size: 20px;
+}
+
+.deadline-info {
+  border-left: 2px solid #d1d1d1;
+  padding-left: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100px;
+}
+
+.deadline-info b {
+  font-size: 20px;
+}
+
+.deadline-info p {
+  font-size: 16px;
+  margin: 5px 0 0 0;
+}
+
+.legal-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 0 40px;
+  margin-top: auto;
+}
+
+.greeting-container h2 {
+  font-size: 47px;
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.sidebar > img {
+  width: 100px;
+  margin-left: 40px;
+  margin-bottom: 100px;
+}
+
+.greeting-container h1 {
+  font-size: 64px;
+  color: var(--light-blue);
+  margin-top: 5px;
+}
+
+@media (max-width: 1300px) {
+  .summary-section {
+    padding: 40px 40px; /* Mehr Platz für den Hauptbereich */
+  }
+
+  .summary-container {
+    gap: 30px; /* Reduzierter Abstand zwischen Grid und Grußwort */
+  }
+
+  .card-large {
+    gap: 15px;
+    padding: 15px;
+  }
+  
+  .deadline-info {
+    padding-left: 15px;
+  }
+  
+  .urgent-info {
+    gap: 10px;
+  }
+
+  .urgent-info .icon-badge {
+    width: 50px;
+    height: 50px;
+  }
+
+  .urgent-info .icon-badge img {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .urgent-info b {
+    font-size: 32px;
+  }
+  
+  .urgent-info p, .deadline-info b, .deadline-info p {
+    font-size: 15px;
+  }
+}
+
+/* Wir brechen das Layout etwas früher um (1180px statt 1000px),
+   damit die Elemente niemals zu sehr gequetscht werden. */
+@media (max-width: 1180px) {
+  .summary-container {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .greeting-container {
+    margin-bottom: 40px;
+  }
+}
+

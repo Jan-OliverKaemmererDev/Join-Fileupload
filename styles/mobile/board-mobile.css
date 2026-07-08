@@ -1,0 +1,557 @@
+/* --- Grundlegendes Layout für Mobile (bis 1200px) --- */
+@media (max-width: 1200px) {
+  html,
+  body {
+    height: auto !important;
+  }
+
+  body {
+    background-color: #f6f7f8;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* 2. Header anpassen (Logo links, Profil rechts) */
+  /* --- Header --- */
+  .dashboard-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    padding: 0 16px;
+    z-index: 1000;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    display: flex !important;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .header-content {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .header-content::before {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 40px;
+    background-image: url("../../assets/login-screen/join-logo.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    flex-shrink: 0;
+  }
+
+  .dashboard-header span {
+    display: none;
+  }
+
+  .header-icons {
+    gap: 12px;
+  }
+
+  .help-link {
+    display: none;
+  }
+
+  .user-initials {
+    width: 44px;
+    height: 44px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 2px solid #091931;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #29abe2;
+  }
+
+  .user-dropdown {
+    top: 66px !important;
+  }
+
+  /* 3. Main Content anpassen */
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding-top: 72px;
+    padding-bottom: 100px;
+    height: auto;
+    display: block;
+    box-sizing: border-box;
+  }
+
+  /* Board Container */
+  .board-container {
+    padding: 16px;
+  }
+
+  /* Board Header */
+  .board-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 24px;
+    margin-top: 24px;
+  }
+
+  .board-header h1 {
+    font-size: 42px;
+    font-weight: 700;
+    order: 1;
+    margin: 0;
+  }
+
+  /* Board Actions - display: contents macht Kinder direkt zu Flex-Items von .board-header */
+  .board-actions {
+    display: contents;
+  }
+
+  /* Search Bar - zweite Reihe, volle Breite */
+  .search-bar {
+    order: 3;
+    width: 100%;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #d1d1d1;
+    border-radius: 10px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+  }
+
+  .search-bar input {
+    font-size: 16px;
+    border: none;
+    padding: 0;
+    flex: 1;
+  }
+
+  .search-bar input:focus {
+    border: none;
+  }
+
+  .search-icon-container {
+    display: flex;
+    align-items: center;
+    padding-left: 16px;
+    border-left: 1px solid #d1d1d1;
+    cursor: pointer;
+  }
+
+  /* Add Task Button - erste Reihe rechts neben Board */
+  .btn-add-task {
+    order: 2;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 10px;
+    min-width: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2a3647;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-add-task span {
+    display: none;
+  }
+
+  .btn-add-task img {
+    content: url("../../assets/icons/add-icon-white-mobile.svg");
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Board Columns - vertikal */
+  .board-columns {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .board-column {
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* Column Header */
+  .column-header {
+    font-size: 27px;
+    margin-bottom: 24px;
+    color: #2a3647;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 !important;
+  }
+
+  .column-header-plus {
+    width: 24px;
+    height: 24px;
+    border: 2px solid #2a3647;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .column-header-plus img {
+    content: url("../../assets/icons/add-icon-blue-mobile.svg");
+    width: 16px;
+    height: 16px;
+  }
+
+  /* Task Lists - horizontales Scrollen */
+  .task-list {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 12px;
+    margin: 0 -16px;
+    width: calc(100% + 32px);
+    box-sizing: border-box;
+    min-height: auto;
+    gap: 16px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .task-list::-webkit-scrollbar {
+    display: none;
+    /* Chrome, Safari, Opera */
+  }
+
+  /* Task Cards */
+  .task-card {
+    padding: 16px;
+    border-radius: 24px;
+    width: 252px;
+    max-width: 252px;
+    flex-shrink: 0;
+    box-sizing: border-box;
+  }
+
+  .task-card:hover {
+    transform: none;
+  }
+
+  .task-title {
+    font-size: 16px;
+  }
+
+  .task-description {
+    font-size: 14px;
+  }
+
+  .add-task-overlay-card {
+    width: 100vw;
+    max-width: 100vw;
+    padding: 32px 20px;
+    border-radius: 30px 30px 0 0;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .add-task-overlay-card .form-container {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .add-task-overlay-card .form-container::after {
+    display: none;
+  }
+
+  .priority-btn {
+    font-size: 14px;
+    padding: 10px 6px;
+    gap: 4px;
+  }
+
+  .mobile-edit-card .priority-btn {
+    font-size: 14px;
+    padding: 10px 6px;
+    gap: 4px;
+  }
+
+  .task-details-card {
+    width: 92vw;
+    max-width: 450px;
+    padding: 32px 24px;
+    max-height: 85vh;
+  }
+
+  .task-details-header > div:first-child {
+    flex-wrap: wrap;
+    gap: 8px !important;
+    flex: 1;
+    min-width: 0;
+    margin-right: 12px;
+  }
+
+  .task-details-title {
+    font-size: 32px;
+    margin-top: 8px;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  .task-details-info {
+    font-size: 16px;
+    gap: 12px;
+  }
+
+  .task-details-label {
+    width: 100px;
+    flex-shrink: 0;
+  }
+
+  .task-description-full {
+    display: block !important;
+    overflow: visible !important;
+  }
+
+  .task-creator-section {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .task-creator-info {
+    display: contents !important;
+  }
+
+  .creator-badge {
+    order: 1;
+    width: max-content;
+    margin-bottom: 4px;
+  }
+
+  .task-creator-section::before {
+    content: "";
+    flex-basis: 100%;
+    order: 2;
+    height: 0;
+  }
+
+  .task-creator-section .task-details-label {
+    width: auto;
+    flex-shrink: 0;
+    order: 3;
+    margin-right: 4px;
+  }
+
+  .creator-person-info {
+    order: 4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .creator-name {
+    word-wrap: break-word;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .creator-contact-link {
+    margin-left: auto !important;
+  }
+
+  .task-details-actions {
+    margin-top: 16px;
+    gap: 8px;
+  }
+
+  /* Mobile Nav ausblenden (wird durch Sidebar ersetzt) */
+  .mobile-nav {
+    display: none !important;
+  }
+
+  /* --- Bottom Navigation (Repurposed Sidebar) --- */
+  .sidebar {
+    display: flex !important;
+    position: fixed;
+    flex-direction: row;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    height: 80px;
+    width: 100%;
+    padding: 0;
+    background-color: #2a3647;
+    z-index: 1001;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .sidebar > img,
+  .legal-links {
+    display: none;
+  }
+
+  .nav-links {
+    flex-direction: row !important;
+    width: 100%;
+    justify-content: space-around;
+    gap: 0;
+    height: 100%;
+    display: flex !important;
+    align-items: stretch;
+  }
+
+  .nav-links a {
+    flex-direction: column !important;
+    padding: 0;
+    font-size: 12px;
+    gap: 4px;
+    color: #a8a8a8;
+    align-items: center;
+    justify-content: center;
+    width: 25%;
+    text-decoration: none;
+    height: 100%;
+    display: flex;
+  }
+
+  .nav-links a img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0) invert(1) opacity(0.6);
+  }
+
+  .nav-links a.active {
+    background-color: #091931;
+    border-radius: 12px;
+    color: white;
+    height: 100%;
+  }
+
+  .nav-links a.active img {
+    filter: brightness(0) invert(1) opacity(1);
+  }
+}
+
+/* --- Landscape-Modus deaktivieren auf mobilen Geräten --- */
+.landscape-block {
+  display: none;
+}
+
+@media (max-width: 780px) and (orientation: landscape) {
+  .landscape-block {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    background: #f6f7f8;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 18px;
+    color: #2a3647;
+    font-weight: 700;
+  }
+}
+
+/* --- Mobile Edit Overlay --- */
+.mobile-edit-overlay {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .mobile-edit-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 3000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mobile-edit-overlay.active {
+    display: flex;
+  }
+
+  .mobile-edit-card {
+    background: #fff;
+    border-radius: 30px;
+    width: 92vw;
+    max-width: 450px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobile-edit-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px 20px 8px 20px;
+    flex-shrink: 0;
+  }
+
+  .mobile-edit-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .mobile-edit-close:hover {
+    background-color: #eeeeee;
+  }
+
+  .mobile-edit-close img {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mobile-edit-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0 20px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .mobile-edit-body .subtask-list {
+    max-height: none;
+  }
+
+  .mobile-edit-footer {
+    padding: 12px 20px 24px 20px;
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #d1d1d1;
+    flex-shrink: 0;
+  }
+}

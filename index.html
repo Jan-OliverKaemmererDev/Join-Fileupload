@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg" />
+    <link rel="stylesheet" href="./styles/standard.css" />
+    <link rel="stylesheet" href="./styles/style-login.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/mobile/style-mobile.css" />
+    <title>Join - Login</title>
+  </head>
+  <body onload="initLogin()">
+    <div id="animation-container" class="animation-container">
+      <img
+        id="flying-logo"
+        class="desktop-logo"
+        src="./assets/login-screen/join-logo.png"
+        alt="Join Logo"
+      />
+      <img
+        id="flying-logo-mobile"
+        class="mobile-logo"
+        src="./assets/icons/logo-mobile.png"
+        alt="Join Logo Mobile"
+      />
+    </div>
+    <div id="welcome-overlay" class="welcome-overlay">
+      <div class="welcome-card">
+        <h2>Welcome</h2>
+        <div class="blue-underline"></div>
+        <p>
+          Pick the option that suits your role: create a request as a
+          stakeholder or log in if you're part of the team.
+        </p>
+        <div class="welcome-options">
+          <div class="welcome-option">
+            <div class="option-header">
+              <img
+                src="./assets/icons/issue-collector/briefcase.svg"
+                alt="Stakeholder"
+              />
+              <span>Are you a stakeholder?</span>
+            </div>
+            <button
+              onclick="window.location.href = 'stakeholder.html'"
+              class="btn-stakeholder"
+            >
+              Create request
+            </button>
+          </div>
+          <div class="welcome-option">
+            <div class="option-header">
+              <img
+                src="./assets/icons/issue-collector/group.svg"
+                alt="Team member"
+              />
+              <span>Are you a team member?</span>
+            </div>
+            <button
+              type="button"
+              onclick="closeWelcomeOverlay()"
+              class="btn-member"
+            >
+              Member log in
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <header class="login-header">
+      <div class="header-right">
+        <span>Not a Join user?</span>
+        <button
+          onclick="window.location.href = 'signup.html'"
+          class="btn-signup"
+        >
+          Sign up
+        </button>
+      </div>
+    </header>
+
+    <main class="login-main">
+      <section class="login-card" aria-labelledby="login-heading">
+        <h1 id="login-heading">Log in</h1>
+        <div class="blue-underline"></div>
+        <form onsubmit="handleLogin(event)" novalidate>
+          <div class="login-input-wrap">
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              required
+              oninput="checkLoginValidity()"
+            />
+            <span
+              id="login-email-hint"
+              class="signup-hint"
+              style="display: none"
+            ></span>
+          </div>
+          <div class="login-input-wrap">
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              required
+              oninput="checkLoginValidity()"
+            />
+            <span
+              id="login-pass-hint"
+              class="signup-hint"
+              style="display: none"
+            ></span>
+          </div>
+          <div id="login-error" class="error-message v-none">
+            Check your email and password. Please try again.
+          </div>
+          <div class="login-actions">
+            <button
+              type="submit"
+              id="login-btn"
+              class="btn-dark btn-disabled"
+              disabled
+            >
+              Log in
+            </button>
+            <button type="button" class="btn-light" onclick="guestLogin()">
+              Guest Log in
+            </button>
+          </div>
+        </form>
+      </section>
+      <div class="mobile-signup">
+        <span>Not a Join user?</span>
+        <button
+          onclick="window.location.href = 'signup.html'"
+          class="btn-signup"
+        >
+          Sign up
+        </button>
+      </div>
+    </main>
+
+    <footer class="login-footer">
+      <a href="privacypolicy.html?public=true">Privacy Policy</a>
+      <a href="legalnotice.html?public=true">Legal notice</a>
+    </footer>
+
+    <script type="module" src="./scripts/firebase-init.js"></script>
+    <script src="./scripts/auth-defaults.js"></script>
+    <script src="./scripts/auth.js"></script>
+
+    <script src="./script.js"></script>
+    <script>
+      function checkLoginValidity() {
+        var email = document.getElementById("email").value.trim();
+        var password = document.getElementById("password").value;
+        var btn = document.getElementById("login-btn");
+        var emailHint = document.getElementById("login-email-hint");
+        var passHint = document.getElementById("login-pass-hint");
+        var emailInput = document.getElementById("email");
+        var passInput = document.getElementById("password");
+
+        var emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+        var passValid = password.length >= 6;
+
+        if (email.length > 0 && !emailValid) {
+          emailHint.textContent = "Bitte eine gültige E-Mail-Adresse eingeben.";
+          emailHint.style.display = "block";
+          emailInput.classList.add("input-error");
+        } else {
+          emailHint.style.display = "none";
+          emailInput.classList.remove("input-error");
+        }
+
+        if (password.length > 0 && !passValid) {
+          passHint.textContent =
+            "Das Passwort muss mindestens 6 Zeichen lang sein.";
+          passHint.style.display = "block";
+          passInput.classList.add("input-error");
+        } else {
+          passHint.style.display = "none";
+          passInput.classList.remove("input-error");
+        }
+
+        var allValid = emailValid && passValid;
+        btn.disabled = !allValid;
+        btn.classList.toggle("btn-disabled", !allValid);
+      }
+    </script>
+  </body>
+</html>

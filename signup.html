@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg" />
+    <link rel="stylesheet" href="./styles/standard.css" />
+    <link rel="stylesheet" href="./styles/style-login.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/signup.css" />
+    <link rel="stylesheet" href="./styles/mobile/style-mobile.css" />
+    <link rel="stylesheet" href="./styles/mobile/signup-mobile.css" />
+    <title>Join - Sign Up</title>
+  </head>
+  <body onload="initSignup()">
+    <img
+      src="./assets/login-screen/join-logo.png"
+      alt="Join Logo"
+      class="logo-top-left"
+    />
+
+    <main class="login-main">
+      <div class="login-card signup-card-adjust">
+        <div class="signup-header">
+          <a href="index.html">
+            <img
+              src="./assets/login-screen/arrow-left.svg"
+              alt="Back"
+              class="back-arrow-icon"
+            />
+          </a>
+          <h1>Sign up</h1>
+        </div>
+
+        <div class="blue-underline"></div>
+
+        <form id="signup-form" onsubmit="handleRegistration(event)" novalidate>
+          <div class="signup-input-wrap">
+            <input
+              type="text"
+              id="name"
+              placeholder="Name"
+              oninput="checkFormValidity()"
+              required
+            />
+            <span id="hint-name" class="signup-hint"></span>
+          </div>
+
+          <div class="signup-input-wrap">
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              oninput="checkFormValidity()"
+              required
+            />
+            <span id="hint-email" class="signup-hint"></span>
+          </div>
+
+          <div class="signup-input-wrap">
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="password"
+                placeholder="Password"
+                oninput="checkFormValidity()"
+                required
+              />
+              <img
+                src="./assets/login-screen/visibility_off.svg"
+                onclick="togglePasswordVisibility('password', this)"
+                class="input-icon"
+                alt="Toggle Password"
+              />
+            </div>
+            <span id="hint-password" class="signup-hint"></span>
+          </div>
+
+          <div class="signup-input-wrap">
+            <div class="input-wrapper">
+              <input
+                type="password"
+                id="confirm-password"
+                placeholder="Confirm Password"
+                oninput="checkFormValidity()"
+                required
+              />
+              <img
+                src="./assets/login-screen/visibility_off.svg"
+                onclick="togglePasswordVisibility('confirm-password', this)"
+                class="input-icon"
+                alt="Toggle Password"
+              />
+            </div>
+            <span id="hint-confirm-password" class="signup-hint"></span>
+          </div>
+
+          <div class="privacy-policy-check">
+            <input
+              type="checkbox"
+              id="privacy-check"
+              onclick="checkFormValidity()"
+            />
+            <label for="privacy-check"
+              >I accept the
+              <a href="privacypolicy.html">Privacy policy</a></label
+            >
+          </div>
+
+          <div id="error-message" class="error-message v-none">
+            Your passwords don't match. Please try again.
+          </div>
+
+          <div class="login-actions center-button">
+            <button
+              type="submit"
+              id="signup-btn"
+              class="btn-dark btn-small"
+              disabled
+            >
+              Sign up
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <div id="success-message" class="toast-message d-none">
+      You Signed Up successfully
+    </div>
+
+    <footer class="login-footer">
+      <a href="privacypolicy.html?public=true">Privacy Policy</a>
+      <a href="legalnotice.html?public=true">Legal notice</a>
+    </footer>
+
+    <script type="module" src="./scripts/firebase-init.js"></script>
+    <script src="./scripts/auth-defaults.js"></script>
+    <script src="./scripts/auth.js"></script>
+
+    <script src="./script.js"></script>
+    <script src="./scripts/signup.js"></script>
+  </body>
+</html>

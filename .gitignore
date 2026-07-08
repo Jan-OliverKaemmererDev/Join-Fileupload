@@ -1,0 +1,8 @@
+.vscode/
+scripts/firebase-config.js
+n8n/join-issue-collector.json
+scripts/stakeholder.js
+scripts/board.js
+scripts/addtask.js
+n8n/join-status-update.json
+scripts/summaryuser.js
