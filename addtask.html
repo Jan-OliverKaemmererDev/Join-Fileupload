@@ -6,6 +6,7 @@
     <link rel="icon" type="image/svg+xml" href="./assets/img/favicon.svg" />
     <link rel="stylesheet" href="./styles/standard.css" />
     <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/account-overlay.css" />
     <link rel="stylesheet" href="./styles/addtask-form-elements.css" />
     <link rel="stylesheet" href="./styles/addtask.css" />
     <link rel="stylesheet" href="./styles/mobile/style-mobile.css" />
@@ -62,6 +63,7 @@
                 id="user-dropdown"
                 aria-label="User menu"
               >
+                <a href="#" onclick="openAccountOverlay(); return false;">Account</a>
                 <a href="legalnotice.html">Legal Notice</a>
                 <a href="privacypolicy.html">Privacy Policy</a>
                 <a
@@ -270,6 +272,8 @@
     <script src="./script.js"></script>
     <script src="./scripts/side-menu.js"></script>
     <script src="./scripts/user-menu.js"></script>
+    <script src="./scripts/templates/account-overlay-template.js"></script>
+    <script src="./scripts/account-overlay.js"></script>
     <script src="./scripts/templates/addtask-template.js"></script>
     <script src="./scripts/addtask-utils.js"></script>
     <script src="./scripts/addtask-contacts.js"></script>
@@ -277,3 +281,4 @@
     <script src="./scripts/addtask.js"></script>
   </body>
 </html>
+

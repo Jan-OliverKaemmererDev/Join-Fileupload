@@ -7,6 +7,7 @@
     <title>Join - Contacts</title>
     <link rel="stylesheet" href="./styles/standard.css" />
     <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/account-overlay.css" />
     <link rel="stylesheet" href="./styles/contacts.css" />
     <link rel="stylesheet" href="./styles/contacts-details.css" />
     <link rel="stylesheet" href="./styles/contacts-dialog.css" />
@@ -76,6 +77,7 @@
                 aria-expanded="false"
               ></div>
               <nav id="user-dropdown" class="user-dropdown" aria-label="User menu">
+                <a href="#" onclick="openAccountOverlay(); return false;">Account</a>
                 <a href="legalnotice.html">Legal Notice</a>
                 <a href="privacypolicy.html">Privacy Policy</a>
                 <a href="#" onclick="handleLogout()">Log out</a>
@@ -141,9 +143,14 @@
     <script src="./scripts/user-initials.js"></script>
     <script src="./scripts/side-menu.js"></script>
     <script src="./scripts/user-menu.js"></script>
+    <script src="./scripts/templates/account-overlay-template.js"></script>
+    <script src="./scripts/account-overlay.js"></script>
     <script src="./scripts/templates/contacts-template.js"></script>
     <script src="./scripts/contacts-utils.js"></script>
     <script src="./scripts/contacts-form.js"></script>
     <script src="./scripts/contacts.js"></script>
   </body>
 </html>
+
+
+
