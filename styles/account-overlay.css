@@ -142,15 +142,27 @@
   flex-shrink: 0;
 }
 
-.account-camera-icon {
+.account-camera-badge {
   display: none;
   position: absolute;
-  bottom: 5px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 28px;
-  height: 28px;
+  bottom: 0px;
+  right: 0px;
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
   cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.account-camera-icon {
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
 }
 
 /* ===== Form Inputs ===== */
@@ -183,7 +195,6 @@
   background-color: white;
   outline: none;
 }
-
 
 #account-overlay .input-icon {
   position: absolute;

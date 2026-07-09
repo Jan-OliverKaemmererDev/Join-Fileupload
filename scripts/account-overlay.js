@@ -127,7 +127,7 @@ function setAccountFieldsEditable() {
 function setAccountViewMode() {
   document.getElementById("account-dialog-title").textContent = "My account";
   setAccountFieldsReadonly();
-  document.getElementById("account-camera-icon").style.display = "none";
+  document.getElementById("account-camera-badge").style.display = "none";
   clearAccountFormErrors();
   const actionBtn = document.getElementById("account-action-btn");
   actionBtn.innerHTML = "Edit";
@@ -141,7 +141,7 @@ function setAccountViewMode() {
 function toggleEditAccount() {
   document.getElementById("account-dialog-title").textContent = "Edit account";
   setAccountFieldsEditable();
-  document.getElementById("account-camera-icon").style.display = "block";
+  document.getElementById("account-camera-badge").style.display = "flex";
   const actionBtn = document.getElementById("account-action-btn");
   actionBtn.innerHTML = `Save <img src="./assets/icons/check-icon.png" alt="Save" class="check-icon-white">`;
   actionBtn.onclick = saveAccountChanges;

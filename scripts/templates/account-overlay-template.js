@@ -74,7 +74,9 @@ function getAccountAvatarHTML() {
   return `
     <div class="account-avatar-wrapper">
       <div class="contact-form-avatar" id="account-initials" style="background-color: #d19a9a;"></div>
-      <img id="account-camera-icon" class="account-camera-icon" src="./assets/icons/camera.svg" alt="Change photo">
+      <div id="account-camera-badge" class="account-camera-badge">
+        <img class="account-camera-icon" src="./assets/icons/camera.svg" alt="Change photo">
+      </div>
     </div>
   `;
 }
