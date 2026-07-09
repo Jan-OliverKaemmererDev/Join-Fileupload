@@ -9,6 +9,9 @@ function getAccountOverlayTemplate() {
         ${getAccountDialogLeftHTML()}
         ${getAccountDialogRightHTML()}
       </div>
+      <div class="slide-in-dialog delete-confirm-dialog" id="delete-confirm-dialog" onclick="event.stopPropagation()">
+        ${getDeleteConfirmDialogHTML()}
+      </div>
     </div>
   `;
 }
@@ -107,9 +110,10 @@ function getAccountInputHTML(type, id, iconFile) {
   return `
     <div class="input-group">
       <div class="input-wrapper">
-        <input type="${type}" id="${id}" value="" readonly>
+        <input type="${type}" id="${id}" value="" readonly oninput="checkAccountFormValidity()">
         <img src="${iconPath}" class="input-icon">
       </div>
+      <span id="hint-${id}" class="signup-hint"></span>
     </div>
   `;
 }
@@ -122,8 +126,33 @@ function getAccountInputHTML(type, id, iconFile) {
 function getAccountActionButtonsHTML() {
   return `
     <div class="form-actions-dialog" style="justify-content: flex-start;">
-      <button type="button" class="btn-cancel" onclick="deleteMyAccount()">Delete my account</button>
+      <button type="button" class="btn-cancel" onclick="showDeleteConfirmOverlay()">Delete my account</button>
       <button type="button" id="account-action-btn" class="btn-create-submit" onclick="toggleEditAccount()">Edit</button>
+    </div>
+  `;
+}
+
+
+/**
+ * Gibt das HTML für das Delete Confirmation Overlay zurück.
+ * @returns {string}
+ */
+function getDeleteConfirmDialogHTML() {
+  return `
+    <div class="close-btn-container-small">
+      <button onclick="closeDeleteConfirmOverlay()" class="btn-close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 12L18 18M18 6L12 12L18 6ZM12 12L6 18L12 12ZM12 12L6 6L12 12Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+    <div class="delete-confirm-content">
+      <div class="delete-icon-circle">!</div>
+      <h2>Are you sure you want<br>to delete your account?</h2>
+      <div class="delete-confirm-actions">
+        <button class="btn-cancel" onclick="confirmDeleteAccount()">Yes</button>
+        <button class="btn-create-submit" onclick="closeDeleteConfirmOverlay()">No</button>
+      </div>
     </div>
   `;
 }

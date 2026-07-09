@@ -246,3 +246,62 @@
   filter: brightness(0) invert(1);
   width: 20px;
 }
+
+/* ===== Delete Confirmation Dialog ===== */
+#account-overlay .delete-confirm-dialog {
+  position: absolute;
+  flex-direction: column;
+  padding: 30px;
+  width: 400px;
+  border-radius: 30px;
+  background-color: white;
+  text-align: center;
+  align-items: center;
+  /* Start completely off-screen or faded */
+  transform: translateY(100vh);
+  z-index: 1001; /* Above normal dialog */
+}
+
+#account-overlay .delete-confirm-dialog.active {
+  transform: translateY(0);
+}
+
+#account-overlay .close-btn-container-small {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+#account-overlay .delete-icon-circle {
+  width: 50px;
+  height: 50px;
+  background-color: #ff3d00;
+  border-radius: 50%;
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px auto;
+}
+
+#account-overlay .delete-confirm-content h2 {
+  font-size: 24px;
+  color: #2a3647;
+  font-weight: 400;
+  margin-bottom: 30px;
+  line-height: 1.4;
+}
+
+#account-overlay .delete-confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+#account-overlay .delete-confirm-actions button {
+  min-width: 100px;
+  justify-content: center;
+}

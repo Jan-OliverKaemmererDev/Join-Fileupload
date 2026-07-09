@@ -158,7 +158,7 @@ async function processLoginUser(user) {
   if (profile.name === "User" || !profile.email) {
     await initializeUserData(user.uid, userName, userEmail);
   }
-  return buildSessionUser(user.uid, userName, userEmail);
+  return buildSessionUser(user.uid, userName, userEmail, profile.phone);
 }
 
 /**
@@ -206,8 +206,8 @@ function resolveUserEmail(profile, authUser) {
  * @param {string} email
  * @returns {Object}
  */
-function buildSessionUser(uid, name, email) {
-  return { id: uid, name: name, email: email, isGuest: false };
+function buildSessionUser(uid, name, email, phone = "") {
+  return { id: uid, name: name, email: email, phone: phone, isGuest: false };
 }
 
 /**
@@ -239,7 +239,7 @@ async function loadUserProfile(uid) {
  * @returns {Object}
  */
 function buildGuestSession(uid) {
-  return { id: uid, name: "Gast", email: "guest@join.com", isGuest: true };
+  return { id: uid, name: "Gast", email: "guest@join.com", phone: "", isGuest: true };
 }
 
 /**
