@@ -18,10 +18,15 @@ function initHelp() {
  */
 function updateHeaderInitials(user) {
   const initialsElement = document.getElementById("user-initials");
-  if (initialsElement) {
-    const initials = getInitialsFromName(user.name);
-    initialsElement.textContent = initials;
+  if (!initialsElement || !user) return;
+  if (user.profileImageSmall && user.profileImageSmall.base64) {
+    if (typeof showHeaderProfileImage === "function") {
+      showHeaderProfileImage(user.profileImageSmall.base64);
+    }
+    return;
   }
+  const initials = getInitialsFromName(user.name);
+  initialsElement.textContent = initials;
 }
 
 

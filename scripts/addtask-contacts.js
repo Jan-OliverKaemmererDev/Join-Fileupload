@@ -32,11 +32,27 @@ function fetchContactsSnapshot(userId) {
  */
 function processContactsSnapshot(snapshot, currentUser) {
   allContacts = [];
+  
+  if (currentUser && currentUser.name !== "Gast") {
+    allContacts.push({
+      id: currentUser.id,
+      name: currentUser.name + " (You)",
+      email: currentUser.email,
+      phone: currentUser.phone || "",
+      color: "#29ABE2",
+      initials: getInitialsFromName(currentUser.name),
+      isYou: true,
+      profileImageSmall: currentUser.profileImageSmall
+    });
+  }
+
   snapshot.forEach(function (doc) {
     const contact = doc.data();
     contact.id = doc.id;
     contact.isYou = contact.email === currentUser.email;
-    allContacts.push(contact);
+    if (!contact.isYou) {
+      allContacts.push(contact);
+    }
   });
 }
 

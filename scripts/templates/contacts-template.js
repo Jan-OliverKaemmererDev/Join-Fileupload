@@ -2,10 +2,18 @@
  * Generiert das HTML-Template für ein Contact-Listen-Element
  */
 function getContactItemTemplate(contact) {
+  let avatarInner = contact.initials;
+  let avatarStyle = `background-color: ${contact.color};`;
+  
+  if (contact.profileImageSmall && contact.profileImageSmall.base64) {
+    avatarInner = `<img src="${contact.profileImageSmall.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
+  }
+
   return `
-    <div class="contact-item" onclick="showContactDetails(${contact.id})" data-id="${contact.id}">
-      <div class="contact-avatar" style="background-color: ${contact.color};">
-        ${contact.initials}
+    <div class="contact-item" onclick="showContactDetails('${contact.id}')" data-id="${contact.id}">
+      <div class="contact-avatar" style="${avatarStyle}">
+        ${avatarInner}
       </div>
       <div class="contact-info-list">
         <span class="contact-name-list">${contact.name}</span>
@@ -27,18 +35,26 @@ function getContactDetailsTemplate(contact) {
 }
 
 function getDesktopContactDetailsTemplate(contact) {
+  let avatarInner = contact.initials;
+  let avatarStyle = `background-color: ${contact.color}`;
+  
+  if (contact.profileImage && contact.profileImage.base64) {
+    avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
+  }
+
   return `
     <div class="contact-header-details">
-        <div class="contact-avatar-large" style="background-color: ${contact.color}">
-            ${contact.initials}
+        <div class="contact-avatar-large" style="${avatarStyle}">
+            ${avatarInner}
         </div>
         <div class="contact-name-section">
             <h1 class="contact-name-details">${contact.name}</h1>
             <div class="contact-actions">
-                <button class="btn-text-icon" onclick="openEditContactDialog(${contact.id})">
+                <button class="btn-text-icon" onclick="openEditContactDialog('${contact.id}')">
                     <img src="./assets/icons/edit.svg" alt="Edit"> Edit
                 </button>
-                <button class="btn-text-icon" onclick="deleteContact(${contact.id})">
+                <button class="btn-text-icon" onclick="deleteContact('${contact.id}')">
                     <img src="./assets/icons/delete.svg" alt="Delete"> Delete
                 </button>
             </div>
@@ -61,6 +77,14 @@ function getDesktopContactDetailsTemplate(contact) {
 }
 
 function getMobileContactDetailsTemplate(contact) {
+  let avatarInner = contact.initials;
+  let avatarStyle = `background-color: ${contact.color}`;
+  
+  if (contact.profileImage && contact.profileImage.base64) {
+    avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
+  }
+
   return `
     <div class="details-header-mobile">
         <div>
@@ -72,8 +96,8 @@ function getMobileContactDetailsTemplate(contact) {
     </div>
 
     <div class="contact-view-title">
-        <div class="initials-large" style="background-color: ${contact.color}">
-            ${contact.initials}
+        <div class="initials-large" style="${avatarStyle}">
+            ${avatarInner}
         </div>
         <div class="contact-name-large">${contact.name}</div>
     </div>
@@ -91,10 +115,10 @@ function getMobileContactDetailsTemplate(contact) {
     <div class="mobile-menu-btn" onclick="toggleContactMenu(event)">
         <img src="./assets/icons/more_vert.svg">
         <div id="contact-menu-box" class="contact-menu-box" onclick="event.stopPropagation()">
-            <div class="menu-item" onclick="openEditContactDialog(${contact.id})">
+            <div class="menu-item" onclick="openEditContactDialog('${contact.id}')">
                 <img src="./assets/icons/edit.svg" alt="Edit"> Edit
             </div>
-            <div class="menu-item" onclick="deleteContact(${contact.id}); closeContactDetails();">
+            <div class="menu-item" onclick="deleteContact('${contact.id}'); closeContactDetails();">
                 <img src="./assets/icons/delete.svg" alt="Delete"> Delete
             </div>
         </div>
@@ -114,6 +138,14 @@ function getEditContactDialogTemplate(contact) {
 }
 
 function getDesktopEditContactTemplate(contact) {
+  let avatarInner = contact.initials;
+  let avatarStyle = `background-color: ${contact.color}; margin: 0;`;
+  
+  if (contact.profileImage && contact.profileImage.base64) {
+    avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    avatarStyle = `background-color: transparent; margin: 0; position: relative; overflow: hidden;`;
+  }
+
   return `
     <div class="slide-in-dialog active" onclick="event.stopPropagation()">
       <div class="dialog-left">
@@ -132,11 +164,11 @@ function getDesktopEditContactTemplate(contact) {
         </div>
         
         <div class="edit-content-container">
-          <div class="contact-form-avatar" style="background-color: ${contact.color}; margin: 0;">
-            ${contact.initials}
+          <div class="contact-form-avatar" style="${avatarStyle}">
+            ${avatarInner}
           </div>
           
-          <form onsubmit="saveContact(event, ${contact.id})" class="edit-form-fields" novalidate>
+          <form onsubmit="saveContact(event, '${contact.id}')" class="edit-form-fields" novalidate>
             <div class="input-group">
               <div class="input-wrapper">
                 <input type="text" value="${contact.name}" id="edit-contact-name" placeholder="Name" oninput="checkContactFormValidity('edit-contact-name', 'edit-contact-email', 'edit-contact-phone', 'edit-contact-submit')">
@@ -157,7 +189,7 @@ function getDesktopEditContactTemplate(contact) {
             </div>
             
             <div class="form-actions-dialog">
-              <button type="button" class="btn-cancel" onclick="deleteContact(${contact.id}); closeAddContactDialog();">Delete</button>
+              <button type="button" class="btn-cancel" onclick="deleteContact('${contact.id}'); closeAddContactDialog();">Delete</button>
               <button type="submit" class="btn-create-submit" id="edit-contact-submit">
                 Save <img src="./assets/icons/check-icon.png" alt="check" style="filter: brightness(0) invert(1);">
               </button>
@@ -170,6 +202,14 @@ function getDesktopEditContactTemplate(contact) {
 }
 
 function getMobileEditContactTemplate(contact) {
+  let avatarInner = contact.initials;
+  let avatarStyle = `background-color: ${contact.color}`;
+  
+  if (contact.profileImage && contact.profileImage.base64) {
+    avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
+  }
+
   return `
     <div class="edit-contact-mobile-overlay" onclick="event.stopPropagation()">
       <div class="dialog-header-blue">
@@ -181,11 +221,11 @@ function getMobileEditContactTemplate(contact) {
       </div>
       
       <div class="dialog-content-white">
-        <div class="contact-form-avatar-center" style="background-color: ${contact.color}">
-          ${contact.initials}
+        <div class="contact-form-avatar-center" style="${avatarStyle}">
+          ${avatarInner}
         </div>
         
-        <form onsubmit="saveContact(event, ${contact.id})" class="edit-form-mobile" novalidate>
+        <form onsubmit="saveContact(event, '${contact.id}')" class="edit-form-mobile" novalidate>
           <div class="input-group">
             <div class="input-wrapper">
               <input type="text" value="${contact.name}" id="edit-contact-name" placeholder="Name" oninput="checkContactFormValidity('edit-contact-name', 'edit-contact-email', 'edit-contact-phone', 'edit-contact-submit')">
@@ -206,7 +246,7 @@ function getMobileEditContactTemplate(contact) {
           </div>
           
           <div class="form-actions-mobile">
-            <button type="button" class="btn-delete-outline" onclick="deleteContact(${contact.id}); closeAddContactDialog();">Delete</button>
+            <button type="button" class="btn-delete-outline" onclick="deleteContact('${contact.id}'); closeAddContactDialog();">Delete</button>
             <button type="submit" class="btn-save-dark" id="edit-contact-submit">Save</button>
           </div>
         </form>

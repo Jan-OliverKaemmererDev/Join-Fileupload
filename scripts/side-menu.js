@@ -40,6 +40,13 @@ function navigateTo(pageName) {
 function displayUserInitials(username) {
   const initialsElement = document.getElementById("user-initials");
   if (!initialsElement || !username) return;
+  const currentUser = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+  if (currentUser && currentUser.profileImageSmall && currentUser.profileImageSmall.base64) {
+    if (typeof showHeaderProfileImage === "function") {
+      showHeaderProfileImage(currentUser.profileImageSmall.base64);
+    }
+    return;
+  }
   const nameParts = username.trim().split(" ");
   let initials = "";
   if (nameParts.length >= 2) {

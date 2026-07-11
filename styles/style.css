@@ -238,10 +238,18 @@
   color: rgba(41, 171, 226, 1);
   cursor: pointer;
   transition: background-color 0.2s;
+  overflow: hidden;
 }
 
 .user-initials:hover {
   background-color: rgba(42, 54, 71, 0.1);
+}
+
+.header-profile-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .user-menu-container {

@@ -22,10 +22,15 @@ function getInitialsFromName(name) {
  */
 function updateHeaderInitials(user) {
   const initialsElement = document.getElementById("user-initials");
-  if (initialsElement && user) {
-    const initials = getInitialsFromName(user.name);
-    initialsElement.textContent = initials;
+  if (!initialsElement || !user) return;
+  if (user.profileImageSmall && user.profileImageSmall.base64) {
+    if (typeof showHeaderProfileImage === "function") {
+      showHeaderProfileImage(user.profileImageSmall.base64);
+    }
+    return;
   }
+  const initials = getInitialsFromName(user.name);
+  initialsElement.textContent = initials;
 }
 
 
@@ -35,10 +40,16 @@ function updateHeaderInitials(user) {
  */
 function displayUserInitials(name) {
   const initialsElement = document.getElementById("user-initials");
-  if (initialsElement && name) {
-    const initials = getInitialsFromName(name);
-    initialsElement.textContent = initials;
+  if (!initialsElement || !name) return;
+  const currentUser = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+  if (currentUser && currentUser.profileImageSmall && currentUser.profileImageSmall.base64) {
+    if (typeof showHeaderProfileImage === "function") {
+      showHeaderProfileImage(currentUser.profileImageSmall.base64);
+    }
+    return;
   }
+  const initials = getInitialsFromName(name);
+  initialsElement.textContent = initials;
 }
 
 

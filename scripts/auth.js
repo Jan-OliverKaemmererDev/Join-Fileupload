@@ -158,7 +158,7 @@ async function processLoginUser(user) {
   if (profile.name === "User" || !profile.email) {
     await initializeUserData(user.uid, userName, userEmail);
   }
-  return buildSessionUser(user.uid, userName, userEmail, profile.phone);
+  return buildSessionUser(user.uid, userName, userEmail, profile.phone, profile.profileImage, profile.profileImageSmall);
 }
 
 /**
@@ -206,8 +206,11 @@ function resolveUserEmail(profile, authUser) {
  * @param {string} email
  * @returns {Object}
  */
-function buildSessionUser(uid, name, email, phone = "") {
-  return { id: uid, name: name, email: email, phone: phone, isGuest: false };
+function buildSessionUser(uid, name, email, phone = "", profileImage, profileImageSmall) {
+  const user = { id: uid, name: name, email: email, phone: phone, isGuest: false };
+  if (profileImage) user.profileImage = profileImage;
+  if (profileImageSmall) user.profileImageSmall = profileImageSmall;
+  return user;
 }
 
 /**

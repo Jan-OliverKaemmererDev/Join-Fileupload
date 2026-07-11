@@ -39,10 +39,28 @@ function loadContactsFromFirestore() {
  */
 function populateContactsFromSnapshot(snapshot) {
   contacts = [];
+  const currentUser = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+
+  if (currentUser && currentUser.name !== "Gast") {
+    contacts.push({
+      id: currentUser.id,
+      name: currentUser.name + " (You)",
+      email: currentUser.email,
+      phone: currentUser.phone || "",
+      color: "#29ABE2",
+      initials: typeof getInitials === "function" ? getInitials(currentUser.name) : currentUser.name.substring(0,2).toUpperCase(),
+      isYou: true,
+      profileImageSmall: currentUser.profileImageSmall,
+      profileImage: currentUser.profileImage
+    });
+  }
+
   snapshot.forEach(function (doc) {
     const data = doc.data();
     data.id = doc.id;
-    contacts.push(data);
+    if (!currentUser || data.email !== currentUser.email) {
+      contacts.push(data);
+    }
   });
 }
 
@@ -260,9 +278,13 @@ function checkUser() {
   if (typeof getCurrentUser === "function") {
     const user = getCurrentUser();
     if (user && document.getElementById("user-initials")) {
-      document.getElementById("user-initials").innerText = getInitials(
-        user.name,
-      );
+      if (user.profileImageSmall && user.profileImageSmall.base64 && typeof showHeaderProfileImage === "function") {
+        showHeaderProfileImage(user.profileImageSmall.base64);
+      } else {
+        document.getElementById("user-initials").innerText = getInitials(
+          user.name,
+        );
+      }
     }
   }
 }

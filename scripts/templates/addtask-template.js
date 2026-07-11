@@ -48,11 +48,19 @@ function getContactOptionTemplate(contact, isSelected) {
   const selectedClass = isSelected ? "selected" : "";
   const nameSuffix = contact.isYou ? " (You)" : "";
 
+  let avatarInner = contact.initials;
+  let avatarStyle = `background-color: ${contact.color}`;
+  
+  if (contact.profileImageSmall && contact.profileImageSmall.base64) {
+    avatarInner = `<img src="${contact.profileImageSmall.base64}" class="account-profile-img" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
+  }
+
   return `
     <div class="contact-option ${selectedClass}" onclick="toggleContactSelection('${contact.id}', event)">
       <div class="contact-info">
-        <div class="contact-avatar" style="background-color: ${contact.color}">
-          ${contact.initials}
+        <div class="contact-avatar" style="${avatarStyle}">
+          ${avatarInner}
         </div>
         <span class="contact-name">${contact.name}${nameSuffix}</span>
       </div>
@@ -68,9 +76,17 @@ function getContactOptionTemplate(contact, isSelected) {
  * @returns {string} Das HTML-Template für den Initialen-Kreis
  */
 function getSelectedContactInitialsTemplate(contact) {
+  let avatarInner = contact.initials;
+  let avatarStyle = `background-color: ${contact.color}`;
+  
+  if (contact.profileImageSmall && contact.profileImageSmall.base64) {
+    avatarInner = `<img src="${contact.profileImageSmall.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
+  }
+
   return `
-    <div class="selected-avatar" style="background-color: ${contact.color}">
-      ${contact.initials}
+    <div class="selected-avatar" style="${avatarStyle}">
+      ${avatarInner}
     </div>
   `;
 }

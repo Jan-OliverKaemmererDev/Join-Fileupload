@@ -73,7 +73,9 @@ function getAccountCloseButtonHTML() {
 function getAccountAvatarHTML() {
   return `
     <div class="account-avatar-wrapper">
-      <div class="contact-form-avatar" id="account-initials" style="background-color: #d19a9a;"></div>
+      <div class="contact-form-avatar" id="account-initials" style="background-color: #d19a9a;">
+        <img id="account-profile-img" class="account-profile-img" alt="Profilbild" style="display: none;">
+      </div>
       <div id="account-camera-badge" class="account-camera-badge">
         <img class="account-camera-icon" src="./assets/icons/camera.svg" alt="Change photo">
       </div>

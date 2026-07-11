@@ -44,6 +44,11 @@ function closeAccountOverlay() {
   if (!overlay) return;
   const dialogs = overlay.querySelectorAll(".slide-in-dialog");
   dialogs.forEach(d => d.classList.remove("active"));
+  
+  if (typeof cancelPendingProfileImage === "function") {
+    cancelPendingProfileImage();
+  }
+  
   setTimeout(() => {
     overlay.classList.remove("active");
     setAccountViewMode();
@@ -84,6 +89,7 @@ function populateAccountData() {
   document.getElementById("account-email").value = email;
   document.getElementById("account-phone").value = phone;
   updateAccountInitials(name);
+  loadAccountProfileImage(currentUser);
 }
 
 
@@ -93,10 +99,47 @@ function populateAccountData() {
  */
 function updateAccountInitials(name) {
   const el = document.getElementById("account-initials");
-  if (typeof getInitialsFromName === "function") {
-    el.textContent = getInitialsFromName(name);
+  if (!el) return;
+  const img = document.getElementById("account-profile-img");
+  if (img) img.style.display = "none";
+  const initials = typeof getInitialsFromName === "function"
+    ? getInitialsFromName(name)
+    : name.substring(0, 1).toUpperCase();
+  setAccountInitialsText(el, initials);
+}
+
+
+/**
+ * Setzt den Initialen-Text im Avatar-Element.
+ * @param {HTMLElement} el - Das Avatar-Element
+ * @param {string} text - Der Initialen-Text
+ */
+function setAccountInitialsText(el, text) {
+  let textNode = null;
+  for (let i = 0; i < el.childNodes.length; i++) {
+    if (el.childNodes[i].nodeType === Node.TEXT_NODE) {
+      textNode = el.childNodes[i];
+      break;
+    }
+  }
+  if (textNode) {
+    textNode.textContent = text;
   } else {
-    el.textContent = name.substring(0, 1).toUpperCase();
+    el.insertBefore(document.createTextNode(text), el.firstChild);
+  }
+}
+
+
+/**
+ * Lädt und zeigt das Profilbild im Account-Overlay.
+ * @param {Object} currentUser - Das aktuelle User-Objekt
+ */
+function loadAccountProfileImage(currentUser) {
+  if (!currentUser || !currentUser.profileImage) return;
+  const base64 = currentUser.profileImage.base64;
+  if (!base64) return;
+  if (typeof showAccountProfileImage === "function") {
+    showAccountProfileImage(base64);
   }
 }
 
@@ -129,6 +172,16 @@ function setAccountViewMode() {
   setAccountFieldsReadonly();
   document.getElementById("account-camera-badge").style.display = "none";
   clearAccountFormErrors();
+  
+  if (typeof cancelPendingProfileImage === "function") {
+    cancelPendingProfileImage();
+  }
+  const currentUser = getAccountUserData();
+  if (currentUser) {
+    if (typeof updateAccountInitials === "function") updateAccountInitials(currentUser.name);
+    loadAccountProfileImage(currentUser);
+  }
+  
   const actionBtn = document.getElementById("account-action-btn");
   actionBtn.innerHTML = "Edit";
   actionBtn.onclick = toggleEditAccount;
@@ -145,6 +198,9 @@ function toggleEditAccount() {
   const actionBtn = document.getElementById("account-action-btn");
   actionBtn.innerHTML = `Save <img src="./assets/icons/check-icon.png" alt="Save" class="check-icon-white">`;
   actionBtn.onclick = saveAccountChanges;
+  if (typeof initFileUpload === "function") {
+    initFileUpload();
+  }
 }
 
 
@@ -152,13 +208,28 @@ function toggleEditAccount() {
  * Speichert Account-Änderungen in Firebase und aktualisiert die Session.
  */
 async function saveAccountChanges() {
-  const currentUser = getAccountUserData();
+  let currentUser = getAccountUserData();
   if (!currentUser || currentUser.isGuest) return setAccountViewMode();
+  
+  try {
+    if (typeof hasPendingProfileImage === "function" && hasPendingProfileImage()) {
+      await processPendingProfileImage();
+      // Hole den aktualisierten User aus der Session, da processPendingProfileImage ihn verändert hat
+      currentUser = getAccountUserData();
+    }
+  } catch (error) {
+    console.error("Fehler beim Profilbild Upload:", error);
+    alert("Das Profilbild konnte nicht gespeichert werden.");
+  }
+
   const data = getAccountInputData();
   try {
     await updateFirebaseAccount(currentUser.id, data);
     updateLocalAccountSession(currentUser, data);
-    updateAccountUI(currentUser);
+    
+    // Hole den aktualisierten User (processPendingProfileImage hat die Session vielleicht schon geupdated)
+    const updatedUser = getAccountUserData();
+    updateAccountUI(updatedUser);
   } catch (error) {
     console.error("Fehler beim Speichern:", error);
   }
@@ -208,6 +279,10 @@ function updateAccountUI(user) {
     updateUserName(user);
   }
   updateAccountInitials(user.name);
+  loadAccountProfileImage(user);
+  if (user.profileImageSmall && typeof showHeaderProfileImage === "function") {
+    showHeaderProfileImage(user.profileImageSmall.base64);
+  }
   setAccountViewMode();
 }
 
