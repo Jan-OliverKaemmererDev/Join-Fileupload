@@ -548,7 +548,6 @@ function showHeaderProfileImage(base64) {
   }
   img.src = base64;
   img.style.display = "block";
-  initialsEl.style.border = "none";
   initialsEl.style.overflow = "hidden";
   const textNodes = initialsEl.childNodes;
   for (let i = 0; i < textNodes.length; i++) {

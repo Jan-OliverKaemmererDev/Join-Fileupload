@@ -124,12 +124,10 @@
   margin-top: 8px;
   overflow-x: auto;
   max-width: 376px;
-
-  /* HIER SIND DIE ANPASSUNGEN: */
-  height: 76px; /* Etwas mehr Höhe für den Puffer */
-  padding-top: 4px; /* Puffer nach oben gegen das Abschneiden */
-  padding-bottom: 12px; /* Platz für die Scrollbar + etwas Puffer nach unten */
-  padding-left: 4px; /* Verhindert Abschneiden am linken Rand beim Zoomen */
+  height: 76px;
+  padding-top: 4px;
+  padding-bottom: 12px;
+  padding-left: 4px;
   padding-right: 4px;
   box-sizing: border-box;
 }
@@ -205,4 +203,184 @@
 
 .priority-btn.active img {
   filter: brightness(0) invert(1);
+}
+
+/* Attachments Styles */
+.attachments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.attachments-subtext {
+  font-size: 16px;
+  color: #848484;
+}
+
+.btn-delete-all {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2a3647;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-delete-all:hover {
+  background: #c0c1c1cb;
+  border-radius: 6px;
+}
+
+.btn-delete-all:active {
+  font-weight: 700;
+}
+
+.btn-delete-all img {
+  width: 24px;
+  height: 24px;
+}
+
+.upload-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 1px dashed #686868;
+  border-radius: 10px;
+  padding: 16px;
+  background-color: #eeefef;
+  cursor: pointer;
+  transition: all 125ms ease-in-out;
+  margin-bottom: 12px;
+}
+
+.upload-area:hover {
+  border-color: black;
+  background: #e0e0e09b;
+}
+
+.upload-text {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  color: #686868;
+}
+
+.upload-plus-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.upload-preview {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  user-select: none;
+}
+
+.upload-preview.can-scroll {
+  cursor: grab;
+}
+
+.upload-preview.can-scroll.active {
+  cursor: grabbing;
+}
+
+.upload-preview::-webkit-scrollbar {
+  display: none;
+}
+
+.thumbnail-container {
+  display: flex;
+  flex-direction: column;
+  width: 104px;
+  height: 88px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #686868;
+  flex-shrink: 0;
+}
+
+.thumbnail-image-wrapper {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.thumbnail-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+}
+
+.thumbnail-name {
+  background: white;
+  font-size: 16px;
+  padding: 1px 2px 1px 2px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #2a3647;
+  pointer-events: none;
+  flex-shrink: 0;
+  border-top: 1px solid #686868;
+}
+
+.upload-area.drag-over {
+  border-color: #29abe2;
+  background-color: #e0f4fc;
+}
+
+.thumbnail-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 125ms ease-in-out;
+  pointer-events: none;
+}
+
+.thumbnail-container:hover .thumbnail-overlay {
+  opacity: 1;
+}
+
+.btn-delete-thumbnail {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background-color 125ms ease-in-out;
+  pointer-events: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-delete-thumbnail:hover {
+  background-color: #29abe2;
+}
+
+.btn-delete-thumbnail img {
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
 }

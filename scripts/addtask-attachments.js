@@ -1,0 +1,318 @@
+/**
+ * Global array storing all valid image attachments.
+ * @type {File[]}
+ */
+let taskAttachments = [];
+
+/**
+ * Global flag tracking if the preview container is being dragged.
+ * @type {boolean}
+ */
+let isPreviewDragging = false;
+
+/**
+ * Starting X coordinate for preview drag scrolling.
+ * @type {number}
+ */
+let previewStartX;
+
+/**
+ * Initial scrollLeft value when drag scrolling starts.
+ * @type {number}
+ */
+let previewScrollLeft;
+
+/**
+ * Reference to the upload-preview DOM element.
+ * @type {HTMLElement}
+ */
+let previewContainerRef;
+
+/**
+ * Processes selected or dropped files, validating and adding them to the attachments list.
+ * @param {FileList|File[]} files - The files to process.
+ */
+function processFiles(files) {
+  if (!files || files.length === 0) return;
+  let added = false;
+  for (let i = 0; i < files.length; i++) {
+    if (isValidImage(files[i])) {
+      taskAttachments.push(files[i]);
+      added = true;
+    } else {
+      alert(`File "${files[i].name}" is not a valid JPEG or PNG image.`);
+    }
+  }
+  if (added) updateAttachmentsPreview();
+}
+
+/**
+ * Checks if a file is a valid image type (JPEG or PNG).
+ * @param {File} file - The file to check.
+ * @returns {boolean} True if the file is a valid image, false otherwise.
+ */
+function isValidImage(file) {
+  return ['image/jpeg', 'image/png'].includes(file.type);
+}
+
+/**
+ * Handles the file input change event.
+ * @param {Event} event - The change event from the file input.
+ */
+function handleFileSelect(event) {
+  processFiles(event.target.files);
+  document.getElementById('file-upload').value = "";
+}
+
+/**
+ * Initializes drag and drop event listeners for the upload area.
+ */
+function initDragAndDrop() {
+  const dropZone = document.getElementById('upload-area');
+  if (!dropZone) return;
+  bindDragEvents(dropZone, ['dragenter', 'dragover', 'dragleave', 'drop'], preventDefaults);
+  bindDragEvents(dropZone, ['dragenter', 'dragover'], highlightDropZone);
+  bindDragEvents(dropZone, ['dragleave', 'drop'], unhighlightDropZone);
+  dropZone.addEventListener('drop', handleDrop, false);
+}
+
+/**
+ * Binds multiple event listeners to a DOM element.
+ * @param {HTMLElement} element - The target DOM element.
+ * @param {string[]} events - Array of event names.
+ * @param {Function} handler - The event handler function.
+ */
+function bindDragEvents(element, events, handler) {
+  events.forEach(eventName => element.addEventListener(eventName, handler, false));
+}
+
+/**
+ * Prevents default browser behavior and event propagation.
+ * @param {Event} e - The triggered event.
+ */
+function preventDefaults(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+/**
+ * Adds the highlight class to the drop zone.
+ */
+function highlightDropZone() {
+  document.getElementById('upload-area').classList.add('drag-over');
+}
+
+/**
+ * Removes the highlight class from the drop zone.
+ */
+function unhighlightDropZone() {
+  document.getElementById('upload-area').classList.remove('drag-over');
+}
+
+/**
+ * Handles the drop event on the upload area.
+ * @param {DragEvent} e - The drop event.
+ */
+function handleDrop(e) {
+  processFiles(e.dataTransfer.files);
+}
+
+document.addEventListener('DOMContentLoaded', initDragAndDrop);
+
+/**
+ * Processes task attachments and converts them to base64.
+ * @returns {Promise<{name: string, type: string, data: string}[]>} Processed attachments.
+ */
+async function processTaskAttachments() {
+  const processed = [];
+  for (const file of taskAttachments) {
+    const base64 = await fileToBase64(file);
+    processed.push({ name: file.name, type: file.type, data: base64 });
+  }
+  return processed;
+}
+
+/**
+ * Converts a File object to a Base64 string.
+ * @param {File} file - The file to convert.
+ * @returns {Promise<string>} Base64 representation of the file.
+ */
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+    reader.readAsDataURL(file);
+  });
+}
+
+/**
+ * Renders the preview thumbnails for all attachments.
+ */
+function updateAttachmentsPreview() {
+  const container = document.getElementById('upload-preview');
+  const deleteBtn = document.getElementById('delete-all-attachments');
+  if (!container) return;
+  container.innerHTML = '';
+  if (taskAttachments.length > 0) {
+    deleteBtn.classList.remove('d-none');
+    taskAttachments.forEach((f, i) => container.appendChild(createThumbnail(f, i)));
+  } else {
+    deleteBtn.classList.add('d-none');
+  }
+  setTimeout(checkScrollable, 0);
+}
+
+/**
+ * Toggles the 'can-scroll' class based on container overflow.
+ */
+function checkScrollable() {
+  const container = document.getElementById('upload-preview');
+  if (!container) return;
+  if (container.scrollWidth > container.clientWidth) {
+    container.classList.add('can-scroll');
+  } else {
+    container.classList.remove('can-scroll');
+  }
+}
+
+/**
+ * Creates a thumbnail container element.
+ * @param {File} file - The file object.
+ * @param {number} index - The index of the attachment.
+ * @returns {HTMLElement} The created thumbnail container.
+ */
+function createThumbnail(file, index) {
+  const container = document.createElement('div');
+  container.className = 'thumbnail-container';
+  const imgWrapper = document.createElement('div');
+  imgWrapper.className = 'thumbnail-image-wrapper';
+  imgWrapper.appendChild(createImgElement(file));
+  imgWrapper.appendChild(createOverlayElement(index));
+  container.appendChild(imgWrapper);
+  container.appendChild(createNameTag(file.name));
+  return container;
+}
+
+/**
+ * Creates an image element for a thumbnail.
+ * @param {File} file - The file object.
+ * @returns {HTMLImageElement} The created image element.
+ */
+function createImgElement(file) {
+  const img = document.createElement('img');
+  img.src = URL.createObjectURL(file);
+  img.alt = file.name;
+  return img;
+}
+
+/**
+ * Creates an overlay element with a delete button.
+ * @param {number} index - The index of the attachment.
+ * @returns {HTMLElement} The created overlay element.
+ */
+function createOverlayElement(index) {
+  const overlay = document.createElement('div');
+  overlay.className = 'thumbnail-overlay';
+  overlay.appendChild(createDeleteButton(index));
+  return overlay;
+}
+
+/**
+ * Creates a delete button for an individual thumbnail.
+ * @param {number} index - The index of the attachment.
+ * @returns {HTMLButtonElement} The created delete button.
+ */
+function createDeleteButton(index) {
+  const btn = document.createElement('button');
+  btn.className = 'btn-delete-thumbnail';
+  btn.innerHTML = '<img src="./assets/icons/delete-white.svg" alt="Delete" />';
+  btn.type = 'button';
+  btn.addEventListener('mousedown', e => e.stopPropagation());
+  btn.addEventListener('click', e => { e.stopPropagation(); deleteAttachment(index); });
+  return btn;
+}
+
+/**
+ * Creates a name tag element for a thumbnail.
+ * @param {string} name - The name of the file.
+ * @returns {HTMLElement} The created name tag element.
+ */
+function createNameTag(name) {
+  const tag = document.createElement('div');
+  tag.className = 'thumbnail-name';
+  tag.textContent = name;
+  return tag;
+}
+
+/**
+ * Deletes a specific attachment by index.
+ * @param {number} index - The index of the attachment to delete.
+ */
+function deleteAttachment(index) {
+  taskAttachments.splice(index, 1);
+  updateAttachmentsPreview();
+}
+
+/**
+ * Clears all attachments from the list.
+ */
+function clearAllAttachments() {
+  taskAttachments = [];
+  updateAttachmentsPreview();
+}
+
+/**
+ * Returns the current list of attachments.
+ * @returns {File[]} Array of file objects.
+ */
+function getTaskAttachments() {
+  return taskAttachments;
+}
+
+
+
+/**
+ * Initializes mouse event listeners for drag-to-scroll functionality.
+ */
+function initPreviewDragScroll() {
+  previewContainerRef = document.getElementById('upload-preview');
+  if (!previewContainerRef) return;
+  previewContainerRef.addEventListener('mousedown', onDragStart);
+  previewContainerRef.addEventListener('mouseleave', onDragEnd);
+  previewContainerRef.addEventListener('mouseup', onDragEnd);
+  previewContainerRef.addEventListener('mousemove', onDragMove);
+  window.addEventListener('resize', checkScrollable);
+}
+
+/**
+ * Handles the mousedown event to start drag scrolling.
+ * @param {MouseEvent} e - The mouse event.
+ */
+function onDragStart(e) {
+  isPreviewDragging = true;
+  previewContainerRef.classList.add('active');
+  previewStartX = e.pageX - previewContainerRef.offsetLeft;
+  previewScrollLeft = previewContainerRef.scrollLeft;
+}
+
+/**
+ * Handles mouseup and mouseleave events to stop drag scrolling.
+ */
+function onDragEnd() {
+  isPreviewDragging = false;
+  previewContainerRef.classList.remove('active');
+}
+
+/**
+ * Handles the mousemove event to perform scrolling.
+ * @param {MouseEvent} e - The mouse event.
+ */
+function onDragMove(e) {
+  if (!isPreviewDragging) return;
+  e.preventDefault();
+  const x = e.pageX - previewContainerRef.offsetLeft;
+  previewContainerRef.scrollLeft = previewScrollLeft - (x - previewStartX) * 2;
+}
+
+document.addEventListener('DOMContentLoaded', initPreviewDragScroll);
