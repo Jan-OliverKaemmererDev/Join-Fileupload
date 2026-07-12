@@ -6,7 +6,7 @@
 
 
 /** Erlaubte MIME-Types für Bilddateien */
-const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png"];
 
 /** Maximale Dateigröße in Bytes (2 MB) */
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
@@ -81,13 +81,13 @@ async function handleFileSelected(event) {
   const file = event.target.files[0];
   if (!file) return;
   if (!isValidImageFile(file)) {
-    alert("Bitte wähle eine gültige Bilddatei (JPEG, PNG, GIF oder WebP).");
+    showFileFormatError();
     return;
   }
   
   const isValid = await validateImageMagicBytes(file);
   if (!isValid) {
-    alert("Die Datei scheint kein gültiges Bild zu sein.");
+    showFileFormatError();
     return;
   }
 
@@ -337,8 +337,6 @@ async function validateImageMagicBytes(file) {
   const bytes = new Uint8Array(buffer);
   if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) return true;
   if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) return true;
-  if (bytes[0] === 0x47 && bytes[1] === 0x49 && bytes[2] === 0x46) return true;
-  if (bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46) return true;
   return false;
 }
 
@@ -350,7 +348,7 @@ async function validateImageMagicBytes(file) {
 async function processAndUploadImage(file) {
   const isValid = await validateImageMagicBytes(file);
   if (!isValid) {
-    alert("Die Datei scheint kein gültiges Bild zu sein.");
+    showFileFormatError();
     return;
   }
   const largeBlob = await compressImage(file, 800, 800, 0.8);
@@ -555,4 +553,28 @@ function showHeaderProfileImage(base64) {
       textNodes[i].textContent = "";
     }
   }
+}
+
+/**
+ * Zeigt eine Fehlermeldung für ein ungültiges Dateiformat an.
+ * Die Meldung slidet von unten nach oben in die Mitte des Bildschirms.
+ */
+function showFileFormatError() {
+  let errorMsg = document.getElementById("file-format-error");
+  if (!errorMsg) {
+    errorMsg = document.createElement("div");
+    errorMsg.id = "file-format-error";
+    errorMsg.className = "file-format-error";
+    errorMsg.innerHTML = getFileFormatErrorTemplate();
+    document.body.appendChild(errorMsg);
+  }
+
+  errorMsg.classList.remove("show");
+  void errorMsg.offsetWidth; // trigger reflow
+  errorMsg.classList.add("show");
+
+  if (errorMsg.timeoutId) clearTimeout(errorMsg.timeoutId);
+  errorMsg.timeoutId = setTimeout(() => {
+    errorMsg.classList.remove("show");
+  }, 4000);
 }

@@ -35,12 +35,16 @@ let previewContainerRef;
 function processFiles(files) {
   if (!files || files.length === 0) return;
   let added = false;
+  let errorShown = false;
   for (let i = 0; i < files.length; i++) {
     if (isValidImage(files[i])) {
       taskAttachments.push(files[i]);
       added = true;
     } else {
-      alert(`File "${files[i].name}" is not a valid JPEG or PNG image.`);
+      if (!errorShown) {
+        showFileFormatError();
+        errorShown = true;
+      }
     }
   }
   if (added) updateAttachmentsPreview();
