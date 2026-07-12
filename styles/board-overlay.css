@@ -52,7 +52,7 @@
 }
 
 .add-task-overlay-card .form-container {
-  grid-template-columns: 1fr 1px 1fr;
+  grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr);
   gap: 0;
   column-gap: 48px;
   max-width: 100%;
@@ -229,6 +229,10 @@
   align-items: center;
 }
 
+.assignee-badge-detail {
+  margin-left: 0;
+}
+
 .assignee-details-list {
   margin-top: 0;
   display: flex;
@@ -365,3 +369,5 @@
 .creator-contact-link:active .creator-contact-icon-profile {
   content: url("../assets/icons/issue-collector/profile-white.svg");
 }
+
+

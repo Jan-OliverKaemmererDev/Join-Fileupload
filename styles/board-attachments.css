@@ -1,0 +1,211 @@
+/* Attachments in Task Details */
+.task-details-attachments {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.attachments-list-details {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  user-select: none;
+}
+
+.attachments-list-details.can-scroll {
+  cursor: grab;
+}
+
+.attachments-list-details.can-scroll.active {
+  cursor: grabbing;
+}
+
+.attachments-list-details::-webkit-scrollbar {
+  display: none;
+}
+
+.btn-download-thumbnail {
+  background: none;
+  border: none;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  transition: background-color 125ms ease-in-out;
+  pointer-events: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-download-thumbnail:hover {
+  background-color: #29abe2;
+}
+
+.thumbnail-container .btn-download-thumbnail img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* Viewer Overlay */
+#image-viewer-overlay {
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 3000;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+}
+
+#image-viewer-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.viewer-content {
+  position: relative;
+  width: 80%;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #2a3647;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.viewer-content img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Hover Controls */
+.viewer-controls {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.viewer-content:hover .viewer-controls {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.viewer-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 16px 24px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7) 0%,
+    transparent 100%
+  );
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  box-sizing: border-box;
+}
+
+.viewer-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.viewer-filename {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.viewer-filesize {
+  font-size: 12px;
+  color: #ddd;
+}
+
+.viewer-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.viewer-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s;
+  pointer-events: auto;
+}
+
+.viewer-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.viewer-btn img,
+.viewer-btn svg {
+  width: 24px;
+  height: 24px;
+}
+
+.viewer-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  pointer-events: auto;
+}
+
+.viewer-nav:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.viewer-nav img {
+  width: 20px;
+  height: 20px;
+}
+
+.viewer-prev {
+  left: 16px;
+}
+
+.viewer-next {
+  right: 16px;
+}

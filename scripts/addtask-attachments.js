@@ -149,13 +149,45 @@ document.addEventListener('DOMContentLoaded', initDragAndDrop);
 
 /**
  * Processes task attachments and converts them to base64.
- * @returns {Promise<{name: string, type: string, data: string}[]>} Processed attachments.
+ * Generates a thumbnail preview and retains the original size.
+ * @returns {Promise<{name: string, type: string, size: number, data: string, preview: string}[]>} Processed attachments.
  */
 async function processTaskAttachments() {
   const processed = [];
   for (const file of taskAttachments) {
-    const base64 = await fileToBase64(file);
-    processed.push({ name: file.name, type: file.type, data: base64 });
+    if (!(file instanceof File || file instanceof Blob)) {
+      // It's already processed and loaded from DB
+      processed.push(file);
+      continue;
+    }
+
+    let originalBase64 = null;
+    let previewBase64 = null;
+    try {
+      if (typeof compressBlob === 'function' && typeof blobToBase64 === 'function' && file.type.startsWith('image/')) {
+        // Compress original to max 1024x1024 at 60% quality to prevent Firestore 1MB limit errors with multiple images
+        const largeBlob = await compressBlob(file, 1024, 1024, 0.6);
+        originalBase64 = await blobToBase64(largeBlob);
+        
+        // Create a 200x200 compressed preview
+        const smallBlob = await compressBlob(file, 200, 200, 0.7);
+        previewBase64 = await blobToBase64(smallBlob);
+      } else {
+        originalBase64 = await fileToBase64(file);
+        previewBase64 = originalBase64;
+      }
+    } catch (e) {
+      console.error("Failed to generate base64 for attachment", e);
+      originalBase64 = await fileToBase64(file);
+      previewBase64 = originalBase64;
+    }
+    processed.push({
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      data: originalBase64,
+      preview: previewBase64
+    });
   }
   return processed;
 }
@@ -187,20 +219,6 @@ function updateAttachmentsPreview() {
     taskAttachments.forEach((f, i) => container.appendChild(createThumbnail(f, i)));
   } else {
     deleteBtn.classList.add('d-none');
-  }
-  setTimeout(checkScrollable, 0);
-}
-
-/**
- * Toggles the 'can-scroll' class based on container overflow.
- */
-function checkScrollable() {
-  const container = document.getElementById('upload-preview');
-  if (!container) return;
-  if (container.scrollWidth > container.clientWidth) {
-    container.classList.add('can-scroll');
-  } else {
-    container.classList.remove('can-scroll');
   }
 }
 
@@ -301,46 +319,60 @@ function getTaskAttachments() {
 
 
 /**
- * Initializes mouse event listeners for drag-to-scroll functionality.
+ * Initializes mouse event listeners for drag-to-scroll functionality on a container.
+ * @param {HTMLElement} container - The container element to make scrollable by dragging.
  */
-function initPreviewDragScroll() {
-  previewContainerRef = document.getElementById('upload-preview');
-  if (!previewContainerRef) return;
-  previewContainerRef.addEventListener('mousedown', onDragStart);
-  previewContainerRef.addEventListener('mouseleave', onDragEnd);
-  previewContainerRef.addEventListener('mouseup', onDragEnd);
-  previewContainerRef.addEventListener('mousemove', onDragMove);
-  window.addEventListener('resize', checkScrollable);
+function initDragScroll(container) {
+  if (!container || container.dataset.dragInitialized) return;
+  container.dataset.dragInitialized = "true";
+
+  let isDragging = false;
+  let startX;
+  let scrollLeft;
+
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    container.classList.add('active');
+    startX = e.pageX - container.offsetLeft;
+    scrollLeft = container.scrollLeft;
+  });
+
+  const stopDrag = () => {
+    isDragging = false;
+    container.classList.remove('active');
+  };
+
+  container.addEventListener('mouseleave', stopDrag);
+  container.addEventListener('mouseup', stopDrag);
+
+  container.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - container.offsetLeft;
+    container.scrollLeft = scrollLeft - (x - startX) * 2;
+  });
+
+  const checkScrollableLocal = () => {
+    if (container.scrollWidth > container.clientWidth) {
+      container.classList.add('can-scroll');
+    } else {
+      container.classList.remove('can-scroll');
+    }
+  };
+
+  window.addEventListener('resize', checkScrollableLocal);
+  
+  // Observe DOM changes to recalculate scrollability when attachments are added/removed
+  const observer = new MutationObserver(() => {
+    setTimeout(checkScrollableLocal, 0);
+  });
+  observer.observe(container, { childList: true, subtree: true });
+
+  setTimeout(checkScrollableLocal, 0);
 }
 
-/**
- * Handles the mousedown event to start drag scrolling.
- * @param {MouseEvent} e - The mouse event.
- */
-function onDragStart(e) {
-  isPreviewDragging = true;
-  previewContainerRef.classList.add('active');
-  previewStartX = e.pageX - previewContainerRef.offsetLeft;
-  previewScrollLeft = previewContainerRef.scrollLeft;
-}
-
-/**
- * Handles mouseup and mouseleave events to stop drag scrolling.
- */
-function onDragEnd() {
-  isPreviewDragging = false;
-  previewContainerRef.classList.remove('active');
-}
-
-/**
- * Handles the mousemove event to perform scrolling.
- * @param {MouseEvent} e - The mouse event.
- */
-function onDragMove(e) {
-  if (!isPreviewDragging) return;
-  e.preventDefault();
-  const x = e.pageX - previewContainerRef.offsetLeft;
-  previewContainerRef.scrollLeft = previewScrollLeft - (x - previewStartX) * 2;
-}
-
-document.addEventListener('DOMContentLoaded', initPreviewDragScroll);
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize drag scroll for the addtask upload preview if it exists on load
+  const uploadPreview = document.getElementById('upload-preview');
+  if (uploadPreview) initDragScroll(uploadPreview);
+});

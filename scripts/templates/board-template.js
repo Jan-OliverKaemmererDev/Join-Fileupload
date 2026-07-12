@@ -121,6 +121,7 @@ function getTaskDetailsTemplate(
   categoryClass,
   categoryLabel,
   assignedToHtml,
+  attachmentsHtml = ""
 ) {
   let aiIndicator = "";
   if (task.createdBy === "extern") {
@@ -203,6 +204,7 @@ function getTaskDetailsTemplate(
       <span class="task-details-label">Assigned To:</span>
       <div class="assignee-details-list">${assignedToHtml}</div>
     </div>
+    ${attachmentsHtml}
     <div class="subtasks-section">
       <p class="subtasks-heading">Subtasks</p>
       <div class="subtasks-list-details">
@@ -267,4 +269,44 @@ function getMediumPriorityIcon() {
  */
 function getLowPriorityIcon() {
   return `<img src="./assets/icons/low-iconAddTask.png" alt="Low">`;
+}
+
+/**
+ * HTML-Template für ein Attachment Thumbnail
+ * @param {number} taskId 
+ * @param {number} index 
+ * @param {string} previewSrc 
+ * @param {string} name 
+ * @returns {string} HTML
+ */
+function getTaskAttachmentThumbnailTemplate(taskId, index, previewSrc, name) {
+  return `
+    <div class="thumbnail-container" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="openImageViewer(${taskId}, ${index})">
+      <div class="thumbnail-image-wrapper">
+        <img src="${previewSrc}" alt="${name}" title="${name}">
+        <div class="thumbnail-overlay">
+          <button class="btn-download-thumbnail" onclick="event.stopPropagation(); downloadAttachment(${taskId}, ${index})" title="Download">
+            <img src="./assets/icons/download-white.svg" alt="Download">
+          </button>
+        </div>
+      </div>
+      <div class="thumbnail-name" title="${name}">${name}</div>
+    </div>
+  `;
+}
+
+/**
+ * HTML-Template für die Attachments-Sektion
+ * @param {string} thumbnailsHtml 
+ * @returns {string} HTML
+ */
+function getTaskAttachmentsSectionTemplate(thumbnailsHtml) {
+  return `
+    <div class="task-details-attachments">
+      <span class="task-details-label">Attachments:</span>
+      <div class="attachments-list-details">
+        ${thumbnailsHtml}
+      </div>
+    </div>
+  `;
 }

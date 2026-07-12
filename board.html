@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./styles/board.css" />
     <link rel="stylesheet" href="./styles/board-overlay.css" />
     <link rel="stylesheet" href="./styles/board-task-card.css" />
+    <link rel="stylesheet" href="./styles/board-attachments.css" />
     <link rel="stylesheet" href="./styles/addtask-form-elements.css" />
     <link rel="stylesheet" href="./styles/addtask.css" />
     <link rel="stylesheet" href="./styles/mobile/style-mobile.css" />
@@ -607,6 +608,35 @@
       </div>
     </div>
 
+    <!-- Image Viewer Overlay -->
+    <div id="image-viewer-overlay" onclick="closeImageViewer(event)">
+      <div class="viewer-content" onclick="event.stopPropagation()">
+        <img id="viewer-image" src="" alt="Viewer">
+        <div class="viewer-controls">
+          <div class="viewer-header">
+            <div class="viewer-info">
+              <span id="viewer-filename" class="viewer-filename">filename.jpg</span>
+              <span id="viewer-filesize" class="viewer-filesize">100KB</span>
+            </div>
+            <div class="viewer-actions">
+              <button class="viewer-btn" onclick="downloadViewerImage()" title="Download">
+                <img src="./assets/icons/download-white.svg" alt="Download">
+              </button>
+              <button class="viewer-btn" onclick="closeImageViewer()" title="Close">
+                <img src="./assets/icons/clear-X-icon-white.svg" alt="Close" onerror="this.src='./assets/icons/clear-X-icon.svg'">
+              </button>
+            </div>
+          </div>
+          <button class="viewer-nav viewer-prev" onclick="navigateViewer(-1, event)" title="Previous">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <button class="viewer-nav viewer-next" onclick="navigateViewer(1, event)" title="Next">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
     <!-- Mobile Navigation -->
     <nav class="mobile-nav d-none-desktop" aria-label="Mobile navigation">
       <a href="summaryuser.html" class="nav-item">
@@ -655,6 +685,8 @@
     <script src="./scripts/board-touch-drag.js"></script>
     <script src="./scripts/board.js"></script>
     <script src="./scripts/board-interactions.js"></script>
+    <script src="./scripts/board-attachments.js"></script>
+    <script src="./scripts/board-image-viewer.js"></script>
     <script src="./scripts/board-mobile-edit.js"></script>
   </body>
 </html>

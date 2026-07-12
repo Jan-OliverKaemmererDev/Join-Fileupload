@@ -7,6 +7,11 @@ function openAddTaskOverlay() {
     return;
   }
 
+  if (typeof initDragScroll === 'function') {
+    const uploadPreview = document.getElementById('upload-preview');
+    if (uploadPreview) initDragScroll(uploadPreview);
+  }
+
   document.getElementById("add-task-overlay").classList.add("active");
   document.documentElement.classList.add("no-scroll");
   document.body.classList.add("no-scroll");
@@ -30,8 +35,14 @@ function openTaskDetails(taskId) {
   if (isDragging) return;
   const task = findTask(taskId);
   if (!task) return;
-  document.getElementById("task-details-content").innerHTML =
-    buildTaskDetailsHtml(task);
+  const contentElement = document.getElementById("task-details-content");
+  contentElement.innerHTML = buildTaskDetailsHtml(task);
+  
+  if (typeof initDragScroll === 'function') {
+    const attachmentsContainer = contentElement.querySelector('.attachments-list-details');
+    if (attachmentsContainer) initDragScroll(attachmentsContainer);
+  }
+
   document.getElementById("task-details-overlay").classList.add("active");
   document.documentElement.classList.add("no-scroll");
   document.body.classList.add("no-scroll");
@@ -50,6 +61,7 @@ function buildTaskDetailsHtml(task) {
     getCategoryClass(task.category),
     getCategoryLabel(task.category),
     buildAssignedToDetailsHtml(task),
+    buildTaskAttachmentsHtml(task)
   );
 }
 
@@ -423,3 +435,5 @@ function resetFormToAddMode() {
   clearForm();
   resetBoardDropdowns();
 }
+
+
