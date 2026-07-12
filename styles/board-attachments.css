@@ -4,6 +4,7 @@
   flex-direction: column;
   gap: 8px;
   margin-top: 16px;
+  font-size: 20px;
 }
 
 .attachments-list-details {
@@ -11,6 +12,7 @@
   flex-direction: row;
   gap: 8px;
   overflow-x: auto;
+  padding-top: 8px;
   padding-bottom: 8px;
   scrollbar-width: none;
   -ms-overflow-style: none;
