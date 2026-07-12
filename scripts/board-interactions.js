@@ -277,6 +277,9 @@ function fillFormWithTaskData(task) {
       ? JSON.parse(JSON.stringify(task.subtasks))
       : [];
   renderSubtasks();
+  if (typeof loadExistingAttachments === 'function') {
+    loadExistingAttachments(task.attachments || []);
+  }
   validateForm();
 }
 
@@ -349,7 +352,7 @@ function setupFormForEdit(taskId) {
  * Überträgt die Formulardaten in das Task-Objekt
  * @param {Object} task - Das zu aktualisierende Task-Objekt
  */
-function applyFormDataToTask(task) {
+async function applyFormDataToTask(task) {
   task.title = document.getElementById("title").value.trim();
   task.description = document.getElementById("description").value.trim();
   task.dueDate = document.getElementById("due-date").value;
@@ -359,6 +362,9 @@ function applyFormDataToTask(task) {
   });
   task.category = document.getElementById("category").value;
   task.subtasks = JSON.parse(JSON.stringify(subtasks));
+  if (typeof processTaskAttachments === 'function') {
+    task.attachments = await processTaskAttachments();
+  }
 }
 
 /**
@@ -378,7 +384,7 @@ function finalizeTaskUpdate() {
 async function updateTask(taskId) {
   const taskIndex = findTaskById(taskId);
   if (taskIndex === -1) return;
-  applyFormDataToTask(tasks[taskIndex]);
+  await applyFormDataToTask(tasks[taskIndex]);
   await saveSingleTask(tasks[taskIndex]);
   finalizeTaskUpdate();
 }

@@ -67,8 +67,11 @@ function getProgressBarTemplate(completed, total) {
  * @param {string} initials - Die Initialen des Assignees
  * @returns {string} Das HTML-Template für das Assignee-Badge
  */
-function getAssigneeBadgeTemplate(initials, color) {
+function getAssigneeBadgeTemplate(initials, color, profileImageBase64 = null) {
   const backgroundColor = color || "#00bee8";
+  if (profileImageBase64) {
+    return `<div class="assignee-badge" style="background-color: ${backgroundColor};"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"></div>`;
+  }
   return `<div class="assignee-badge" style="background-color: ${backgroundColor};">${initials}</div>`;
 }
 
@@ -228,12 +231,14 @@ function getTaskDetailsTemplate(
  * @param {string} name - Vollständiger Name des Kontakts
  * @returns {string} Das HTML für den Kontakt-Eintrag
  */
-function getAssignedToDetailItemTemplate(initials, color, name) {
+function getAssignedToDetailItemTemplate(initials, color, name, profileImageBase64 = null) {
+  if (profileImageBase64) {
+    return `
+      <div class="assignee-badge assignee-badge-detail" style="background-color: ${color};"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"></div>
+    `;
+  }
   return `
-    <div class="assignee-detail-item">
-      <div class="assignee-badge" style="background-color: ${color};">${initials}</div>
-      <span class="assignee-detail-name">${name}</span>
-    </div>
+    <div class="assignee-badge assignee-badge-detail" style="background-color: ${color};">${initials}</div>
   `;
 }
 

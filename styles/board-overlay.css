@@ -225,21 +225,24 @@
 }
 
 .task-details-assignees {
-  flex-direction: column;
-  align-items: flex-start;
+  flex-direction: row;
+  align-items: center;
 }
 
 .assignee-details-list {
-  margin-top: 10px;
+  margin-top: 0;
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  max-height: 120px;
-  overflow-y: auto;
+  flex-direction: row;
+  gap: 8px;
+  max-width: 290px;
+  overflow-x: auto;
+  overflow-y: hidden;
   padding-right: 4px;
+  padding-bottom: 8px;
 }
 
 .assignee-details-list::-webkit-scrollbar {
+  height: 6px;
   width: 6px;
 }
 
@@ -252,15 +255,12 @@
   background-color: transparent;
 }
 
-.assignee-detail-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-left: 10px;
-}
-
-.assignee-detail-name {
-  font-size: 16px;
+.assignee-details-list .assignee-badge {
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+  margin-left: 0;
+  flex-shrink: 0;
 }
 
 .subtasks-heading {

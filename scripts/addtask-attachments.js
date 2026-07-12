@@ -29,6 +29,30 @@ let previewScrollLeft;
 let previewContainerRef;
 
 /**
+ * Loads existing attachments (e.g. when editing a task) into the attachments list.
+ * @param {Array<{name: string, type: string, data: string}>} attachments 
+ */
+async function loadExistingAttachments(attachments) {
+  taskAttachments = [];
+  if (!attachments || attachments.length === 0) {
+    updateAttachmentsPreview();
+    return;
+  }
+  for (let i = 0; i < attachments.length; i++) {
+    try {
+      const att = attachments[i];
+      const res = await fetch(att.data);
+      const buf = await res.arrayBuffer();
+      const file = new File([buf], att.name, { type: att.type });
+      taskAttachments.push(file);
+    } catch (e) {
+      console.error("Failed to load attachment", e);
+    }
+  }
+  updateAttachmentsPreview();
+}
+
+/**
  * Processes selected or dropped files, validating and adding them to the attachments list.
  * @param {FileList|File[]} files - The files to process.
  */

@@ -89,7 +89,13 @@ function addAssigneeBadges(assignedTo) {
     const contact = findContactById(assignedTo[i]);
     if (contact) {
       const initials = getInitialsFromName(contact.name);
-      html += getAssigneeBadgeTemplate(initials, contact.color);
+      let profileImg = null;
+      if (contact.profileImageSmall && contact.profileImageSmall.base64) {
+        profileImg = contact.profileImageSmall.base64;
+      } else if (contact.profileImage && contact.profileImage.base64) {
+        profileImg = contact.profileImage.base64;
+      }
+      html += getAssigneeBadgeTemplate(initials, contact.color, profileImg);
     }
   }
   return html;
@@ -147,10 +153,17 @@ function processAssigneeItem(contactId) {
   const contact = findContactById(contactId);
   if (contact) {
     const initials = getInitialsFromName(contact.name);
+    let profileImg = null;
+    if (contact.profileImageSmall && contact.profileImageSmall.base64) {
+      profileImg = contact.profileImageSmall.base64;
+    } else if (contact.profileImage && contact.profileImage.base64) {
+      profileImg = contact.profileImage.base64;
+    }
     return getAssignedToDetailItemTemplate(
       initials,
       contact.color,
       contact.name,
+      profileImg
     );
   }
   return "";

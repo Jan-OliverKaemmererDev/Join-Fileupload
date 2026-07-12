@@ -272,13 +272,13 @@
                 <input
                   type="date"
                   id="due-date"
+                  placeholder="dd/mm/yyyy"
                   oninput="validateForm()"
+                  onclick="this.showPicker()"
                   required
                 />
               </div>
-            </div>
 
-            <div class="form-column">
               <div class="form-group">
                 <label>Priority</label>
                 <div class="priority-buttons">
@@ -319,61 +319,33 @@
               </div>
 
               <div class="form-group">
-                <label>Assigned to</label>
-                <div class="custom-select-wrapper" id="assigned-to-wrapper">
-                  <div
-                    class="custom-select-header"
-                    onclick="toggleAssignedToDropdown()"
-                  >
-                    <span>Select contacts to assign</span>
-                    <div class="dropdown-arrow-icon"></div>
-                  </div>
-                  <div
-                    class="custom-select-options d-none"
-                    id="assigned-to-options"
-                  >
-                    <!-- Contacts will be rendered here -->
-                  </div>
-                </div>
-                <div
-                  id="selected-contacts-initials"
-                  class="selected-contacts-initials"
-                ></div>
-              </div>
-
-              <div class="form-group">
                 <label for="category"
                   >Category<span class="required">*</span></label
                 >
-                <div class="custom-select-wrapper" id="category-wrapper">
-                  <div
-                    class="custom-select-header"
-                    onclick="toggleCategoryDropdown()"
-                  >
-                    <span id="selected-category-text"
-                      >Select task category</span
-                    >
-                    <div class="dropdown-arrow-icon"></div>
-                  </div>
-                  <div
-                    class="custom-select-options d-none"
-                    id="category-options"
-                  >
-                    <div
-                      class="contact-option"
-                      onclick="selectCategory('Technical Task', event)"
-                    >
-                      <span class="contact-name">Technical Task</span>
-                    </div>
-                    <div
-                      class="contact-option"
-                      onclick="selectCategory('User Story', event)"
-                    >
-                      <span class="contact-name">User Story</span>
-                    </div>
-                  </div>
+                <select id="category" oninput="validateForm()" required>
+                  <option value="">Select task category</option>
+                  <option value="technical">Technical Task</option>
+                  <option value="user-story">User Story</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-column">
+              <div class="form-group attachments-group">
+                <label>Attachments</label>
+                <div class="attachments-header">
+                  <span class="attachments-subtext">Allowed file types are JPEG and PNG</span>
+                  <button type="button" class="btn-delete-all d-none" id="delete-all-attachments" onclick="clearAllAttachments()">
+                    <img src="./assets/icons/delete.svg" alt="Delete" /> Delete all
+                  </button>
                 </div>
-                <input type="hidden" id="category" value="" />
+                <div class="upload-area" id="upload-area" onclick="document.getElementById('file-upload').click()">
+                  <span class="upload-text">Drag a file or browse <img src="./assets/icons/add-gray.svg" alt="+" class="upload-plus-icon"/></span>
+                  <input type="file" id="file-upload" multiple accept="image/jpeg, image/png" class="d-none" onchange="handleFileSelect(event)">
+                </div>
+                <div class="upload-preview" id="upload-preview">
+                  <!-- Thumbnails will be rendered here -->
+                </div>
               </div>
 
               <div class="form-group">
@@ -411,10 +383,37 @@
                 </div>
                 <ul id="subtask-list" class="subtask-list"></ul>
               </div>
+
+              <div class="form-group">
+                <label>Assigned to</label>
+                <div class="custom-select-wrapper" id="assigned-to-wrapper">
+                  <div
+                    class="custom-select-header"
+                    onclick="toggleAssignedToDropdown()"
+                  >
+                    <span id="selected-contact-text"
+                      >Select contacts to assign</span
+                    >
+                    <div class="dropdown-arrow-icon"></div>
+                  </div>
+                  <div
+                    class="custom-select-options d-none"
+                    id="assigned-to-options"
+                  >
+                    <!-- Contacts will be rendered here -->
+                  </div>
+                </div>
+                <div
+                  id="selected-contacts-initials"
+                  class="selected-contacts-initials"
+                >
+                  <!-- Selected contact avatars will be rendered here -->
+                </div>
+              </div>
             </div>
           </div>
 
-          <footer class="form-footer">
+          <div class="form-footer">
             <p class="required-note">
               <span class="required">*</span>This field is required
             </p>
@@ -436,7 +435,7 @@
                 />
               </button>
             </div>
-          </footer>
+          </div>
         </form>
       </div>
     </div>
@@ -648,6 +647,7 @@
     <script src="./scripts/addtask-utils.js"></script>
     <script src="./scripts/addtask-contacts.js"></script>
     <script src="./scripts/addtask-subtasks.js"></script>
+    <script src="./scripts/addtask-attachments.js"></script>
     <script src="./scripts/addtask.js"></script>
     <script src="./scripts/board-form.js"></script>
     <script src="./scripts/templates/board-template.js"></script>
