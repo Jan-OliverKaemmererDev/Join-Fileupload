@@ -157,9 +157,7 @@ function getDesktopEditContactTemplate(contact) {
       <div class="dialog-right">
         <div class="close-btn-container">
           <button onclick="closeAddContactDialog()" class="btn-close">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 12L18 18M18 6L12 12L18 6ZM12 12L6 18L12 12ZM12 12L6 6L12 12Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <img src="./assets/icons/clear-X-icon.svg" alt="Close">
           </button>
         </div>
         
@@ -279,9 +277,7 @@ function getDesktopAddContactTemplate() {
       <div class="dialog-right">
         <div class="close-btn-container">
           <button onclick="closeAddContactDialog()" class="btn-close">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 12L18 18M18 6L12 12L18 6ZM12 12L6 18L12 12ZM12 12L6 6L12 12Z" stroke="#2A3647" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <img src="./assets/icons/clear-X-icon.svg" alt="Close">
           </button>
         </div>
         
