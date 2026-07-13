@@ -5,6 +5,16 @@
 let currentViewerTask = null;
 let currentViewerIndex = 0;
 
+let viewerScale = 1;
+let viewerTranslateX = 0;
+let viewerTranslateY = 0;
+let isViewerDragging = false;
+let viewerStartX = 0;
+let viewerStartY = 0;
+let viewerInitTranslateX = 0;
+let viewerInitTranslateY = 0;
+let viewerEventsSetup = false;
+
 /**
  * Öffnet den Image Viewer für ein bestimmtes Bild eines Tasks
  * @param {number} taskId - Die ID des Tasks
@@ -16,6 +26,12 @@ function openImageViewer(taskId, index) {
   
   currentViewerTask = task;
   currentViewerIndex = index;
+  
+  if (!viewerEventsSetup) {
+    setupViewerEvents();
+    viewerEventsSetup = true;
+  }
+  resetViewerZoom();
   
   updateViewer();
   
@@ -79,6 +95,7 @@ function navigateViewer(step, event) {
   
   const total = currentViewerTask.attachments.length;
   currentViewerIndex = (currentViewerIndex + step + total) % total;
+  resetViewerZoom();
   updateViewer();
 }
 
@@ -110,4 +127,83 @@ function handleViewerKeydown(e) {
   } else if (e.key === "ArrowRight") {
     navigateViewer(1);
   }
+}
+
+/**
+ * Resets the zoom and panning for the viewer
+ */
+function resetViewerZoom() {
+  viewerScale = 1;
+  viewerTranslateX = 0;
+  viewerTranslateY = 0;
+  const img = document.getElementById("viewer-image");
+  if (img) {
+    img.style.transform = `translate(0px, 0px) scale(1)`;
+    img.classList.remove('zoomed', 'dragging');
+  }
+}
+
+/**
+ * Changes the zoom level of the viewer image
+ */
+function changeViewerZoom(step) {
+  viewerScale += step * 0.5;
+  if (viewerScale < 1) viewerScale = 1;
+  if (viewerScale > 5) viewerScale = 5;
+  
+  const img = document.getElementById("viewer-image");
+  if (!img) return;
+
+  if (viewerScale === 1) {
+    viewerTranslateX = 0;
+    viewerTranslateY = 0;
+    img.classList.remove('zoomed');
+  } else {
+    img.classList.add('zoomed');
+  }
+  
+  img.style.transform = `translate(${viewerTranslateX}px, ${viewerTranslateY}px) scale(${viewerScale})`;
+}
+
+/**
+ * Sets up mouse events for zooming and panning the image
+ */
+function setupViewerEvents() {
+  const img = document.getElementById("viewer-image");
+  if (!img) return;
+  
+  img.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const delta = Math.sign(e.deltaY) * -0.5;
+    changeViewerZoom(delta);
+  }, { passive: false });
+  
+  img.addEventListener('mousedown', (e) => {
+    if (viewerScale > 1) {
+      isViewerDragging = true;
+      viewerStartX = e.clientX;
+      viewerStartY = e.clientY;
+      viewerInitTranslateX = viewerTranslateX;
+      viewerInitTranslateY = viewerTranslateY;
+      img.classList.add('dragging');
+      e.preventDefault();
+    }
+  });
+  
+  window.addEventListener('mousemove', (e) => {
+    if (isViewerDragging) {
+      const dx = e.clientX - viewerStartX;
+      const dy = e.clientY - viewerStartY;
+      viewerTranslateX = viewerInitTranslateX + dx;
+      viewerTranslateY = viewerInitTranslateY + dy;
+      img.style.transform = `translate(${viewerTranslateX}px, ${viewerTranslateY}px) scale(${viewerScale})`;
+    }
+  });
+  
+  window.addEventListener('mouseup', () => {
+    if (isViewerDragging) {
+      isViewerDragging = false;
+      if (img) img.classList.remove('dragging');
+    }
+  });
 }

@@ -618,6 +618,14 @@
               <span id="viewer-filename" class="viewer-filename">filename.jpg</span>
               <span id="viewer-filesize" class="viewer-filesize">100KB</span>
             </div>
+            <div class="viewer-zoom">
+              <button class="viewer-btn" onclick="changeViewerZoom(-1)" title="Zoom Out">
+                <img src="./assets/icons/zoom-out-minus.svg" alt="Zoom Out">
+              </button>
+              <button class="viewer-btn" onclick="changeViewerZoom(1)" title="Zoom In">
+                <img src="./assets/icons/zoom-in-plus.svg" alt="Zoom In">
+              </button>
+            </div>
             <div class="viewer-actions">
               <button class="viewer-btn" onclick="downloadViewerImage()" title="Download">
                 <img src="./assets/icons/download-white.svg" alt="Download">
@@ -628,10 +636,10 @@
             </div>
           </div>
           <button class="viewer-nav viewer-prev" onclick="navigateViewer(-1, event)" title="Previous">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            <img src="./assets/icons/arrow-left.png" alt="Previous">
           </button>
           <button class="viewer-nav viewer-next" onclick="navigateViewer(1, event)" title="Next">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            <img src="./assets/icons/arrow-right.png" alt="Next">
           </button>
         </div>
       </div>

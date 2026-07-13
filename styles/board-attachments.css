@@ -97,6 +97,17 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  transition: transform 0.3s ease;
+  transform-origin: center center;
+}
+
+.viewer-content img.zoomed {
+  cursor: grab;
+}
+
+.viewer-content img.dragging {
+  cursor: grabbing;
+  transition: none;
 }
 
 /* Hover Controls */
@@ -113,7 +124,6 @@
 
 .viewer-content:hover .viewer-controls {
   opacity: 1;
-  pointer-events: auto;
 }
 
 .viewer-header {
@@ -132,11 +142,13 @@
   align-items: center;
   color: white;
   box-sizing: border-box;
+  pointer-events: auto;
 }
 
 .viewer-info {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 .viewer-filename {
@@ -149,10 +161,19 @@
   color: #ddd;
 }
 
+.viewer-zoom {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex: 1;
+}
+
 .viewer-actions {
   display: flex;
   gap: 16px;
   align-items: center;
+  flex: 1;
+  justify-content: flex-end;
 }
 
 .viewer-btn {
@@ -182,26 +203,26 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: transparent;
   border: none;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.2s;
   pointer-events: auto;
+  border-radius: 50%;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .viewer-nav:hover {
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateY(calc(-50% - 3px));
 }
 
 .viewer-nav img {
-  width: 20px;
-  height: 20px;
+  width: 40px;
+  height: 40px;
 }
 
 .viewer-prev {

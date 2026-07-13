@@ -207,7 +207,7 @@ body.no-scroll .main-content {
   filter: brightness(0.8);
 }
 
-.file-format-error .error-close svg {
+.file-format-error .error-close img {
   width: 20px;
   height: 20px;
 }
