@@ -20,6 +20,9 @@ function openAddContactDialog() {
     "new-contact-phone",
     "add-contact-submit",
   );
+  if (typeof initContactFileUpload === "function") {
+    initContactFileUpload();
+  }
 }
 
 /**
@@ -34,6 +37,9 @@ function openEditContactDialog(id) {
     "edit-contact-phone",
     "edit-contact-submit",
   );
+  if (typeof initContactFileUpload === "function") {
+    initContactFileUpload();
+  }
 }
 
 /**
@@ -43,6 +49,11 @@ function closeAddContactDialog() {
   const overlay = document.getElementById("add-contact-overlay");
   overlay.classList.remove("active");
   document.body.style.overflow = "auto";
+  
+  if (typeof cancelPendingContactProfileImage === "function") {
+    cancelPendingContactProfileImage();
+  }
+  
   setTimeout(function () {
     overlay.innerHTML = "";
   }, 300);
@@ -205,14 +216,29 @@ function updateContactFieldFeedback(inputId, value, isValid, errorMessage) {
  * Erstellt einen neuen Kontakt aus dem Formular
  * @param {Event} e - Das Submit-Event
  */
-function createContact(e) {
+async function createContact(e) {
   e.preventDefault();
   const currentUser = getCurrentUser();
   if (!currentUser) return;
   const ids = ["new-contact-name", "new-contact-email", "new-contact-phone"];
   if (!validateContactForm(ids[0], ids[1], ids[2])) return;
   const name = document.getElementById(ids[0]).value.trim();
-  saveNewContactToFirestore(currentUser, buildNewContactObject(name));
+  
+  const newContact = buildNewContactObject(name);
+  
+  if (typeof hasPendingContactProfileImage === 'function' && hasPendingContactProfileImage()) {
+    try {
+      const images = await processPendingContactProfileImage();
+      if (images) {
+        newContact.profileImage = images.profileImage;
+        newContact.profileImageSmall = images.profileImageSmall;
+      }
+    } catch (err) {
+      console.error("Fehler beim Verarbeiten des Bildes:", err);
+    }
+  }
+  
+  saveNewContactToFirestore(currentUser, newContact);
 }
 
 /**
@@ -249,7 +275,7 @@ function finalizeContactCreation(newContact) {
  * @param {Event} e - Das Submit-Event
  * @param {string|number} id - Die ID des Kontakts
  */
-function saveContact(e, id) {
+async function saveContact(e, id) {
   e.preventDefault();
   const currentUser = getCurrentUser();
   if (!currentUser) return;
@@ -257,7 +283,21 @@ function saveContact(e, id) {
   if (!validateContactForm(ids[0], ids[1], ids[2])) return;
   const contact = findContactById(id);
   if (!contact) return;
+  
   updateContactFromForm(contact);
+  
+  if (typeof hasPendingContactProfileImage === 'function' && hasPendingContactProfileImage()) {
+    try {
+      const images = await processPendingContactProfileImage();
+      if (images) {
+        contact.profileImage = images.profileImage;
+        contact.profileImageSmall = images.profileImageSmall;
+      }
+    } catch (err) {
+      console.error("Fehler beim Verarbeiten des Bildes:", err);
+    }
+  }
+  
   persistContactToFirestore(currentUser, contact, id);
 }
 

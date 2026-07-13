@@ -162,8 +162,13 @@ function getDesktopEditContactTemplate(contact) {
         </div>
         
         <div class="edit-content-container">
-          <div class="contact-form-avatar" style="${avatarStyle}">
-            ${avatarInner}
+          <div class="account-avatar-wrapper" style="margin: 0 auto 40px auto; align-self: flex-start; display: flex; justify-content: center;">
+            <div class="contact-form-avatar" id="contact-initials" style="${avatarStyle} margin: 0;">
+              ${avatarInner}
+            </div>
+            <div id="contact-camera-badge" class="account-camera-badge" style="display: flex;">
+              <img class="account-camera-icon" src="./assets/icons/camera.svg" alt="Change photo">
+            </div>
           </div>
           
           <form onsubmit="saveContact(event, '${contact.id}')" class="edit-form-fields" novalidate>
@@ -219,8 +224,15 @@ function getMobileEditContactTemplate(contact) {
       </div>
       
       <div class="dialog-content-white">
-        <div class="contact-form-avatar-center" style="${avatarStyle}">
-          ${avatarInner}
+        <div class="contact-form-avatar-center" style="border: none; background: transparent; overflow: visible; display: flex; justify-content: center;">
+          <div class="account-avatar-wrapper" style="width: 120px; height: 120px; position: relative;">
+            <div class="contact-form-avatar" id="contact-initials" style="${avatarStyle} width: 100%; height: 100%; margin: 0; position: absolute; top: 0; left: 0;">
+              ${avatarInner}
+            </div>
+            <div id="contact-camera-badge" class="account-camera-badge" style="display: flex; z-index: 10;">
+              <img class="account-camera-icon" src="./assets/icons/camera.svg" alt="Change photo">
+            </div>
+          </div>
         </div>
         
         <form onsubmit="saveContact(event, '${contact.id}')" class="edit-form-mobile" novalidate>
@@ -282,8 +294,13 @@ function getDesktopAddContactTemplate() {
         </div>
         
         <div class="edit-content-container">
-          <div class="contact-form-avatar-default">
-            <img src="./assets/login-screen/person.svg" alt="Default Avatar">
+          <div class="account-avatar-wrapper" style="margin: 0 auto 40px auto; align-self: flex-start; display: flex; justify-content: center;">
+            <div class="contact-form-avatar" id="contact-initials" style="margin: 0; background-color: #d1d1d1; border: 3px solid white; box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);">
+              <img src="./assets/login-screen/person.svg" alt="Default Avatar" style="width: 64px; filter: brightness(0) invert(1);">
+            </div>
+            <div id="contact-camera-badge" class="account-camera-badge" style="display: flex;">
+              <img class="account-camera-icon" src="./assets/icons/camera.svg" alt="Change photo">
+            </div>
           </div>
           
           <form onsubmit="createContact(event)" class="edit-form-fields" novalidate>
@@ -334,8 +351,15 @@ function getMobileAddContactTemplate() {
       </div>
       
       <div class="dialog-content-white">
-        <div class="contact-form-avatar-center" style="background-color: #D1D1D1;">
-          <img src="./assets/login-screen/person.svg" alt="" style="width: 64px; height: 64px; filter: invert(1);">
+        <div class="contact-form-avatar-center" style="border: none; background: transparent; overflow: visible; display: flex; justify-content: center;">
+          <div class="account-avatar-wrapper" style="width: 120px; height: 120px; position: relative;">
+            <div class="contact-form-avatar" id="contact-initials" style="width: 100%; height: 100%; margin: 0; position: absolute; top: 0; left: 0; background-color: #D1D1D1; border: 3px solid white; box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);">
+              <img src="./assets/login-screen/person.svg" alt="Default Avatar" style="width: 64px; filter: brightness(0) invert(1);">
+            </div>
+            <div id="contact-camera-badge" class="account-camera-badge" style="display: flex; z-index: 10;">
+              <img class="account-camera-icon" src="./assets/icons/camera.svg" alt="Change photo">
+            </div>
+          </div>
         </div>
         
         <form onsubmit="createContact(event)" class="edit-form-mobile" novalidate>
