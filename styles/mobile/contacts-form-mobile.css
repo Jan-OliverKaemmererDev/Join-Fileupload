@@ -193,7 +193,7 @@
 
   /* ================= DIALOG ================= */
 
-  .slide-in-dialog {
+  #add-contact-overlay .slide-in-dialog {
     flex-direction: column !important;
     width: 100% !important;
     height: 100% !important;
@@ -204,19 +204,19 @@
     z-index: 2000;
   }
 
-  .dialog-left {
+  #add-contact-overlay .dialog-left {
     width: 100% !important;
     height: 35% !important;
     padding: 32px 24px !important;
   }
 
-  .dialog-right {
+  #add-contact-overlay .dialog-right {
     width: 100% !important;
     height: 65% !important;
     padding: 40px 16px !important;
   }
 
-  .contact-form-avatar {
+  #add-contact-overlay .contact-form-avatar {
     top: 35% !important;
     margin-top: -32px !important;
   }

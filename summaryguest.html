@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="./styles/summary.css" />
     <link rel="stylesheet" href="./styles/mobile/style-mobile.css" />
     <link rel="stylesheet" href="./styles/mobile/summary-mobile.css" />
+    <link rel="stylesheet" href="./styles/mobile/account-overlay-mobile.css" />
     <title>Join - Summary (Guest)</title>
   </head>
   <body onload="initSummaryGuest()">
@@ -62,7 +63,14 @@
                 id="user-dropdown"
                 aria-label="User menu"
               >
-                <a href="#" onclick="openAccountOverlay(); return false;">Account</a>
+                <a
+                  href="#"
+                  onclick="
+                    openAccountOverlay();
+                    return false;
+                  "
+                  >Account</a
+                >
                 <a href="legalnotice.html">Legal Notice</a>
                 <a href="privacypolicy.html">Privacy Policy</a>
                 <a
@@ -190,4 +198,3 @@
     <script src="./scripts/summaryuser.js"></script>
   </body>
 </html>
-

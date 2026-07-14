@@ -66,15 +66,17 @@
   }
 
   .user-initials {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     font-size: 14px;
-    border: 2px solid #2a3647;
+    font-weight: 600;
+    border: 2px solid #091931;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    color: #29abe2;
   }
 
   /* 3. BOTTOM NAVIGATION (Sidebar) */
