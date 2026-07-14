@@ -348,13 +348,11 @@
                   id="upload-area"
                   onclick="document.getElementById('file-upload').click()"
                 >
-                  <span class="upload-text"
-                    >Drag a file or browse
-                    <img
-                      src="./assets/icons/add-gray.svg"
-                      alt="+"
-                      class="upload-plus-icon"
-                  /></span>
+                  <span class="upload-text">
+                    <span class="upload-text-desktop">Drag a file or browse </span>
+                    <span class="upload-text-mobile d-none">Upload file </span>
+                    <img src="./assets/icons/add-gray.svg" alt="+" class="upload-plus-icon"/>
+                  </span>
                   <input
                     type="file"
                     id="file-upload"

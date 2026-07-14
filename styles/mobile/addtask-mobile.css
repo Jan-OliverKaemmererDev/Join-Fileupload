@@ -177,6 +177,54 @@
     cursor: pointer;
   }
 
+  /* ── Attachments Layout ── */
+  .attachments-group {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 
+      "label delete"
+      "subtext subtext"
+      "upload upload"
+      "preview preview";
+    align-items: center;
+  }
+  
+  .attachments-group > label {
+    grid-area: label;
+    margin-bottom: 0;
+  }
+  
+  .attachments-header {
+    display: contents;
+  }
+  
+  .attachments-subtext {
+    grid-area: subtext;
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .btn-delete-all {
+    grid-area: delete;
+    margin-bottom: 0;
+  }
+  
+  .upload-area {
+    grid-area: upload;
+  }
+  
+  .upload-preview {
+    grid-area: preview;
+  }
+  
+  .upload-text-desktop {
+    display: none;
+  }
+  
+  .upload-text-mobile {
+    display: inline !important;
+  }
+
   /* ── Priority ── */
   .priority-buttons {
     display: flex;
