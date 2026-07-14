@@ -319,6 +319,11 @@
     box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
   }
 
+  .account-camera-badge, #contact-camera-badge {
+    bottom: -8px !important;
+    right: -10px !important;
+  }
+
   .edit-form-mobile {
     width: 100%;
     max-width: 400px;

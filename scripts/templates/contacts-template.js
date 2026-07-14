@@ -162,7 +162,7 @@ function getDesktopEditContactTemplate(contact) {
         </div>
         
         <div class="edit-content-container">
-          <div class="account-avatar-wrapper" style="margin: 0 auto 40px auto; align-self: flex-start; display: flex; justify-content: center;">
+          <div class="account-avatar-wrapper" style="margin: 0 auto; display: flex; justify-content: center; align-items: center;">
             <div class="contact-form-avatar" id="contact-initials" style="${avatarStyle} margin: 0;">
               ${avatarInner}
             </div>
@@ -294,7 +294,7 @@ function getDesktopAddContactTemplate() {
         </div>
         
         <div class="edit-content-container">
-          <div class="account-avatar-wrapper" style="margin: 0 auto 40px auto; align-self: flex-start; display: flex; justify-content: center;">
+          <div class="account-avatar-wrapper" style="margin: 0 auto; display: flex; justify-content: center; align-items: center;">
             <div class="contact-form-avatar" id="contact-initials" style="margin: 0; background-color: #d1d1d1; border: 3px solid white; box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.1);">
               <img src="./assets/login-screen/person.svg" alt="Default Avatar" style="width: 64px; filter: brightness(0) invert(1);">
             </div>
