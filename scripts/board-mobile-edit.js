@@ -431,7 +431,9 @@ function processMobileEditFiles(files) {
   for (let i = 0; i < files.length; i++) {
     const file = files[i];
     if (typeof isValidImage === "function" && !isValidImage(file)) {
-      showToast("Only JPEG and PNG files are allowed", "error");
+      if (typeof showFileFormatError === "function") {
+        showFileFormatError();
+      }
       continue;
     }
     const reader = new FileReader();
