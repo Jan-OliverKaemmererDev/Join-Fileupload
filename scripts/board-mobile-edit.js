@@ -2,6 +2,7 @@ let mobileEditTaskId = null;
 let mobileEditSelectedContacts = [];
 let mobileEditSubtasks = [];
 let mobileEditSelectedPriority = "medium";
+let mobileEditAttachments = [];
 
 /**
  * Öffnet das mobile Edit-Overlay für einen Task
@@ -41,6 +42,10 @@ function fillMobileEditForm(task) {
   fillMobileEditContacts(task);
   renderMobileEditAssignedToOptions();
   renderMobileEditSelectedInitials();
+  mobileEditAttachments = task.attachments ? JSON.parse(JSON.stringify(task.attachments)) : [];
+  if (typeof updateMobileEditAttachmentsPreview === "function") {
+    updateMobileEditAttachmentsPreview();
+  }
   validateMobileEditForm();
 }
 
@@ -400,6 +405,7 @@ function updateTaskDataFromMobileEdit(task) {
     return c.id;
   });
   task.subtasks = JSON.parse(JSON.stringify(mobileEditSubtasks));
+  task.attachments = JSON.parse(JSON.stringify(mobileEditAttachments));
 }
 
 /**
@@ -411,3 +417,85 @@ function finalizeMobileEditSave() {
   closeTaskDetails();
   showToast("Task updated successfully");
 }
+
+/**
+ * --- Mobile Edit Attachments Handling ---
+ */
+function handleMobileEditFileSelect(event) {
+  processMobileEditFiles(event.target.files);
+  document.getElementById("mobile-edit-file-upload").value = "";
+}
+
+function processMobileEditFiles(files) {
+  if (!files || files.length === 0) return;
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    if (typeof isValidImage === "function" && !isValidImage(file)) {
+      showToast("Only JPEG and PNG files are allowed", "error");
+      continue;
+    }
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      mobileEditAttachments.push({
+        name: file.name,
+        type: file.type,
+        data: e.target.result,
+        size: file.size
+      });
+      updateMobileEditAttachmentsPreview();
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+function updateMobileEditAttachmentsPreview() {
+  const previewContainer = document.getElementById("mobile-edit-upload-preview");
+  const btnDeleteAll = document.getElementById("mobile-edit-delete-all-attachments");
+  if (!previewContainer) return;
+  previewContainer.innerHTML = "";
+  
+  if (mobileEditAttachments.length === 0) {
+    if (btnDeleteAll) btnDeleteAll.classList.add("d-none");
+    previewContainer.classList.remove("can-scroll");
+    return;
+  }
+  
+  if (btnDeleteAll) btnDeleteAll.classList.remove("d-none");
+  
+  mobileEditAttachments.forEach((att, index) => {
+    previewContainer.innerHTML += `
+      <div class="thumbnail-container">
+        <div class="thumbnail-image-wrapper">
+          <img src="${att.data || att.preview || att.url}" alt="${att.name}" />
+          <div class="thumbnail-overlay">
+            <button class="btn-delete-thumbnail" onclick="removeMobileEditAttachment(event, ${index})">
+              <img src="./assets/icons/delete-white.svg" alt="Delete" />
+            </button>
+          </div>
+        </div>
+        <div class="thumbnail-name">${att.name}</div>
+      </div>
+    `;
+  });
+  
+  if (mobileEditAttachments.length > 3) {
+    previewContainer.classList.add("can-scroll");
+  } else {
+    previewContainer.classList.remove("can-scroll");
+  }
+}
+
+function removeMobileEditAttachment(event, index) {
+  if (event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+  mobileEditAttachments.splice(index, 1);
+  updateMobileEditAttachmentsPreview();
+}
+
+function clearMobileEditAttachments() {
+  mobileEditAttachments = [];
+  updateMobileEditAttachmentsPreview();
+}
+

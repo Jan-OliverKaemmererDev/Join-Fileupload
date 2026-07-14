@@ -12,10 +12,10 @@
     z-index: 3000;
   }
 
-  /* --- Viewer Card – sized like task-details-card ----------------------- */
+  /* --- Viewer Card – sized for full screen width ----------------------- */
   .viewer-content {
-    width: 92vw;
-    max-width: 450px;
+    width: 100vw;
+    max-width: 100vw;
     height: 85vh;
     max-height: 85vh;
     border-radius: 30px;
@@ -198,7 +198,48 @@
     width: 26px;
     height: 26px;
   }
+
+  /* --- Attachments Upload Form Layout --- */
+  .attachments-group {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas: 
+      "label delete"
+      "subtext subtext"
+      "upload upload"
+      "preview preview";
+    align-items: center;
+  }
+  
+  .attachments-group > label {
+    grid-area: label;
+    margin-bottom: 0;
+  }
+  
+  .attachments-header {
+    display: contents;
+  }
+  
+  .attachments-subtext {
+    grid-area: subtext;
+    margin-top: 4px;
+    margin-bottom: 8px;
+  }
+  
+  .btn-delete-all {
+    grid-area: delete;
+    margin-bottom: 0;
+  }
+  
+  .upload-area {
+    grid-area: upload;
+  }
+  
+  .upload-preview {
+    grid-area: preview;
+  }
 }
+
 
 /* --- Desktop: hide the mobile footer ---------------------------------- */
 .viewer-footer-mobile {
