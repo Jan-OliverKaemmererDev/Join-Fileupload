@@ -160,6 +160,7 @@ function changeViewerZoom(step) {
     img.classList.remove('zoomed');
   } else {
     img.classList.add('zoomed');
+    constrainTranslation(img);
   }
   
   img.style.transform = `translate(${viewerTranslateX}px, ${viewerTranslateY}px) scale(${viewerScale})`;
@@ -196,6 +197,7 @@ function setupViewerEvents() {
       const dy = e.clientY - viewerStartY;
       viewerTranslateX = viewerInitTranslateX + dx;
       viewerTranslateY = viewerInitTranslateY + dy;
+      constrainTranslation(img);
       img.style.transform = `translate(${viewerTranslateX}px, ${viewerTranslateY}px) scale(${viewerScale})`;
     }
   });
@@ -206,4 +208,88 @@ function setupViewerEvents() {
       if (img) img.classList.remove('dragging');
     }
   });
+
+  setupViewerTouchEvents(img);
 }
+
+/**
+ * Sets up touch events for pinch-to-zoom and one-finger panning
+ * @param {HTMLElement} img - The viewer image element
+ */
+let viewerPinchStartDist = 0;
+let viewerPinchStartScale = 1;
+
+function setupViewerTouchEvents(img) {
+  img.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      viewerPinchStartDist = getTouchDistance(e.touches);
+      viewerPinchStartScale = viewerScale;
+    } else if (e.touches.length === 1 && viewerScale > 1) {
+      isViewerDragging = true;
+      viewerStartX = e.touches[0].clientX;
+      viewerStartY = e.touches[0].clientY;
+      viewerInitTranslateX = viewerTranslateX;
+      viewerInitTranslateY = viewerTranslateY;
+      img.classList.add('dragging');
+    }
+  }, { passive: false });
+
+  img.addEventListener('touchmove', (e) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const currentDist = getTouchDistance(e.touches);
+      const ratio = currentDist / viewerPinchStartDist;
+      viewerScale = Math.min(5, Math.max(1, viewerPinchStartScale * ratio));
+
+      if (viewerScale === 1) {
+        viewerTranslateX = 0;
+        viewerTranslateY = 0;
+        img.classList.remove('zoomed');
+      } else {
+        img.classList.add('zoomed');
+        constrainTranslation(img);
+      }
+      img.style.transform = `translate(${viewerTranslateX}px, ${viewerTranslateY}px) scale(${viewerScale})`;
+    } else if (e.touches.length === 1 && isViewerDragging) {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - viewerStartX;
+      const dy = e.touches[0].clientY - viewerStartY;
+      viewerTranslateX = viewerInitTranslateX + dx;
+      viewerTranslateY = viewerInitTranslateY + dy;
+      constrainTranslation(img);
+      img.style.transform = `translate(${viewerTranslateX}px, ${viewerTranslateY}px) scale(${viewerScale})`;
+    }
+  }, { passive: false });
+
+  img.addEventListener('touchend', () => {
+    isViewerDragging = false;
+    img.classList.remove('dragging');
+  });
+}
+
+/**
+ * Calculates distance between two touch points
+ * @param {TouchList} touches
+ * @returns {number}
+ */
+function getTouchDistance(touches) {
+  const dx = touches[0].clientX - touches[1].clientX;
+  const dy = touches[0].clientY - touches[1].clientY;
+  return Math.sqrt(dx * dx + dy * dy);
+}
+
+/**
+ * Constrains the translation so the image doesn't fly off screen
+ * @param {HTMLElement} img
+ */
+function constrainTranslation(img) {
+  const maxTx = (img.clientWidth * viewerScale - img.clientWidth) / 2;
+  const maxTy = (img.clientHeight * viewerScale - img.clientHeight) / 2;
+  
+  if (viewerTranslateX > maxTx) viewerTranslateX = maxTx;
+  if (viewerTranslateX < -maxTx) viewerTranslateX = -maxTx;
+  if (viewerTranslateY > maxTy) viewerTranslateY = maxTy;
+  if (viewerTranslateY < -maxTy) viewerTranslateY = -maxTy;
+}
+

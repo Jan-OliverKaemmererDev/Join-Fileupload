@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./styles/mobile/style-mobile.css" />
     <link rel="stylesheet" href="./styles/mobile/board-mobile.css" />
     <link rel="stylesheet" href="./styles/mobile/account-overlay-mobile.css" />
+    <link rel="stylesheet" href="./styles/mobile/board-attachments-mobile.css" />
 
     <title>Join - Board</title>
   </head>
@@ -69,7 +70,14 @@
                 id="user-dropdown"
                 aria-label="User menu"
               >
-                <a href="#" onclick="openAccountOverlay(); return false;">Account</a>
+                <a
+                  href="#"
+                  onclick="
+                    openAccountOverlay();
+                    return false;
+                  "
+                  >Account</a
+                >
                 <a href="legalnotice.html">Legal Notice</a>
                 <a href="privacypolicy.html">Privacy Policy</a>
                 <a
@@ -223,7 +231,7 @@
             onclick="closeAddTaskOverlay()"
             class="btn-close"
           >
-            <img src="./assets/icons/clear-X-icon.svg" alt="Close">
+            <img src="./assets/icons/clear-X-icon.svg" alt="Close" />
           </button>
         </div>
 
@@ -322,14 +330,39 @@
               <div class="form-group attachments-group">
                 <label>Attachments</label>
                 <div class="attachments-header">
-                  <span class="attachments-subtext">Allowed file types are JPEG and PNG</span>
-                  <button type="button" class="btn-delete-all d-none" id="delete-all-attachments" onclick="clearAllAttachments()">
-                    <img src="./assets/icons/delete.svg" alt="Delete" /> Delete all
+                  <span class="attachments-subtext"
+                    >Allowed file types are JPEG and PNG</span
+                  >
+                  <button
+                    type="button"
+                    class="btn-delete-all d-none"
+                    id="delete-all-attachments"
+                    onclick="clearAllAttachments()"
+                  >
+                    <img src="./assets/icons/delete.svg" alt="Delete" /> Delete
+                    all
                   </button>
                 </div>
-                <div class="upload-area" id="upload-area" onclick="document.getElementById('file-upload').click()">
-                  <span class="upload-text">Drag a file or browse <img src="./assets/icons/add-gray.svg" alt="+" class="upload-plus-icon"/></span>
-                  <input type="file" id="file-upload" multiple accept="image/jpeg, image/png" class="d-none" onchange="handleFileSelect(event)">
+                <div
+                  class="upload-area"
+                  id="upload-area"
+                  onclick="document.getElementById('file-upload').click()"
+                >
+                  <span class="upload-text"
+                    >Drag a file or browse
+                    <img
+                      src="./assets/icons/add-gray.svg"
+                      alt="+"
+                      class="upload-plus-icon"
+                  /></span>
+                  <input
+                    type="file"
+                    id="file-upload"
+                    multiple
+                    accept="image/jpeg, image/png"
+                    class="d-none"
+                    onchange="handleFileSelect(event)"
+                  />
                 </div>
                 <div class="upload-preview" id="upload-preview">
                   <!-- Thumbnails will be rendered here -->
@@ -598,35 +631,82 @@
     <!-- Image Viewer Overlay -->
     <div id="image-viewer-overlay" onclick="closeImageViewer(event)">
       <div class="viewer-content" onclick="event.stopPropagation()">
-        <img id="viewer-image" src="" alt="Viewer">
+        <img id="viewer-image" src="" alt="Viewer" />
         <div class="viewer-controls">
           <div class="viewer-header">
             <div class="viewer-info">
-              <span id="viewer-filename" class="viewer-filename">filename.jpg</span>
+              <span id="viewer-filename" class="viewer-filename"
+                >filename.jpg</span
+              >
               <span id="viewer-filesize" class="viewer-filesize">100KB</span>
             </div>
             <div class="viewer-zoom">
-              <button class="viewer-btn" onclick="changeViewerZoom(-1)" title="Zoom Out">
-                <img src="./assets/icons/zoom-out-minus.svg" alt="Zoom Out">
+              <button
+                class="viewer-btn"
+                onclick="changeViewerZoom(-1)"
+                title="Zoom Out"
+              >
+                <img src="./assets/icons/zoom-out-minus.svg" alt="Zoom Out" />
               </button>
-              <button class="viewer-btn" onclick="changeViewerZoom(1)" title="Zoom In">
-                <img src="./assets/icons/zoom-in-plus.svg" alt="Zoom In">
+              <button
+                class="viewer-btn"
+                onclick="changeViewerZoom(1)"
+                title="Zoom In"
+              >
+                <img src="./assets/icons/zoom-in-plus.svg" alt="Zoom In" />
               </button>
             </div>
             <div class="viewer-actions">
-              <button class="viewer-btn" onclick="downloadViewerImage()" title="Download">
-                <img src="./assets/icons/download-white.svg" alt="Download">
+              <button
+                class="viewer-btn"
+                onclick="downloadViewerImage()"
+                title="Download"
+              >
+                <img src="./assets/icons/download-white.svg" alt="Download" />
               </button>
-              <button class="viewer-btn" onclick="closeImageViewer()" title="Close">
-                <img src="./assets/icons/clear-X-icon-white.svg" alt="Close" onerror="this.src='./assets/icons/clear-X-icon.svg'">
+              <button
+                class="viewer-btn"
+                onclick="closeImageViewer()"
+                title="Close"
+              >
+                <img
+                  src="./assets/icons/clear-X-icon-white.svg"
+                  alt="Close"
+                  onerror="this.src = './assets/icons/clear-X-icon.svg'"
+                />
               </button>
             </div>
           </div>
-          <button class="viewer-nav viewer-prev" onclick="navigateViewer(-1, event)" title="Previous">
-            <img src="./assets/icons/arrow-left.png" alt="Previous">
+          <button
+            class="viewer-nav viewer-prev"
+            onclick="navigateViewer(-1, event)"
+            title="Previous"
+          >
+            <img src="./assets/icons/arrow-left.png" alt="Previous" />
           </button>
+          <button
+            class="viewer-nav viewer-next"
+            onclick="navigateViewer(1, event)"
+            title="Next"
+          >
+            <img src="./assets/icons/arrow-right.png" alt="Next" />
+          </button>
+        </div>
+        <!-- Mobile Footer: Navigation + Zoom -->
+        <div class="viewer-footer-mobile">
+          <button class="viewer-nav viewer-prev" onclick="navigateViewer(-1, event)" title="Previous">
+            <img src="./assets/icons/arrow-left.png" alt="Previous" />
+          </button>
+          <div class="viewer-zoom-mobile">
+            <button class="viewer-btn" onclick="changeViewerZoom(-1)" title="Zoom Out">
+              <img src="./assets/icons/zoom-out-minus.svg" alt="Zoom Out" />
+            </button>
+            <button class="viewer-btn" onclick="changeViewerZoom(1)" title="Zoom In">
+              <img src="./assets/icons/zoom-in-plus.svg" alt="Zoom In" />
+            </button>
+          </div>
           <button class="viewer-nav viewer-next" onclick="navigateViewer(1, event)" title="Next">
-            <img src="./assets/icons/arrow-right.png" alt="Next">
+            <img src="./assets/icons/arrow-right.png" alt="Next" />
           </button>
         </div>
       </div>
@@ -685,4 +765,3 @@
     <script src="./scripts/board-mobile-edit.js"></script>
   </body>
 </html>
-

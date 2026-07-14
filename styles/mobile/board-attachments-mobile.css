@@ -1,0 +1,206 @@
+/* =========================================================================
+   IMAGE VIEWER – MOBILE LAYOUT (max-width: 1200px)
+   The viewer overlay covers the task-details-card exactly:
+   same width/height constraints as .task-details-card in board-mobile.css
+   ========================================================================= */
+
+@media (max-width: 1200px) {
+
+  /* --- Overlay ---------------------------------------------------------- */
+  #image-viewer-overlay {
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 3000;
+  }
+
+  /* --- Viewer Card – sized like task-details-card ----------------------- */
+  .viewer-content {
+    width: 92vw;
+    max-width: 450px;
+    height: 85vh;
+    max-height: 85vh;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: #2a3647;
+  }
+
+  /* --- Controls wrapper: undo the desktop absolute/opacity overlay ----- */
+  .viewer-content .viewer-controls {
+    position: relative !important;
+    z-index: 10 !important;
+    width: 100% !important;
+    height: auto !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transition: none !important;
+    order: -1;
+    flex-shrink: 0;
+  }
+
+  /* Ensure hover doesn't interfere */
+  .viewer-content:hover .viewer-controls {
+    opacity: 1 !important;
+  }
+
+  /* --- Fixed Header (lives inside .viewer-controls) -------------------- */
+  .viewer-content .viewer-header {
+    position: static !important;
+    flex-shrink: 0;
+    background: #2a3647;
+    padding: 16px 20px;
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 30px 30px 0 0;
+    pointer-events: auto;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  /* Filename + Filesize – inline row */
+  .viewer-content .viewer-info {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .viewer-content .viewer-filename {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .viewer-content .viewer-filesize {
+    font-size: 13px;
+    color: #a8a8a8;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Download + Close buttons – always visible */
+  .viewer-content .viewer-actions {
+    display: flex !important;
+    gap: 8px;
+    align-items: center;
+    flex-shrink: 0;
+    flex: 0 0 auto;
+    justify-content: flex-end;
+  }
+
+  .viewer-content .viewer-actions .viewer-btn {
+    padding: 6px;
+    pointer-events: auto;
+  }
+
+  .viewer-content .viewer-actions .viewer-btn img {
+    width: 22px;
+    height: 22px;
+  }
+
+  /* Hide zoom controls from header – they move to footer */
+  .viewer-content .viewer-zoom {
+    display: none !important;
+  }
+
+  /* Hide desktop navigation arrows (inside .viewer-controls) */
+  .viewer-controls > .viewer-nav {
+    display: none !important;
+  }
+
+  /* --- Image Area (fills remaining space) ------------------------------ */
+  .viewer-content > img,
+  .viewer-content img#viewer-image {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    object-fit: contain;
+    touch-action: none;
+    order: 0;
+  }
+
+  /* --- Fixed Footer ----------------------------------------------------- */
+  .viewer-footer-mobile {
+    display: flex !important;
+    position: relative !important;
+    z-index: 10 !important;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
+    background: #2a3647;
+    padding: 12px 16px;
+    border-radius: 0 0 30px 30px;
+    pointer-events: auto;
+    box-sizing: border-box;
+    width: 100%;
+    order: 1;
+  }
+
+  /* Navigation arrows – at the far edges */
+  .viewer-footer-mobile .viewer-nav {
+    position: static !important;
+    transform: none !important;
+    background: none;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    pointer-events: auto;
+    flex-shrink: 0;
+  }
+
+  .viewer-footer-mobile .viewer-nav:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: none !important;
+  }
+
+  .viewer-footer-mobile .viewer-nav img {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Zoom controls – centered between arrows */
+  .viewer-footer-mobile .viewer-zoom-mobile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .viewer-footer-mobile .viewer-zoom-mobile .viewer-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+    pointer-events: auto;
+  }
+
+  .viewer-footer-mobile .viewer-zoom-mobile .viewer-btn:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .viewer-footer-mobile .viewer-zoom-mobile .viewer-btn img {
+    width: 26px;
+    height: 26px;
+  }
+}
+
+/* --- Desktop: hide the mobile footer ---------------------------------- */
+.viewer-footer-mobile {
+  display: none;
+}
