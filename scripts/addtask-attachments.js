@@ -1,91 +1,77 @@
 /**
- * Global array storing all valid image attachments.
+ * Globales Array für alle validen Bildanhänge.
  * @type {File[]}
  */
 let taskAttachments = [];
 
 /**
- * Global flag tracking if the preview container is being dragged.
- * @type {boolean}
- */
-let isPreviewDragging = false;
-
-/**
- * Starting X coordinate for preview drag scrolling.
- * @type {number}
- */
-let previewStartX;
-
-/**
- * Initial scrollLeft value when drag scrolling starts.
- * @type {number}
- */
-let previewScrollLeft;
-
-/**
- * Reference to the upload-preview DOM element.
- * @type {HTMLElement}
- */
-let previewContainerRef;
-
-/**
- * Loads existing attachments (e.g. when editing a task) into the attachments list.
- * @param {Array<{name: string, type: string, data: string}>} attachments 
+ * Lädt existierende Anhänge in die Liste (z.B. beim Bearbeiten).
+ * @param {Array<{name: string, type: string, data: string}>} attachments - Anhänge.
  */
 async function loadExistingAttachments(attachments) {
   taskAttachments = [];
-  if (!attachments || attachments.length === 0) {
-    updateAttachmentsPreview();
-    return;
-  }
-  for (let i = 0; i < attachments.length; i++) {
-    try {
-      const att = attachments[i];
-      const res = await fetch(att.data);
-      const buf = await res.arrayBuffer();
-      const file = new File([buf], att.name, { type: att.type });
-      taskAttachments.push(file);
-    } catch (e) {
-      console.error("Failed to load attachment", e);
-    }
+  if (!attachments || attachments.length === 0) return updateAttachmentsPreview();
+  for (const att of attachments) {
+    await fetchAndAddAttachment(att);
   }
   updateAttachmentsPreview();
 }
 
 /**
- * Processes selected or dropped files, validating and adding them to the attachments list.
- * @param {FileList|File[]} files - The files to process.
+ * Lädt einen einzelnen Anhang herunter und fügt ihn hinzu.
+ * @param {Object} att - Das Anhang-Objekt.
  */
-function processFiles(files) {
-  if (!files || files.length === 0) return;
-  let added = false;
-  let errorShown = false;
-  for (let i = 0; i < files.length; i++) {
-    if (isValidImage(files[i])) {
-      taskAttachments.push(files[i]);
-      added = true;
-    } else {
-      if (!errorShown) {
-        showFileFormatError();
-        errorShown = true;
-      }
-    }
+async function fetchAndAddAttachment(att) {
+  try {
+    const res = await fetch(att.data);
+    const buf = await res.arrayBuffer();
+    const file = new File([buf], att.name, { type: att.type });
+    taskAttachments.push(file);
+  } catch (e) {
+    console.error("Failed to load attachment", e);
   }
-  if (added) updateAttachmentsPreview();
 }
 
 /**
- * Checks if a file is a valid image type (JPEG or PNG).
- * @param {File} file - The file to check.
- * @returns {boolean} True if the file is a valid image, false otherwise.
+ * Verarbeitet ausgewählte oder abgelegte Dateien und validiert sie.
+ * @param {FileList|File[]} files - Die zu verarbeitenden Dateien.
+ */
+function processFiles(files) {
+  if (!files || files.length === 0) return;
+  let state = { added: false, errorShown: false };
+  for (const file of files) {
+    processSingleFile(file, state);
+  }
+  if (state.added) updateAttachmentsPreview();
+}
+
+/**
+ * Verarbeitet eine einzelne Datei und prüft das Format.
+ * @param {File} file - Die Datei.
+ * @param {Object} state - Der Verarbeitungsstatus.
+ */
+function processSingleFile(file, state) {
+  if (isValidImage(file)) {
+    taskAttachments.push(file);
+    state.added = true;
+  } else if (!state.errorShown) {
+    if (typeof showFileFormatError === "function") showFileFormatError();
+    state.errorShown = true;
+  }
+}
+
+/**
+ * Überprüft, ob eine Datei ein gültiges Bildformat hat.
+ * @param {File} file - Die zu prüfende Datei.
+ * @returns {boolean} True, wenn das Format gültig ist.
  */
 function isValidImage(file) {
   return ['image/jpeg', 'image/png'].includes(file.type);
 }
 
 /**
- * Handles the file input change event.
- * @param {Event} event - The change event from the file input.
+ * Verarbeitet das Change-Event des File-Inputs.
+ * @param {Event} event - Das Change-Event.
  */
 function handleFileSelect(event) {
   processFiles(event.target.files);
@@ -93,7 +79,7 @@ function handleFileSelect(event) {
 }
 
 /**
- * Initializes drag and drop event listeners for the upload area.
+ * Initialisiert die Drag & Drop Listener für den Upload-Bereich.
  */
 function initDragAndDrop() {
   const dropZone = document.getElementById('upload-area');
@@ -105,18 +91,18 @@ function initDragAndDrop() {
 }
 
 /**
- * Binds multiple event listeners to a DOM element.
- * @param {HTMLElement} element - The target DOM element.
- * @param {string[]} events - Array of event names.
- * @param {Function} handler - The event handler function.
+ * Bindet Event-Listener an ein DOM-Element.
+ * @param {HTMLElement} element - Das DOM-Element.
+ * @param {string[]} events - Die Event-Namen.
+ * @param {Function} handler - Die Handler-Funktion.
  */
 function bindDragEvents(element, events, handler) {
   events.forEach(eventName => element.addEventListener(eventName, handler, false));
 }
 
 /**
- * Prevents default browser behavior and event propagation.
- * @param {Event} e - The triggered event.
+ * Verhindert das Standard-Verhalten des Browsers.
+ * @param {Event} e - Das Event.
  */
 function preventDefaults(e) {
   e.preventDefault();
@@ -124,22 +110,22 @@ function preventDefaults(e) {
 }
 
 /**
- * Adds the highlight class to the drop zone.
+ * Fügt dem Drop-Bereich die Highlight-Klasse hinzu.
  */
 function highlightDropZone() {
   document.getElementById('upload-area').classList.add('drag-over');
 }
 
 /**
- * Removes the highlight class from the drop zone.
+ * Entfernt die Highlight-Klasse vom Drop-Bereich.
  */
 function unhighlightDropZone() {
   document.getElementById('upload-area').classList.remove('drag-over');
 }
 
 /**
- * Handles the drop event on the upload area.
- * @param {DragEvent} e - The drop event.
+ * Behandelt das Drop-Event für Dateien.
+ * @param {DragEvent} e - Das Drop-Event.
  */
 function handleDrop(e) {
   processFiles(e.dataTransfer.files);
@@ -148,54 +134,82 @@ function handleDrop(e) {
 document.addEventListener('DOMContentLoaded', initDragAndDrop);
 
 /**
- * Processes task attachments and converts them to base64.
- * Generates a thumbnail preview and retains the original size.
- * @returns {Promise<{name: string, type: string, size: number, data: string, preview: string}[]>} Processed attachments.
+ * Verarbeitet Task-Anhänge, generiert Base64 und Thumbnails.
+ * @returns {Promise<Array>} Verarbeitete Anhänge.
  */
 async function processTaskAttachments() {
   const processed = [];
   for (const file of taskAttachments) {
     if (!(file instanceof File || file instanceof Blob)) {
-      // It's already processed and loaded from DB
       processed.push(file);
       continue;
     }
-
-    let originalBase64 = null;
-    let previewBase64 = null;
-    try {
-      if (typeof compressBlob === 'function' && typeof blobToBase64 === 'function' && file.type.startsWith('image/')) {
-        // Compress original to max 1024x1024 at 60% quality to prevent Firestore 1MB limit errors with multiple images
-        const largeBlob = await compressBlob(file, 1024, 1024, 0.6);
-        originalBase64 = await blobToBase64(largeBlob);
-        
-        // Create a 200x200 compressed preview
-        const smallBlob = await compressBlob(file, 200, 200, 0.7);
-        previewBase64 = await blobToBase64(smallBlob);
-      } else {
-        originalBase64 = await fileToBase64(file);
-        previewBase64 = originalBase64;
-      }
-    } catch (e) {
-      console.error("Failed to generate base64 for attachment", e);
-      originalBase64 = await fileToBase64(file);
-      previewBase64 = originalBase64;
-    }
-    processed.push({
-      name: file.name,
-      type: file.type,
-      size: file.size,
-      data: originalBase64,
-      preview: previewBase64
-    });
+    processed.push(await processSingleAttachment(file));
   }
   return processed;
 }
 
 /**
- * Converts a File object to a Base64 string.
- * @param {File} file - The file to convert.
- * @returns {Promise<string>} Base64 representation of the file.
+ * Verarbeitet einen einzelnen Anhang inklusive Komprimierung.
+ * @param {File} file - Das Datei-Objekt.
+ * @returns {Promise<Object>} Der verarbeitete Anhang.
+ */
+async function processSingleAttachment(file) {
+  let images = await generateAttachmentImages(file);
+  return {
+    name: file.name,
+    type: file.type,
+    size: file.size,
+    data: images.original,
+    preview: images.preview
+  };
+}
+
+/**
+ * Generiert die Base64-Strings für Original und Preview.
+ * @param {File} file - Die Datei.
+ * @returns {Promise<{original: string, preview: string}>} Base64 Strings.
+ */
+async function generateAttachmentImages(file) {
+  try {
+    if (canCompress(file)) return await compressImageAttachment(file);
+    const b64 = await fileToBase64(file);
+    return { original: b64, preview: b64 };
+  } catch (e) {
+    console.error("Failed to generate base64", e);
+    const b64 = await fileToBase64(file);
+    return { original: b64, preview: b64 };
+  }
+}
+
+/**
+ * Prüft, ob eine Datei komprimiert werden kann.
+ * @param {File} file - Die Datei.
+ * @returns {boolean} True, wenn komprimierbar.
+ */
+function canCompress(file) {
+  return typeof compressBlob === "function" && 
+         typeof blobToBase64 === "function" && 
+         file.type.startsWith("image/");
+}
+
+/**
+ * Komprimiert ein Bild für Original und Preview.
+ * @param {File} file - Die Datei.
+ * @returns {Promise<{original: string, preview: string}>} Komprimierte Bilder.
+ */
+async function compressImageAttachment(file) {
+  const largeBlob = await compressBlob(file, 1024, 1024, 0.6);
+  const original = await blobToBase64(largeBlob);
+  const smallBlob = await compressBlob(file, 200, 200, 0.7);
+  const preview = await blobToBase64(smallBlob);
+  return { original, preview };
+}
+
+/**
+ * Konvertiert ein File-Objekt in einen Base64-String.
+ * @param {File} file - Die Datei.
+ * @returns {Promise<string>} Der Base64-String.
  */
 function fileToBase64(file) {
   return new Promise((resolve, reject) => {
@@ -207,7 +221,7 @@ function fileToBase64(file) {
 }
 
 /**
- * Renders the preview thumbnails for all attachments.
+ * Rendert die Thumbnails für alle Anhänge.
  */
 function updateAttachmentsPreview() {
   const container = document.getElementById('upload-preview');
@@ -223,10 +237,10 @@ function updateAttachmentsPreview() {
 }
 
 /**
- * Creates a thumbnail container element.
- * @param {File} file - The file object.
- * @param {number} index - The index of the attachment.
- * @returns {HTMLElement} The created thumbnail container.
+ * Erstellt den Thumbnail-Container.
+ * @param {File} file - Die Datei.
+ * @param {number} index - Der Index.
+ * @returns {HTMLElement} Das Container-Element.
  */
 function createThumbnail(file, index) {
   const container = document.createElement('div');
@@ -241,9 +255,9 @@ function createThumbnail(file, index) {
 }
 
 /**
- * Creates an image element for a thumbnail.
- * @param {File} file - The file object.
- * @returns {HTMLImageElement} The created image element.
+ * Erstellt das Bild-Element für den Thumbnail.
+ * @param {File} file - Die Datei.
+ * @returns {HTMLImageElement} Das Bild-Element.
  */
 function createImgElement(file) {
   const img = document.createElement('img');
@@ -253,9 +267,9 @@ function createImgElement(file) {
 }
 
 /**
- * Creates an overlay element with a delete button.
- * @param {number} index - The index of the attachment.
- * @returns {HTMLElement} The created overlay element.
+ * Erstellt das Overlay-Element mit Lösch-Button.
+ * @param {number} index - Der Index.
+ * @returns {HTMLElement} Das Overlay-Element.
  */
 function createOverlayElement(index) {
   const overlay = document.createElement('div');
@@ -265,9 +279,9 @@ function createOverlayElement(index) {
 }
 
 /**
- * Creates a delete button for an individual thumbnail.
- * @param {number} index - The index of the attachment.
- * @returns {HTMLButtonElement} The created delete button.
+ * Erstellt den Lösch-Button für einen Thumbnail.
+ * @param {number} index - Der Index.
+ * @returns {HTMLButtonElement} Der Lösch-Button.
  */
 function createDeleteButton(index) {
   const btn = document.createElement('button');
@@ -280,9 +294,9 @@ function createDeleteButton(index) {
 }
 
 /**
- * Creates a name tag element for a thumbnail.
- * @param {string} name - The name of the file.
- * @returns {HTMLElement} The created name tag element.
+ * Erstellt das Namensschild für den Thumbnail.
+ * @param {string} name - Der Dateiname.
+ * @returns {HTMLElement} Das Namensschild.
  */
 function createNameTag(name) {
   const tag = document.createElement('div');
@@ -292,8 +306,8 @@ function createNameTag(name) {
 }
 
 /**
- * Deletes a specific attachment by index.
- * @param {number} index - The index of the attachment to delete.
+ * Löscht einen bestimmten Anhang.
+ * @param {number} index - Der Index.
  */
 function deleteAttachment(index) {
   taskAttachments.splice(index, 1);
@@ -301,7 +315,7 @@ function deleteAttachment(index) {
 }
 
 /**
- * Clears all attachments from the list.
+ * Leert die Liste der Anhänge komplett.
  */
 function clearAllAttachments() {
   taskAttachments = [];
@@ -309,70 +323,9 @@ function clearAllAttachments() {
 }
 
 /**
- * Returns the current list of attachments.
- * @returns {File[]} Array of file objects.
+ * Gibt die Liste aller Anhänge zurück.
+ * @returns {File[]} Die Anhänge.
  */
 function getTaskAttachments() {
   return taskAttachments;
 }
-
-
-
-/**
- * Initializes mouse event listeners for drag-to-scroll functionality on a container.
- * @param {HTMLElement} container - The container element to make scrollable by dragging.
- */
-function initDragScroll(container) {
-  if (!container || container.dataset.dragInitialized) return;
-  container.dataset.dragInitialized = "true";
-
-  let isDragging = false;
-  let startX;
-  let scrollLeft;
-
-  container.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    container.classList.add('active');
-    startX = e.pageX - container.offsetLeft;
-    scrollLeft = container.scrollLeft;
-  });
-
-  const stopDrag = () => {
-    isDragging = false;
-    container.classList.remove('active');
-  };
-
-  container.addEventListener('mouseleave', stopDrag);
-  container.addEventListener('mouseup', stopDrag);
-
-  container.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    e.preventDefault();
-    const x = e.pageX - container.offsetLeft;
-    container.scrollLeft = scrollLeft - (x - startX) * 2;
-  });
-
-  const checkScrollableLocal = () => {
-    if (container.scrollWidth > container.clientWidth) {
-      container.classList.add('can-scroll');
-    } else {
-      container.classList.remove('can-scroll');
-    }
-  };
-
-  window.addEventListener('resize', checkScrollableLocal);
-  
-  // Observe DOM changes to recalculate scrollability when attachments are added/removed
-  const observer = new MutationObserver(() => {
-    setTimeout(checkScrollableLocal, 0);
-  });
-  observer.observe(container, { childList: true, subtree: true });
-
-  setTimeout(checkScrollableLocal, 0);
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Initialize drag scroll for the addtask upload preview if it exists on load
-  const uploadPreview = document.getElementById('upload-preview');
-  if (uploadPreview) initDragScroll(uploadPreview);
-});
