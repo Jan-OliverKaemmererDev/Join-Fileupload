@@ -26,13 +26,6 @@ function getContactItemTemplate(contact) {
 /**
  * --- DETAIL ANSICHT LOGIK ---
  */
-function getContactDetailsTemplate(contact) {
-  if (window.innerWidth <= 780) {
-    return getMobileContactDetailsTemplate(contact);
-  } else {
-    return getDesktopContactDetailsTemplate(contact);
-  }
-}
 
 function getDesktopContactDetailsTemplate(contact) {
   let avatarInner = contact.initials;
@@ -129,13 +122,6 @@ function getMobileContactDetailsTemplate(contact) {
 /**
  * --- EDIT DIALOG LOGIK (Screenshot Design) ---
  */
-function getEditContactDialogTemplate(contact) {
-  if (window.innerWidth <= 780) {
-    return getMobileEditContactTemplate(contact);
-  } else {
-    return getDesktopEditContactTemplate(contact);
-  }
-}
 
 function getDesktopEditContactTemplate(contact) {
   let avatarInner = contact.initials;
@@ -268,13 +254,6 @@ function getMobileEditContactTemplate(contact) {
 /**
  * --- ADD CONTACT DIALOG LOGIK ---
  */
-function getAddContactDialogTemplate() {
-  if (window.innerWidth <= 780) {
-    return getMobileAddContactTemplate();
-  } else {
-    return getDesktopAddContactTemplate();
-  }
-}
 
 function getDesktopAddContactTemplate() {
   return `

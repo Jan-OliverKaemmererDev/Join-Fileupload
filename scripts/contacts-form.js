@@ -13,7 +13,8 @@ function activateContactOverlay(html) {
  * Öffnet den Dialog zum Hinzufügen eines Kontakts
  */
 function openAddContactDialog() {
-  activateContactOverlay(getAddContactDialogTemplate());
+  const html = window.innerWidth <= 780 ? getMobileAddContactTemplate() : getDesktopAddContactTemplate();
+  activateContactOverlay(html);
   checkContactFormValidity(
     "new-contact-name",
     "new-contact-email",
@@ -30,7 +31,9 @@ function openAddContactDialog() {
  * @param {string|number} id - Die Kontakt-ID
  */
 function openEditContactDialog(id) {
-  activateContactOverlay(getEditContactDialogTemplate(findContactById(id)));
+  const contact = findContactById(id);
+  const html = window.innerWidth <= 780 ? getMobileEditContactTemplate(contact) : getDesktopEditContactTemplate(contact);
+  activateContactOverlay(html);
   checkContactFormValidity(
     "edit-contact-name",
     "edit-contact-email",
@@ -319,7 +322,11 @@ function updateContactFromForm(contact) {
 function finalizeContactUpdate(contact) {
   renderContactList();
   const content = document.getElementById("contact-details-content");
-  content.innerHTML = getContactDetailsTemplate(contact);
+  if (window.innerWidth <= 780) {
+    content.innerHTML = getMobileContactDetailsTemplate(contact);
+  } else {
+    content.innerHTML = getDesktopContactDetailsTemplate(contact);
+  }
   closeAddContactDialog();
 }
 
