@@ -165,11 +165,12 @@
                 <label for="category"
                   >Category<span class="required">*</span></label
                 >
-                <select id="category" oninput="validateForm()" required>
+                <select id="category" onclick="this.parentElement.classList.toggle('open')" onblur="this.parentElement.classList.remove('open')" onchange="this.parentElement.classList.remove('open')" oninput="validateForm()" required>
                   <option value="">Select task category</option>
                   <option value="technical">Technical Task</option>
                   <option value="user-story">User Story</option>
                 </select>
+                <img src="./assets/icons/arrow-dropdown.svg" class="select-arrow-icon" alt="Arrow">
               </div>
             </div>
 
@@ -241,7 +242,7 @@
                     <span id="selected-contact-text"
                       >Select contacts to assign</span
                     >
-                    <div class="dropdown-arrow-icon"></div>
+                    <img src="./assets/icons/arrow-dropdown.svg" class="dropdown-arrow-icon" alt="Arrow">
                   </div>
                   <div
                     class="custom-select-options d-none"

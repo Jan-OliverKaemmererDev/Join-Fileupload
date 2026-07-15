@@ -76,7 +76,25 @@ function renderAssignedToOptions() {
     const isSelected = selectedContacts.some(function (c) {
       return c.id === contact.id;
     });
-    optionsContainer.innerHTML += getContactOptionTemplate(contact, isSelected);
+    
+    const selectedClass = isSelected ? "selected" : "";
+    const nameSuffix = contact.isYou ? " (You)" : "";
+    let avatarInner = contact.initials;
+    let avatarStyle = `background-color: ${contact.color}`;
+    
+    if (contact.profileImageSmall && contact.profileImageSmall.base64) {
+      avatarInner = `<img src="${contact.profileImageSmall.base64}" class="account-profile-img" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+      avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
+    }
+
+    optionsContainer.innerHTML += getContactOptionTemplate(
+      contact.id, 
+      contact.name, 
+      selectedClass, 
+      nameSuffix, 
+      avatarStyle, 
+      avatarInner
+    );
   });
 }
 
@@ -128,7 +146,15 @@ function renderSelectedInitials() {
   if (!container) return;
   container.innerHTML = "";
   selectedContacts.forEach(function (contact) {
-    container.innerHTML += getSelectedContactInitialsTemplate(contact);
+    let avatarInner = contact.initials;
+    let avatarStyle = `background-color: ${contact.color}`;
+    
+    if (contact.profileImageSmall && contact.profileImageSmall.base64) {
+      avatarInner = `<img src="${contact.profileImageSmall.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+      avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
+    }
+
+    container.innerHTML += getSelectedContactInitialsTemplate(avatarStyle, avatarInner);
   });
 }
 

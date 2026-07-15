@@ -40,29 +40,22 @@ function getSubtaskEditTemplate(subtask) {
 
 /**
  * Generiert das HTML-Template für eine Kontakt-Option im Dropdown
- * @param {Object} contact - Das Kontakt-Objekt
- * @param {boolean} isSelected - Ob der Kontakt ausgewählt ist
+ * @param {string} contactId - Die ID des Kontakts
+ * @param {string} contactName - Der Name des Kontakts
+ * @param {string} selectedClass - CSS-Klasse für Auswahl
+ * @param {string} nameSuffix - Suffix für den Namen (z.B. " (You)")
+ * @param {string} avatarStyle - Inline-Style für den Avatar
+ * @param {string} avatarInner - Inhalt des Avatars (Initialen oder Bild)
  * @returns {string} Das HTML-Template für die Kontakt-Option
  */
-function getContactOptionTemplate(contact, isSelected) {
-  const selectedClass = isSelected ? "selected" : "";
-  const nameSuffix = contact.isYou ? " (You)" : "";
-
-  let avatarInner = contact.initials;
-  let avatarStyle = `background-color: ${contact.color}`;
-  
-  if (contact.profileImageSmall && contact.profileImageSmall.base64) {
-    avatarInner = `<img src="${contact.profileImageSmall.base64}" class="account-profile-img" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
-  }
-
+function getContactOptionTemplate(contactId, contactName, selectedClass, nameSuffix, avatarStyle, avatarInner) {
   return `
-    <div class="contact-option ${selectedClass}" onclick="toggleContactSelection('${contact.id}', event)">
+    <div class="contact-option ${selectedClass}" onclick="toggleContactSelection('${contactId}', event)">
       <div class="contact-info">
         <div class="contact-avatar" style="${avatarStyle}">
           ${avatarInner}
         </div>
-        <span class="contact-name">${contact.name}${nameSuffix}</span>
+        <span class="contact-name">${contactName}${nameSuffix}</span>
       </div>
       <div class="contact-checkbox"></div>
     </div>
@@ -72,18 +65,11 @@ function getContactOptionTemplate(contact, isSelected) {
 
 /**
  * Generiert das HTML-Template für die Initialen einer ausgewählten Person
- * @param {Object} contact - Das Kontakt-Objekt
+ * @param {string} avatarStyle - Inline-Style für den Avatar
+ * @param {string} avatarInner - Inhalt des Avatars (Initialen oder Bild)
  * @returns {string} Das HTML-Template für den Initialen-Kreis
  */
-function getSelectedContactInitialsTemplate(contact) {
-  let avatarInner = contact.initials;
-  let avatarStyle = `background-color: ${contact.color}`;
-  
-  if (contact.profileImageSmall && contact.profileImageSmall.base64) {
-    avatarInner = `<img src="${contact.profileImageSmall.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
-  }
-
+function getSelectedContactInitialsTemplate(avatarStyle, avatarInner) {
   return `
     <div class="selected-avatar" style="${avatarStyle}">
       ${avatarInner}
