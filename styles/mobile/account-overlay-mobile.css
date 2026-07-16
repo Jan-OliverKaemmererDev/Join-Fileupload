@@ -1,10 +1,16 @@
 @media (max-width: 1200px) {
+  /* ========================================================= */
+  /*                    OVERLAY CONTAINER                      */
+  /* ========================================================= */
   #account-overlay {
     align-items: center !important;
     justify-content: center !important;
     z-index: 9999 !important;
   }
 
+  /* ========================================================= */
+  /*                  SLIDE-IN DIALOG BASE                     */
+  /* ========================================================= */
   #account-overlay .slide-in-dialog {
     flex-direction: column !important;
     width: 100vw !important;
@@ -36,6 +42,9 @@
     transform: translateX(0) !important;
   }
 
+  /* ========================================================= */
+  /*                  DIALOG LEFT SECTION                      */
+  /* ========================================================= */
   #account-overlay .dialog-left {
     width: 100% !important;
     height: auto !important;
@@ -60,6 +69,9 @@
     align-self: flex-start !important;
   }
 
+  /* ========================================================= */
+  /*                 DIALOG RIGHT SECTION                      */
+  /* ========================================================= */
   #account-overlay .dialog-right {
     width: 100% !important;
     height: auto !important;
@@ -112,6 +124,9 @@
     max-width: 100%;
   }
 
+  /* ========================================================= */
+  /*                      FORM ACTIONS                         */
+  /* ========================================================= */
   #account-overlay .form-actions-dialog {
     flex-direction: row;
     justify-content: center !important;
@@ -127,6 +142,9 @@
     padding: 12px 24px;
   }
 
+  /* ========================================================= */
+  /*               DELETE CONFIRMATION DIALOG                  */
+  /* ========================================================= */
   /* Delete Confirmation Dialog – hide when inactive so it doesn't
      take up space in the flex layout and push the main dialog left */
   #account-overlay .delete-confirm-dialog {
