@@ -60,7 +60,14 @@
                 id="user-dropdown"
                 aria-label="User menu"
               >
-                <a href="#" onclick="openAccountOverlay(); return false;">Account</a>
+                <a
+                  href="#"
+                  onclick="
+                    openAccountOverlay();
+                    return false;
+                  "
+                  >Account</a
+                >
                 <a href="legalnotice.html">Legal Notice</a>
                 <a href="privacypolicy.html">Privacy Policy</a>
                 <a
@@ -196,8 +203,8 @@
     <script src="./scripts/account-validation.js"></script>
     <script src="./scripts/account-overlay.js"></script>
     <script src="./scripts/templates/file-upload-template.js"></script>
+    <script src="./scripts/file-upload-utils.js"></script>
     <script src="./scripts/file-upload.js"></script>
     <script src="./scripts/help.js"></script>
   </body>
 </html>
-
