@@ -57,82 +57,103 @@ function openContactFilePicker() {
 
 /**
  * Wird aufgerufen, wenn der User eine Datei ausgewählt hat.
- * @param {Event} event - Das Change-Event des File-Inputs
+ * @param {Event} event - Das Change-Event des File-Inputs.
  */
 async function handleContactFileSelected(event) {
   const file = event.target.files[0];
-  if (!file) return;
-  
-  if (typeof isValidImageFile === "function" && !isValidImageFile(file)) {
-    if (typeof showFileFormatError === "function") showFileFormatError();
-    return;
-  }
-  
-  if (typeof validateImageMagicBytes === "function") {
-    const isValid = await validateImageMagicBytes(file);
-    if (!isValid) {
-      if (typeof showFileFormatError === "function") showFileFormatError();
-      return;
-    }
-  }
-
+  if (!file || !(await validateContactImage(file))) return;
   pendingContactProfileImageFile = file;
   contactCurrentOffsetY = 0;
   contactBaseOffsetY = 0;
-  
-  const objectUrl = URL.createObjectURL(file);
-  enableContactImagePanning(objectUrl);
+  enableContactImagePanning(URL.createObjectURL(file));
+}
+
+/**
+ * Validiert die ausgewählte Bilddatei anhand von Endung und Magic Bytes.
+ * @param {File} file - Die zu validierende Datei.
+ * @returns {Promise<boolean>} True, wenn das Bild gültig ist, sonst false.
+ */
+async function validateContactImage(file) {
+  if (typeof isValidImageFile === "function" && !isValidImageFile(file)) {
+    if (typeof showFileFormatError === "function") showFileFormatError();
+    return false;
+  }
+  if (typeof validateImageMagicBytes === "function" && !(await validateImageMagicBytes(file))) {
+    if (typeof showFileFormatError === "function") showFileFormatError();
+    return false;
+  }
+  return true;
 }
 
 /**
  * Aktiviert das Verschieben des Bildes im Avatar-Kreis.
+ * @param {string} src - Die Bildquelle als Object URL.
  */
 function enableContactImagePanning(src) {
   const avatarContainer = document.getElementById("contact-initials");
   if (!avatarContainer) return;
-  
-  avatarContainer.innerHTML = "";
+  setupContactPreviewImage(avatarContainer, src);
+  bindContactDragEvents();
+}
+
+/**
+ * Erstellt und fügt das Vorschaubild in den Container ein.
+ * @param {HTMLElement} container - Der Avatar-Container.
+ * @param {string} src - Die Bildquelle als Object URL.
+ */
+function setupContactPreviewImage(container, src) {
+  container.innerHTML = "";
   contactPreviewImgElement = document.createElement("img");
   contactPreviewImgElement.src = src;
   contactPreviewImgElement.classList.add("account-profile-img", "panning-active");
-  
   contactPreviewImgElement.ondragstart = () => false;
-  
-  avatarContainer.appendChild(contactPreviewImgElement);
-  
-  contactPreviewImgElement.onload = function() {
-    contactOriginalImageWidth = contactPreviewImgElement.naturalWidth;
-    contactOriginalImageHeight = contactPreviewImgElement.naturalHeight;
-    
-    const containerWidth = avatarContainer.clientWidth || 120;
-    const containerHeight = avatarContainer.clientHeight || 120;
-    
-    const scale = Math.max(containerWidth / contactOriginalImageWidth, containerHeight / contactOriginalImageHeight);
-    const scaledWidth = contactOriginalImageWidth * scale;
-    const scaledHeight = contactOriginalImageHeight * scale;
-    
-    contactPreviewImgElement.style.width = scaledWidth + "px";
-    contactPreviewImgElement.style.height = scaledHeight + "px";
-    contactPreviewImgElement.style.top = "0px";
-    
-    if (scaledWidth > containerWidth) {
-      contactPreviewImgElement.style.left = -(scaledWidth - containerWidth) / 2 + "px";
-    } else {
-      contactPreviewImgElement.style.left = "0px";
-    }
-    
-    contactPreviewImgElement.dataset.scale = scale;
-  };
+  container.appendChild(contactPreviewImgElement);
+  contactPreviewImgElement.onload = () => handleContactImageLoaded(container);
+}
 
+/**
+ * Verarbeitet das geladene Bild und skaliert es passend zum Container.
+ * @param {HTMLElement} container - Der Avatar-Container.
+ */
+function handleContactImageLoaded(container) {
+  contactOriginalImageWidth = contactPreviewImgElement.naturalWidth;
+  contactOriginalImageHeight = contactPreviewImgElement.naturalHeight;
+  const cWidth = container.clientWidth || 120;
+  const cHeight = container.clientHeight || 120;
+  const scale = Math.max(cWidth / contactOriginalImageWidth, cHeight / contactOriginalImageHeight);
+  applyContactImageScaleAndPosition(scale, cWidth);
+}
+
+/**
+ * Wendet Skalierung und zentrierte Positionierung auf das Bild an.
+ * @param {number} scale - Der berechnete Skalierungsfaktor.
+ * @param {number} cWidth - Die Container-Breite.
+ */
+function applyContactImageScaleAndPosition(scale, cWidth) {
+  const scaledWidth = contactOriginalImageWidth * scale;
+  contactPreviewImgElement.style.width = scaledWidth + "px";
+  contactPreviewImgElement.style.height = (contactOriginalImageHeight * scale) + "px";
+  contactPreviewImgElement.style.top = "0px";
+  contactPreviewImgElement.style.left = scaledWidth > cWidth ? -(scaledWidth - cWidth) / 2 + "px" : "0px";
+  contactPreviewImgElement.dataset.scale = scale;
+}
+
+/**
+ * Bindet die Mouse- und Touch-Events für das Verschieben.
+ */
+function bindContactDragEvents() {
   contactPreviewImgElement.addEventListener("mousedown", handleContactDragStart);
   document.addEventListener("mousemove", handleContactDragMove);
   document.addEventListener("mouseup", handleContactDragEnd);
-
   contactPreviewImgElement.addEventListener("touchstart", handleContactDragStart, {passive: false});
   document.addEventListener("touchmove", handleContactDragMove, {passive: false});
   document.addEventListener("touchend", handleContactDragEnd);
 }
 
+/**
+ * Startet den Drag-Vorgang für das Profilbild.
+ * @param {Event} e - Das Mouse- oder Touch-Event.
+ */
 function handleContactDragStart(e) {
   if (!pendingContactProfileImageFile) return;
   isContactPanning = true;
@@ -142,32 +163,37 @@ function handleContactDragStart(e) {
   e.preventDefault();
 }
 
+/**
+ * Verschiebt das Bild während des Drag-Vorgangs.
+ * @param {Event} e - Das Mouse- oder Touch-Event.
+ */
 function handleContactDragMove(e) {
   if (!isContactPanning || !pendingContactProfileImageFile || !contactPreviewImgElement) return;
-  
   const clientY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
-  const deltaY = clientY - contactStartY;
-  
-  let newOffsetY = contactBaseOffsetY + deltaY;
-  
-  const scale = parseFloat(contactPreviewImgElement.dataset.scale) || 1;
-  const scaledHeight = contactOriginalImageHeight * scale;
-  const containerHeight = contactPreviewImgElement.parentElement.clientHeight || 120;
-  
-  const minOffset = containerHeight - scaledHeight;
-  
-  if (minOffset >= 0) {
-    newOffsetY = 0;
-  } else {
-    if (newOffsetY > 0) newOffsetY = 0;
-    if (newOffsetY < minOffset) newOffsetY = minOffset;
-  }
-  
+  let newOffsetY = contactBaseOffsetY + (clientY - contactStartY);
+  newOffsetY = constrainContactDragOffset(newOffsetY);
   contactCurrentOffsetY = newOffsetY;
   contactPreviewImgElement.style.top = contactCurrentOffsetY + "px";
   e.preventDefault();
 }
 
+/**
+ * Begrenzt den Offset-Wert auf den erlaubten Bereich.
+ * @param {number} offset - Der gewünschte Offset-Wert.
+ * @returns {number} Der begrenzte Offset-Wert.
+ */
+function constrainContactDragOffset(offset) {
+  const scale = parseFloat(contactPreviewImgElement.dataset.scale) || 1;
+  const minOffset = (contactPreviewImgElement.parentElement.clientHeight || 120) - (contactOriginalImageHeight * scale);
+  if (minOffset >= 0) return 0;
+  if (offset > 0) return 0;
+  if (offset < minOffset) return minOffset;
+  return offset;
+}
+
+/**
+ * Beendet den Drag-Vorgang für das Profilbild.
+ */
 function handleContactDragEnd() {
   if (isContactPanning && contactPreviewImgElement) {
     isContactPanning = false;
@@ -177,6 +203,7 @@ function handleContactDragEnd() {
 
 /**
  * Gibt zurück, ob ein Profilbild zum Speichern bereitliegt.
+ * @returns {boolean} True, wenn ein Bild bereitliegt.
  */
 function hasPendingContactProfileImage() {
   return pendingContactProfileImageFile !== null;
@@ -197,57 +224,81 @@ function cancelPendingContactProfileImage() {
 
 /**
  * Schneidet das verschobene Bild aus, komprimiert es und gibt die Base64-Daten zurück.
- * @returns {Promise<{profileImage: Object, profileImageSmall: Object} | null>}
+ * @returns {Promise<{profileImage: Object, profileImageSmall: Object} | null>} Ein Promise mit den Bilddaten.
  */
 async function processPendingContactProfileImage() {
   if (!pendingContactProfileImageFile) return null;
-  
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.onload = async function() {
-      const scale = parseFloat(contactPreviewImgElement.dataset.scale) || 1;
-      const containerWidth = contactPreviewImgElement ? contactPreviewImgElement.parentElement.clientWidth : 120;
-      
-      const cropY = Math.abs(contactCurrentOffsetY) / scale;
-      let cropX = 0;
-      
-      const scaledWidth = contactOriginalImageWidth * scale;
-      if (scaledWidth > containerWidth) {
-        cropX = ((scaledWidth - containerWidth) / 2) / scale;
-      }
-      
-      const cropSize = containerWidth / scale;
-      
-      const canvas = document.createElement("canvas");
-      canvas.width = Math.min(cropSize, contactOriginalImageWidth);
-      canvas.height = Math.min(cropSize, contactOriginalImageHeight);
-      const ctx = canvas.getContext("2d");
-      
-      ctx.drawImage(img, cropX, cropY, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
-      
-      canvas.toBlob(async function(blob) {
-        if (!blob) {
-          reject(new Error("Konnte das Bild nicht zuschneiden."));
-          return;
-        }
-        
-        try {
-          const largeBlob = await compressBlob(blob, 800, 800, 0.8);
-          const smallBlob = await compressBlob(blob, 100, 100, 0.6);
-          
-          const largeBase64 = await blobToBase64(largeBlob);
-          const smallBase64 = await blobToBase64(smallBlob);
-          
-          const profileImage = buildProfileImageData(pendingContactProfileImageFile.name, largeBlob.type, largeBase64);
-          const profileImageSmall = buildProfileImageData(pendingContactProfileImageFile.name, smallBlob.type, smallBase64);
-          
-          pendingContactProfileImageFile = null;
-          resolve({ profileImage, profileImageSmall });
-        } catch(e) {
-          reject(e);
-        }
-      }, pendingContactProfileImageFile.type, 1.0);
-    };
+    img.onload = () => handleContactImageProcessing(img, resolve, reject);
+    img.onerror = () => reject(new Error("Bild konnte nicht geladen werden."));
     img.src = URL.createObjectURL(pendingContactProfileImageFile);
   });
+}
+
+/**
+ * Führt die Bildverarbeitung nach dem Laden durch.
+ * @param {HTMLImageElement} img - Das geladene Bild-Element.
+ * @param {Function} resolve - Die Promise Resolve-Funktion.
+ * @param {Function} reject - Die Promise Reject-Funktion.
+ */
+function handleContactImageProcessing(img, resolve, reject) {
+  const canvas = document.createElement("canvas");
+  const ctx = canvas.getContext("2d");
+  setupContactCropCanvas(canvas, ctx, img);
+  canvas.toBlob(
+    (blob) => processContactCroppedBlob(blob, resolve, reject),
+    pendingContactProfileImageFile.type, 1.0
+  );
+}
+
+/**
+ * Bereitet das Canvas für den Bildzuschnitt vor und zeichnet das Bild.
+ * @param {HTMLCanvasElement} canvas - Das Canvas-Element.
+ * @param {CanvasRenderingContext2D} ctx - Der 2D-Kontext.
+ * @param {HTMLImageElement} img - Das zu zeichnende Bild.
+ */
+function setupContactCropCanvas(canvas, ctx, img) {
+  const scale = parseFloat(contactPreviewImgElement?.dataset.scale) || 1;
+  const containerWidth = contactPreviewImgElement?.parentElement.clientWidth || 120;
+  const cropY = Math.abs(contactCurrentOffsetY) / scale;
+  const scaledWidth = contactOriginalImageWidth * scale;
+  const cropX = scaledWidth > containerWidth ? ((scaledWidth - containerWidth) / 2) / scale : 0;
+  const cropSize = containerWidth / scale;
+  canvas.width = Math.min(cropSize, contactOriginalImageWidth);
+  canvas.height = Math.min(cropSize, contactOriginalImageHeight);
+  ctx.drawImage(img, cropX, cropY, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+}
+
+/**
+ * Komprimiert den zugeschnittenen Blob und wandelt ihn um.
+ * @param {Blob} blob - Der zugeschnittene Bild-Blob.
+ * @param {Function} resolve - Die Promise Resolve-Funktion.
+ * @param {Function} reject - Die Promise Reject-Funktion.
+ */
+async function processContactCroppedBlob(blob, resolve, reject) {
+  if (!blob) return reject(new Error("Konnte das Bild nicht zuschneiden."));
+  try {
+    const largeBlob = await compressBlob(blob, 800, 800, 0.8);
+    const smallBlob = await compressBlob(blob, 100, 100, 0.6);
+    resolve(await buildContactProfileResult(largeBlob, smallBlob));
+  } catch (e) {
+    reject(e);
+  }
+}
+
+/**
+ * Baut das finale Ergebnis-Objekt zusammen.
+ * @param {Blob} largeBlob - Der große Bild-Blob.
+ * @param {Blob} smallBlob - Der kleine Bild-Blob.
+ * @returns {Promise<{profileImage: Object, profileImageSmall: Object}>} Das Ergebnis-Objekt.
+ */
+async function buildContactProfileResult(largeBlob, smallBlob) {
+  const largeBase64 = await blobToBase64(largeBlob);
+  const smallBase64 = await blobToBase64(smallBlob);
+  const name = pendingContactProfileImageFile.name;
+  const profileImage = buildProfileImageData(name, largeBlob.type, largeBase64);
+  const profileImageSmall = buildProfileImageData(name, smallBlob.type, smallBase64);
+  pendingContactProfileImageFile = null;
+  return { profileImage, profileImageSmall };
 }
