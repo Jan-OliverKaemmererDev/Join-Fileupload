@@ -236,9 +236,9 @@ function setupViewerMouseUpEvent(img) {
  * @param {HTMLElement} img - Das Bild-Element.
  */
 function setupViewerTouchEvents(img) {
-  img.addEventListener('touchstart', (e) => handleTouchStart(e, img), { passive: false });
-  img.addEventListener('touchmove', (e) => handleTouchMove(e, img), { passive: false });
-  img.addEventListener('touchend', () => handleTouchEnd(img));
+  img.addEventListener('touchstart', (e) => handleViewerTouchStart(e, img), { passive: false });
+  img.addEventListener('touchmove', (e) => handleViewerTouchMove(e, img), { passive: false });
+  img.addEventListener('touchend', () => handleViewerTouchEnd(img));
 }
 
 /**
@@ -246,7 +246,7 @@ function setupViewerTouchEvents(img) {
  * @param {TouchEvent} e - Das Touch-Event.
  * @param {HTMLElement} img - Das Bild-Element.
  */
-function handleTouchStart(e, img) {
+function handleViewerTouchStart(e, img) {
   if (e.touches.length === 2) {
     e.preventDefault();
     viewerPinchStartDist = getTouchDistance(e.touches);
@@ -266,7 +266,7 @@ function handleTouchStart(e, img) {
  * @param {TouchEvent} e - Das Touch-Event.
  * @param {HTMLElement} img - Das Bild-Element.
  */
-function handleTouchMove(e, img) {
+function handleViewerTouchMove(e, img) {
   if (e.touches.length === 2) {
     e.preventDefault();
     handlePinchZoom(e.touches, img);
@@ -311,7 +311,7 @@ function handleTouchPan(touch, img) {
  * Behandelt das Ende eines Touch-Events.
  * @param {HTMLElement} img - Das Bild-Element.
  */
-function handleTouchEnd(img) {
+function handleViewerTouchEnd(img) {
   isViewerDragging = false;
   img.classList.remove('dragging');
 }

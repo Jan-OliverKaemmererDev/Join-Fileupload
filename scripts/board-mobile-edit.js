@@ -1,3 +1,8 @@
+/**
+ * @fileoverview Logik für das mobile Board-Edit Overlay.
+ * Verwaltet Formular, Kontakte, Priorität und Speichern beim Bearbeiten eines Tasks.
+ */
+
 let mobileEditTaskId = null;
 let mobileEditSelectedContacts = [];
 let mobileEditSubtasks = [];
@@ -5,14 +10,13 @@ let mobileEditSelectedPriority = "medium";
 let mobileEditAttachments = [];
 
 /**
- * Öffnet das mobile Edit-Overlay für einen Task
+ * Öffnet das mobile Edit-Overlay für einen Task.
  * @param {number} taskId - Die ID des Tasks
  */
 function openMobileEditOverlay(taskId) {
   const task = findTask(taskId);
   if (!task) return;
   mobileEditTaskId = taskId;
-
   fillMobileEditForm(task);
   document.getElementById("mobile-edit-overlay").classList.add("active");
   document.documentElement.classList.add("no-scroll");
@@ -20,7 +24,7 @@ function openMobileEditOverlay(taskId) {
 }
 
 /**
- * Schließt das mobile Edit-Overlay
+ * Schließt das mobile Edit-Overlay und setzt den Zustand zurück.
  */
 function closeMobileEditOverlay() {
   document.getElementById("mobile-edit-overlay").classList.remove("active");
@@ -32,7 +36,7 @@ function closeMobileEditOverlay() {
 }
 
 /**
- * Füllt das mobile Edit-Formular mit Task-Daten
+ * Füllt das mobile Edit-Formular mit den Daten eines Tasks.
  * @param {Object} task - Das Task-Objekt
  */
 function fillMobileEditForm(task) {
@@ -50,7 +54,8 @@ function fillMobileEditForm(task) {
 }
 
 /**
- * Füllt Grunddaten im mobilen Edit-Formular
+ * Füllt die Grunddaten (Titel, Beschreibung, Datum) im mobilen Edit-Formular.
+ * @param {Object} task - Das Task-Objekt
  */
 function fillMobileEditBasicInfo(task) {
   document.getElementById("mobile-edit-title").value = task.title || "";
@@ -60,7 +65,8 @@ function fillMobileEditBasicInfo(task) {
 }
 
 /**
- * Füllt Subtasks im mobilen Edit-Formular
+ * Füllt die Subtasks im mobilen Edit-Formular aus den Task-Daten.
+ * @param {Object} task - Das Task-Objekt
  */
 function fillMobileEditSubtasks(task) {
   mobileEditSubtasks =
@@ -71,7 +77,8 @@ function fillMobileEditSubtasks(task) {
 }
 
 /**
- * Füllt Kontakte im mobilen Edit-Formular
+ * Füllt die ausgewählten Kontakte im mobilen Edit-Formular.
+ * @param {Object} task - Das Task-Objekt
  */
 function fillMobileEditContacts(task) {
   mobileEditSelectedContacts = [];
@@ -86,7 +93,8 @@ function fillMobileEditContacts(task) {
 }
 
 /**
- * Setzt die Priorität im mobilen Edit-Overlay
+ * Setzt die Priorität im mobilen Edit-Overlay.
+ * @param {string} priority - Die Priorität ("urgent", "medium", "low")
  */
 function selectMobileEditPriority(priority) {
   mobileEditSelectedPriority = priority;
@@ -97,7 +105,7 @@ function selectMobileEditPriority(priority) {
 }
 
 /**
- * Rendert die Kontaktoptionen im mobilen Edit-Dropdown
+ * Rendert die Kontaktoptionen im Assigned-To-Dropdown des mobilen Edits.
  */
 function renderMobileEditAssignedToOptions() {
   const container = document.getElementById("mobile-edit-assigned-to-options");
@@ -114,23 +122,41 @@ function renderMobileEditAssignedToOptions() {
   });
 }
 
-function getMobileEditContactOptionTemplate(contact, isSelected) {
-  const selectedClass = isSelected ? "selected" : "";
-  const nameSuffix = contact.isYou ? " (You)" : "";
-  
+/**
+ * Erstellt Avatar-Daten (HTML und Style) für einen Kontakt.
+ * Gibt ein Objekt mit avatarInner und avatarStyle zurück.
+ * @param {Object} contact - Das Kontakt-Objekt
+ * @param {string} [imgClass] - Optionale CSS-Klasse für das Profilbild
+ * @returns {{avatarInner: string, avatarStyle: string}} Avatar-Daten
+ */
+function buildMobileEditContactAvatar(contact, imgClass) {
   let avatarInner = contact.initials;
   let avatarStyle = `background-color: ${contact.color}`;
-  
   if (contact.profileImageSmall && contact.profileImageSmall.base64) {
-    avatarInner = `<img src="${contact.profileImageSmall.base64}" class="account-profile-img" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    const cls = imgClass ? ` class="${imgClass}"` : "";
+    avatarInner = `<img src="${contact.profileImageSmall.base64}"${cls} style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
     avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
   }
-
-  return getMobileEditContactOptionHtml(contact, selectedClass, nameSuffix, avatarInner, avatarStyle);
+  return { avatarInner: avatarInner, avatarStyle: avatarStyle };
 }
 
 /**
- * Schaltet die Auswahl eines Kontakts um
+ * Erstellt das Template für eine Kontakt-Option im Assigned-To-Dropdown.
+ * @param {Object} contact - Das Kontakt-Objekt
+ * @param {boolean} isSelected - Ob der Kontakt ausgewählt ist
+ * @returns {string} HTML-String der Kontakt-Option
+ */
+function getMobileEditContactOptionTemplate(contact, isSelected) {
+  const selectedClass = isSelected ? "selected" : "";
+  const nameSuffix = contact.isYou ? " (You)" : "";
+  const avatar = buildMobileEditContactAvatar(contact, "account-profile-img");
+  return getMobileEditContactOptionHtml(contact, selectedClass, nameSuffix, avatar.avatarInner, avatar.avatarStyle);
+}
+
+/**
+ * Schaltet die Auswahl eines Kontakts im Assigned-To-Dropdown um.
+ * @param {string} contactId - Die ID des Kontakts
+ * @param {Event} event - Das Klick-Event
  */
 function toggleMobileEditContactSelection(contactId, event) {
   event.stopPropagation();
@@ -144,7 +170,9 @@ function toggleMobileEditContactSelection(contactId, event) {
 }
 
 /**
- * Fügt Kontakt zur Auswahl hinzu oder entfernt ihn
+ * Fügt einen Kontakt zur Auswahl hinzu oder entfernt ihn.
+ * @param {string} contactId - Die ID des Kontakts
+ * @param {Object} contact - Das Kontakt-Objekt
  */
 function updateMobileSelectedContacts(contactId, contact) {
   const index = mobileEditSelectedContacts.findIndex(function (c) {
@@ -157,27 +185,22 @@ function updateMobileSelectedContacts(contactId, contact) {
   }
 }
 
+/**
+ * Rendert die Avatare der ausgewählten Kontakte unterhalb des Dropdowns.
+ * Zeigt entweder ein Profilbild oder die Initialen mit Hintergrundfarbe an.
+ */
 function renderMobileEditSelectedInitials() {
-  const container = document.getElementById(
-    "mobile-edit-selected-contacts-initials",
-  );
+  const container = document.getElementById("mobile-edit-selected-contacts-initials");
   if (!container) return;
   container.innerHTML = "";
   mobileEditSelectedContacts.forEach(function (contact) {
-    let avatarInner = contact.initials;
-    let avatarStyle = `background-color: ${contact.color}`;
-    
-    if (contact.profileImageSmall && contact.profileImageSmall.base64) {
-      avatarInner = `<img src="${contact.profileImageSmall.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-      avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
-    }
-
-    container.innerHTML += getMobileEditSelectedAvatarHtml(avatarInner, avatarStyle);
+    const avatar = buildMobileEditContactAvatar(contact);
+    container.innerHTML += getMobileEditSelectedAvatarHtml(avatar.avatarInner, avatar.avatarStyle);
   });
 }
 
 /**
- * Schaltet das Assigned-To-Dropdown um
+ * Schaltet das Assigned-To-Dropdown im mobilen Edit um.
  */
 function toggleMobileEditAssignedToDropdown() {
   const wrapper = document.getElementById("mobile-edit-assigned-to-wrapper");
@@ -186,7 +209,9 @@ function toggleMobileEditAssignedToDropdown() {
   options.classList.toggle("d-none");
 }
 
-// Dropdown schließen bei Klick außerhalb
+/**
+ * Event-Listener: Schließt das Assigned-To-Dropdown bei Klick außerhalb des Wrappers.
+ */
 document.addEventListener(
   "click",
   function (event) {
@@ -203,7 +228,8 @@ document.addEventListener(
 );
 
 /**
- * Validiert das mobile Edit-Formular
+ * Validiert das mobile Edit-Formular.
+ * Deaktiviert den Speichern-Button, wenn Titel oder Datum fehlen.
  */
 function validateMobileEditForm() {
   const title = document.getElementById("mobile-edit-title").value.trim();
@@ -213,163 +239,13 @@ function validateMobileEditForm() {
 }
 
 /**
- * Zeigt die Subtask-Icons im mobilen Edit an
- */
-function showMobileEditSubtaskIcons() {
-  const icons = document.getElementById("mobile-edit-subtask-icons-active");
-  if (icons) icons.classList.remove("v-hidden");
-}
-
-/**
- * Leert das Subtask-Eingabefeld im mobilen Edit
- */
-function clearMobileEditSubtaskInput() {
-  const input = document.getElementById("mobile-edit-subtask-input");
-  if (input) {
-    input.value = "";
-    input.focus();
-  }
-}
-
-/**
- * Fügt einen Subtask im mobilen Edit hinzu
- */
-function addMobileEditSubtask() {
-  const input = document.getElementById("mobile-edit-subtask-input");
-  if (!input) return;
-  const text = input.value.trim();
-  if (!text) return;
-  const id = Date.now();
-  mobileEditSubtasks.push({ id: id, text: text, completed: false });
-  input.value = "";
-  renderMobileEditSubtasks();
-}
-
-/**
- * Behandelt Keydown im Subtask-Input
- */
-function handleMobileEditSubtaskKeydown(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    addMobileEditSubtask();
-  }
-  if (event.key === "Escape") {
-    clearMobileEditSubtaskInput();
-  }
-}
-
-/**
- * Wechselt ein Subtask im mobilen Edit in den Bearbeitungsmodus
- * @param {number} id - Die ID des Subtasks
- */
-function editMobileEditSubtask(id) {
-  const subtask = findMobileSubtaskById(id);
-  if (!subtask) return;
-  const container = document.getElementById(`mobile-edit-subtask-item-${id}`);
-  if (container) {
-    container.innerHTML = getMobileEditSubtaskEditTemplate(subtask);
-    setupMobileSubtaskEditFocus(id);
-  }
-}
-
-/**
- * Setzt Fokus und Selection auf das mobile Subtask-Edit-Feld
- */
-function setupMobileSubtaskEditFocus(id) {
-  const input = document.getElementById(`mobile-edit-subtask-input-${id}`);
-  if (input) {
-    input.focus();
-    input.setSelectionRange(input.value.length, input.value.length);
-  }
-}
-
-/**
- * Findet einen Subtask im mobilen Edit anhand der ID
- */
-function findMobileSubtaskById(id) {
-  return mobileEditSubtasks.find(function (s) {
-    return s.id === id;
-  });
-}
-
-/**
- * Generiert das HTML-Template für einen zu bearbeitenden Subtask im mobilen Edit
- * @param {Object} subtask - Das Subtask-Objekt
- */
-function getMobileEditSubtaskEditTemplate(subtask) {
-  return getMobileEditSubtaskEditHtml(subtask);
-}
-
-/**
- * Speichert die Bearbeitung eines Subtasks im mobilen Edit
- * @param {number} id - Die ID des Subtasks
- */
-function saveMobileEditSubtask(id) {
-  const input = document.getElementById(`mobile-edit-subtask-input-${id}`);
-  if (!input) return;
-  const newText = input.value.trim();
-  if (newText === "") {
-    removeMobileEditSubtask(id);
-    return;
-  }
-  updateMobileSubtaskText(id, newText);
-}
-
-/**
- * Aktualisiert den Text eines Subtasks im mobilen Edit
- */
-function updateMobileSubtaskText(id, newText) {
-  const subtask = findMobileSubtaskById(id);
-  if (subtask) {
-    subtask.text = newText;
-    renderMobileEditSubtasks();
-  }
-}
-
-/**
- * Behandelt Tasteneingaben im Subtask-Edit-Feld
- * @param {number} id - Die ID des Subtasks
- * @param {KeyboardEvent} event - Das Keyboard-Event
- */
-function handleMobileEditSubtaskEditKeydown(id, event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    saveMobileEditSubtask(id);
-  } else if (event.key === "Escape") {
-    renderMobileEditSubtasks();
-  }
-}
-
-/**
- * Rendert die Subtask-Liste im mobilen Edit
- */
-function renderMobileEditSubtasks() {
-  const list = document.getElementById("mobile-edit-subtask-list");
-  if (!list) return;
-  list.innerHTML = "";
-  mobileEditSubtasks.forEach(function (subtask) {
-    list.innerHTML += getMobileEditSubtaskItemHtml(subtask);
-  });
-}
-
-/**
- * Entfernt einen Subtask im mobilen Edit
- */
-function removeMobileEditSubtask(id) {
-  mobileEditSubtasks = mobileEditSubtasks.filter(function (s) {
-    return s.id !== id;
-  });
-  renderMobileEditSubtasks();
-}
-
-/**
- * Speichert den bearbeiteten Task
+ * Speichert den bearbeiteten Task.
+ * Liest Formulardaten, aktualisiert den Task und speichert ihn.
  */
 async function saveMobileEditTask() {
   if (!mobileEditTaskId) return;
   const taskIndex = findTaskById(mobileEditTaskId);
   if (taskIndex === -1) return;
-
   const task = tasks[taskIndex];
   updateTaskDataFromMobileEdit(task);
   await saveSingleTask(task);
@@ -377,7 +253,8 @@ async function saveMobileEditTask() {
 }
 
 /**
- * Aktualisiert das Task-Objekt aus den Formulardaten
+ * Aktualisiert das Task-Objekt mit den Daten aus dem mobilen Edit-Formular.
+ * @param {Object} task - Das zu aktualisierende Task-Objekt
  */
 function updateTaskDataFromMobileEdit(task) {
   task.title = document.getElementById("mobile-edit-title").value.trim();
@@ -394,7 +271,7 @@ function updateTaskDataFromMobileEdit(task) {
 }
 
 /**
- * Schließt Overlays und zeigt Erfolgsmeldung nach Speichern
+ * Schließt alle Overlays und zeigt eine Erfolgsmeldung nach dem Speichern.
  */
 function finalizeMobileEditSave() {
   renderTasks();
@@ -402,75 +279,3 @@ function finalizeMobileEditSave() {
   closeTaskDetails();
   showToast("Task updated successfully");
 }
-
-/**
- * --- Mobile Edit Attachments Handling ---
- */
-function handleMobileEditFileSelect(event) {
-  processMobileEditFiles(event.target.files);
-  document.getElementById("mobile-edit-file-upload").value = "";
-}
-
-function processMobileEditFiles(files) {
-  if (!files || files.length === 0) return;
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    if (typeof isValidImage === "function" && !isValidImage(file)) {
-      if (typeof showFileFormatError === "function") {
-        showFileFormatError();
-      }
-      continue;
-    }
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      mobileEditAttachments.push({
-        name: file.name,
-        type: file.type,
-        data: e.target.result,
-        size: file.size
-      });
-      updateMobileEditAttachmentsPreview();
-    };
-    reader.readAsDataURL(file);
-  }
-}
-
-function updateMobileEditAttachmentsPreview() {
-  const previewContainer = document.getElementById("mobile-edit-upload-preview");
-  const btnDeleteAll = document.getElementById("mobile-edit-delete-all-attachments");
-  if (!previewContainer) return;
-  previewContainer.innerHTML = "";
-  
-  if (mobileEditAttachments.length === 0) {
-    if (btnDeleteAll) btnDeleteAll.classList.add("d-none");
-    previewContainer.classList.remove("can-scroll");
-    return;
-  }
-  
-  if (btnDeleteAll) btnDeleteAll.classList.remove("d-none");
-  
-  mobileEditAttachments.forEach((att, index) => {
-    previewContainer.innerHTML += getMobileEditAttachmentThumbnailHtml(att, index);
-  });
-  
-  if (mobileEditAttachments.length > 3) {
-    previewContainer.classList.add("can-scroll");
-  } else {
-    previewContainer.classList.remove("can-scroll");
-  }
-}
-
-function removeMobileEditAttachment(event, index) {
-  if (event) {
-    event.stopPropagation();
-    event.preventDefault();
-  }
-  mobileEditAttachments.splice(index, 1);
-  updateMobileEditAttachmentsPreview();
-}
-
-function clearMobileEditAttachments() {
-  mobileEditAttachments = [];
-  updateMobileEditAttachmentsPreview();
-}
-
