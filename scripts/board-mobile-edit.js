@@ -114,16 +114,22 @@ function renderMobileEditAssignedToOptions() {
   });
 }
 
-/**
- * Gibt das Template für eine Kontaktoption zurück
- */
 function getMobileEditContactOptionTemplate(contact, isSelected) {
   const selectedClass = isSelected ? "selected" : "";
   const nameSuffix = contact.isYou ? " (You)" : "";
+  
+  let avatarInner = contact.initials;
+  let avatarStyle = `background-color: ${contact.color}`;
+  
+  if (contact.profileImageSmall && contact.profileImageSmall.base64) {
+    avatarInner = `<img src="${contact.profileImageSmall.base64}" class="account-profile-img" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
+  }
+
   return `
     <div class="contact-option ${selectedClass}" onclick="toggleMobileEditContactSelection('${contact.id}', event)">
       <div class="contact-info">
-        <div class="contact-avatar" style="background-color: ${contact.color}">${contact.initials}</div>
+        <div class="contact-avatar" style="${avatarStyle}">${avatarInner}</div>
         <span class="contact-name">${contact.name}${nameSuffix}</span>
       </div>
       <div class="contact-checkbox"></div>
@@ -159,9 +165,6 @@ function updateMobileSelectedContacts(contactId, contact) {
   }
 }
 
-/**
- * Rendert die Initialen der ausgewählten Kontakte
- */
 function renderMobileEditSelectedInitials() {
   const container = document.getElementById(
     "mobile-edit-selected-contacts-initials",
@@ -169,7 +172,15 @@ function renderMobileEditSelectedInitials() {
   if (!container) return;
   container.innerHTML = "";
   mobileEditSelectedContacts.forEach(function (contact) {
-    container.innerHTML += `<div class="selected-avatar" style="background-color: ${contact.color}">${contact.initials}</div>`;
+    let avatarInner = contact.initials;
+    let avatarStyle = `background-color: ${contact.color}`;
+    
+    if (contact.profileImageSmall && contact.profileImageSmall.base64) {
+      avatarInner = `<img src="${contact.profileImageSmall.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+      avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
+    }
+
+    container.innerHTML += `<div class="selected-avatar" style="${avatarStyle}">${avatarInner}</div>`;
   });
 }
 
