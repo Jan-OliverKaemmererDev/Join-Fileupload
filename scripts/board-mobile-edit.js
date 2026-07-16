@@ -126,15 +126,7 @@ function getMobileEditContactOptionTemplate(contact, isSelected) {
     avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
   }
 
-  return `
-    <div class="contact-option ${selectedClass}" onclick="toggleMobileEditContactSelection('${contact.id}', event)">
-      <div class="contact-info">
-        <div class="contact-avatar" style="${avatarStyle}">${avatarInner}</div>
-        <span class="contact-name">${contact.name}${nameSuffix}</span>
-      </div>
-      <div class="contact-checkbox"></div>
-    </div>
-  `;
+  return getMobileEditContactOptionHtml(contact, selectedClass, nameSuffix, avatarInner, avatarStyle);
 }
 
 /**
@@ -180,7 +172,7 @@ function renderMobileEditSelectedInitials() {
       avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
     }
 
-    container.innerHTML += `<div class="selected-avatar" style="${avatarStyle}">${avatarInner}</div>`;
+    container.innerHTML += getMobileEditSelectedAvatarHtml(avatarInner, avatarStyle);
   });
 }
 
@@ -305,16 +297,7 @@ function findMobileSubtaskById(id) {
  * @param {Object} subtask - Das Subtask-Objekt
  */
 function getMobileEditSubtaskEditTemplate(subtask) {
-  return `
-    <div class="subtask-item-edit">
-      <input type="text" class="subtask-edit-input" id="mobile-edit-subtask-input-${subtask.id}" value="${subtask.text}" onkeydown="handleMobileEditSubtaskEditKeydown(${subtask.id}, event)">
-      <div class="subtask-icons" style="display: flex;">
-        <img src="./assets/icons/delete.svg" class="subtask-icon-small" onclick="removeMobileEditSubtask(${subtask.id})" alt="Delete">
-        <div class="subtask-icon-divider"></div>
-        <img src="./assets/icons/check-create-icon-black.svg" class="subtask-icon-small" onclick="saveMobileEditSubtask(${subtask.id})" alt="Save">
-      </div>
-    </div>
-  `;
+  return getMobileEditSubtaskEditHtml(subtask);
 }
 
 /**
@@ -365,16 +348,7 @@ function renderMobileEditSubtasks() {
   if (!list) return;
   list.innerHTML = "";
   mobileEditSubtasks.forEach(function (subtask) {
-    list.innerHTML += `
-      <div class="subtask-item" id="mobile-edit-subtask-item-${subtask.id}" ondblclick="editMobileEditSubtask(${subtask.id})">
-        <div class="subtask-content"><span class="subtask-text">${subtask.text}</span></div>
-        <div class="subtask-icons">
-          <img src="./assets/icons/edit.svg" class="subtask-icon-small" onclick="editMobileEditSubtask(${subtask.id})" alt="Edit">
-          <div class="subtask-icon-divider"></div>
-          <img src="./assets/icons/delete.svg" class="subtask-icon-small" onclick="removeMobileEditSubtask(${subtask.id})" alt="Delete">
-        </div>
-      </div>
-    `;
+    list.innerHTML += getMobileEditSubtaskItemHtml(subtask);
   });
 }
 
@@ -476,19 +450,7 @@ function updateMobileEditAttachmentsPreview() {
   if (btnDeleteAll) btnDeleteAll.classList.remove("d-none");
   
   mobileEditAttachments.forEach((att, index) => {
-    previewContainer.innerHTML += `
-      <div class="thumbnail-container">
-        <div class="thumbnail-image-wrapper">
-          <img src="${att.data || att.preview || att.url}" alt="${att.name}" />
-          <div class="thumbnail-overlay">
-            <button class="btn-delete-thumbnail" onclick="removeMobileEditAttachment(event, ${index})">
-              <img src="./assets/icons/delete-white.svg" alt="Delete" />
-            </button>
-          </div>
-        </div>
-        <div class="thumbnail-name">${att.name}</div>
-      </div>
-    `;
+    previewContainer.innerHTML += getMobileEditAttachmentThumbnailHtml(att, index);
   });
   
   if (mobileEditAttachments.length > 3) {
