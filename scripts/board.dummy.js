@@ -47,56 +47,6 @@ function checkUser() {
   }
 }
 
-/**
- * Lädt die Tasks des aktuellen Benutzers aus Firestore.
- */
-async function loadTasks() {
-  const currentUser = getCurrentUser();
-  if (!currentUser) return;
-  try {
-    const tasksRef = getTasksRef(currentUser.id);
-    const snapshot = await window.fbGetDocs(tasksRef);
-    processTasksSnapshot(snapshot);
-    syncExternalTasksAndRender(currentUser);
-  } catch (error) {
-    console.error("Error loading tasks:", error);
-    tasks = [];
-  }
-}
-
-/**
- * Synchronisiert externe Tasks und rendert neu, falls erforderlich.
- * @param {Object} currentUser - Der Benutzer
- */
-function syncExternalTasksAndRender(currentUser) {
-  syncStakeholderTasks(currentUser).then(function (hasNewTasks) {
-    if (hasNewTasks) renderTasks();
-  });
-}
-
-/**
- * Erstellt die Referenz auf die Tasks-Collection.
- * @param {string} userId - Die Benutzer-ID
- * @returns {Object} Firestore-Referenz
- */
-function getTasksRef(userId) {
-  return window.fbCollection(window.firebaseDb, "users", userId, "tasks");
-}
-
-/**
- * Verarbeitet den Snapshot der Tasks.
- * @param {Object} snapshot - Der Firestore Snapshot
- */
-function processTasksSnapshot(snapshot) {
-  tasks = [];
-  snapshot.forEach(function (doc) {
-    const data = doc.data();
-    if (data.position === undefined) {
-      data.position = data.id || Date.now();
-    }
-    tasks.push(data);
-  });
-}
 
 /**
  * Leert alle Board-Spalten.
@@ -391,61 +341,6 @@ function resolveDropTarget(ev, targetCard) {
   return { targetTaskId, relativePos };
 }
 
-/**
- * Speichert alle Tasks in Firestore.
- */
-async function saveTasks() {
-  const currentUser = getCurrentUser();
-  if (!currentUser) return;
-  try {
-    await saveAllTasksToFirestore(currentUser.id);
-  } catch (error) {
-    console.error("Error saving tasks:", error);
-  }
-}
-
-/**
- * Iteriert über alle Tasks und speichert sie.
- * @param {string} userId - Die Benutzer-ID
- */
-async function saveAllTasksToFirestore(userId) {
-  for (let i = 0; i < tasks.length; i++) {
-    const task = tasks[i];
-    const taskRef = getTaskRefForUser(userId, task.id);
-    await window.fbSetDoc(taskRef, task);
-  }
-}
-
-/**
- * Speichert einen einzelnen Task in Firestore.
- * @param {Object} task - Das zu speicherende Task-Objekt
- */
-async function saveSingleTask(task) {
-  const currentUser = getCurrentUser();
-  if (!currentUser) return;
-  try {
-    const taskRef = getTaskRefForUser(currentUser.id, task.id);
-    await window.fbSetDoc(taskRef, task);
-  } catch (error) {
-    console.error("Error saving single task:", error);
-  }
-}
-
-/**
- * Erstellt eine Dokument-Referenz für einen spezifischen Task.
- * @param {string} userId - Die Benutzer-ID
- * @param {number} taskId - Die Task-ID
- * @returns {Object} Firestore-Referenz
- */
-function getTaskRefForUser(userId, taskId) {
-  return window.fbDoc(
-    window.firebaseDb,
-    "users",
-    userId,
-    "tasks",
-    String(taskId),
-  );
-}
 
 /**
  * Findet einen Task anhand der ID.
@@ -470,3 +365,4 @@ function getTaskIdFromCard(card) {
   const id = card.getAttribute("data-task-id");
   return id ? Number(id) : null;
 }
+
