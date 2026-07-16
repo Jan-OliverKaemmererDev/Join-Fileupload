@@ -44,7 +44,7 @@ function populateContactsFromSnapshot(snapshot) {
   if (currentUser && currentUser.name !== "Gast") {
     contacts.push({
       id: currentUser.id,
-      name: currentUser.name + " (You)",
+      name: currentUser.name,
       email: currentUser.email,
       phone: currentUser.phone || "",
       color: "#29ABE2",

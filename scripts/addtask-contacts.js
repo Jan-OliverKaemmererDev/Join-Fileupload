@@ -36,7 +36,7 @@ function processContactsSnapshot(snapshot, currentUser) {
   if (currentUser && currentUser.name !== "Gast") {
     allContacts.push({
       id: currentUser.id,
-      name: currentUser.name + " (You)",
+      name: currentUser.name,
       email: currentUser.email,
       phone: currentUser.phone || "",
       color: "#29ABE2",
