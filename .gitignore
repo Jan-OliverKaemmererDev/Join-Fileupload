@@ -6,3 +6,4 @@ scripts/board.js
 scripts/addtask.js
 n8n/join-status-update.json
 scripts/summaryuser.js
+scripts/board-data.js
