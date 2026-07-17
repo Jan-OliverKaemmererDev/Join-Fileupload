@@ -1,5 +1,8 @@
 /* ---- Stakeholder View Styles ---- */
 
+/* ========================================================= */
+/*                 HEADER & COUNTERS                         */
+/* ========================================================= */
 .stakeholder-header {
   display: flex;
   justify-content: space-between;
@@ -27,6 +30,9 @@
   font-size: 18px;
 }
 
+/* ========================================================= */
+/*               MAIN LAYOUT & NAVIGATION                    */
+/* ========================================================= */
 .stakeholder-main {
   max-width: 1000px;
   margin: 0 auto;
@@ -73,6 +79,9 @@
   margin-top: 0;
 }
 
+/* ========================================================= */
+/*               CONTENT COLUMNS & ACTIONS                   */
+/* ========================================================= */
 .stakeholder-content {
   display: flex;
   align-items: flex-start;
@@ -150,6 +159,9 @@
   object-fit: contain;
 }
 
+/* ========================================================= */
+/*                     MEDIA QUERIES                         */
+/* ========================================================= */
 @media (max-width: 800px) {
   .stakeholder-content {
     flex-direction: column;

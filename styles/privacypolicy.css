@@ -1,3 +1,6 @@
+/* ========================================================= */
+/*               PRIVACY POLICY CONTAINER                    */
+/* ========================================================= */
 .privacy-policy-container {
   padding: 80px;
   max-width: 1440px;
@@ -27,6 +30,9 @@
   margin-bottom: 16px;
 }
 
+/* ========================================================= */
+/*                 ICONS & BACK BUTTONS                      */
+/* ========================================================= */
 .back-arrow {
   display: flex;
   align-items: center;
@@ -49,6 +55,9 @@
   display: none;
 }
 
+/* ========================================================= */
+/*               SIDEBAR EXTRAS (LOGIN PAGE)                 */
+/* ========================================================= */
 .sidebar-content-wrapper {
   display: flex;
   flex-direction: column;
@@ -73,6 +82,9 @@
   gap: 10px;
 }
 
+/* ========================================================= */
+/*                     MEDIA QUERIES                         */
+/* ========================================================= */
 @media (max-width: 1024px) {
   .privacy-policy-container {
     padding: 40px;

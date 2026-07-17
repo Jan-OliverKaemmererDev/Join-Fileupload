@@ -1,3 +1,6 @@
+/* ========================================================= */
+/*                   LAYOUT & HEADINGS                       */
+/* ========================================================= */
 .add-task-section {
   padding: 40px 80px;
   max-width: 1440px;
@@ -16,6 +19,9 @@
   align-items: flex-start;
 }
 
+/* ========================================================= */
+/*               FORM CONTAINER & GROUPS                     */
+/* ========================================================= */
 .form-container {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -62,11 +68,16 @@
 }
 
 .form-group input[type="date"] {
-  position: relative;
-  background-image: url("../assets/icons/addtask-date-icon.svg");
-  background-repeat: no-repeat;
-  background-position: right 16px center;
   padding-right: 48px;
+}
+
+.date-icon {
+  position: absolute;
+  right: 16px;
+  bottom: 14px;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
 }
 
 .form-group input[type="date"]::-webkit-calendar-picker-indicator {
@@ -100,7 +111,8 @@
   min-height: 120px;
 }
 
-.form-group:has(select) {
+.form-group:has(select),
+.form-group:has(input[type="date"]) {
   position: relative;
 }
 
@@ -124,6 +136,9 @@
   padding-right: 40px;
 }
 
+/* ========================================================= */
+/*                     SUBTASK INPUT                         */
+/* ========================================================= */
 .subtask-input-wrapper {
   position: relative;
   display: flex;
@@ -290,6 +305,9 @@
   margin: 0 4px;
 }
 
+/* ========================================================= */
+/*                FORM FOOTER & ACTIONS                      */
+/* ========================================================= */
 .form-footer {
   display: flex;
   align-items: center;
@@ -371,6 +389,9 @@
   height: 24px;
 }
 
+/* ========================================================= */
+/*                     MEDIA QUERIES                         */
+/* ========================================================= */
 /* ---- Intermediate breakpoint: Sidebar vorhanden, aber Screen noch schmal ---- */
 @media (min-width: 781px) and (max-width: 1100px) {
   .add-task-section {

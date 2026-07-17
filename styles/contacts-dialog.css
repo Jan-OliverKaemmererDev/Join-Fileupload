@@ -1,3 +1,6 @@
+/* ========================================================= */
+/*               DIALOG CONTAINER & LAYOUT                   */
+/* ========================================================= */
 .slide-in-dialog {
   position: relative;
   right: auto;
@@ -41,6 +44,9 @@
   border-bottom-right-radius: 30px;
 }
 
+/* ========================================================= */
+/*               INPUT FIELDS & WRAPPERS                     */
+/* ========================================================= */
 .input-wrapper {
   position: relative;
   width: 100%;
@@ -70,6 +76,9 @@
   pointer-events: none; /* Ensure clicks go to input */
 }
 
+/* ========================================================= */
+/*               FORM ACTIONS & BUTTONS                      */
+/* ========================================================= */
 .form-actions-dialog {
   display: flex;
   gap: 24px;
@@ -147,6 +156,9 @@
   border-radius: 50%;
 }
 
+/* ========================================================= */
+/*                   AVATARS & ALERTS                        */
+/* ========================================================= */
 .contact-form-avatar {
   width: 120px;
   height: 120px;
@@ -182,6 +194,9 @@
   transform: translate(-50%, 0);
 }
 
+/* ========================================================= */
+/*             DESKTOP EDIT DIALOG & MISC                    */
+/* ========================================================= */
 /* Desktop Edit Dialog Styling */
 .edit-content-container {
   display: flex;
@@ -302,7 +317,9 @@
   width: 20px;
 }
 
-/* ===== Validation Styles ===== */
+/* ========================================================= */
+/*                  VALIDATION STYLES                        */
+/* ========================================================= */
 .input-error {
   border: 1px solid #ff3d00 !important;
   outline: none;
