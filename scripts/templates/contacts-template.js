@@ -11,7 +11,7 @@ function getContactItemTemplate(contact) {
   }
 
   return `
-    <div class="contact-item" onclick="showContactDetails('${contact.id}')" data-id="${contact.id}">
+    <div class="contact-item" tabindex="0" onclick="showContactDetails('${contact.id}')" data-id="${contact.id}" onkeydown="if(event.key === 'Enter'){ showContactDetails('${contact.id}'); event.preventDefault(); }">
       <div class="contact-avatar" style="${avatarStyle}">
         ${avatarInner}
       </div>

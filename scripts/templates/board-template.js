@@ -24,7 +24,7 @@ function getTaskCardTemplate(
   }
 
   return `
-    <div class="task-card" draggable="true" data-task-id="${task.id}" ondragstart="startDragging(${task.id}, event)" ondragend="endDragging()" onclick="openTaskDetails(${task.id})">
+    <div class="task-card" tabindex="0" draggable="true" data-task-id="${task.id}" ondragstart="startDragging(${task.id}, event)" ondragend="endDragging()" onclick="openTaskDetails(${task.id})" onkeydown="if(event.key === 'Enter'){ openTaskDetails(${task.id}); event.preventDefault(); }">
       ${sourceIcon}
       <div class="category-tag ${categoryClass}">${categoryLabel}</div>
       <h3 class="task-title">${task.title}</h3>
