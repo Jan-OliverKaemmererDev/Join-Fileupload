@@ -234,6 +234,10 @@ function updateAttachmentsPreview() {
   } else {
     deleteBtn.classList.add('d-none');
   }
+  
+  if (typeof validateForm === 'function') {
+    validateForm();
+  }
 }
 
 /**

@@ -45,6 +45,10 @@ function selectPriority(priority) {
   const buttons = document.querySelectorAll(".priority-btn");
   removeActiveFromAll(buttons);
   addActiveToSelected(priority);
+  
+  if (typeof validateForm === 'function') {
+    validateForm();
+  }
 }
 
 /**

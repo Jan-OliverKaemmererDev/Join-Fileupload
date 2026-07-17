@@ -8,6 +8,7 @@ let mobileEditSelectedContacts = [];
 let mobileEditSubtasks = [];
 let mobileEditSelectedPriority = "medium";
 let mobileEditAttachments = [];
+let currentMobileEditTaskOriginalState = null;
 
 /**
  * Öffnet das mobile Edit-Overlay für einen Task.
@@ -40,6 +41,16 @@ function closeMobileEditOverlay() {
  * @param {Object} task - Das Task-Objekt
  */
 function fillMobileEditForm(task) {
+  currentMobileEditTaskOriginalState = JSON.stringify({
+    title: task.title,
+    description: task.description,
+    dueDate: task.dueDate,
+    priority: task.priority,
+    assignedTo: task.assignedTo ? [...task.assignedTo].sort() : [],
+    subtasks: task.subtasks ? JSON.parse(JSON.stringify(task.subtasks)) : [],
+    attachments: task.attachments ? task.attachments.length : 0
+  });
+
   fillMobileEditBasicInfo(task);
   selectMobileEditPriority(task.priority || "medium");
   fillMobileEditSubtasks(task);
@@ -102,6 +113,10 @@ function selectMobileEditPriority(priority) {
   btns.forEach(function (btn) {
     btn.classList.toggle("active", btn.dataset.priority === priority);
   });
+  
+  if (typeof validateMobileEditForm === 'function') {
+    validateMobileEditForm();
+  }
 }
 
 /**
@@ -167,6 +182,10 @@ function toggleMobileEditContactSelection(contactId, event) {
   updateMobileSelectedContacts(contactId, contact);
   renderMobileEditAssignedToOptions();
   renderMobileEditSelectedInitials();
+  
+  if (typeof validateMobileEditForm === 'function') {
+    validateMobileEditForm();
+  }
 }
 
 /**
@@ -228,14 +247,45 @@ document.addEventListener(
 );
 
 /**
+ * Überprüft, ob das mobile Formular geändert wurde.
+ * @returns {boolean} True, wenn Änderungen vorgenommen wurden.
+ */
+function isMobileTaskDirty() {
+  if (!currentMobileEditTaskOriginalState) return true;
+  
+  const currentAssignedTo = mobileEditSelectedContacts ? [...mobileEditSelectedContacts].map(c => typeof c === 'object' ? c.id : c).sort() : [];
+  const currentSubtasks = mobileEditSubtasks ? mobileEditSubtasks : [];
+  const currentAttachments = typeof mobileEditAttachments !== 'undefined' ? mobileEditAttachments.length : 0;
+  
+  const currentState = JSON.stringify({
+    title: document.getElementById("mobile-edit-title").value.trim(),
+    description: document.getElementById("mobile-edit-description").value.trim(),
+    dueDate: document.getElementById("mobile-edit-due-date").value,
+    priority: typeof mobileEditSelectedPriority !== 'undefined' ? mobileEditSelectedPriority : "medium",
+    assignedTo: currentAssignedTo,
+    subtasks: currentSubtasks,
+    attachments: currentAttachments
+  });
+  
+  return currentState !== currentMobileEditTaskOriginalState;
+}
+
+/**
  * Validiert das mobile Edit-Formular.
- * Deaktiviert den Speichern-Button, wenn Titel oder Datum fehlen.
+ * Deaktiviert den Speichern-Button, wenn Titel oder Datum fehlen, oder keine Änderungen vorgenommen wurden.
  */
 function validateMobileEditForm() {
   const title = document.getElementById("mobile-edit-title").value.trim();
   const dueDate = document.getElementById("mobile-edit-due-date").value;
   const btn = document.getElementById("mobile-edit-save-btn");
-  if (btn) btn.disabled = !(title && dueDate);
+  
+  let isValid = !!(title && dueDate);
+  
+  if (!isMobileTaskDirty()) {
+    isValid = false;
+  }
+  
+  if (btn) btn.disabled = !isValid;
 }
 
 /**

@@ -62,11 +62,13 @@ function updateMobileEditAttachmentsPreview() {
   if (mobileEditAttachments.length === 0) {
     toggleMobileEditDeleteAllButton(btnDeleteAll, true);
     previewContainer.classList.remove("can-scroll");
+    if (typeof validateMobileEditForm === 'function') validateMobileEditForm();
     return;
   }
   toggleMobileEditDeleteAllButton(btnDeleteAll, false);
   renderMobileEditThumbnails(previewContainer);
   updateMobileEditPreviewScrollState(previewContainer);
+  if (typeof validateMobileEditForm === 'function') validateMobileEditForm();
 }
 
 /**

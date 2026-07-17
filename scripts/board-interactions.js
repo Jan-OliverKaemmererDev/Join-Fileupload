@@ -1,3 +1,5 @@
+let currentEditTaskOriginalState = null;
+
 /**
  * Öffnet das Add-Task-Overlay. Auf mobilen Geräten (≤780px) erfolgt eine Weiterleitung zu addtask.html, auf Desktop wird das Overlay eingeblendet.
  */
@@ -252,9 +254,9 @@ function filterCard(card, query) {
  * @param {Object} task - Das Task-Objekt
  * @param {number} taskId - Die ID des Tasks
  */
-function openEditOverlay(task, taskId) {
+async function openEditOverlay(task, taskId) {
   closeTaskDetails();
-  fillFormWithTaskData(task);
+  await fillFormWithTaskData(task);
   openAddTaskOverlay();
   setupFormForEdit(taskId);
 }
@@ -263,26 +265,41 @@ function openEditOverlay(task, taskId) {
  * Öffnet den Bearbeitungsmodus für einen Task
  * @param {number} taskId - Die ID des Tasks
  */
-function editTask(taskId) {
+async function editTask(taskId) {
   if (window.innerWidth <= 780) {
     openMobileEditOverlay(taskId);
     return;
   }
   const task = findTask(taskId);
   if (!task) return;
-  openEditOverlay(task, taskId);
+  await openEditOverlay(task, taskId);
 }
 
 /**
  * Füllt das Formular mit den Daten eines Tasks
  * @param {Object} task - Das Task-Objekt
  */
-function fillFormWithTaskData(task) {
+async function fillFormWithTaskData(task) {
+  currentEditTaskOriginalState = JSON.stringify({
+    title: task.title,
+    description: task.description,
+    dueDate: task.dueDate,
+    category: task.category,
+    priority: task.priority,
+    assignedTo: task.assignedTo ? [...task.assignedTo].sort() : [],
+    subtasks: task.subtasks ? JSON.parse(JSON.stringify(task.subtasks)) : [],
+    attachments: task.attachments ? task.attachments.length : 0
+  });
+
   document.getElementById("title").value = task.title;
   document.getElementById("description").value = task.description;
   document.getElementById("due-date").value = task.dueDate;
   loadAssigneesForEdit(task);
   document.getElementById("category").value = task.category;
+  const categoryText = document.getElementById("selected-category-text");
+  if (categoryText) {
+    categoryText.textContent = task.category === "user-story" ? "User Story" : "Technical Task";
+  }
   selectPriority(task.priority);
   subtasks =
     task.subtasks && task.subtasks.length > 0
@@ -290,9 +307,34 @@ function fillFormWithTaskData(task) {
       : [];
   renderSubtasks();
   if (typeof loadExistingAttachments === 'function') {
-    loadExistingAttachments(task.attachments || []);
+    await loadExistingAttachments(task.attachments || []);
   }
   validateForm();
+}
+
+/**
+ * Überprüft, ob das Formular seit dem Laden des Tasks geändert wurde.
+ * @returns {boolean} True, wenn Änderungen vorgenommen wurden.
+ */
+function isTaskDirty() {
+  if (!currentEditTaskOriginalState) return true;
+  
+  const currentAssignedTo = selectedContacts ? [...selectedContacts].map(c => typeof c === 'object' ? c.id : c).sort() : [];
+  const currentSubtasks = subtasks ? subtasks : [];
+  const currentAttachments = typeof taskAttachments !== 'undefined' ? taskAttachments.length : 0;
+  
+  const currentState = JSON.stringify({
+    title: document.getElementById("title").value.trim(),
+    description: document.getElementById("description").value.trim(),
+    dueDate: document.getElementById("due-date").value,
+    category: document.getElementById("category").value,
+    priority: typeof selectedPriority !== 'undefined' ? selectedPriority : "medium",
+    assignedTo: currentAssignedTo,
+    subtasks: currentSubtasks,
+    attachments: currentAttachments
+  });
+  
+  return currentState !== currentEditTaskOriginalState;
 }
 
 /**

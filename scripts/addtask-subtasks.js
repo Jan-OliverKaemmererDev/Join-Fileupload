@@ -12,6 +12,10 @@ function addSubtask() {
   input.value = "";
   renderSubtasks();
   hideSubtaskIcons();
+  
+  if (typeof validateForm === 'function') {
+    validateForm();
+  }
 }
 
 /**
@@ -138,6 +142,10 @@ function saveEditSubtask(id) {
     return;
   }
   updateSubtaskText(id, newText);
+  
+  if (typeof validateForm === 'function') {
+    validateForm();
+  }
 }
 
 /**
@@ -174,6 +182,10 @@ function removeSubtask(id) {
     return s.id !== id;
   });
   renderSubtasks();
+  
+  if (typeof validateForm === 'function') {
+    validateForm();
+  }
 }
 
 /**

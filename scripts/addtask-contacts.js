@@ -122,6 +122,10 @@ function toggleContactSelection(contactId, event) {
   updateSelectedContacts(contact, contactId);
   renderAssignedToOptions();
   renderSelectedInitials();
+  
+  if (typeof validateForm === 'function') {
+    validateForm();
+  }
 }
 
 /**

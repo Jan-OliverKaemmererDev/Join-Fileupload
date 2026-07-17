@@ -35,6 +35,10 @@ function addMobileEditSubtask() {
   mobileEditSubtasks.push({ id: id, text: text, completed: false });
   input.value = "";
   renderMobileEditSubtasks();
+  
+  if (typeof validateMobileEditForm === 'function') {
+    validateMobileEditForm();
+  }
 }
 
 /**
@@ -113,6 +117,10 @@ function saveMobileEditSubtask(id) {
     return;
   }
   updateMobileSubtaskText(id, newText);
+  
+  if (typeof validateMobileEditForm === 'function') {
+    validateMobileEditForm();
+  }
 }
 
 /**
@@ -164,4 +172,8 @@ function removeMobileEditSubtask(id) {
     return s.id !== id;
   });
   renderMobileEditSubtasks();
+  
+  if (typeof validateMobileEditForm === 'function') {
+    validateMobileEditForm();
+  }
 }
