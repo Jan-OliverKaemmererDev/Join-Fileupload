@@ -108,11 +108,14 @@
     width: 100%;
     justify-content: space-around;
     gap: 0;
+    height: 100%;
+    display: flex !important;
+    align-items: stretch;
   }
 
   .nav-links a {
     flex-direction: column !important;
-    padding: 8px;
+    padding: 0;
     font-size: 12px;
     gap: 4px;
     color: #a8a8a8;
@@ -120,6 +123,8 @@
     justify-content: center;
     width: 25%;
     text-decoration: none;
+    height: 100%;
+    display: flex;
   }
 
   .nav-links a img {
@@ -132,6 +137,7 @@
     background-color: #091931;
     border-radius: 12px;
     color: white;
+    height: 100%;
   }
 
   .nav-links a.active img {

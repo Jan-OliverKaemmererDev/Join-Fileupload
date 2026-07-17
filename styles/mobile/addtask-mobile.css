@@ -147,9 +147,6 @@
   }
 
   .form-group input[type="date"] {
-    background-image: url("../../assets/icons/addtask-date-icon.svg");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
     padding-right: 44px;
     -webkit-appearance: none;
     appearance: none;
@@ -176,9 +173,6 @@
   .form-group select {
     -webkit-appearance: none;
     appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10L12 15L17 10H7Z' fill='%232A3647'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
     padding-right: 40px;
     cursor: pointer;
   }
@@ -423,7 +417,7 @@
     left: 0;
     right: 0;
     top: auto;
-    height: 72px;
+    height: 80px;
     width: 100%;
     padding: 0;
     background-color: #2a3647;
@@ -442,41 +436,40 @@
     width: 100%;
     justify-content: space-around;
     gap: 0;
-    display: flex;
     height: 100%;
+    display: flex !important;
     align-items: stretch;
   }
 
   .nav-links a {
     flex-direction: column !important;
-    display: flex;
     padding: 0;
     font-size: 12px;
     gap: 4px;
-    color: rgba(255, 255, 255, 0.55);
+    color: #a8a8a8;
     align-items: center;
     justify-content: center;
+    width: 25%;
     text-decoration: none;
-    border-radius: 10px;
-    flex: 1;
-    width: auto !important;
     height: 100%;
+    display: flex;
   }
 
   .nav-links a img {
     width: 24px;
     height: 24px;
-    filter: brightness(0) invert(1) opacity(0.55);
+    filter: brightness(0) invert(1) opacity(0.6);
   }
 
   .nav-links a.active {
     background-color: #091931;
-    color: #fff;
+    border-radius: 12px;
+    color: white;
     height: 100%;
   }
 
   .nav-links a.active img {
-    filter: brightness(0) invert(1);
+    filter: brightness(0) invert(1) opacity(1);
   }
 }
 
