@@ -1,3 +1,6 @@
+/* ========================================================= */
+/*                 CUSTOM SELECT DROPDOWN                    */
+/* ========================================================= */
 .custom-select-wrapper {
   position: relative;
   width: 100%;
@@ -42,6 +45,9 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* ========================================================= */
+/*                   CONTACTS SELECTION                      */
+/* ========================================================= */
 .contact-option {
   display: flex;
   align-items: center;
@@ -108,9 +114,16 @@
 
 .contact-option.selected .contact-checkbox {
   border-color: #fff;
-  background-image: url("data:image/svg+xml,%3Csvg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5.5L5 9.5L13 1.5' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
+}
+
+.check-icon {
+  display: none;
+  width: 14px;
+  height: 11px;
+}
+
+.contact-option.selected .contact-checkbox .check-icon {
+  display: block;
 }
 
 .selected-contacts-initials {
@@ -142,6 +155,9 @@
   flex-shrink: 0;
 }
 
+/* ========================================================= */
+/*                    PRIORITY BUTTONS                       */
+/* ========================================================= */
 .priority-buttons {
   display: flex;
   gap: 16px;
@@ -202,7 +218,9 @@
   filter: brightness(0) invert(1);
 }
 
-/* Attachments Styles */
+/* ========================================================= */
+/*                       ATTACHMENTS                         */
+/* ========================================================= */
 .attachments-header {
   display: flex;
   justify-content: space-between;

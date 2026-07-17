@@ -19,7 +19,9 @@ function getMobileEditContactOptionHtml(contact, selectedClass, nameSuffix, avat
         <div class="contact-avatar" style="${avatarStyle}">${avatarInner}</div>
         <span class="contact-name">${contact.name}${nameSuffix}</span>
       </div>
-      <div class="contact-checkbox"></div>
+      <div class="contact-checkbox">
+        <img src="./assets/icons/check-icon.png" class="check-icon" alt="Check">
+      </div>
     </div>
   `;
 }

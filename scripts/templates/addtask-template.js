@@ -57,7 +57,9 @@ function getContactOptionTemplate(contactId, contactName, selectedClass, nameSuf
         </div>
         <span class="contact-name">${contactName}${nameSuffix}</span>
       </div>
-      <div class="contact-checkbox"></div>
+      <div class="contact-checkbox">
+        <img src="./assets/icons/check-icon.png" class="check-icon" alt="Check">
+      </div>
     </div>
   `;
 }
