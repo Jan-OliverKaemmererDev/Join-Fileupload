@@ -22,7 +22,7 @@
     <main class="login-main">
       <div class="login-card signup-card-adjust">
         <div class="signup-header">
-          <a href="index.html">
+          <a href="index.html" aria-label="Zurück zur Anmeldeseite">
             <img
               src="./assets/login-screen/arrow-left.svg"
               alt="Back"
@@ -34,7 +34,7 @@
 
         <div class="blue-underline"></div>
 
-        <form id="signup-form" onsubmit="handleRegistration(event)" novalidate>
+        <form id="signup-form" onsubmit="handleRegistration(event)" novalidate aria-label="Registrierung">
           <div class="signup-input-wrap">
             <input
               type="text"
@@ -42,6 +42,7 @@
               placeholder="Name"
               oninput="checkFormValidity()"
               required
+              aria-label="Name"
             />
             <span id="hint-name" class="signup-hint"></span>
           </div>
@@ -53,6 +54,7 @@
               placeholder="Email"
               oninput="checkFormValidity()"
               required
+              aria-label="E-Mail-Adresse"
             />
             <span id="hint-email" class="signup-hint"></span>
           </div>
@@ -65,12 +67,16 @@
                 placeholder="Password"
                 oninput="checkFormValidity()"
                 required
+                aria-label="Passwort"
               />
               <img
                 src="./assets/login-screen/visibility_off.svg"
                 onclick="togglePasswordVisibility('password', this)"
                 class="input-icon"
-                alt="Toggle Password"
+                alt="Passwort anzeigen/verbergen"
+                role="button"
+                tabindex="0"
+                aria-label="Passwort anzeigen/verbergen"
               />
             </div>
             <span id="hint-password" class="signup-hint"></span>
@@ -84,12 +90,16 @@
                 placeholder="Confirm Password"
                 oninput="checkFormValidity()"
                 required
+                aria-label="Passwort bestätigen"
               />
               <img
                 src="./assets/login-screen/visibility_off.svg"
                 onclick="togglePasswordVisibility('confirm-password', this)"
                 class="input-icon"
-                alt="Toggle Password"
+                alt="Passwort anzeigen/verbergen"
+                role="button"
+                tabindex="0"
+                aria-label="Passwort bestätigen anzeigen/verbergen"
               />
             </div>
             <span id="hint-confirm-password" class="signup-hint"></span>
@@ -140,5 +150,6 @@
 
     <script src="./script.js"></script>
     <script src="./scripts/signup.js"></script>
+    <script src="./scripts/wcag-accessibility.js"></script>
   </body>
 </html>

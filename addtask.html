@@ -15,7 +15,7 @@
     <title>Join - Add Task</title>
   </head>
   <body onload="initAddTask()">
-    <nav class="sidebar">
+    <nav class="sidebar" aria-label="Hauptnavigation">
       <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" />
       <div class="nav-links">
         <a href="summaryuser.html">
@@ -84,7 +84,7 @@
       <section class="add-task-section">
         <h1>Add Task</h1>
 
-        <form id="add-task-form" onsubmit="handleAddTask(event)">
+        <form id="add-task-form" onsubmit="handleAddTask(event)" aria-label="Neue Aufgabe erstellen">
           <div class="form-container">
             <div class="form-column">
               <div class="form-group">
@@ -184,7 +184,7 @@
                     <img src="./assets/icons/delete.svg" alt="Delete" /> Delete all
                   </button>
                 </div>
-                <div class="upload-area" id="upload-area" onclick="document.getElementById('file-upload').click()">
+                <div class="upload-area" id="upload-area" onclick="document.getElementById('file-upload').click()" role="button" tabindex="0" aria-label="Datei hochladen">
                   <span class="upload-text">
                     <span class="upload-text-desktop">Drag a file or browse </span>
                     <span class="upload-text-mobile d-none">Upload file </span>
@@ -220,6 +220,9 @@
                       alt="Clear"
                       onclick="clearSubtaskInput()"
                       class="subtask-icon"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Subtask-Eingabe leeren"
                     />
                     <div class="subtask-divider"></div>
                     <img
@@ -227,6 +230,9 @@
                       alt="Save"
                       onclick="addSubtask()"
                       class="subtask-icon"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Subtask speichern"
                     />
                   </div>
                 </div>
@@ -239,6 +245,10 @@
                   <div
                     class="custom-select-header"
                     onclick="toggleAssignedToDropdown()"
+                    role="button"
+                    tabindex="0"
+                    aria-expanded="false"
+                    aria-label="Kontakte zuweisen"
                   >
                     <span id="selected-contact-text"
                       >Select contacts to assign</span
@@ -309,5 +319,6 @@
     <script src="./scripts/attachments-drag-scroll.js"></script>
     <script src="./scripts/addtask-attachments.js"></script>
     <script src="./scripts/addtask.js"></script>
+    <script src="./scripts/wcag-accessibility.js"></script>
   </body>
 </html>

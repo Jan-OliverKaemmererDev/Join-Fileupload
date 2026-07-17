@@ -25,7 +25,7 @@
         alt="Join Logo Mobile"
       />
     </div>
-    <div id="welcome-overlay" class="welcome-overlay">
+    <div id="welcome-overlay" class="welcome-overlay" role="dialog" aria-modal="true" aria-label="Willkommen">
       <div class="welcome-card">
         <h2>Welcome</h2>
         <div class="blue-underline"></div>
@@ -85,7 +85,7 @@
       <section class="login-card" aria-labelledby="login-heading">
         <h1 id="login-heading">Log in</h1>
         <div class="blue-underline"></div>
-        <form onsubmit="handleLogin(event)" novalidate>
+        <form onsubmit="handleLogin(event)" novalidate aria-label="Login">
           <div class="login-input-wrap">
             <input
               type="email"
@@ -93,6 +93,7 @@
               placeholder="Email"
               required
               oninput="checkLoginValidity()"
+              aria-label="E-Mail-Adresse"
             />
             <span
               id="login-email-hint"
@@ -107,6 +108,7 @@
               placeholder="Password"
               required
               oninput="checkLoginValidity()"
+              aria-label="Passwort"
             />
             <span
               id="login-pass-hint"
@@ -153,6 +155,7 @@
     <script src="./scripts/auth.js"></script>
 
     <script src="./script.js"></script>
+    <script src="./scripts/wcag-accessibility.js"></script>
     <script>
       function checkLoginValidity() {
         var email = document.getElementById("email").value.trim();

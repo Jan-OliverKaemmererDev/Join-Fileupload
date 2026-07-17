@@ -24,7 +24,7 @@
     <title>Join - Board</title>
   </head>
   <body onload="initBoard()">
-    <nav class="sidebar">
+    <nav class="sidebar" aria-label="Hauptnavigation">
       <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" />
       <div class="nav-links">
         <a href="summaryuser.html">
@@ -107,6 +107,7 @@
                 id="search-input"
                 placeholder="Find Task"
                 oninput="searchTasks()"
+                aria-label="Aufgaben suchen"
               />
               <div class="search-icon-container">
                 <img src="./assets/icons/search-icon.svg" alt="Search" />
@@ -132,8 +133,8 @@
           >
             <header class="column-header">
               <span id="column-title-triage">Triage</span>
-              <div class="column-header-plus" onclick="openAddTaskOverlay()">
-                <img src="./assets/icons/add-icon-blue.svg" alt="Add" />
+              <div class="column-header-plus" onclick="openAddTaskOverlay()" role="button" tabindex="0" aria-label="Task zu Triage hinzufügen">
+                <img src="./assets/icons/add-icon-blue.svg" alt="" />
               </div>
             </header>
             <div class="task-list" id="triage-list"></div>
@@ -151,8 +152,8 @@
           >
             <header class="column-header">
               <span id="column-title-todo">To do</span>
-              <div class="column-header-plus" onclick="openAddTaskOverlay()">
-                <img src="./assets/icons/add-icon-blue.svg" alt="Add" />
+              <div class="column-header-plus" onclick="openAddTaskOverlay()" role="button" tabindex="0" aria-label="Task zu To do hinzufügen">
+                <img src="./assets/icons/add-icon-blue.svg" alt="" />
               </div>
             </header>
             <div class="task-list" id="todo-list"></div>
@@ -170,8 +171,8 @@
           >
             <header class="column-header">
               <span id="column-title-inprogress">In progress</span>
-              <div class="column-header-plus" onclick="openAddTaskOverlay()">
-                <img src="./assets/icons/add-icon-blue.svg" alt="Add" />
+              <div class="column-header-plus" onclick="openAddTaskOverlay()" role="button" tabindex="0" aria-label="Task zu In progress hinzufügen">
+                <img src="./assets/icons/add-icon-blue.svg" alt="" />
               </div>
             </header>
             <div class="task-list" id="inprogress-list"></div>
@@ -189,8 +190,8 @@
           >
             <header class="column-header">
               <span id="column-title-awaitfeedback">Await feedback</span>
-              <div class="column-header-plus" onclick="openAddTaskOverlay()">
-                <img src="./assets/icons/add-icon-blue.svg" alt="Add" />
+              <div class="column-header-plus" onclick="openAddTaskOverlay()" role="button" tabindex="0" aria-label="Task zu Await feedback hinzufügen">
+                <img src="./assets/icons/add-icon-blue.svg" alt="" />
               </div>
             </header>
             <div class="task-list" id="awaitfeedback-list"></div>
@@ -240,7 +241,7 @@
 
         <h1 class="add-task-title">Add Task</h1>
 
-        <form id="add-task-form" onsubmit="handleAddTask(event)">
+        <form id="add-task-form" onsubmit="handleAddTask(event)" aria-label="Neue Aufgabe erstellen">
           <div class="form-container">
             <div class="form-column">
               <div class="form-group">
@@ -363,6 +364,9 @@
                   class="upload-area"
                   id="upload-area"
                   onclick="document.getElementById('file-upload').click()"
+                  role="button"
+                  tabindex="0"
+                  aria-label="Datei hochladen"
                 >
                   <span class="upload-text">
                     <span class="upload-text-desktop"
@@ -412,6 +416,9 @@
                       alt="Clear"
                       onclick="clearSubtaskInput()"
                       class="subtask-icon"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Subtask-Eingabe leeren"
                     />
                     <div class="subtask-divider"></div>
                     <img
@@ -419,6 +426,9 @@
                       alt="Save"
                       onclick="addSubtask()"
                       class="subtask-icon"
+                      role="button"
+                      tabindex="0"
+                      aria-label="Subtask speichern"
                     />
                   </div>
                 </div>
@@ -431,6 +441,10 @@
                   <div
                     class="custom-select-header"
                     onclick="toggleAssignedToDropdown()"
+                    role="button"
+                    tabindex="0"
+                    aria-expanded="false"
+                    aria-label="Kontakte zuweisen"
                   >
                     <span id="selected-contact-text"
                       >Select contacts to assign</span
@@ -505,6 +519,9 @@
       class="mobile-edit-overlay"
       id="mobile-edit-overlay"
       onclick="closeMobileEditOverlay()"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Task bearbeiten"
     >
       <div class="mobile-edit-card" onclick="event.stopPropagation()">
         <div class="mobile-edit-header">
@@ -628,6 +645,9 @@
               onclick="
                 document.getElementById('mobile-edit-file-upload').click()
               "
+              role="button"
+              tabindex="0"
+              aria-label="Datei hochladen"
             >
               <span class="upload-text"
                 >Upload file
@@ -701,7 +721,7 @@
     </div>
 
     <!-- Image Viewer Overlay -->
-    <div id="image-viewer-overlay" onclick="closeImageViewer(event)">
+    <div id="image-viewer-overlay" onclick="closeImageViewer(event)" role="dialog" aria-modal="true" aria-label="Bildvorschau">
       <div class="viewer-content" onclick="event.stopPropagation()">
         <img id="viewer-image" src="" alt="Viewer" />
         <div class="viewer-controls">
@@ -858,5 +878,6 @@
     <script src="./scripts/board-mobile-edit.js"></script>
     <script src="./scripts/board-mobile-edit-subtasks.js"></script>
     <script src="./scripts/board-mobile-edit-attachments.js"></script>
+    <script src="./scripts/wcag-accessibility.js"></script>
   </body>
 </html>

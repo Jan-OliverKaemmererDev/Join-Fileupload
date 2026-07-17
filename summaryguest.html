@@ -14,7 +14,7 @@
     <title>Join - Summary (Guest)</title>
   </head>
   <body onload="initSummaryGuest()">
-    <nav class="sidebar">
+    <nav class="sidebar" aria-label="Hauptnavigation">
       <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" />
       <div class="nav-links">
         <a href="summaryguest.html" class="active">
@@ -99,6 +99,9 @@
             <div
               class="metric-card card-small"
               onclick="redirectToBoard(event)"
+              role="button"
+              tabindex="0"
+              aria-label="To-do Aufgaben anzeigen"
             >
               <div class="icon-badge">
                 <img
@@ -114,6 +117,9 @@
             <div
               class="metric-card card-small"
               onclick="redirectToBoard(event)"
+              role="button"
+              tabindex="0"
+              aria-label="Erledigte Aufgaben anzeigen"
             >
               <div class="icon-badge">
                 <img
@@ -129,6 +135,9 @@
             <div
               class="metric-card card-large"
               onclick="redirectToBoard(event)"
+              role="button"
+              tabindex="0"
+              aria-label="Dringende Aufgaben anzeigen"
             >
               <div class="urgent-info">
                 <div class="icon-badge">
@@ -150,6 +159,9 @@
             <div
               class="metric-card card-square"
               onclick="redirectToBoard(event)"
+              role="button"
+              tabindex="0"
+              aria-label="E-Mail-Anfragen anzeigen"
             >
               <b id="count-emails">0</b>
               <p>Email<br />requests</p>
@@ -157,6 +169,9 @@
             <div
               class="metric-card card-square"
               onclick="redirectToBoard(event)"
+              role="button"
+              tabindex="0"
+              aria-label="Aufgaben im Board anzeigen"
             >
               <b id="count-board"></b>
               <p>Tasks in Board</p>
@@ -164,6 +179,9 @@
             <div
               class="metric-card card-square"
               onclick="redirectToBoard(event)"
+              role="button"
+              tabindex="0"
+              aria-label="Aufgaben in Bearbeitung anzeigen"
             >
               <b id="count-progress"></b>
               <p>Tasks In Progress</p>
@@ -171,6 +189,9 @@
             <div
               class="metric-card card-square"
               onclick="redirectToBoard(event)"
+              role="button"
+              tabindex="0"
+              aria-label="Aufgaben mit Feedback-Wartezeit anzeigen"
             >
               <b id="count-awaiting"></b>
               <p>Awaiting Feedback</p>
@@ -198,5 +219,6 @@
     <script src="./scripts/file-upload-utils.js"></script>
     <script src="./scripts/file-upload.js"></script>
     <script src="./scripts/summaryuser.js"></script>
+    <script src="./scripts/wcag-accessibility.js"></script>
   </body>
 </html>
