@@ -160,10 +160,11 @@ function blobToBase64(blob) {
  * @param {string} filename - Der originale Dateiname.
  * @param {string} fileType - Der MIME-Type.
  * @param {string} base64 - Der Base64-String.
+ * @param {number} [size] - Die Dateigröße.
  * @returns {Object} Das Profilbild-Datenobjekt.
  */
-function buildProfileImageData(filename, fileType, base64) {
-  return { filename, fileType, base64 };
+function buildProfileImageData(filename, fileType, base64, size) {
+  return { filename, fileType, base64, ...(size !== undefined && { size }) };
 }
 
 /**
@@ -323,4 +324,28 @@ function triggerErrorMsgAnimation(errorMsg) {
   errorMsg.timeoutId = setTimeout(() => {
     errorMsg.classList.remove("show");
   }, 4000);
+}
+
+/**
+ * Zeigt eine Fehlermeldung für eine zu große Datei an.
+ */
+function showFileSizeError() {
+  const errorMsg = ensureSizeErrorMsgElement();
+  triggerErrorMsgAnimation(errorMsg);
+}
+
+/**
+ * Stellt sicher, dass das Fehler-Element für die Dateigröße existiert.
+ * @returns {HTMLElement} Das Fehlermeldungs-Element.
+ */
+function ensureSizeErrorMsgElement() {
+  let errorMsg = document.getElementById("file-size-error");
+  if (!errorMsg) {
+    errorMsg = document.createElement("div");
+    errorMsg.id = "file-size-error";
+    errorMsg.className = "file-format-error file-size-error";
+    errorMsg.innerHTML = getFileSizeErrorTemplate();
+    document.body.appendChild(errorMsg);
+  }
+  return errorMsg;
 }

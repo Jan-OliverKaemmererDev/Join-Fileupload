@@ -17,3 +17,19 @@ function getFileFormatErrorTemplate() {
     </button>
   `;
 }
+
+/**
+ * Gibt das HTML für das File-Size-Error Overlay zurück.
+ * @returns {string} HTML-String
+ */
+function getFileSizeErrorTemplate() {
+  return `
+    <div class="error-content">
+      <span class="error-title">File is too large!</span>
+      <span class="error-desc">Max. 1MB allowed for Firebase.</span>
+    </div>
+    <button class="error-close" onclick="document.getElementById('file-size-error').classList.remove('show')">
+      <img src="./assets/icons/clear-X-icon-white.svg" alt="Close" />
+    </button>
+  `;
+}

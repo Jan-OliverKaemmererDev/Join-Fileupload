@@ -51,6 +51,14 @@ function processFiles(files) {
  * @param {Object} state - Der Verarbeitungsstatus.
  */
 function processSingleFile(file, state) {
+  if (file.size > (typeof MAX_FILE_SIZE !== 'undefined' ? MAX_FILE_SIZE : 2 * 1024 * 1024)) {
+    if (!state.errorShown) {
+      if (typeof showFileSizeError === "function") showFileSizeError();
+      state.errorShown = true;
+    }
+    return;
+  }
+
   if (isValidImage(file)) {
     taskAttachments.push(file);
     state.added = true;
@@ -156,6 +164,14 @@ async function processTaskAttachments() {
  */
 async function processSingleAttachment(file) {
   let images = await generateAttachmentImages(file);
+  
+  // Calculate size in bytes from base64 (approx string length * 0.75)
+  const base64Size = images.original.length * 0.75;
+  if (base64Size > 1024 * 1024) { // 1 MB
+    if (typeof showFileSizeError === "function") showFileSizeError();
+    throw new Error("File too large for Firebase after compression");
+  }
+
   return {
     name: file.name,
     type: file.type,
@@ -199,7 +215,7 @@ function canCompress(file) {
  * @returns {Promise<{original: string, preview: string}>} Komprimierte Bilder.
  */
 async function compressImageAttachment(file) {
-  const largeBlob = await compressBlob(file, 1024, 1024, 0.6);
+  const largeBlob = await compressBlob(file, 800, 800, 0.6);
   const original = await blobToBase64(largeBlob);
   const smallBlob = await compressBlob(file, 200, 200, 0.7);
   const preview = await blobToBase64(smallBlob);
