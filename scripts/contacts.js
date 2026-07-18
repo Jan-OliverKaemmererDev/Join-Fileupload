@@ -41,7 +41,7 @@ function populateContactsFromSnapshot(snapshot) {
   contacts = [];
   const currentUser = typeof getCurrentUser === "function" ? getCurrentUser() : null;
 
-  if (currentUser && currentUser.name !== "Gast") {
+  if (currentUser) {
     contacts.push({
       id: currentUser.id,
       name: currentUser.name,

@@ -16,7 +16,7 @@ function getContactItemTemplate(contact) {
         ${avatarInner}
       </div>
       <div class="contact-info-list">
-        <span class="contact-name-list">${contact.name}</span>
+        <span class="contact-name-list">${contact.name}${contact.isYou ? ' (You)' : ''}</span>
         <span class="contact-email-list">${contact.email}</span>
       </div>
     </div>
@@ -42,7 +42,7 @@ function getDesktopContactDetailsTemplate(contact) {
             ${avatarInner}
         </div>
         <div class="contact-name-section">
-            <h1 class="contact-name-details">${contact.name}</h1>
+            <h1 class="contact-name-details">${contact.name}${contact.isYou ? ' (You)' : ''}</h1>
             <div class="contact-actions">
                 <button class="btn-text-icon" onclick="openEditContactDialog('${contact.id}')">
                     <img src="./assets/icons/edit.svg" alt="Edit"> Edit
@@ -92,7 +92,7 @@ function getMobileContactDetailsTemplate(contact) {
         <div class="initials-large" style="${avatarStyle}">
             ${avatarInner}
         </div>
-        <div class="contact-name-large">${contact.name}</div>
+        <div class="contact-name-large">${contact.name}${contact.isYou ? ' (You)' : ''}</div>
     </div>
 
     <div class="info-headline-container">

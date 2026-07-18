@@ -191,7 +191,7 @@ function toggleEditAccount() {
  */
 async function saveAccountChanges() {
   let currentUser = getAccountUserData();
-  if (!currentUser || currentUser.isGuest) return setAccountViewMode();
+  if (!currentUser) return setAccountViewMode();
   currentUser = await handleProfileImageUpload(currentUser);
   await handleAccountDataSave(currentUser);
 }

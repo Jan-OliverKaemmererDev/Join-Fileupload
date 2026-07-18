@@ -174,7 +174,7 @@ function buildProfileImageData(filename, fileType, base64, size) {
  */
 async function saveProfileImageToFirebase(profileImage, profileImageSmall) {
   const currentUser = getCurrentUser();
-  if (!currentUser || currentUser.isGuest) return;
+  if (!currentUser) return;
   const userRef = window.fbDoc(window.firebaseDb, "users", currentUser.id);
   await window.fbUpdateDoc(userRef, { profileImage, profileImageSmall });
   updateSessionProfileImage(currentUser, profileImage, profileImageSmall);

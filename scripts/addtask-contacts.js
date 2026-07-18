@@ -33,7 +33,7 @@ function fetchContactsSnapshot(userId) {
 function processContactsSnapshot(snapshot, currentUser) {
   allContacts = [];
   
-  if (currentUser && currentUser.name !== "Gast") {
+  if (currentUser) {
     allContacts.push({
       id: currentUser.id,
       name: currentUser.name,
