@@ -321,7 +321,7 @@ function processTaskStatus(task, metrics) {
       metrics.awaiting++;
       break;
     case "triage":
-      if (task.creatorType === "extern" || task.creatorEmail || task.creator) {
+      if (task.creatorType !== "internal-user" && (task.creatorType === "extern" || task.createdBy === "extern" || task.creatorEmail || task.creator)) {
         metrics.emails++;
       }
       break;
