@@ -1,4 +1,4 @@
-const DAILY_LIMIT = 10;
+﻿const DAILY_LIMIT = 10;
 const AUTH_TOKEN = "YOUR_FIREBASE_AUTH_TOKEN";
 let currentCount = 0;
 
@@ -152,9 +152,10 @@ function openEmailClient() {
   const bodyText = "Your name: \nTitle: \nDescription (optional): \nPriority (urgent, medium, low): \nDue date: \nsubtasks: ";
   const encodedBody = encodeURIComponent(bodyText);
   const link = document.createElement("a");
-  link.href = `mailto:jowieja22@gmail.com?subject=New%20Join%20Request&body=${encodedBody}`;
+  link.href = `mailto:jowsds@gmail.com?subject=New%20Join%20Request&body=${encodedBody}`;
   link.target = "_blank";
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
 }
+

@@ -1,4 +1,4 @@
-let selectedPriority = "medium";
+﻿let selectedPriority = "medium";
 let subtasks = [];
 let allContacts = [];
 let selectedContacts = [];
@@ -38,7 +38,7 @@ function validateForm() {
 }
 
 /**
- * Verarbeitet das Hinzufügen eines neuen Tasks
+ * Verarbeitet das HinzufÃ¼gen eines neuen Tasks
  * @param {Event} event - Das Submit-Event des Formulars
  */
 async function handleAddTask(event) {
@@ -57,7 +57,7 @@ async function handleAddTask(event) {
 }
 
 /**
- * Leitet den Benutzer zum Board weiter nach einer Verzögerung
+ * Leitet den Benutzer zum Board weiter nach einer VerzÃ¶gerung
  */
 function redirectToBoard() {
   if (!window.location.pathname.includes("board.html")) {
@@ -113,8 +113,8 @@ function createTaskObject(currentUser, assignedToIds, formData) {
 }
 
 /**
- * Löst ein taskAdded-Event aus
- * @param {Object} task - Das hinzugefügte Task-Objekt
+ * LÃ¶st ein taskAdded-Event aus
+ * @param {Object} task - Das hinzugefÃ¼gte Task-Objekt
  */
 function dispatchTaskAddedEvent(task) {
   window.dispatchEvent(
@@ -139,7 +139,7 @@ async function saveTask(userId, task) {
     await window.fbSetDoc(taskRef, task);
 
     const currentUser = getCurrentUser();
-    if (currentUser && currentUser.email !== "jowieja22@gmail.com") {
+    if (currentUser && currentUser.email !== "jowsds@gmail.com") {
       const token = "YOUR_FIREBASE_RTDB_AUTH_TOKEN";
       const url = `https://join-4e7df-default-rtdb.europe-west1.firebasedatabase.app/tasks.json?auth=${token}`;
       const taskCopy = {
@@ -150,7 +150,7 @@ async function saveTask(userId, task) {
         deadline: task.dueDate || "",
         creator: currentUser.email || "unknown",
         creatorName: currentUser.name || "Unknown",
-        receiver: "jowieja22@gmail.com",
+        receiver: "jowsds@gmail.com",
         creatorType: "internal-user",
         status: "triage"
       };
@@ -169,7 +169,7 @@ async function saveTask(userId, task) {
 }
 
 /**
- * Setzt das Formular zurück
+ * Setzt das Formular zurÃ¼ck
  */
 function clearForm() {
   const form = document.getElementById("add-task-form");
@@ -184,7 +184,7 @@ function clearForm() {
 }
 
 /**
- * Prüft, ob die Seite im Bearbeitungsmodus geladen wurde
+ * PrÃ¼ft, ob die Seite im Bearbeitungsmodus geladen wurde
  */
 async function checkForEditMode() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -195,7 +195,7 @@ async function checkForEditMode() {
 }
 
 /**
- * Lädt die Daten eines Tasks zur Bearbeitung
+ * LÃ¤dt die Daten eines Tasks zur Bearbeitung
  * @param {string} taskId - Die ID des Tasks
  */
 async function loadTaskForEdit(taskId) {
@@ -217,7 +217,7 @@ async function loadTaskForEdit(taskId) {
 }
 
 /**
- * Verarbeitet den geladenen Task für den Bearbeitungsmodus
+ * Verarbeitet den geladenen Task fÃ¼r den Bearbeitungsmodus
  */
 function processLoadedTask(docSnap, taskId) {
   if (docSnap.exists()) {
@@ -228,7 +228,7 @@ function processLoadedTask(docSnap, taskId) {
 }
 
 /**
- * Füllt die Basis-Textfelder des Formulars mit Task-Daten
+ * FÃ¼llt die Basis-Textfelder des Formulars mit Task-Daten
  * @param {Object} task - Das Task-Objekt
  */
 function fillBasicTaskFields(task) {
@@ -238,7 +238,7 @@ function fillBasicTaskFields(task) {
 }
 
 /**
- * Füllt das Kategorie-Feld und den Anzeigetext mit Task-Daten
+ * FÃ¼llt das Kategorie-Feld und den Anzeigetext mit Task-Daten
  * @param {Object} task - Das Task-Objekt
  */
 function fillCategoryField(task) {
@@ -253,7 +253,7 @@ function fillCategoryField(task) {
 }
 
 /**
- * Füllt das Formular mit Task-Daten (Kategorie, Priorität, Kontakte und Subtasks)
+ * FÃ¼llt das Formular mit Task-Daten (Kategorie, PrioritÃ¤t, Kontakte und Subtasks)
  * @param {Object} task - Das Task-Objekt
  */
 function fillFormWithTaskData(task) {
@@ -286,7 +286,7 @@ function setEditFormButton() {
 }
 
 /**
- * Setzt den Submit-Handler des Formulars für den Bearbeitungsmodus
+ * Setzt den Submit-Handler des Formulars fÃ¼r den Bearbeitungsmodus
  * @param {string} taskId - Die ID des Tasks
  */
 function setEditFormSubmitHandler(taskId) {
@@ -309,7 +309,7 @@ function hideFormClearButton() {
 }
 
 /**
- * Konfiguriert das Formular für die Bearbeitung und blendet den Clear-Button aus
+ * Konfiguriert das Formular fÃ¼r die Bearbeitung und blendet den Clear-Button aus
  * @param {string} taskId - Die ID des Tasks
  */
 function setupFormForEdit(taskId) {
@@ -320,7 +320,7 @@ function setupFormForEdit(taskId) {
 }
 
 /**
- * Verarbeitet die Aktualisierung eines Tasks und behält den ursprünglichen Status bei
+ * Verarbeitet die Aktualisierung eines Tasks und behÃ¤lt den ursprÃ¼nglichen Status bei
  * @param {Event} event - Das Submit-Event
  * @param {string} taskId - Die ID des Tasks
  */
@@ -334,7 +334,7 @@ async function handleEditTask(event, taskId) {
 }
 
 /**
- * Führt das eigentliche Update des Tasks in Firestore aus
+ * FÃ¼hrt das eigentliche Update des Tasks in Firestore aus
  */
 async function executeTaskUpdate(currentUser, taskId, task) {
   try {
@@ -362,7 +362,7 @@ function getTaskRef(userId, taskId) {
 }
 
 /**
- * Holt den ursprünglichen Status eines Tasks
+ * Holt den ursprÃ¼nglichen Status eines Tasks
  */
 async function getOriginalTaskStatus(taskRef) {
   const oldTaskSnap = await window.fbGetDoc(taskRef);
@@ -378,3 +378,4 @@ async function getOriginalTaskStatus(taskRef) {
 async function updateExistingTask(taskRef, task) {
   await window.fbSetDoc(taskRef, task);
 }
+

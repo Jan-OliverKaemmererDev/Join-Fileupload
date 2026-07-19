@@ -69,7 +69,7 @@ function normalizeSubtaskItem(st) {
  * @returns {Promise<boolean>} Ob neue Tasks synchronisiert wurden
  */
 async function syncStakeholderTasks(currentUser) {
-  if (currentUser.email !== "jowieja22@gmail.com") return false;
+  if (currentUser.email !== "jowsds@gmail.com") return false;
   const token = "YOUR_FIREBASE_AUTH_TOKEN";
   const url = `https://join-4e7df-default-rtdb.europe-west1.firebasedatabase.app/tasks.json?auth=${token}`;
   try {
@@ -268,4 +268,5 @@ function buildWebhookPayload(task, oldStatus, newStatus, creatorEmail) {
     newStatus: newStatus,
   };
 }
+
 
