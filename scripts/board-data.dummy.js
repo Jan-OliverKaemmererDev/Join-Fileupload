@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Normalisiert Subtasks aus verschiedenen Firebase-Formaten in das Board-Format.
  * @param {*} raw - Die rohen Subtask-Daten aus Firebase
  * @returns {Array} Array von {text, completed} Objekten
@@ -10,7 +10,7 @@ function parseSubtasks(raw) {
 }
 
 /**
- * Extrahiert rohe Subtask-Einträge in ein Array.
+ * Extrahiert rohe Subtask-EintrÃ¤ge in ein Array.
  * @param {*} raw - Rohdaten (Array, String oder Object)
  * @returns {Array} Array von Items
  */
@@ -124,7 +124,7 @@ async function processSingleExternalTask(currentUser, taskData, key, token) {
 }
 
 /**
- * Erstellt das Task-Objekt für einen externen Task.
+ * Erstellt das Task-Objekt fÃ¼r einen externen Task.
  * @param {Object} taskData - Die Daten von Firebase
  * @returns {Object} Das erstellte Task-Objekt
  */
@@ -148,7 +148,7 @@ function createExternalTaskObject(taskData) {
 }
 
 /**
- * Löscht einen externen Task aus der Realtime Database.
+ * LÃ¶scht einen externen Task aus der Realtime Database.
  * @param {string} key - Der Key
  * @param {string} token - Das Token
  */
@@ -176,7 +176,7 @@ async function ensureTaskCreatorInContacts(currentUser, email, name) {
 }
 
 /**
- * Prüft, ob eine E-Mail bereits in den Kontakten existiert.
+ * PrÃ¼ft, ob eine E-Mail bereits in den Kontakten existiert.
  * @param {string} userId - Die Benutzer-ID
  * @param {string} email - Die E-Mail
  * @returns {Promise<boolean>} Ob der Kontakt existiert
@@ -204,7 +204,7 @@ async function createNewExternalContact(userId, email, name) {
 }
 
 /**
- * Baut das Objekt für einen neuen Kontakt.
+ * Baut das Objekt fÃ¼r einen neuen Kontakt.
  * @param {string} email - Die E-Mail
  * @param {string} name - Der Name
  * @returns {Object} Das Kontakt-Objekt
@@ -235,14 +235,14 @@ function generateInitialsForName(name) {
 }
 
 /**
- * Benachrichtigt einen externen Ersteller über einen Statuswechsel.
+ * Benachrichtigt einen externen Ersteller Ã¼ber einen Statuswechsel.
  * @param {Object} task - Der Task
  * @param {string} oldStatus - Alter Status
  * @param {string} newStatus - Neuer Status
  * @param {string} creatorEmail - Die E-Mail
  */
 function notifyExternalCreatorOnStatusChange(task, oldStatus, newStatus, creatorEmail) {
-  const webhookUrl = "https://jan-oliver.app.n8n.cloud/webhook-test/join-status-update";
+  const webhookUrl = "https://jan-oliver91.app.n8n.cloud/webhook-test/join-status-update";
   const payload = buildWebhookPayload(task, oldStatus, newStatus, creatorEmail);
   fetch(webhookUrl, {
     method: "POST",
@@ -252,7 +252,7 @@ function notifyExternalCreatorOnStatusChange(task, oldStatus, newStatus, creator
 }
 
 /**
- * Baut das Payload für den Webhook.
+ * Baut das Payload fÃ¼r den Webhook.
  * @param {Object} task - Der Task
  * @param {string} oldStatus - Alter Status
  * @param {string} newStatus - Neuer Status
@@ -268,3 +268,4 @@ function buildWebhookPayload(task, oldStatus, newStatus, creatorEmail) {
     newStatus: newStatus,
   };
 }
+
