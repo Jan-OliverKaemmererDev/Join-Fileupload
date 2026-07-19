@@ -72,7 +72,9 @@ function fillMobileEditBasicInfo(task) {
   document.getElementById("mobile-edit-title").value = task.title || "";
   document.getElementById("mobile-edit-description").value =
     task.description || "";
-  document.getElementById("mobile-edit-due-date").value = task.dueDate || "";
+  const mobileDateInput = document.getElementById("mobile-edit-due-date");
+  if (task.dueDate) mobileDateInput.type = "date";
+  mobileDateInput.value = task.dueDate || "";
 }
 
 /**

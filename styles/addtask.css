@@ -67,7 +67,8 @@
   transition: border-color 0.2s;
 }
 
-.form-group input[type="date"] {
+.form-group input[type="date"],
+.form-group:has(.date-icon) input {
   padding-right: 48px;
 }
 
@@ -112,7 +113,8 @@
 }
 
 .form-group:has(select),
-.form-group:has(input[type="date"]) {
+.form-group:has(input[type="date"]),
+.form-group:has(.date-icon) {
   position: relative;
 }
 

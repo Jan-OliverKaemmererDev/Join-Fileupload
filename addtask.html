@@ -113,11 +113,12 @@
                   >Due date<span class="required">*</span></label
                 >
                 <input
-                  type="date"
+                  type="text"
                   id="due-date"
-                  placeholder="dd/mm/yyyy"
+                  placeholder="tt.mm.jjjj"
                   oninput="validateForm()"
-                  onclick="this.showPicker()"
+                  onfocus="this.type='date'; this.showPicker ? this.showPicker() : null"
+                  onblur="if(!this.value) this.type='text'"
                   required
                 />
                 <img src="./assets/icons/addtask-date-icon.svg" class="date-icon" alt="Date">

@@ -293,7 +293,9 @@ async function fillFormWithTaskData(task) {
 
   document.getElementById("title").value = task.title;
   document.getElementById("description").value = task.description;
-  document.getElementById("due-date").value = task.dueDate;
+  const dateInput = document.getElementById("due-date");
+  if (task.dueDate) dateInput.type = "date";
+  dateInput.value = task.dueDate;
   loadAssigneesForEdit(task);
   document.getElementById("category").value = task.category;
   const categoryText = document.getElementById("selected-category-text");
