@@ -65,7 +65,8 @@ function calculateDimensions(origWidth, origHeight, maxWidth, maxHeight) {
 function compressImage(file, maxWidth, maxHeight, quality) {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.onload = () => handleImageCompression(img, maxWidth, maxHeight, quality, resolve, reject);
+    const fileType = file.type || "image/jpeg";
+    img.onload = () => handleImageCompression(img, maxWidth, maxHeight, quality, fileType, resolve, reject);
     img.onerror = () => reject(new Error("Bild konnte nicht geladen werden."));
     img.src = URL.createObjectURL(file);
   });
@@ -77,17 +78,25 @@ function compressImage(file, maxWidth, maxHeight, quality) {
  * @param {number} maxWidth - Maximale Breite.
  * @param {number} maxHeight - Maximale Höhe.
  * @param {number} quality - JPEG-Qualität.
+ * @param {string} fileType - Der MIME-Type des Bildes.
  * @param {Function} resolve - Promise Resolve.
  * @param {Function} reject - Promise Reject.
  */
-function handleImageCompression(img, maxWidth, maxHeight, quality, resolve, reject) {
+function handleImageCompression(img, maxWidth, maxHeight, quality, fileType, resolve, reject) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   drawCompressionCanvas(img, canvas, ctx, maxWidth, maxHeight);
+  
+  // If PNG, it cannot be compressed with quality parameter. Use webp to preserve transparency but allow compression!
+  let outputType = fileType;
+  if (fileType === "image/png") {
+    outputType = "image/webp";
+  }
+  
   canvas.toBlob((blob) => {
     if (blob) resolve(blob);
     else reject(new Error("Bild konnte nicht komprimiert werden."));
-  }, "image/jpeg", quality);
+  }, outputType, quality);
 }
 
 /**
@@ -116,7 +125,8 @@ function drawCompressionCanvas(img, canvas, ctx, maxWidth, maxHeight) {
 function compressBlob(blob, maxWidth, maxHeight, quality) {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    img.onload = () => handleBlobCompression(img, maxWidth, maxHeight, quality, resolve, reject);
+    const fileType = blob.type || "image/jpeg";
+    img.onload = () => handleBlobCompression(img, maxWidth, maxHeight, quality, fileType, resolve, reject);
     img.onerror = reject;
     img.src = URL.createObjectURL(blob);
   });
@@ -128,17 +138,25 @@ function compressBlob(blob, maxWidth, maxHeight, quality) {
  * @param {number} maxWidth - Maximale Breite.
  * @param {number} maxHeight - Maximale Höhe.
  * @param {number} quality - JPEG-Qualität.
+ * @param {string} fileType - Der MIME-Type des Bildes.
  * @param {Function} resolve - Promise Resolve.
  * @param {Function} reject - Promise Reject.
  */
-function handleBlobCompression(img, maxWidth, maxHeight, quality, resolve, reject) {
+function handleBlobCompression(img, maxWidth, maxHeight, quality, fileType, resolve, reject) {
   const canvas = document.createElement("canvas");
   const ctx = canvas.getContext("2d");
   drawCompressionCanvas(img, canvas, ctx, maxWidth, maxHeight);
+  
+  // If PNG, it cannot be compressed with quality parameter. Use webp to preserve transparency but allow compression!
+  let outputType = fileType;
+  if (fileType === "image/png") {
+    outputType = "image/webp";
+  }
+
   canvas.toBlob((newBlob) => {
     if (newBlob) resolve(newBlob);
     else reject(new Error("Bild konnte nicht komprimiert werden."));
-  }, "image/jpeg", quality);
+  }, outputType, quality);
 }
 
 /**

@@ -419,7 +419,8 @@ async function applyFormDataToTask(task) {
   task.category = document.getElementById("category").value;
   task.subtasks = JSON.parse(JSON.stringify(subtasks));
   if (typeof processTaskAttachments === 'function') {
-    task.attachments = await processTaskAttachments();
+    const newAttachments = await processTaskAttachments();
+    task.attachments = newAttachments;
   }
 }
 

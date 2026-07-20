@@ -173,11 +173,11 @@ async function processSingleAttachment(file) {
   }
 
   return {
-    name: file.name,
-    type: file.type,
-    size: file.size,
-    data: images.original,
-    preview: images.preview
+    name: file.name || "unnamed",
+    type: file.type || "application/octet-stream",
+    size: file.size || 0,
+    data: images.original || "",
+    preview: images.preview || ""
   };
 }
 
