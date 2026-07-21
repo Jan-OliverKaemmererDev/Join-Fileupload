@@ -88,15 +88,15 @@
       </header>
 
       <section class="summary-section">
-        <div class="summary-title">
+        <header class="summary-title">
           <h1>Join 360</h1>
           <div class="vertical-line"></div>
           <span>Key Metrics at a Glance</span>
-        </div>
+        </header>
 
-        <div class="summary-container" aria-label="Summary Bereich">
+        <section class="summary-container" aria-label="Summary Bereich">
           <div class="metrics-grid">
-            <div
+            <article
               class="metric-card card-small"
               onclick="redirectToBoard(event)"
               role="button"
@@ -113,8 +113,8 @@
                 <b id="count-todo"></b>
                 <p>To-do</p>
               </div>
-            </div>
-            <div
+            </article>
+            <article
               class="metric-card card-small"
               onclick="redirectToBoard(event)"
               role="button"
@@ -131,8 +131,8 @@
                 <b id="count-done"></b>
                 <p>Done</p>
               </div>
-            </div>
-            <div
+            </article>
+            <article
               class="metric-card card-large"
               onclick="redirectToBoard(event)"
               role="button"
@@ -155,8 +155,8 @@
                 <b id="next-deadline"></b>
                 <p>Upcoming Deadline</p>
               </div>
-            </div>
-            <div
+            </article>
+            <article
               class="metric-card card-square"
               onclick="redirectToBoard(event)"
               role="button"
@@ -165,8 +165,8 @@
             >
               <b id="count-emails">0</b>
               <p>Email<br />requests</p>
-            </div>
-            <div
+            </article>
+            <article
               class="metric-card card-square"
               onclick="redirectToBoard(event)"
               role="button"
@@ -175,8 +175,8 @@
             >
               <b id="count-board"></b>
               <p>Tasks in Board</p>
-            </div>
-            <div
+            </article>
+            <article
               class="metric-card card-square"
               onclick="redirectToBoard(event)"
               role="button"
@@ -185,8 +185,8 @@
             >
               <b id="count-progress"></b>
               <p>Tasks In Progress</p>
-            </div>
-            <div
+            </article>
+            <article
               class="metric-card card-square"
               onclick="redirectToBoard(event)"
               role="button"
@@ -195,13 +195,13 @@
             >
               <b id="count-awaiting"></b>
               <p>Awaiting Feedback</p>
-            </div>
+            </article>
           </div>
 
-          <div class="greeting-container">
+          <section class="greeting-container">
             <h2 id="greeting-text">Good morning!</h2>
-          </div>
-        </div>
+          </section>
+        </section>
       </section>
     </main>
 

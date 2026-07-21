@@ -121,7 +121,7 @@
         </header>
 
         <div class="board-columns" aria-label="Board Spalten">
-          <div class="board-column" id="column-triage" aria-label="Triage Spalte"
+          <section class="board-column" id="column-triage" aria-label="Triage Spalte"
             ondrop="drop(event, 'triage')"
             ondragover="
               allowDrop(event);
@@ -136,9 +136,9 @@
               </div>
             </header>
             <div class="task-list" id="triage-list" aria-label="Aufgabenliste Triage"></div>
-          </div>
+          </section>
 
-          <div class="board-column" id="column-todo" aria-label="To do Spalte"
+          <section class="board-column" id="column-todo" aria-label="To do Spalte"
             ondrop="drop(event, 'todo')"
             ondragover="
               allowDrop(event);
@@ -153,9 +153,9 @@
               </div>
             </header>
             <div class="task-list" id="todo-list" aria-label="Aufgabenliste To do"></div>
-          </div>
+          </section>
 
-          <div class="board-column" id="column-inprogress" aria-label="In progress Spalte"
+          <section class="board-column" id="column-inprogress" aria-label="In progress Spalte"
             ondrop="drop(event, 'inprogress')"
             ondragover="
               allowDrop(event);
@@ -170,9 +170,9 @@
               </div>
             </header>
             <div class="task-list" id="inprogress-list" aria-label="Aufgabenliste In progress"></div>
-          </div>
+          </section>
 
-          <div class="board-column" id="column-awaitfeedback" aria-label="Await feedback Spalte"
+          <section class="board-column" id="column-awaitfeedback" aria-label="Await feedback Spalte"
             ondrop="drop(event, 'awaitfeedback')"
             ondragover="
               allowDrop(event);
@@ -187,9 +187,9 @@
               </div>
             </header>
             <div class="task-list" id="awaitfeedback-list" aria-label="Aufgabenliste Await feedback"></div>
-          </div>
+          </section>
 
-          <div class="board-column" id="column-done" aria-label="Done Spalte"
+          <section class="board-column" id="column-done" aria-label="Done Spalte"
             ondrop="drop(event, 'done')"
             ondragover="
               allowDrop(event);
@@ -201,7 +201,7 @@
               <span id="column-title-done">Done</span>
             </header>
             <div class="task-list" id="done-list" aria-label="Aufgabenliste Done"></div>
-          </div>
+          </section>
         </div>
       </section>
     </main>
@@ -214,7 +214,7 @@
       aria-modal="true"
       aria-label="Add Task"
     >
-      <div class="overlay-content add-task-overlay-card" onclick="event.stopPropagation()" aria-label="Add Task Formular">
+      <article class="overlay-content add-task-overlay-card" onclick="event.stopPropagation()" aria-label="Add Task Formular">
         <div class="close-btn-container" aria-label="Schließen Button Container">
           <button
             type="button"
@@ -478,7 +478,7 @@
             </div>
           </div>
         </form>
-      </div>
+      </article>
     </div>
 
     <div
@@ -489,10 +489,10 @@
       aria-modal="true"
       aria-label="Task details"
     >
-      <div class="overlay-content task-details-card" aria-label="Task Details Karte"
+      <article class="overlay-content task-details-card" aria-label="Task Details Karte"
         id="task-details-content"
         onclick="event.stopPropagation()"
-      ></div>
+      ></article>
     </div>
 
     <!-- Mobile Edit Overlay -->
@@ -504,7 +504,7 @@
       aria-modal="true"
       aria-label="Task bearbeiten"
     >
-      <div class="mobile-edit-card" aria-label="Mobile Bearbeiten Karte" onclick="event.stopPropagation()">
+      <article class="mobile-edit-card" aria-label="Mobile Bearbeiten Karte" onclick="event.stopPropagation()">
         <div class="mobile-edit-header" aria-label="Mobile Bearbeiten Kopfbereich">
           <button class="mobile-edit-close" onclick="closeMobileEditOverlay()">
             <img src="./assets/icons/clear-X-icon.svg" alt="Close" />
@@ -697,12 +697,12 @@
             Ok <img src="./assets/icons/check-create-icon.svg" alt="Save" />
           </button>
         </div>
-      </div>
+      </article>
     </div>
 
     <!-- Image Viewer Overlay -->
     <div id="image-viewer-overlay" onclick="closeImageViewer(event)" role="dialog" aria-modal="true" aria-label="Bildvorschau">
-      <div class="viewer-content" onclick="event.stopPropagation()" aria-label="Viewer Inhalt">
+      <article class="viewer-content" onclick="event.stopPropagation()" aria-label="Viewer Inhalt">
         <img id="viewer-image" src="" alt="Viewer" />
         <div class="viewer-controls" aria-label="Steuerungselemente">
           <div class="viewer-header" aria-label="Kopfbereich">
@@ -797,7 +797,7 @@
             <img src="./assets/icons/arrow-right.png" alt="Next" />
           </button>
         </div>
-      </div>
+      </article>
     </div>
 
     <!-- Mobile Navigation -->
