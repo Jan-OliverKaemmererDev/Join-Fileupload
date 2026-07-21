@@ -11,7 +11,7 @@
     <title>Join - Stakeholder</title>
   </head>
   <body onload="initStakeholder()">
-    <header class="stakeholder-header">
+    <header class="stakeholder-header" aria-label="Stakeholder Kopfzeile">
       <a href="index.html" class="logo-link">
         <img src="./assets/login-screen/join-logo.png" alt="Join Logo" class="header-logo" />
       </a>
@@ -20,14 +20,14 @@
       </div>
     </header>
 
-    <main class="stakeholder-main">
+    <main class="stakeholder-main" aria-label="Stakeholder Hauptbereich">
       <div class="back-link-container hide-mobile">
         <a href="index.html" class="back-link">
           <img src="./assets/icons/issue-collector/back.svg" alt="Back" />
         </a>
       </div>
 
-      <div class="content-wrapper">
+      <div class="content-wrapper" aria-label="Inhaltsbereich">
         <div class="mobile-welcome-row show-mobile">
           <h1 class="welcome-heading">Welcome</h1>
           <a href="index.html" class="back-link">
@@ -40,8 +40,8 @@
 
         <h1 class="welcome-heading hide-mobile">Welcome</h1>
 
-        <div class="stakeholder-content">
-          <div class="left-col" id="state-normal">
+        <div class="stakeholder-content" aria-label="Stakeholder Inhalt">
+          <div class="left-col" id="state-normal" aria-label="Linke Spalte">
             <h2>Easily create a ticket by sending an email — no extra steps needed.</h2>
             <p>On this platform, you can submit your feature requests via email. Our AI system will automatically generate a ticket with a deadline and priority level.</p>
             <p>A total of 10 requests can be created per day. After this limit, emails can still be sent, but they will be manually reviewed by our team instead of generating AI tickets.</p>
@@ -50,7 +50,7 @@
             </button>
           </div>
 
-          <div class="left-col d-none" id="state-limit">
+          <div class="left-col d-none" id="state-limit" aria-label="Linke Spalte Limit">
             <div class="limit-warning">The daily 10-request limit has been reached!</div>
             <p>Need more? No worries — you can still send emails, but our team will review them manually instead of using AI to create tickets.</p>
             <button class="btn-stakeholder-action" onclick="createEmailRequest()">
@@ -58,14 +58,14 @@
             </button>
           </div>
 
-          <div class="right-col">
+          <div class="right-col" aria-label="Rechte Spalte">
             <img id="stakeholder-img" src="./assets/issue-collector/stakeholder.png" alt="Stakeholder illustration" />
           </div>
         </div>
       </div>
     </main>
 
-    <footer class="login-footer">
+    <footer class="login-footer" aria-label="Login Fußzeile">
       <a href="privacypolicy.html?public=true">Privacy Policy</a>
       <a href="legalnotice.html?public=true">Legal notice</a>
     </footer>

@@ -41,15 +41,15 @@
       </div>
     </nav>
 
-    <main class="main-content">
-      <header class="dashboard-header">
-        <div class="header-content">
+    <main class="main-content" aria-label="Hauptinhalt">
+      <header class="dashboard-header" aria-label="Dashboard Kopfzeile">
+        <div class="header-content" aria-label="Kopfzeileninhalt">
           <span>Kanban Project Management Tool</span>
-          <div class="header-icons">
+          <div class="header-icons" aria-label="Kopfzeilensymbole">
             <a href="help.html" class="help-link">
               <img src="./assets/summary-page/help.svg" alt="Help" />
             </a>
-            <div class="user-menu-container">
+            <div class="user-menu-container" aria-label="Benutzermenü Container">
               <div
                 class="user-initials"
                 id="user-initials"
@@ -85,9 +85,9 @@
         <h1>Add Task</h1>
 
         <form id="add-task-form" onsubmit="handleAddTask(event)" aria-label="Neue Aufgabe erstellen">
-          <div class="form-container">
-            <div class="form-column">
-              <div class="form-group">
+          <div class="form-container" aria-label="Formularbereich">
+            <div class="form-column" aria-label="Formularspalte">
+              <div class="form-group" aria-label="Formulargruppe">
                 <label for="title">Title<span class="required">*</span></label>
                 <input
                   type="text"
@@ -98,7 +98,7 @@
                 />
               </div>
 
-              <div class="form-group">
+              <div class="form-group" aria-label="Formulargruppe">
                 <label for="description">Description</label>
                 <textarea
                   id="description"
@@ -108,7 +108,7 @@
                 ></textarea>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" aria-label="Formulargruppe">
                 <label for="due-date"
                   >Due date<span class="required">*</span></label
                 >
@@ -124,9 +124,9 @@
                 <img src="./assets/icons/addtask-date-icon.svg" class="date-icon" alt="Date">
               </div>
 
-              <div class="form-group">
+              <div class="form-group" aria-label="Formulargruppe">
                 <label>Priority</label>
-                <div class="priority-buttons">
+                <div class="priority-buttons" aria-label="Priorität Schaltflächen">
                   <button
                     type="button"
                     class="priority-btn"
@@ -163,7 +163,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" aria-label="Formulargruppe">
                 <label for="category"
                   >Category<span class="required">*</span></label
                 >
@@ -176,7 +176,7 @@
               </div>
             </div>
 
-            <div class="form-column">
+            <div class="form-column" aria-label="Formularspalte">
               <div class="form-group attachments-group">
                 <label>Attachments</label>
                 <div class="attachments-header">
@@ -198,7 +198,7 @@
                 </div>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" aria-label="Formulargruppe">
                 <label>Subtasks</label>
                 <div
                   class="subtask-input-wrapper"
@@ -240,7 +240,7 @@
                 <ul id="subtask-list" class="subtask-list"></ul>
               </div>
 
-              <div class="form-group">
+              <div class="form-group" aria-label="Formulargruppe">
                 <label>Assigned to</label>
                 <div class="custom-select-wrapper" id="assigned-to-wrapper">
                   <div
@@ -273,11 +273,11 @@
             </div>
           </div>
 
-          <div class="form-footer">
+          <div class="form-footer" aria-label="Formular Fußbereich">
             <p class="required-note">
               <span class="required">*</span>This field is required
             </p>
-            <div class="form-actions">
+            <div class="form-actions" aria-label="Formular Aktionen">
               <button type="button" class="btn-clear" onclick="clearForm()">
                 Clear
                 <img src="./assets/icons/clear-X-icon.svg" alt="Clear" />

@@ -11,7 +11,7 @@
     <title>Join - Login</title>
   </head>
   <body onload="initLogin()">
-    <div id="animation-container" class="animation-container">
+    <div id="animation-container" class="animation-container" aria-label="Animationsbereich">
       <img
         id="flying-logo"
         class="desktop-logo"
@@ -26,15 +26,15 @@
       />
     </div>
     <div id="welcome-overlay" class="welcome-overlay" role="dialog" aria-modal="true" aria-label="Willkommen">
-      <div class="welcome-card">
+      <div class="welcome-card" aria-label="Willkommenskarte">
         <h2>Welcome</h2>
         <div class="blue-underline"></div>
         <p>
           Pick the option that suits your role: create a request as a
           stakeholder or log in if you're part of the team.
         </p>
-        <div class="welcome-options">
-          <div class="welcome-option">
+        <div class="welcome-options" aria-label="Willkommensoptionen">
+          <div class="welcome-option" aria-label="Willkommensoption">
             <div class="option-header">
               <img
                 src="./assets/icons/issue-collector/briefcase.svg"
@@ -49,7 +49,7 @@
               Create request
             </button>
           </div>
-          <div class="welcome-option">
+          <div class="welcome-option" aria-label="Willkommensoption">
             <div class="option-header">
               <img
                 src="./assets/icons/issue-collector/group.svg"
@@ -69,7 +69,7 @@
       </div>
     </div>
 
-    <header class="login-header">
+    <header class="login-header" aria-label="Login Kopfzeile">
       <div class="header-right">
         <span>Not a Join user?</span>
         <button
@@ -81,7 +81,7 @@
       </div>
     </header>
 
-    <main class="login-main">
+    <main class="login-main" aria-label="Hauptbereich">
       <section class="login-card" aria-labelledby="login-heading">
         <h1 id="login-heading">Log in</h1>
         <div class="blue-underline"></div>
@@ -119,7 +119,7 @@
           <div id="login-error" class="error-message v-none">
             Check your email and password. Please try again.
           </div>
-          <div class="login-actions">
+          <div class="login-actions" aria-label="Aktionen">
             <button
               type="submit"
               id="login-btn"
@@ -134,7 +134,7 @@
           </div>
         </form>
       </section>
-      <div class="mobile-signup">
+      <div class="mobile-signup" aria-label="Mobile Registrierung">
         <span>Not a Join user?</span>
         <button
           onclick="window.location.href = 'signup.html'"

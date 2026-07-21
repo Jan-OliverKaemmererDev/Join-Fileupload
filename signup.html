@@ -19,9 +19,9 @@
       class="logo-top-left"
     />
 
-    <main class="login-main">
-      <div class="login-card signup-card-adjust">
-        <div class="signup-header">
+    <main class="login-main" aria-label="Hauptbereich">
+      <div class="login-card signup-card-adjust" aria-label="Formular Karte">
+        <div class="signup-header" aria-label="Formular Kopfbereich">
           <a href="index.html" aria-label="Zurück zur Anmeldeseite">
             <img
               src="./assets/login-screen/arrow-left.svg"
@@ -35,7 +35,7 @@
         <div class="blue-underline"></div>
 
         <form id="signup-form" onsubmit="handleRegistration(event)" novalidate aria-label="Registrierung">
-          <div class="signup-input-wrap">
+          <div class="signup-input-wrap" aria-label="Eingabebereich">
             <input
               type="text"
               id="name"
@@ -47,7 +47,7 @@
             <span id="hint-name" class="signup-hint"></span>
           </div>
 
-          <div class="signup-input-wrap">
+          <div class="signup-input-wrap" aria-label="Eingabebereich">
             <input
               type="email"
               id="email"
@@ -59,8 +59,8 @@
             <span id="hint-email" class="signup-hint"></span>
           </div>
 
-          <div class="signup-input-wrap">
-            <div class="input-wrapper">
+          <div class="signup-input-wrap" aria-label="Eingabebereich">
+            <div class="input-wrapper" aria-label="Eingabefeld">
               <input
                 type="password"
                 id="password"
@@ -82,8 +82,8 @@
             <span id="hint-password" class="signup-hint"></span>
           </div>
 
-          <div class="signup-input-wrap">
-            <div class="input-wrapper">
+          <div class="signup-input-wrap" aria-label="Eingabebereich">
+            <div class="input-wrapper" aria-label="Eingabefeld">
               <input
                 type="password"
                 id="confirm-password"
