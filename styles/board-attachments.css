@@ -84,6 +84,7 @@
 .viewer-content {
   position: relative;
   width: 80%;
+  max-width: 1200px;
   height: 80%;
   display: flex;
   justify-content: center;
