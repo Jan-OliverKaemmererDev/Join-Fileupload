@@ -12,6 +12,11 @@
     z-index: 3000;
   }
 
+  /* Hide thumbnail download button on mobile to prevent accidental touches */
+  .btn-download-thumbnail {
+    display: none !important;
+  }
+
   /* --- Viewer Card – sized for full screen width ----------------------- */
   .viewer-content {
     width: 100vw;
