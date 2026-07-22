@@ -24,21 +24,21 @@ function getTaskCardTemplate(
   }
 
   return `
-    <div class="task-card" tabindex="0" draggable="true" data-task-id="${task.id}" ondragstart="startDragging(${task.id}, event)" ondragend="endDragging()" onclick="openTaskDetails(${task.id})" onkeydown="if(event.key === 'Enter'){ openTaskDetails(${task.id}); event.preventDefault(); }">
+    <article class="task-card" tabindex="0" draggable="true" data-task-id="${task.id}" ondragstart="startDragging(${task.id}, event)" ondragend="endDragging()" onclick="openTaskDetails(${task.id})" onkeydown="if(event.key === 'Enter'){ openTaskDetails(${task.id}); event.preventDefault(); }" aria-label="Task: ${task.title}">
       ${sourceIcon}
-      <div class="category-tag ${categoryClass}">${categoryLabel}</div>
+      <span class="category-tag ${categoryClass}" aria-label="Category: ${categoryLabel}">${categoryLabel}</span>
       <h3 class="task-title">${task.title}</h3>
       <p class="task-description">${task.description}</p>
       ${progressHtml}
-      <div class="task-footer">
-        <div class="task-assignees">
+      <footer class="task-footer">
+        <div class="task-assignees" aria-label="Assignees">
           ${assigneesHtml}
         </div>
         <div class="task-priority">
           ${priorityIcon}
         </div>
-      </div>
-    </div>
+      </footer>
+    </article>
   `;
 }
 
@@ -52,12 +52,12 @@ function getTaskCardTemplate(
 function getProgressBarTemplate(completed, total) {
   const percent = (completed / total) * 100;
   return `
-    <div class="task-subtasks">
-      <div class="progress-bar-container">
+    <section class="task-subtasks" aria-label="Subtasks progress">
+      <div class="progress-bar-container" role="progressbar" aria-label="Progress bar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100">
         <div class="progress-bar" style="width: ${percent}%"></div>
       </div>
       <span>${completed}/${total} Subtasks</span>
-    </div>
+    </section>
   `;
 }
 
@@ -70,9 +70,9 @@ function getProgressBarTemplate(completed, total) {
 function getAssigneeBadgeTemplate(initials, color, profileImageBase64 = null) {
   const backgroundColor = color || "#00bee8";
   if (profileImageBase64) {
-    return `<div class="assignee-badge" style="background-color: ${backgroundColor};"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"></div>`;
+    return `<span class="assignee-badge" style="background-color: ${backgroundColor};" aria-label="Assignee: ${initials}"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="Profile picture of ${initials}"></span>`;
   }
-  return `<div class="assignee-badge" style="background-color: ${backgroundColor};">${initials}</div>`;
+  return `<span class="assignee-badge" style="background-color: ${backgroundColor};" aria-label="Assignee: ${initials}">${initials}</span>`;
 }
 
 
@@ -82,7 +82,7 @@ function getAssigneeBadgeTemplate(initials, color, profileImageBase64 = null) {
  * @returns {string} Das HTML-Template für die Fehlmeldung
  */
 function getNoTasksTemplate(message) {
-  return `<div class="no-tasks">${message}</div>`;
+  return `<p class="no-tasks" aria-label="${message}">${message}</p>`;
 }
 
 
@@ -96,10 +96,10 @@ function getNoTasksTemplate(message) {
 function getSubtaskItemDetailTemplate(taskId, index, st) {
   const checkedClass = st.completed ? "checked" : "";
   return `
-    <div class="subtask-item-detail" onclick="toggleSubtask(${taskId}, ${index})">
-      <div class="subtask-checkbox ${checkedClass}"></div>
+    <label class="subtask-item-detail" onclick="toggleSubtask(${taskId}, ${index})" aria-label="Subtask: ${st.text}">
+      <div class="subtask-checkbox ${checkedClass}" aria-hidden="true"></div>
       <span>${st.text}</span>
-    </div>
+    </label>
   `;
 }
 
@@ -126,23 +126,23 @@ function getTaskDetailsTemplate(
   let aiIndicator = "";
   if (task.createdBy === "extern") {
     aiIndicator = `
-      <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="display: flex; align-items: center; gap: 8px;">
         <img src="./assets/icons/issue-collector/wand.svg" alt="AI">
         <span style="background: linear-gradient(to right, #9327FF, #2EA1DC); -webkit-background-clip: text; color: transparent; font-size: 16px;">Ai-generated ticket</span>
-      </div>
+      </span>
     `;
   }
 
   let creatorSection = "";
   if (task.createdBy === "extern") {
     creatorSection = `
-      <div class="task-details-info task-creator-section">
+      <section class="task-details-info task-creator-section" aria-label="Task creator info">
         <span class="task-details-label">Creator:</span>
         <div class="task-creator-info">
-          <div class="creator-badge creator-badge-extern">
+          <span class="creator-badge creator-badge-extern">
             <img src="./assets/icons/issue-collector/globe.svg" alt="Extern">
             Extern
-          </div>
+          </span>
           <div class="creator-person-info">
             <span class="creator-name">${task.creatorName || "Externer Benutzer"}</span>
             <a href="mailto:${task.creatorEmail || ''}" target="_blank" class="creator-contact-link">
@@ -151,19 +151,19 @@ function getTaskDetailsTemplate(
             </a>
           </div>
         </div>
-      </div>
+      </section>
     `;
   } else if (task.creatorType === "internal-user" || (task.createdBy && task.createdBy !== "extern")) {
     const name = task.creatorName || "Member";
     const email = task.creatorEmail || "";
     creatorSection = `
-      <div class="task-details-info task-creator-section">
+      <section class="task-details-info task-creator-section" aria-label="Task creator info">
         <span class="task-details-label">Creator:</span>
         <div class="task-creator-info">
-          <div class="creator-badge creator-badge-member">
+          <span class="creator-badge creator-badge-member">
             <img src="./assets/icons/issue-collector/member.svg" alt="Member">
             Member
-          </div>
+          </span>
           <div class="creator-person-info">
             <span class="creator-name">${name}</span>
             <a href="contacts.html" onclick="sessionStorage.setItem('selectedContactEmail', '${email}')" class="creator-contact-link">
@@ -172,20 +172,20 @@ function getTaskDetailsTemplate(
             </a>
           </div>
         </div>
-      </div>
+      </section>
     `;
   }
 
   return `
-    <div class="task-details-header">
+    <header class="task-details-header" aria-label="Task header">
       <div style="display: flex; align-items: center; gap: 16px;">
-        <div class="category-tag ${categoryClass}">${categoryLabel}</div>
+        <span class="category-tag ${categoryClass}" aria-label="Category: ${categoryLabel}">${categoryLabel}</span>
         ${aiIndicator}
       </div>
-      <button class="task-details-close" onclick="closeTaskDetails()">
+      <button class="task-details-close" onclick="closeTaskDetails()" aria-label="Close task details">
         <img src="./assets/icons/clear-X-icon.svg" alt="Close">
       </button>
-    </div>
+    </header>
     <h1 class="task-details-title">${task.title}</h1>
     <p class="task-description task-description-full">${task.description}</p>
     ${creatorSection}
@@ -205,23 +205,23 @@ function getTaskDetailsTemplate(
       <div class="assignee-details-list">${assignedToHtml}</div>
     </div>
     ${attachmentsHtml}
-    <div class="subtasks-section">
+    <section class="subtasks-section" aria-label="Subtasks list">
       <p class="subtasks-heading">Subtasks</p>
       <div class="subtasks-list-details">
         ${subtasksHtml}
       </div>
-    </div>
-    <div class="task-details-actions">
-      <button onclick="deleteTask(${task.id})" class="task-action-btn">
+    </section>
+    <nav class="task-details-actions" aria-label="Task actions">
+      <button onclick="deleteTask(${task.id})" class="task-action-btn" aria-label="Delete task">
         <img src="./assets/icons/delete.svg" alt="Delete">
         Delete
       </button>
-      <div class="task-action-separator"></div>
-      <button onclick="editTask(${task.id})" class="task-action-btn">
+      <hr class="task-action-separator">
+      <button onclick="editTask(${task.id})" class="task-action-btn" aria-label="Edit task">
         <img src="./assets/icons/edit.svg" alt="Edit">
         Edit
       </button>
-    </div>
+    </nav>
   `;
 }
 
@@ -236,11 +236,11 @@ function getTaskDetailsTemplate(
 function getAssignedToDetailItemTemplate(initials, color, name, profileImageBase64 = null) {
   if (profileImageBase64) {
     return `
-      <div class="assignee-badge assignee-badge-detail" style="background-color: ${color};"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;"></div>
+      <span class="assignee-badge assignee-badge-detail" style="background-color: ${color};" aria-label="Assignee: ${name}"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="Profile picture of ${name}"></span>
     `;
   }
   return `
-    <div class="assignee-badge assignee-badge-detail" style="background-color: ${color};">${initials}</div>
+    <span class="assignee-badge assignee-badge-detail" style="background-color: ${color};" aria-label="Assignee: ${name}">${initials}</span>
   `;
 }
 
@@ -281,17 +281,17 @@ function getLowPriorityIcon() {
  */
 function getTaskAttachmentThumbnailTemplate(taskId, index, previewSrc, name) {
   return `
-    <div class="thumbnail-container" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="openImageViewer(${taskId}, ${index})">
+    <figure class="thumbnail-container" style="cursor: pointer; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'" onclick="openImageViewer(${taskId}, ${index})" aria-label="Attachment: ${name}">
       <div class="thumbnail-image-wrapper">
         <img src="${previewSrc}" alt="${name}" title="${name}">
         <div class="thumbnail-overlay">
-          <button class="btn-download-thumbnail" onclick="event.stopPropagation(); downloadAttachment(${taskId}, ${index})" title="Download">
+          <button class="btn-download-thumbnail" onclick="event.stopPropagation(); downloadAttachment(${taskId}, ${index})" title="Download" aria-label="Download attachment: ${name}">
             <img src="./assets/icons/download-white.svg" alt="Download">
           </button>
         </div>
       </div>
-      <div class="thumbnail-name" title="${name}">${name}</div>
-    </div>
+      <figcaption class="thumbnail-name" title="${name}">${name}</figcaption>
+    </figure>
   `;
 }
 
@@ -302,11 +302,11 @@ function getTaskAttachmentThumbnailTemplate(taskId, index, previewSrc, name) {
  */
 function getTaskAttachmentsSectionTemplate(thumbnailsHtml) {
   return `
-    <div class="task-details-attachments">
+    <section class="task-details-attachments" aria-label="Task attachments">
       <span class="task-details-label">Attachments:</span>
       <div class="attachments-list-details">
         ${thumbnailsHtml}
       </div>
-    </div>
+    </section>
   `;
 }

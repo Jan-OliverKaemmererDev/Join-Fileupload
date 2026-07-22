@@ -184,11 +184,13 @@ body.no-scroll .main-content {
 .file-format-error .error-title {
   font-size: 22px;
   font-weight: 400;
+  margin: 0;
 }
 
 .file-format-error .error-desc {
   font-size: 18px;
   font-weight: 400;
+  margin: 0;
 }
 
 .file-format-error .error-close {

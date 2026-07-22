@@ -4,15 +4,15 @@
  */
 function getAccountOverlayTemplate() {
   return `
-    <div id="account-overlay" role="dialog" aria-modal="true" aria-label="My Account" onclick="closeAccountOverlay()">
-      <div class="slide-in-dialog" id="account-dialog" onclick="event.stopPropagation()">
+    <section id="account-overlay" role="dialog" aria-modal="true" aria-label="My Account" onclick="closeAccountOverlay()">
+      <article class="slide-in-dialog" id="account-dialog" onclick="event.stopPropagation()">
         ${getAccountDialogLeftHTML()}
         ${getAccountDialogRightHTML()}
-      </div>
-      <div class="slide-in-dialog delete-confirm-dialog" id="delete-confirm-dialog" onclick="event.stopPropagation()">
+      </article>
+      <article class="slide-in-dialog delete-confirm-dialog" id="delete-confirm-dialog" onclick="event.stopPropagation()">
         ${getDeleteConfirmDialogHTML()}
-      </div>
-    </div>
+      </article>
+    </section>
   `;
 }
 
@@ -23,11 +23,11 @@ function getAccountOverlayTemplate() {
  */
 function getAccountDialogLeftHTML() {
   return `
-    <div class="dialog-left">
+    <header class="dialog-left">
       <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" class="dialog-logo-small">
       <h1 id="account-dialog-title" class="dialog-title-white">My account</h1>
-      <div class="blue-line-horizontal"></div>
-    </div>
+      <hr class="blue-line-horizontal">
+    </header>
   `;
 }
 
@@ -38,13 +38,13 @@ function getAccountDialogLeftHTML() {
  */
 function getAccountDialogRightHTML() {
   return `
-    <div class="dialog-right">
+    <section class="dialog-right">
       ${getAccountCloseButtonHTML()}
       <div class="edit-content-container">
         ${getAccountAvatarHTML()}
         ${getAccountFormFieldsHTML()}
       </div>
-    </div>
+    </section>
   `;
 }
 
@@ -55,11 +55,11 @@ function getAccountDialogRightHTML() {
  */
 function getAccountCloseButtonHTML() {
   return `
-    <div class="close-btn-container">
-      <button onclick="closeAccountOverlay()" class="btn-close">
+    <nav class="close-btn-container">
+      <button onclick="closeAccountOverlay()" class="btn-close" aria-label="Close My Account overlay">
         <img src="./assets/icons/clear-X-icon.svg" alt="Close">
       </button>
-    </div>
+    </nav>
   `;
 }
 
@@ -70,14 +70,14 @@ function getAccountCloseButtonHTML() {
  */
 function getAccountAvatarHTML() {
   return `
-    <div class="account-avatar-wrapper">
-      <div class="contact-form-avatar" id="account-initials" style="background-color: #d19a9a;">
+    <figure class="account-avatar-wrapper">
+      <span class="contact-form-avatar" id="account-initials" style="background-color: #d19a9a;">
         <img id="account-profile-img" class="account-profile-img" alt="Profilbild" style="display: none;">
-      </div>
-      <div id="account-camera-badge" class="account-camera-badge">
+      </span>
+      <span id="account-camera-badge" class="account-camera-badge" tabindex="0" role="button" aria-label="Change profile picture">
         <img class="account-camera-icon" src="./assets/icons/camera.svg" alt="Change photo">
-      </div>
-    </div>
+      </span>
+    </figure>
   `;
 }
 
@@ -88,12 +88,12 @@ function getAccountAvatarHTML() {
  */
 function getAccountFormFieldsHTML() {
   return `
-    <div class="edit-form-fields">
+    <form class="edit-form-fields" onsubmit="event.preventDefault();">
       ${getAccountInputHTML("text", "account-name", "person.svg")}
       ${getAccountInputHTML("email", "account-email", "mail.svg")}
       ${getAccountInputHTML("tel", "account-phone", "phone.svg")}
       ${getAccountActionButtonsHTML()}
-    </div>
+    </form>
   `;
 }
 
@@ -111,10 +111,10 @@ function getAccountInputHTML(type, id, iconFile) {
     : `./assets/login-screen/${iconFile}`;
   return `
     <div class="input-group">
-      <div class="input-wrapper">
-        <input type="${type}" id="${id}" value="" readonly oninput="checkAccountFormValidity()">
-        <img src="${iconPath}" class="input-icon">
-      </div>
+      <span class="input-wrapper">
+        <input type="${type}" id="${id}" value="" readonly aria-label="${id}" oninput="checkAccountFormValidity()">
+        <img src="${iconPath}" class="input-icon" alt="">
+      </span>
       <span id="hint-${id}" class="signup-hint"></span>
     </div>
   `;
@@ -141,18 +141,18 @@ function getAccountActionButtonsHTML() {
  */
 function getDeleteConfirmDialogHTML() {
   return `
-    <div class="close-btn-container-small">
-      <button onclick="closeDeleteConfirmOverlay()" class="btn-close">
+    <nav class="close-btn-container-small">
+      <button onclick="closeDeleteConfirmOverlay()" class="btn-close" aria-label="Close confirmation dialog">
         <img src="./assets/icons/clear-X-icon.svg" alt="Close">
       </button>
-    </div>
-    <div class="delete-confirm-content">
-      <div class="delete-icon-circle">!</div>
+    </nav>
+    <section class="delete-confirm-content">
+      <span class="delete-icon-circle">!</span>
       <h2>Are you sure you want<br>to delete your account?</h2>
       <div class="delete-confirm-actions">
         <button class="btn-cancel" onclick="confirmDeleteAccount()">Yes</button>
         <button class="btn-create-submit" onclick="closeDeleteConfirmOverlay()">No</button>
       </div>
-    </div>
+    </section>
   `;
 }

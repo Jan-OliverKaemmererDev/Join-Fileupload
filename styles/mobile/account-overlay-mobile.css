@@ -67,6 +67,7 @@
   #account-overlay .blue-line-horizontal {
     margin: 8px 0 0 0 !important;
     align-self: flex-start !important;
+    border: none;
   }
 
   /* ========================================================= */

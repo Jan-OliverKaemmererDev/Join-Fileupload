@@ -8,11 +8,11 @@
  */
 function getFileFormatErrorTemplate() {
   return `
-    <div class="error-content">
-      <span class="error-title">This file format is not allowed!</span>
-      <span class="error-desc">You can only upload JPEG and PNG.</span>
-    </div>
-    <button class="error-close" onclick="document.getElementById('file-format-error').classList.remove('show')">
+    <article class="error-content">
+      <h3 class="error-title">This file format is not allowed!</h3>
+      <p class="error-desc">You can only upload JPEG and PNG.</p>
+    </article>
+    <button class="error-close" onclick="document.getElementById('file-format-error').classList.remove('show')" aria-label="Close error message">
       <img src="./assets/icons/clear-X-icon-white.svg" alt="Close" />
     </button>
   `;
@@ -24,11 +24,11 @@ function getFileFormatErrorTemplate() {
  */
 function getFileSizeErrorTemplate() {
   return `
-    <div class="error-content">
-      <span class="error-title">File is too large!</span>
-      <span class="error-desc">Max. 1MB allowed for Firebase.</span>
-    </div>
-    <button class="error-close" onclick="document.getElementById('file-size-error').classList.remove('show')">
+    <article class="error-content">
+      <h3 class="error-title">File is too large!</h3>
+      <p class="error-desc">Max. 1MB allowed for Firebase.</p>
+    </article>
+    <button class="error-close" onclick="document.getElementById('file-size-error').classList.remove('show')" aria-label="Close error message">
       <img src="./assets/icons/clear-X-icon-white.svg" alt="Close" />
     </button>
   `;

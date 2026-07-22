@@ -89,7 +89,9 @@ body {
 .contact-group-letter {
   padding: 17px 36px;
   font-size: 20px;
+  font-weight: normal;
   border-bottom: 1px solid #d1d1d1;
+  margin-top: 0;
   margin-bottom: 8px;
 }
 

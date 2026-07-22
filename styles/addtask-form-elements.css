@@ -323,6 +323,7 @@
   overflow: hidden;
   border: 1px solid #686868;
   flex-shrink: 0;
+  margin: 0;
 }
 
 .thumbnail-image-wrapper {

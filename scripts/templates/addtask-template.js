@@ -5,16 +5,16 @@
  */
 function getSubtaskItemTemplate(subtask) {
   return `
-    <div class="subtask-item" id="subtask-item-${subtask.id}" ondblclick="editSubtask(${subtask.id})">
-      <div class="subtask-content">
+    <li class="subtask-item" id="subtask-item-${subtask.id}" ondblclick="editSubtask(${subtask.id})">
+      <span class="subtask-content">
         <span class="subtask-text">${subtask.text}</span>
-      </div>
-      <div class="subtask-icons">
-        <img src="./assets/icons/edit.svg" class="subtask-icon-small" onclick="editSubtask(${subtask.id})" alt="Edit">
-        <div class="subtask-icon-divider"></div>
-        <img src="./assets/icons/delete.svg" class="subtask-icon-small" onclick="removeSubtask(${subtask.id})" alt="Delete">
-      </div>
-    </div>
+      </span>
+      <span class="subtask-icons">
+        <img src="./assets/icons/edit.svg" class="subtask-icon-small" onclick="editSubtask(${subtask.id})" role="button" tabindex="0" aria-label="Edit subtask" alt="Edit">
+        <hr class="subtask-icon-divider">
+        <img src="./assets/icons/delete.svg" class="subtask-icon-small" onclick="removeSubtask(${subtask.id})" role="button" tabindex="0" aria-label="Delete subtask" alt="Delete">
+      </span>
+    </li>
   `;
 }
 
@@ -26,14 +26,14 @@ function getSubtaskItemTemplate(subtask) {
  */
 function getSubtaskEditTemplate(subtask) {
   return `
-    <div class="subtask-item-edit">
-      <input type="text" class="subtask-edit-input" id="subtask-input-${subtask.id}" value="${subtask.text}" onkeydown="handleSubtaskEditKeydown(${subtask.id}, event)">
-      <div class="subtask-icons" style="display: flex;">
-        <img src="./assets/icons/delete.svg" class="subtask-icon-small" onclick="removeSubtask(${subtask.id})" alt="Delete">
-        <div class="subtask-icon-divider"></div>
-        <img src="./assets/icons/check-create-icon-black.svg" class="subtask-icon-small" onclick="saveEditSubtask(${subtask.id})" alt="Save">
-      </div>
-    </div>
+    <li class="subtask-item-edit">
+      <input type="text" class="subtask-edit-input" id="subtask-input-${subtask.id}" value="${subtask.text}" aria-label="Edit subtask text" onkeydown="handleSubtaskEditKeydown(${subtask.id}, event)">
+      <span class="subtask-icons" style="display: flex;">
+        <img src="./assets/icons/delete.svg" class="subtask-icon-small" onclick="removeSubtask(${subtask.id})" role="button" tabindex="0" aria-label="Delete subtask" alt="Delete">
+        <hr class="subtask-icon-divider">
+        <img src="./assets/icons/check-create-icon-black.svg" class="subtask-icon-small" onclick="saveEditSubtask(${subtask.id})" role="button" tabindex="0" aria-label="Save subtask" alt="Save">
+      </span>
+    </li>
   `;
 }
 
@@ -50,17 +50,17 @@ function getSubtaskEditTemplate(subtask) {
  */
 function getContactOptionTemplate(contactId, contactName, selectedClass, nameSuffix, avatarStyle, avatarInner) {
   return `
-    <div class="contact-option ${selectedClass}" onclick="toggleContactSelection('${contactId}', event)">
-      <div class="contact-info">
-        <div class="contact-avatar" style="${avatarStyle}">
+    <label class="contact-option ${selectedClass}" onclick="toggleContactSelection('${contactId}', event)" tabindex="0" role="button" aria-label="Toggle selection for ${contactName}">
+      <span class="contact-info">
+        <span class="contact-avatar" style="${avatarStyle}">
           ${avatarInner}
-        </div>
+        </span>
         <span class="contact-name">${contactName}${nameSuffix}</span>
-      </div>
-      <div class="contact-checkbox">
+      </span>
+      <span class="contact-checkbox">
         <img src="./assets/icons/check-icon.png" class="check-icon" alt="Check">
-      </div>
-    </div>
+      </span>
+    </label>
   `;
 }
 
@@ -73,9 +73,9 @@ function getContactOptionTemplate(contactId, contactName, selectedClass, nameSuf
  */
 function getSelectedContactInitialsTemplate(avatarStyle, avatarInner) {
   return `
-    <div class="selected-avatar" style="${avatarStyle}">
+    <span class="selected-avatar" style="${avatarStyle}">
       ${avatarInner}
-    </div>
+    </span>
   `;
 }
 
