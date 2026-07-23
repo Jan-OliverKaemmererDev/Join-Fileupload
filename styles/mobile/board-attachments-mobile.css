@@ -1,10 +1,10 @@
 /* =========================================================================
-   IMAGE VIEWER – MOBILE LAYOUT (max-width: 1200px)
+   IMAGE VIEWER – MOBILE LAYOUT (max-width: 780px)
    The viewer overlay covers the task-details-card exactly:
    same width/height constraints as .task-details-card in board-mobile.css
    ========================================================================= */
 
-@media (max-width: 1200px) {
+@media (max-width: 780px) {
 
   /* --- Overlay ---------------------------------------------------------- */
   #image-viewer-overlay {

@@ -165,17 +165,30 @@
 /* ========================================================= */
 /*                     MEDIA QUERIES                         */
 /* ========================================================= */
-@media (max-width: 1200px) {
+
+/* ---- Intermediate breakpoint: Sidebar vorhanden, aber Screen noch schmal ---- */
+@media (min-width: 781px) and (max-width: 1200px) {
   .board-columns {
     flex-wrap: wrap;
   }
+  
   .board-column {
     min-width: 45%;
+    max-width: calc(50% - 12px);
   }
-}
 
-/* ---- Intermediate breakpoint: Sidebar vorhanden, aber Screen noch schmal ---- */
-@media (min-width: 781px) and (max-width: 1050px) {
+  .task-list {
+    max-height: 750px;
+    overflow-y: auto;
+    padding-right: 4px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .task-list::-webkit-scrollbar {
+    display: none;
+  }
+
   .board-header {
     flex-wrap: wrap;
     gap: 16px;
@@ -183,14 +196,17 @@
 
   .board-header h1 {
     font-size: 42px;
+    width: 100%; /* Ensures wrapping */
   }
 
   .board-actions {
     gap: 16px;
+    width: 100%; /* Forces wrap and takes full width */
+    justify-content: space-between;
   }
 
   .search-bar {
-    width: 200px;
+    width: 312px;
     min-width: 0;
   }
 
