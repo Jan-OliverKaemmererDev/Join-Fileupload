@@ -129,3 +129,72 @@ async function initSummaryGuest() {
   checkMobileGreeting();
 }
 
+/**
+ * Checks the validity of the login form fields.
+ * @param {boolean} showErrors - Whether to explicitly show errors.
+ */
+function checkLoginValidity(showErrors = false) {
+  var email = document.getElementById("email").value.trim();
+  var password = document.getElementById("password").value;
+  var btn = document.getElementById("login-btn");
+  var emailHint = document.getElementById("login-email-hint");
+  var passHint = document.getElementById("login-pass-hint");
+  var emailInput = document.getElementById("email");
+  var passInput = document.getElementById("password");
+
+  if (!emailInput || !passInput || !btn) return;
+
+  var emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  var passValid = password.length >= 6;
+
+  if (showErrors || emailValid || email.length === 0) {
+    if (email.length > 0 && !emailValid) {
+      emailHint.textContent = "Bitte eine gültige E-Mail-Adresse eingeben.";
+      emailHint.style.display = "block";
+      emailInput.classList.add("input-error");
+    } else {
+      emailHint.style.display = "none";
+      emailInput.classList.remove("input-error");
+    }
+  }
+
+  if (showErrors || passValid || password.length === 0) {
+    if (password.length > 0 && !passValid) {
+      passHint.textContent = "Das Passwort muss mindestens 6 Zeichen lang sein.";
+      passHint.style.display = "block";
+      passInput.classList.add("input-error");
+    } else {
+      passHint.style.display = "none";
+      passInput.classList.remove("input-error");
+    }
+  }
+
+  var allValid = emailValid && passValid;
+  btn.disabled = !allValid;
+  btn.classList.toggle("btn-disabled", !allValid);
+}
+
+document.addEventListener("DOMContentLoaded", function() {
+  var emailInput = document.getElementById("email");
+  var passInput = document.getElementById("password");
+  if (emailInput) {
+    emailInput.addEventListener("blur", function() {
+      var email = emailInput.value.trim();
+      if (email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+        document.getElementById("login-email-hint").textContent = "Bitte eine gültige E-Mail-Adresse eingeben.";
+        document.getElementById("login-email-hint").style.display = "block";
+        emailInput.classList.add("input-error");
+      }
+    });
+  }
+  if (passInput) {
+    passInput.addEventListener("blur", function() {
+      var password = passInput.value;
+      if (password.length > 0 && password.length < 6) {
+        document.getElementById("login-pass-hint").textContent = "Das Passwort muss mindestens 6 Zeichen lang sein.";
+        document.getElementById("login-pass-hint").style.display = "block";
+        passInput.classList.add("input-error");
+      }
+    });
+  }
+});

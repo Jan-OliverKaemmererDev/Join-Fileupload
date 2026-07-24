@@ -156,42 +156,6 @@
 
     <script src="./script.js"></script>
     <script src="./scripts/wcag-accessibility.js"></script>
-    <script>
-      function checkLoginValidity() {
-        var email = document.getElementById("email").value.trim();
-        var password = document.getElementById("password").value;
-        var btn = document.getElementById("login-btn");
-        var emailHint = document.getElementById("login-email-hint");
-        var passHint = document.getElementById("login-pass-hint");
-        var emailInput = document.getElementById("email");
-        var passInput = document.getElementById("password");
 
-        var emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-        var passValid = password.length >= 6;
-
-        if (email.length > 0 && !emailValid) {
-          emailHint.textContent = "Bitte eine gültige E-Mail-Adresse eingeben.";
-          emailHint.style.display = "block";
-          emailInput.classList.add("input-error");
-        } else {
-          emailHint.style.display = "none";
-          emailInput.classList.remove("input-error");
-        }
-
-        if (password.length > 0 && !passValid) {
-          passHint.textContent =
-            "Das Passwort muss mindestens 6 Zeichen lang sein.";
-          passHint.style.display = "block";
-          passInput.classList.add("input-error");
-        } else {
-          passHint.style.display = "none";
-          passInput.classList.remove("input-error");
-        }
-
-        var allValid = emailValid && passValid;
-        btn.disabled = !allValid;
-        btn.classList.toggle("btn-disabled", !allValid);
-      }
-    </script>
   </body>
 </html>

@@ -15,6 +15,9 @@ function activateContactOverlay(html) {
 function openAddContactDialog() {
   const html = window.innerWidth <= 780 ? getMobileAddContactTemplate() : getDesktopAddContactTemplate();
   activateContactOverlay(html);
+  
+  attachBlurValidators("new-contact-name", "new-contact-email", "new-contact-phone");
+  
   checkContactFormValidity(
     "new-contact-name",
     "new-contact-email",
@@ -34,6 +37,9 @@ function openEditContactDialog(id) {
   const contact = findContactById(id);
   const html = window.innerWidth <= 780 ? getMobileEditContactTemplate(contact) : getDesktopEditContactTemplate(contact);
   activateContactOverlay(html);
+  
+  attachBlurValidators("edit-contact-name", "edit-contact-email", "edit-contact-phone");
+  
   checkContactFormValidity(
     "edit-contact-name",
     "edit-contact-email",
@@ -165,35 +171,55 @@ function clearFieldError(inputId) {
  * @param {string} phoneId - ID des Telefonfeldes
  * @param {string} buttonId - ID des Buttons
  */
-function checkContactFormValidity(nameId, emailId, phoneId, buttonId) {
+function checkContactFormValidity(nameId, emailId, phoneId, buttonId, showErrors = false) {
   const name = document.getElementById(nameId).value.trim();
   const email = document.getElementById(emailId).value.trim();
   const phone = document.getElementById(phoneId).value.trim();
   const nameValid = name.replace(/[^a-zA-ZäöüÄÖÜß]/g, "").length >= 3;
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
   const phoneValid = phone.length >= 11;
-  updateContactFieldFeedback(
-    nameId,
-    name,
-    nameValid,
-    "Der Name muss mindestens 3 Buchstaben enthalten.",
-  );
-  updateContactFieldFeedback(
-    emailId,
-    email,
-    emailValid,
-    "Bitte eine gültige E-Mail-Adresse eingeben.",
-  );
-  updateContactFieldFeedback(
-    phoneId,
-    phone,
-    phoneValid,
-    "Bitte eine gültige Telefonnummer eingeben (mind. 11 Ziffern).",
-  );
+  
+  if (showErrors) {
+    updateContactFieldFeedback(nameId, name, nameValid, "Der Name muss mindestens 3 Buchstaben enthalten.");
+    updateContactFieldFeedback(emailId, email, emailValid, "Bitte eine gültige E-Mail-Adresse eingeben.");
+    updateContactFieldFeedback(phoneId, phone, phoneValid, "Bitte eine gültige Telefonnummer eingeben (mind. 11 Ziffern).");
+  } else {
+    if (nameValid || name.length === 0) clearFieldError(nameId);
+    if (emailValid || email.length === 0) clearFieldError(emailId);
+    if (phoneValid || phone.length === 0) clearFieldError(phoneId);
+  }
+  
   const allValid = nameValid && emailValid && phoneValid;
   const btn = document.getElementById(buttonId);
   btn.disabled = !allValid;
   btn.classList.toggle("btn-disabled", !allValid);
+}
+
+/**
+ * Fügt blur-Event-Listener zu den Eingabefeldern hinzu, um Fehler beim Verlassen anzuzeigen
+ */
+function attachBlurValidators(nameId, emailId, phoneId) {
+  const nameEl = document.getElementById(nameId);
+  const emailEl = document.getElementById(emailId);
+  const phoneEl = document.getElementById(phoneId);
+  
+  if (nameEl) nameEl.addEventListener('blur', () => {
+    const val = nameEl.value.trim();
+    const valid = val.replace(/[^a-zA-ZäöüÄÖÜß]/g, "").length >= 3;
+    updateContactFieldFeedback(nameId, val, valid, "Der Name muss mindestens 3 Buchstaben enthalten.");
+  });
+  
+  if (emailEl) emailEl.addEventListener('blur', () => {
+    const val = emailEl.value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
+    updateContactFieldFeedback(emailId, val, valid, "Bitte eine gültige E-Mail-Adresse eingeben.");
+  });
+  
+  if (phoneEl) phoneEl.addEventListener('blur', () => {
+    const val = phoneEl.value.trim();
+    const valid = val.length >= 11;
+    updateContactFieldFeedback(phoneId, val, valid, "Bitte eine gültige Telefonnummer eingeben (mind. 11 Ziffern).");
+  });
 }
 
 /**

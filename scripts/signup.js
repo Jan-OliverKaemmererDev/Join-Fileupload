@@ -2,7 +2,29 @@
  * Initialisiert die Signup-Seite
  */
 function initSignup() {
-  checkFormValidity();
+  attachSignupBlurValidators();
+  checkFormValidity(false);
+}
+
+/**
+ * Fügt blur-Event-Listener zu den Eingabefeldern der Signup-Seite hinzu.
+ */
+function attachSignupBlurValidators() {
+  const fields = ["name", "email", "password", "confirm-password"];
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('blur', () => {
+        const values = getSignupFormValues();
+        const validity = validateSignupFields(values.name, values.email, values.pass, values.confirm);
+        
+        if (id === "name") showNameHint(values, validity, true);
+        if (id === "email") showEmailHint(values, validity, true);
+        if (id === "password") showPasswordHint(values, validity, true);
+        if (id === "confirm-password") showConfirmHint(values, true);
+      });
+    }
+  });
 }
 
 /**
@@ -80,35 +102,43 @@ function validateSignupFields(name, email, pass, confirm) {
  * @param {{name: string}} values
  * @param {{nameValid: boolean}} validity
  */
-function showNameHint(values, validity) {
-  setFieldHint("name", values.name.length > 0 && !validity.nameValid
-    ? "Der Name muss mindestens 3 Buchstaben enthalten." : null);
+function showNameHint(values, validity, showErrors = false) {
+  if (showErrors || validity.nameValid || values.name.length === 0) {
+    setFieldHint("name", values.name.length > 0 && !validity.nameValid
+      ? "Der Name muss mindestens 3 Buchstaben enthalten." : null);
+  }
 }
 
 /**
  * @param {{email: string}} values
  * @param {{emailValid: boolean}} validity
  */
-function showEmailHint(values, validity) {
-  setFieldHint("email", values.email.length > 0 && !validity.emailValid
-    ? "Bitte eine gültige E-Mail-Adresse eingeben." : null);
+function showEmailHint(values, validity, showErrors = false) {
+  if (showErrors || validity.emailValid || values.email.length === 0) {
+    setFieldHint("email", values.email.length > 0 && !validity.emailValid
+      ? "Bitte eine gültige E-Mail-Adresse eingeben." : null);
+  }
 }
 
 /**
  * @param {{pass: string}} values
  * @param {{passValid: boolean}} validity
  */
-function showPasswordHint(values, validity) {
-  setFieldHint("password", values.pass.length > 0 && !validity.passValid
-    ? "Das Passwort muss mindestens 6 Zeichen lang sein." : null);
+function showPasswordHint(values, validity, showErrors = false) {
+  if (showErrors || validity.passValid || values.pass.length === 0) {
+    setFieldHint("password", values.pass.length > 0 && !validity.passValid
+      ? "Das Passwort muss mindestens 6 Zeichen lang sein." : null);
+  }
 }
 
 /**
  * @param {{pass: string, confirm: string}} values
  */
-function showConfirmHint(values) {
-  setFieldHint("confirm-password", values.confirm.length > 0 && values.pass !== values.confirm
-    ? "Die Passwörter stimmen nicht überein." : null);
+function showConfirmHint(values, showErrors = false) {
+  if (showErrors || (values.pass === values.confirm) || values.confirm.length === 0) {
+    setFieldHint("confirm-password", values.confirm.length > 0 && values.pass !== values.confirm
+      ? "Die Passwörter stimmen nicht überein." : null);
+  }
 }
 
 /**
@@ -116,11 +146,11 @@ function showConfirmHint(values) {
  * @param {Object} values
  * @param {Object} validity
  */
-function showSignupFieldHints(values, validity) {
-  showNameHint(values, validity);
-  showEmailHint(values, validity);
-  showPasswordHint(values, validity);
-  showConfirmHint(values);
+function showSignupFieldHints(values, validity, showErrors = false) {
+  showNameHint(values, validity, showErrors);
+  showEmailHint(values, validity, showErrors);
+  showPasswordHint(values, validity, showErrors);
+  showConfirmHint(values, showErrors);
 }
 
 /**
@@ -147,12 +177,12 @@ function isFormComplete(validity, privacy) {
 /**
  * Überprüft die Gültigkeit des Formulars und aktualisiert UI-Hinweise.
  */
-function checkFormValidity() {
+function checkFormValidity(showErrors = false) {
   const values = getSignupFormValues();
   const validity = validateSignupFields(
     values.name, values.email, values.pass, values.confirm,
   );
-  showSignupFieldHints(values, validity);
+  showSignupFieldHints(values, validity, showErrors);
   updateSignupSubmitButton(isFormComplete(validity, values.privacy));
 }
 

@@ -1,14 +1,27 @@
 /**
  * Überprüft die Formularwerte des Account-Overlays.
  */
-function checkAccountFormValidity() {
+function checkAccountFormValidity(showErrors = false) {
   const name = document.getElementById("account-name").value.trim();
   const email = document.getElementById("account-email").value.trim();
   const phone = formatAccountPhoneInput();
-  const nameValid = validateAccountName(name);
-  const emailValid = validateAccountEmail(email);
-  const phoneValid = validateAccountPhone(phone);
+  const nameValid = validateAccountName(name, showErrors);
+  const emailValid = validateAccountEmail(email, showErrors);
+  const phoneValid = validateAccountPhone(phone, showErrors);
   updateAccountSaveButton(nameValid, emailValid, phoneValid);
+}
+
+/**
+ * Fügt blur-Event-Listener zu den Eingabefeldern im Account-Overlay hinzu.
+ */
+function attachAccountBlurValidators() {
+  const nameEl = document.getElementById("account-name");
+  const emailEl = document.getElementById("account-email");
+  const phoneEl = document.getElementById("account-phone");
+  
+  if (nameEl) nameEl.addEventListener('blur', () => validateAccountName(nameEl.value.trim(), true));
+  if (emailEl) emailEl.addEventListener('blur', () => validateAccountEmail(emailEl.value.trim(), true));
+  if (phoneEl) phoneEl.addEventListener('blur', () => validateAccountPhone(formatAccountPhoneInput(), true));
 }
 
 /**
@@ -29,11 +42,13 @@ function formatAccountPhoneInput() {
  * @param {string} name - Der zu prüfende Name.
  * @returns {boolean} True, wenn der Name gültig ist.
  */
-function validateAccountName(name) {
+function validateAccountName(name, showErrors = false) {
   const nameLetters = name.replace(/[^a-zA-ZäöüÄÖÜß]/g, "");
   const isValid = nameLetters.length >= 3;
-  const msg = name.length > 0 && !isValid ? "Der Name muss mindestens 3 Buchstaben enthalten." : null;
-  setAccountFieldHint("account-name", msg);
+  if (showErrors || isValid || name.length === 0) {
+    const msg = name.length > 0 && !isValid ? "Der Name muss mindestens 3 Buchstaben enthalten." : null;
+    setAccountFieldHint("account-name", msg);
+  }
   return isValid;
 }
 
@@ -42,10 +57,12 @@ function validateAccountName(name) {
  * @param {string} email - Die zu prüfende E-Mail-Adresse.
  * @returns {boolean} True, wenn die E-Mail gültig ist.
  */
-function validateAccountEmail(email) {
+function validateAccountEmail(email, showErrors = false) {
   const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-  const msg = email.length > 0 && !isValid ? "Bitte eine gültige E-Mail-Adresse eingeben." : null;
-  setAccountFieldHint("account-email", msg);
+  if (showErrors || isValid || email.length === 0) {
+    const msg = email.length > 0 && !isValid ? "Bitte eine gültige E-Mail-Adresse eingeben." : null;
+    setAccountFieldHint("account-email", msg);
+  }
   return isValid;
 }
 
@@ -54,10 +71,12 @@ function validateAccountEmail(email) {
  * @param {string} phone - Die zu prüfende Telefonnummer.
  * @returns {boolean} True, wenn die Telefonnummer gültig ist.
  */
-function validateAccountPhone(phone) {
+function validateAccountPhone(phone, showErrors = false) {
   const isValid = phone.length === 0 || phone.length >= 11;
-  const msg = phone.length > 0 && !isValid ? "Die Telefonnummer muss mindestens 11 Zahlen haben." : null;
-  setAccountFieldHint("account-phone", msg);
+  if (showErrors || isValid || phone.length === 0) {
+    const msg = phone.length > 0 && !isValid ? "Die Telefonnummer muss mindestens 11 Zahlen haben." : null;
+    setAccountFieldHint("account-phone", msg);
+  }
   return isValid;
 }
 

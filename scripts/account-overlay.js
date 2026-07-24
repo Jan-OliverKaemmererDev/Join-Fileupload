@@ -184,6 +184,7 @@ function toggleEditAccount() {
   actionBtn.innerHTML = `Save <img src="./assets/icons/check-icon.png" alt="Save" class="check-icon-white">`;
   actionBtn.onclick = saveAccountChanges;
   if (typeof initFileUpload === "function") initFileUpload();
+  attachAccountBlurValidators();
 }
 
 /**
