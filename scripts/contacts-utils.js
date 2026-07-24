@@ -151,10 +151,10 @@ function deleteContactFromFirestoreDb(currentUser, id) {
  * The alert fades in, stays briefly, then fades out and is removed.
  * @returns {void}
  */
-function showSuccessAlert() {
+function showSuccessAlert(message = "Kontakt erfolgreich erstellt!") {
   const alert = document.createElement("div");
   alert.className = "success-alert";
-  alert.innerText = "Kontakt erfolgreich erstellt!";
+  alert.innerText = message;
   document.body.appendChild(alert);
   showAlertWithDelay(alert);
 }
@@ -170,7 +170,7 @@ function showAlertWithDelay(alert) {
   }, 50);
   setTimeout(function () {
     hideAndRemoveAlert(alert);
-  }, 1000);
+  }, 2000);
 }
 
 /**
