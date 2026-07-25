@@ -29,7 +29,7 @@ function getContactItemTemplate(contact) {
 
 function getDesktopContactDetailsTemplate(contact) {
   let avatarInner = contact.initials;
-  let avatarStyle = `background-color: ${contact.color}`;
+  let avatarStyle = `background-color: ${contact.color};`;
   
   if (contact.profileImage && contact.profileImage.base64) {
     avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
@@ -71,7 +71,7 @@ function getDesktopContactDetailsTemplate(contact) {
 
 function getMobileContactDetailsTemplate(contact) {
   let avatarInner = contact.initials;
-  let avatarStyle = `background-color: ${contact.color}`;
+  let avatarStyle = `background-color: ${contact.color};`;
   
   if (contact.profileImage && contact.profileImage.base64) {
     avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
@@ -192,7 +192,7 @@ function getDesktopEditContactTemplate(contact) {
 
 function getMobileEditContactTemplate(contact) {
   let avatarInner = contact.initials;
-  let avatarStyle = `background-color: ${contact.color}`;
+  let avatarStyle = `background-color: ${contact.color};`;
   
   if (contact.profileImage && contact.profileImage.base64) {
     avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;

@@ -65,6 +65,13 @@
   color: #000;
   background-color: #fff;
   transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.form-group input[type="text"],
+.form-group input[type="date"],
+.form-group select {
+  height: 48px;
 }
 
 .form-group input[type="date"],
