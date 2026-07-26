@@ -7,6 +7,9 @@ function activateContactOverlay(html) {
   overlay.innerHTML = html;
   overlay.classList.add("active");
   document.body.style.overflow = "hidden";
+  setTimeout(() => {
+    overlay.querySelectorAll(".slide-in-dialog").forEach(d => d.classList.add("active"));
+  }, 10);
 }
 
 /**
@@ -57,6 +60,7 @@ function openEditContactDialog(id) {
 function closeAddContactDialog() {
   const overlay = document.getElementById("add-contact-overlay");
   overlay.classList.remove("active");
+  overlay.querySelectorAll(".slide-in-dialog").forEach(d => d.classList.remove("active"));
   document.body.style.overflow = "auto";
   
   if (typeof cancelPendingContactProfileImage === "function") {
@@ -65,7 +69,7 @@ function closeAddContactDialog() {
   
   setTimeout(function () {
     overlay.innerHTML = "";
-  }, 300);
+  }, 400);
 }
 
 /**

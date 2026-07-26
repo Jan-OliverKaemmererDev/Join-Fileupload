@@ -11,8 +11,7 @@
 }
 
 .details-header-static {
-  padding: 40px 24px 20px
-    max(55px, calc((100vw - 232px - 1440px) / 2 + 80px - 456px));
+  padding: 40px 24px 20px 55px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;

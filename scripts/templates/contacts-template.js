@@ -133,7 +133,7 @@ function getDesktopEditContactTemplate(contact) {
   }
 
   return `
-    <div class="slide-in-dialog active" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="edit-dialog-title">
+    <div class="slide-in-dialog" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="edit-dialog-title">
       <aside class="dialog-left">
         <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" style="width: 55px; margin-bottom: 12px;">
         <h1 class="dialog-title-white" id="edit-dialog-title">Edit contact</h1>
@@ -257,7 +257,7 @@ function getMobileEditContactTemplate(contact) {
 
 function getDesktopAddContactTemplate() {
   return `
-    <div class="slide-in-dialog active" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="add-dialog-title">
+    <div class="slide-in-dialog" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="add-dialog-title">
       <aside class="dialog-left">
         <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" class="dialog-logo-small">
         <h1 class="dialog-title-white" id="add-dialog-title">Add contact</h1>
