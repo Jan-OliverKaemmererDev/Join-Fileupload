@@ -309,12 +309,14 @@
 
   .nav-links a.login-link {
     display: flex !important;
-    flex-direction: column !important; /* Bild OBEN, Text UNTEN */
+    flex-direction: row !important; /* Bild links, Text rechts */
     align-items: center !important;
     justify-content: center !important;
     text-decoration: none !important;
     color: #a8a8a8 !important;
-    gap: 4px !important; /* Abstand zwischen Pfeil und Text */
+    gap: 8px !important; /* Etwas mehr Abstand */
+    width: auto !important; /* Verhindert Stauchen in der Breite */
+    flex: none !important;
   }
 
   .nav-links .back-arrow-icon {
@@ -338,6 +340,7 @@
     flex-direction: row !important; /* Nebeneinander */
     gap: 8px !important;
     padding-bottom: 0 !important;
+    padding-left: 16px !important; /* Verhindert das Rauslaufen des rechten Buttons */
     justify-content: flex-end !important; /* Rechts bündig */
     align-items: center !important;
     height: 100% !important; /* Volle Höhe der Sidebar */
