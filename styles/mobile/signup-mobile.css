@@ -10,9 +10,11 @@
 
   /* Überschreibt style-mobile.css (padding: 225px 16px 0) */
   .login-main {
-    padding: 120px 16px 100px;
     justify-content: flex-start;
-    min-height: 100vh;
+    padding-top: 130px;
+    padding-bottom: 60px;
+    height: auto;
+    min-height: auto;
   }
 
   /* Karte */
@@ -112,12 +114,8 @@
     justify-content: center;
   }
 
-  /* Footer: bottom: 22px */
+  /* Footer */
   .login-footer {
-    bottom: 22px;
-  }
-
-  .login-footer a {
-    font-size: 14px;
+    bottom: auto;
   }
 }

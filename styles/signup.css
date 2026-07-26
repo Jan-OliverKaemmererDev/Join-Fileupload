@@ -224,8 +224,9 @@ button:disabled {
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    min-height: 100vh;
-    padding: 90px 20px 70px;
+    padding: 130px 20px 70px;
+    height: auto;
+    min-height: auto;
   }
 
   .login-card {
@@ -285,8 +286,10 @@ button:disabled {
   }
 
   .login-footer {
-    position: fixed;
-    bottom: 15px;
+    position: relative;
+    bottom: auto;
+    margin-top: 24px;
+    margin-bottom: 22px;
     gap: 20px;
   }
 
