@@ -3,6 +3,7 @@
 @media (min-width: 320px) and (max-width: 780px) {
   /* Logo: top: 37px, left: 38px, width: 64px */
   .logo-top-left {
+    position: absolute;
     top: 37px;
     left: 38px;
     width: 64px;
