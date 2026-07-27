@@ -181,8 +181,11 @@ document.addEventListener("DOMContentLoaded", function() {
     emailInput.addEventListener("blur", function() {
       var email = emailInput.value.trim();
       if (email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
-        document.getElementById("login-email-hint").textContent = "Bitte eine gültige E-Mail-Adresse eingeben.";
-        document.getElementById("login-email-hint").style.display = "block";
+        var emailHint = document.getElementById("login-email-hint");
+        if (emailHint) {
+          emailHint.textContent = "Bitte eine gültige E-Mail-Adresse eingeben.";
+          emailHint.style.display = "block";
+        }
         emailInput.classList.add("input-error");
       }
     });
@@ -191,8 +194,11 @@ document.addEventListener("DOMContentLoaded", function() {
     passInput.addEventListener("blur", function() {
       var password = passInput.value;
       if (password.length > 0 && password.length < 6) {
-        document.getElementById("login-pass-hint").textContent = "Das Passwort muss mindestens 6 Zeichen lang sein.";
-        document.getElementById("login-pass-hint").style.display = "block";
+        var passHint = document.getElementById("login-pass-hint");
+        if (passHint) {
+          passHint.textContent = "Das Passwort muss mindestens 6 Zeichen lang sein.";
+          passHint.style.display = "block";
+        }
         passInput.classList.add("input-error");
       }
     });

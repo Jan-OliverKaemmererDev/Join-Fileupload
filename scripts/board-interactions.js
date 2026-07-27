@@ -1,6 +1,31 @@
 let currentEditTaskOriginalState = null;
 
 /**
+ * Kompensiert die Scrollbar-Breite beim Sperren/Entsperren des Scrollens.
+ * Verhindert, dass das Layout springt, wenn der Scrollbalken ein-/ausgeblendet wird.
+ * @param {boolean} lock - true zum Sperren, false zum Entsperren
+ */
+function toggleScrollLock(lock) {
+  const mainContent = document.querySelector(".main-content");
+  if (lock) {
+    const scrollbarWidth = mainContent
+      ? mainContent.offsetWidth - mainContent.clientWidth
+      : 0;
+    document.documentElement.classList.add("no-scroll");
+    document.body.classList.add("no-scroll");
+    if (mainContent && scrollbarWidth > 0) {
+      mainContent.style.paddingRight = scrollbarWidth + "px";
+    }
+  } else {
+    document.documentElement.classList.remove("no-scroll");
+    document.body.classList.remove("no-scroll");
+    if (mainContent) {
+      mainContent.style.paddingRight = "";
+    }
+  }
+}
+
+/**
  * Öffnet das Add-Task-Overlay. Auf mobilen Geräten (≤780px) erfolgt eine Weiterleitung zu addtask.html, auf Desktop wird das Overlay eingeblendet.
  */
 function openAddTaskOverlay() {
@@ -15,8 +40,7 @@ function openAddTaskOverlay() {
   }
 
   document.getElementById("add-task-overlay").classList.add("active");
-  document.documentElement.classList.add("no-scroll");
-  document.body.classList.add("no-scroll");
+  toggleScrollLock(true);
 }
 
 /**
@@ -24,8 +48,7 @@ function openAddTaskOverlay() {
  */
 function closeAddTaskOverlay() {
   document.getElementById("add-task-overlay").classList.remove("active");
-  document.documentElement.classList.remove("no-scroll");
-  document.body.classList.remove("no-scroll");
+  toggleScrollLock(false);
   resetFormToAddMode();
 }
 
@@ -46,8 +69,6 @@ function openTaskDetails(taskId) {
   }
 
   document.getElementById("task-details-overlay").classList.add("active");
-  document.documentElement.classList.add("no-scroll");
-  document.body.classList.add("no-scroll");
 }
 
 /**
@@ -72,8 +93,6 @@ function buildTaskDetailsHtml(task) {
  */
 function closeTaskDetails() {
   document.getElementById("task-details-overlay").classList.remove("active");
-  document.documentElement.classList.remove("no-scroll");
-  document.body.classList.remove("no-scroll");
 }
 
 /**
