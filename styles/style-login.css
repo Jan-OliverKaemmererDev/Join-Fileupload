@@ -170,6 +170,10 @@
 
 /* ---- Login-Seite: Layout ---- */
 
+.overlay-footer {
+  display: none !important;
+}
+
 .login-header {
   display: flex;
   justify-content: flex-end;
