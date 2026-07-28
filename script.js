@@ -123,7 +123,11 @@ async function initSummaryGuest() {
 
   const currentUser = getCurrentUser();
   if (currentUser) {
-    await updateTaskMetrics(currentUser);
+    if (typeof updateTaskMetrics === "function") {
+      await updateTaskMetrics(currentUser);
+    } else if (typeof renderTaskMetrics === "function") {
+      renderTaskMetrics();
+    }
   }
 
   checkMobileGreeting();
