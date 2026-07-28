@@ -491,3 +491,10 @@
     font-size: 15px;
   }
 }
+
+/* Galaxy S9+ specific fix (380px width) to reserve space for 2-line error text */
+@media (max-width: 360px) {
+  .login-input-wrap {
+    min-height: 90px;
+  }
+}

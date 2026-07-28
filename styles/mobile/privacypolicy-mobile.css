@@ -129,7 +129,7 @@
     gap: 2px !important;
     color: #a8a8a8 !important;
     text-decoration: none !important;
-    font-size: 11px !important;
+    font-size: 14px !important;
     flex: 1 1 0 !important;
     width: 0 !important;
     min-width: 0 !important;
@@ -182,7 +182,7 @@
   }
 
   .nav-links .guest-text-only span {
-    font-size: 12px !important;
+    font-size: 14px !important;
     font-weight: 400 !important;
     text-align: center !important;
     line-height: 1.2 !important;
@@ -329,7 +329,7 @@
   }
 
   .nav-links .login-text {
-    font-size: 12px !important; /* Text klein unter das Icon */
+    font-size: 14px !important; /* Text klein unter das Icon */
     line-height: 1 !important;
   }
 

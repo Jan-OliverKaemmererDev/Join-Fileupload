@@ -95,7 +95,7 @@
 
   /* Error Text */
   .error-text {
-    font-size: 13px;
+    font-size: 14px;
     margin-top: 4px;
   }
 
@@ -118,5 +118,13 @@
   /* Footer */
   .login-footer {
     bottom: auto;
+  }
+}
+
+/* Galaxy S9+ specific fix (360px width) to reserve space for 2-line error text */
+@media (max-width: 380px) {
+  .signup-input-wrap,
+  .login-input-wrap {
+    min-height: 90px;
   }
 }

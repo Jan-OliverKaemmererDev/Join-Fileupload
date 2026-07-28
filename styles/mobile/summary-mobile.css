@@ -123,7 +123,7 @@
   .nav-links a {
     flex-direction: column !important;
     padding: 0;
-    font-size: 12px;
+    font-size: 14px;
     gap: 4px;
     color: #a8a8a8;
     align-items: center;
@@ -320,7 +320,7 @@
     font-size: 32px !important;
   }
   .urgent-info p {
-    font-size: 13px !important;
+    font-size: 14px !important;
   }
 
   .deadline-info {
@@ -340,7 +340,7 @@
     display: block;
   }
   .deadline-info p {
-    font-size: 12px !important;
+    font-size: 14px !important;
     margin: 4px 0 0;
     color: #2a3647;
   }
@@ -358,7 +358,7 @@
     font-size: 44px !important;
   }
   .card-square p {
-    font-size: 13px !important;
+    font-size: 14px !important;
     text-align: center;
     margin: 0 !important;
   }

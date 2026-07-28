@@ -116,7 +116,7 @@
   .nav-links a {
     flex-direction: column !important;
     padding: 0;
-    font-size: 12px;
+    font-size: 14px;
     gap: 4px;
     color: #a8a8a8;
     align-items: center;

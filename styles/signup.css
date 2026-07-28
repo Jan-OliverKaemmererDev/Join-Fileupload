@@ -257,7 +257,7 @@ button:disabled {
   }
 
   .privacy-policy-check {
-    font-size: 13px;
+    font-size: 14px;
     gap: 8px;
     margin-top: 10px;
     flex-wrap: wrap;
@@ -278,7 +278,7 @@ button:disabled {
   }
 
   .error-text {
-    font-size: 12px;
+    font-size: 14px;
     margin-top: 8px;
   }
 
@@ -291,6 +291,6 @@ button:disabled {
   }
 
   .login-footer a {
-    font-size: 12px;
+    font-size: 14px;
   }
 }
