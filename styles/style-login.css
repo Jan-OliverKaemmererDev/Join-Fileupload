@@ -170,8 +170,10 @@
 
 /* ---- Login-Seite: Layout ---- */
 
-.overlay-footer {
-  display: none !important;
+.welcome-overlay .overlay-footer {
+  position: absolute;
+  bottom: 40px;
+  margin: 0;
 }
 
 .login-header {
