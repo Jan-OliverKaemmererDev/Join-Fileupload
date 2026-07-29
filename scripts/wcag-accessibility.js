@@ -6,11 +6,11 @@
  * The image viewer already has its own ESC handler in board-image-viewer.js,
  * so it is checked first to avoid duplicate handling.
  */
-function handleGlobalEscKey(e) {
-  if (e.key !== "Escape") return;
+function handleGlobalEscKey(event) {
+  if (event.key !== "Escape") return;
 
   if (closeActiveOverlayByPriority()) {
-    e.preventDefault();
+    event.preventDefault();
   }
 }
 
@@ -117,14 +117,14 @@ function closeUserDropdownMenu() {
 /**
  * Handles Enter and Space key presses on elements with role="button".
  * This allows keyboard activation of custom button elements.
- * @param {KeyboardEvent} e - The keyboard event.
+ * @param {KeyboardEvent} event - The keyboard event.
  */
-function handleRoleButtonKeydown(e) {
-  if (e.key !== "Enter" && e.key !== " ") return;
-  const target = e.target;
+function handleRoleButtonKeydown(event) {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const target = event.target;
   if (!target) return;
   if (target.getAttribute("role") === "button" || isClickableDiv(target)) {
-    e.preventDefault();
+    event.preventDefault();
     target.click();
   }
 }
@@ -143,13 +143,13 @@ function isClickableDiv(el) {
 
 /**
  * Sets up focus trapping within the currently active modal dialog.
- * @param {KeyboardEvent} e - The keyboard event.
+ * @param {KeyboardEvent} event - The keyboard event.
  */
-function handleFocusTrap(e) {
-  if (e.key !== "Tab") return;
+function handleFocusTrap(event) {
+  if (event.key !== "Tab") return;
   const activeModal = findActiveModal();
   if (!activeModal) return;
-  trapFocusInElement(activeModal, e);
+  trapFocusInElement(activeModal, event);
 }
 
 /**
@@ -179,21 +179,77 @@ function findActiveModal() {
 /**
  * Traps focus within a given container element.
  * @param {HTMLElement} container - The container to trap focus in.
- * @param {KeyboardEvent} e - The keyboard event.
+ * @param {KeyboardEvent} event - The keyboard event.
  */
-function trapFocusInElement(container, e) {
+function trapFocusInElement(container, event) {
   const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
   const focusableElements = container.querySelectorAll(focusableSelector);
   if (focusableElements.length === 0) return;
   const firstEl = focusableElements[0];
   const lastEl = focusableElements[focusableElements.length - 1];
-  if (e.shiftKey && document.activeElement === firstEl) {
-    e.preventDefault();
+  if (event.shiftKey && document.activeElement === firstEl) {
+    event.preventDefault();
     lastEl.focus();
-  } else if (!e.shiftKey && document.activeElement === lastEl) {
-    e.preventDefault();
+  } else if (!event.shiftKey && document.activeElement === lastEl) {
+    event.preventDefault();
     firstEl.focus();
   }
+}
+
+/**
+ * Focuses the first focusable element within a container.
+ * @param {HTMLElement} container - The container element.
+ */
+function focusFirstElementInContainer(container) {
+  const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const focusableElements = container.querySelectorAll(focusableSelector);
+  if (focusableElements.length > 0) {
+    focusableElements[0].focus();
+  } else {
+    container.setAttribute('tabindex', '-1');
+    container.focus();
+  }
+}
+
+/**
+ * Initializes a MutationObserver to automatically focus the first element
+ * when a modal overlay is opened.
+ */
+function initModalObserver() {
+  const modalIds = [
+    "image-viewer-overlay",
+    "delete-confirm-dialog",
+    "account-overlay",
+    "mobile-edit-overlay",
+    "task-details-overlay",
+    "add-task-overlay",
+    "add-contact-overlay",
+    "welcome-overlay"
+  ];
+
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.type === "attributes" && mutation.attributeName === "class") {
+        const target = mutation.target;
+        const oldClass = mutation.oldValue || "";
+        const isNowActive = target.classList.contains("active");
+        const wasActive = oldClass.split(" ").includes("active");
+        
+        if (modalIds.includes(target.id) && isNowActive && !wasActive) {
+          setTimeout(() => {
+            focusFirstElementInContainer(target);
+          }, 50);
+        }
+      }
+    });
+  });
+
+  observer.observe(document.body, { 
+    attributes: true, 
+    subtree: true, 
+    attributeFilter: ['class'],
+    attributeOldValue: true
+  });
 }
 
 /**
@@ -203,6 +259,7 @@ function initWcagAccessibility() {
   document.addEventListener("keydown", handleGlobalEscKey);
   document.addEventListener("keydown", handleRoleButtonKeydown);
   document.addEventListener("keydown", handleFocusTrap);
+  initModalObserver();
 }
 
 document.addEventListener("DOMContentLoaded", initWcagAccessibility);
