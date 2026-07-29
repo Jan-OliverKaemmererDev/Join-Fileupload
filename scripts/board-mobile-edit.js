@@ -9,8 +9,8 @@ let mobileEditAttachments = [];
 let currentMobileEditTaskOriginalState = null;
 
 /**
- * Öffnet das mobile Edit-Overlay für einen Task.
- * @param {number} taskId - Die ID des Tasks
+ * Opens the mobile edit overlay for a task.
+ * @param {number} taskId - The ID of the task
  */
 function openMobileEditOverlay(taskId) {
   const task = findTask(taskId);
@@ -23,7 +23,7 @@ function openMobileEditOverlay(taskId) {
 }
 
 /**
- * Schließt das mobile Edit-Overlay und setzt den Zustand zurück.
+ * Closes the mobile edit overlay and resets the state.
  */
 function closeMobileEditOverlay() {
   document.getElementById("mobile-edit-overlay").classList.remove("active");
@@ -35,8 +35,8 @@ function closeMobileEditOverlay() {
 }
 
 /**
- * Füllt das mobile Edit-Formular mit den Daten eines Tasks.
- * @param {Object} task - Das Task-Objekt
+ * Fills the mobile edit form with the data of a task.
+ * @param {Object} task - The task object
  */
 function fillMobileEditForm(task) {
   currentMobileEditTaskOriginalState = JSON.stringify({
@@ -63,8 +63,8 @@ function fillMobileEditForm(task) {
 }
 
 /**
- * Füllt die Grunddaten (Titel, Beschreibung, Datum) im mobilen Edit-Formular.
- * @param {Object} task - Das Task-Objekt
+ * Fills the basic data (title, description, date) in the mobile edit form.
+ * @param {Object} task - The task object
  */
 function fillMobileEditBasicInfo(task) {
   document.getElementById("mobile-edit-title").value = task.title || "";
@@ -76,8 +76,8 @@ function fillMobileEditBasicInfo(task) {
 }
 
 /**
- * Füllt die Subtasks im mobilen Edit-Formular aus den Task-Daten.
- * @param {Object} task - Das Task-Objekt
+ * Populates the subtasks in the mobile edit form from the task data.
+ * @param {Object} task - The task object
  */
 function fillMobileEditSubtasks(task) {
   mobileEditSubtasks =
@@ -88,8 +88,8 @@ function fillMobileEditSubtasks(task) {
 }
 
 /**
- * Füllt die ausgewählten Kontakte im mobilen Edit-Formular.
- * @param {Object} task - Das Task-Objekt
+ * Populates the selected contacts in the mobile edit form.
+ * @param {Object} task - The task object
  */
 function fillMobileEditContacts(task) {
   mobileEditSelectedContacts = [];
@@ -104,8 +104,8 @@ function fillMobileEditContacts(task) {
 }
 
 /**
- * Setzt die Priorität im mobilen Edit-Overlay.
- * @param {string} priority - Die Priorität ("urgent", "medium", "low")
+ * Sets priority in mobile edit overlay.
+ * @param {string} priority - The priority ("urgent", "medium", "low")
  */
 function selectMobileEditPriority(priority) {
   mobileEditSelectedPriority = priority;
@@ -120,7 +120,7 @@ function selectMobileEditPriority(priority) {
 }
 
 /**
- * Rendert die Kontaktoptionen im Assigned-To-Dropdown des mobilen Edits.
+ * Renders the contact options in the mobile edit's Assigned To dropdown.
  */
 function renderMobileEditAssignedToOptions() {
   const container = document.getElementById("mobile-edit-assigned-to-options");
@@ -138,11 +138,11 @@ function renderMobileEditAssignedToOptions() {
 }
 
 /**
- * Erstellt Avatar-Daten (HTML und Style) für einen Kontakt.
- * Gibt ein Objekt mit avatarInner und avatarStyle zurück.
- * @param {Object} contact - Das Kontakt-Objekt
- * @param {string} [imgClass] - Optionale CSS-Klasse für das Profilbild
- * @returns {{avatarInner: string, avatarStyle: string}} Avatar-Daten
+ * Creates avatar data (HTML and style) for a contact.
+ * Returns an object with avatarInner and avatarStyle.
+ * @param {Object} contact - The contact object
+ * @param {string} [imgClass] - Optional CSS class for the profile picture
+ * @returns {{avatarInner: string, avatarStyle: string}} avatar data
  */
 function buildMobileEditContactAvatar(contact, imgClass) {
   let avatarInner = contact.initials;
@@ -156,10 +156,10 @@ function buildMobileEditContactAvatar(contact, imgClass) {
 }
 
 /**
- * Erstellt das Template für eine Kontakt-Option im Assigned-To-Dropdown.
- * @param {Object} contact - Das Kontakt-Objekt
- * @param {boolean} isSelected - Ob der Kontakt ausgewählt ist
- * @returns {string} HTML-String der Kontakt-Option
+ * Created the template for a contact option in the Assigned To dropdown.
+ * @param {Object} contact - The contact object
+ * @param {boolean} isSelected - Whether the contact is selected
+ * @returns {string} HTML string of the contact option
  */
 function getMobileEditContactOptionTemplate(contact, isSelected) {
   const selectedClass = isSelected ? "selected" : "";
@@ -169,9 +169,9 @@ function getMobileEditContactOptionTemplate(contact, isSelected) {
 }
 
 /**
- * Schaltet die Auswahl eines Kontakts im Assigned-To-Dropdown um.
- * @param {string} contactId - Die ID des Kontakts
- * @param {Event} event - Das Klick-Event
+ * Toggles the selection of a contact in the Assigned To dropdown.
+ * @param {string} contactId - The ID of the contact
+ * @param {Event} event - The click event
  */
 function toggleMobileEditContactSelection(contactId, event) {
   event.stopPropagation();
@@ -189,9 +189,9 @@ function toggleMobileEditContactSelection(contactId, event) {
 }
 
 /**
- * Fügt einen Kontakt zur Auswahl hinzu oder entfernt ihn.
- * @param {string} contactId - Die ID des Kontakts
- * @param {Object} contact - Das Kontakt-Objekt
+ * Adds or removes a contact from the selection.
+ * @param {string} contactId - The ID of the contact
+ * @param {Object} contact - The contact object
  */
 function updateMobileSelectedContacts(contactId, contact) {
   const index = mobileEditSelectedContacts.findIndex(function (c) {
@@ -205,8 +205,8 @@ function updateMobileSelectedContacts(contactId, contact) {
 }
 
 /**
- * Rendert die Avatare der ausgewählten Kontakte unterhalb des Dropdowns.
- * Zeigt entweder ein Profilbild oder die Initialen mit Hintergrundfarbe an.
+ * Renders the avatars of the selected contacts below the dropdown.
+ * Displays either a profile picture or initials with background color.
  */
 function renderMobileEditSelectedInitials() {
   const container = document.getElementById("mobile-edit-selected-contacts-initials");
@@ -219,7 +219,7 @@ function renderMobileEditSelectedInitials() {
 }
 
 /**
- * Schaltet das Assigned-To-Dropdown im mobilen Edit um.
+ * Toggles the Assigned To dropdown in mobile edit.
  */
 function toggleMobileEditAssignedToDropdown() {
   const wrapper = document.getElementById("mobile-edit-assigned-to-wrapper");
@@ -229,7 +229,7 @@ function toggleMobileEditAssignedToDropdown() {
 }
 
 /**
- * Event-Listener: Schließt das Assigned-To-Dropdown bei Klick außerhalb des Wrappers.
+ * Event listener: Closes the assigned-to dropdown when clicked outside the wrapper.
  */
 document.addEventListener(
   "click",
@@ -247,8 +247,8 @@ document.addEventListener(
 );
 
 /**
- * Überprüft, ob das mobile Formular geändert wurde.
- * @returns {boolean} True, wenn Änderungen vorgenommen wurden.
+ * Checks whether the mobile form has been changed.
+ * @returns {boolean} True if changes were made.
  */
 function isMobileTaskDirty() {
   if (!currentMobileEditTaskOriginalState) return true;
@@ -271,8 +271,8 @@ function isMobileTaskDirty() {
 }
 
 /**
- * Validiert das mobile Edit-Formular.
- * Deaktiviert den Speichern-Button, wenn Titel oder Datum fehlen, oder keine Änderungen vorgenommen wurden.
+ * Validates the mobile edit form.
+ * Disables the save button if the title or date is missing or no changes have been made.
  */
 function validateMobileEditForm() {
   const title = document.getElementById("mobile-edit-title").value.trim();
@@ -289,8 +289,8 @@ function validateMobileEditForm() {
 }
 
 /**
- * Speichert den bearbeiteten Task.
- * Liest Formulardaten, aktualisiert den Task und speichert ihn.
+ * Saves the processed task.
+ * Reads form data, updates the task and saves it.
  */
 async function saveMobileEditTask() {
   if (!mobileEditTaskId) return;
@@ -303,8 +303,8 @@ async function saveMobileEditTask() {
 }
 
 /**
- * Aktualisiert das Task-Objekt mit den Daten aus dem mobilen Edit-Formular.
- * @param {Object} task - Das zu aktualisierende Task-Objekt
+ * Updates the task object with the data from the mobile edit form.
+ * @param {Object} task - The task object to update
  */
 function updateTaskDataFromMobileEdit(task) {
   task.title = document.getElementById("mobile-edit-title").value.trim();
@@ -321,7 +321,7 @@ function updateTaskDataFromMobileEdit(task) {
 }
 
 /**
- * Schließt alle Overlays und zeigt eine Erfolgsmeldung nach dem Speichern.
+ * Closes all overlays and shows a success message after saving.
  */
 function finalizeMobileEditSave() {
   renderTasks();

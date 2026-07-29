@@ -1,10 +1,10 @@
 /**
- * @fileoverview HTML template generating functions for the add task page.
+ * @fileoview HTML template generating functions for the add task page.
  */
 /**
- * Generiert das HTML-Template für ein Subtask-Element (Normalansicht)
- * @param {Object} subtask - Das Subtask-Objekt
- * @returns {string} Das HTML-Template
+ * Generates the HTML template for a subtask element (normal view)
+ * @param {Object} subtask - The subtask object
+ * @returns {string} The HTML template
  */
 function getSubtaskItemTemplate(subtask) {
   return `
@@ -23,9 +23,9 @@ function getSubtaskItemTemplate(subtask) {
 
 
 /**
- * Generiert das HTML-Template für ein Subtask-Element (Bearbeitungsmodus)
- * @param {Object} subtask - Das Subtask-Objekt
- * @returns {string} Das HTML-Template
+ * Generates the HTML template for a subtask element (edit mode)
+ * @param {Object} subtask - The subtask object
+ * @returns {string} The HTML template
  */
 function getSubtaskEditTemplate(subtask) {
   return `
@@ -42,14 +42,14 @@ function getSubtaskEditTemplate(subtask) {
 
 
 /**
- * Generiert das HTML-Template für eine Kontakt-Option im Dropdown
- * @param {string} contactId - Die ID des Kontakts
- * @param {string} contactName - Der Name des Kontakts
- * @param {string} selectedClass - CSS-Klasse für Auswahl
- * @param {string} nameSuffix - Suffix für den Namen (z.B. " (You)")
- * @param {string} avatarStyle - Inline-Style für den Avatar
- * @param {string} avatarInner - Inhalt des Avatars (Initialen oder Bild)
- * @returns {string} Das HTML-Template für die Kontakt-Option
+ * Generates the HTML template for a contact option in the dropdown
+ * @param {string} contactId - The ID of the contact
+ * @param {string} contactName - The name of the contact
+ * @param {string} selectedClass - CSS class for selection
+ * @param {string} nameSuffix - Suffix for the name (e.g. " (You)")
+ * @param {string} avatarStyle - Inline style for the avatar
+ * @param {string} avatarInner - content of the avatar (initials or image)
+ * @returns {string} The HTML template for the contact option
  */
 function getContactOptionTemplate(contactId, contactName, selectedClass, nameSuffix, avatarStyle, avatarInner) {
   return `
@@ -69,10 +69,10 @@ function getContactOptionTemplate(contactId, contactName, selectedClass, nameSuf
 
 
 /**
- * Generiert das HTML-Template für die Initialen einer ausgewählten Person
- * @param {string} avatarStyle - Inline-Style für den Avatar
- * @param {string} avatarInner - Inhalt des Avatars (Initialen oder Bild)
- * @returns {string} Das HTML-Template für den Initialen-Kreis
+ * Generates the HTML template for a selected person's initials
+ * @param {string} avatarStyle - Inline style for the avatar
+ * @param {string} avatarInner - content of the avatar (initials or image)
+ * @returns {string} The HTML template for the initials circle
  */
 function getSelectedContactInitialsTemplate(avatarStyle, avatarInner) {
   return `
@@ -84,9 +84,9 @@ function getSelectedContactInitialsTemplate(avatarStyle, avatarInner) {
 
 
 /**
- * Generiert das HTML-Template für eine Toast-Nachricht
- * @param {string} message - Die anzuzeigende Nachricht
- * @returns {string} Das HTML-Template für die Toast-Nachricht
+ * Generates the HTML template for a toast message
+ * @param {string} message - The message to display
+ * @returns {string} The HTML template for the toast message
  */
 function getToastTemplate(message) {
   return `

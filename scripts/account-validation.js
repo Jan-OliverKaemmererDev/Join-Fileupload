@@ -2,7 +2,7 @@
  * @fileoverview Logic for validating user accounts.
  */
 /**
- * Überprüft die Formularwerte des Account-Overlays.
+ * Checks account overlay form values.
  */
 function checkAccountFormValidity(showErrors = false) {
   const name = document.getElementById("account-name").value.trim();
@@ -15,7 +15,7 @@ function checkAccountFormValidity(showErrors = false) {
 }
 
 /**
- * Fügt blur-Event-Listener zu den Eingabefeldern im Account-Overlay hinzu.
+ * Adds blur event listeners to input fields in the account overlay.
  */
 function attachAccountBlurValidators() {
   const nameEl = document.getElementById("account-name");
@@ -28,8 +28,8 @@ function attachAccountBlurValidators() {
 }
 
 /**
- * Formatiert die Telefonnummerneingabe im Account-Overlay.
- * @returns {string} Die bereinigte Telefonnummer.
+ * Formats phone number input in account overlay.
+ * @returns {string} The cleaned phone number.
  */
 function formatAccountPhoneInput() {
   const phoneInput = document.getElementById("account-phone");
@@ -41,9 +41,9 @@ function formatAccountPhoneInput() {
 }
 
 /**
- * Validiert den Namen im Account-Overlay.
- * @param {string} name - Der zu prüfende Name.
- * @returns {boolean} True, wenn der Name gültig ist.
+ * Validates name in account overlay.
+ * @param {string} name - The name to check.
+ * @returns {boolean} True if the name is valid.
  */
 function validateAccountName(name, showErrors = false) {
   const nameLetters = name.replace(/[^a-zA-ZäöüÄÖÜß]/g, "");
@@ -56,9 +56,9 @@ function validateAccountName(name, showErrors = false) {
 }
 
 /**
- * Validiert die E-Mail im Account-Overlay.
- * @param {string} email - Die zu prüfende E-Mail-Adresse.
- * @returns {boolean} True, wenn die E-Mail gültig ist.
+ * Validates the email in the account overlay.
+ * @param {string} email - The email address to check.
+ * @returns {boolean} True if the email is valid.
  */
 function validateAccountEmail(email, showErrors = false) {
   const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
@@ -70,9 +70,9 @@ function validateAccountEmail(email, showErrors = false) {
 }
 
 /**
- * Validiert die Telefonnummer im Account-Overlay.
- * @param {string} phone - Die zu prüfende Telefonnummer.
- * @returns {boolean} True, wenn die Telefonnummer gültig ist.
+ * Validates phone number in account overlay.
+ * @param {string} phone - The phone number to check.
+ * @returns {boolean} True if the phone number is valid.
  */
 function validateAccountPhone(phone, showErrors = false) {
   const isValid = phone.length === 0 || phone.length >= 11;
@@ -84,10 +84,10 @@ function validateAccountPhone(phone, showErrors = false) {
 }
 
 /**
- * Aktualisiert den Speichern-Button im Account-Overlay.
- * @param {boolean} nameValid - Gültigkeit des Namens.
- * @param {boolean} emailValid - Gültigkeit der E-Mail.
- * @param {boolean} phoneValid - Gültigkeit der Telefonnummer.
+ * Updates the save button in the account overlay.
+ * @param {boolean} nameValid - Validity of the name.
+ * @param {boolean} emailValid - Validity of the email.
+ * @param {boolean} phoneValid - Phone number validity.
  */
 function updateAccountSaveButton(nameValid, emailValid, phoneValid) {
   const actionBtn = document.getElementById("account-action-btn");
@@ -102,9 +102,9 @@ function updateAccountSaveButton(nameValid, emailValid, phoneValid) {
 }
 
 /**
- * Zeigt oder versteckt einen Hinweis unter einem Account-Input-Feld.
- * @param {string} inputId - Die ID des Eingabefeldes.
- * @param {string|null} message - Die anzuzeigende Nachricht.
+ * Shows or hides a note under an account input field.
+ * @param {string} inputId - The ID of the input field.
+ * @param {string|null} message - The message to display.
  */
 function setAccountFieldHint(inputId, message) {
   const input = document.getElementById(inputId);
@@ -120,9 +120,9 @@ function setAccountFieldHint(inputId, message) {
 }
 
 /**
- * Entfernt den Fehlerzustand eines einzelnen Account-Feldes.
- * @param {HTMLElement} input - Das Eingabefeld.
- * @param {HTMLElement} hint - Das Hinweis-Element.
+ * Removes the error condition of a single account field.
+ * @param {HTMLElement} input - The input field.
+ * @param {HTMLElement} hint - The hint element.
  */
 function clearSingleAccountError(input, hint) {
   input.classList.remove("input-error");
@@ -131,7 +131,7 @@ function clearSingleAccountError(input, hint) {
 }
 
 /**
- * Entfernt alle Fehlerzustände aus dem Account-Formular.
+ * Removes all error states from the account form.
  */
 function clearAccountFormErrors() {
   const fields = ["account-name", "account-email", "account-phone"];

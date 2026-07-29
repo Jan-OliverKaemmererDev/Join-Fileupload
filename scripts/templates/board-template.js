@@ -1,15 +1,15 @@
 /**
- * @fileoverview HTML templates generating functions for the board view.
+ * @fileoview HTML templates generating functions for the board view.
  */
 /**
- * Generiert das HTML-Template für eine Task-Karte
- * @param {Object} task - Das Task-Objekt
- * @param {string} categoryClass - Die CSS-Klasse für die Kategorie
- * @param {string} categoryLabel - Das Label für die Kategorie
- * @param {string} progressHtml - Das HTML für den Fortschrittsbalken
- * @param {string} assigneesHtml - Das HTML für die zugewiesenen Benutzer
- * @param {string} priorityIcon - Das HTML für das Prioritäts-Icon
- * @returns {string} Das HTML-Template für die Task-Karte
+ * Generates the HTML template for a task card
+ * @param {Object} task - The task object
+ * @param {string} categoryClass - The CSS class for the category
+ * @param {string} categoryLabel - The label for the category
+ * @param {string} progressHtml - The HTML for the progress bar
+ * @param {string} assigneesHtml - The HTML for the assigned users
+ * @param {string} priorityIcon - The HTML for the priority icon
+ * @returns {string} The HTML template for the task card
  */
 function getTaskCardTemplate(
   task,
@@ -47,10 +47,10 @@ function getTaskCardTemplate(
 
 
 /**
- * Generiert das HTML-Template für einen Fortschrittsbalken
- * @param {number} completed - Anzahl der abgeschlossenen Subtasks
- * @param {number} total - Gesamtanzahl der Subtasks
- * @returns {string} Das HTML-Template für den Fortschrittsbalken
+ * Generates the HTML template for a progress bar
+ * @param {number} completed - Number of subtasks completed
+ * @param {number} total - Total number of subtasks
+ * @returns {string} The HTML template for the progress bar
  */
 function getProgressBarTemplate(completed, total) {
   const percent = (completed / total) * 100;
@@ -66,9 +66,9 @@ function getProgressBarTemplate(completed, total) {
 
 
 /**
- * Generiert das HTML-Template für ein Assignee-Badge
- * @param {string} initials - Die Initialen des Assignees
- * @returns {string} Das HTML-Template für das Assignee-Badge
+ * Generates the HTML template for an assignee badge
+ * @param {string} initials - The assignee's initials
+ * @returns {string} The HTML template for the assignee badge
  */
 function getAssigneeBadgeTemplate(initials, color, profileImageBase64 = null) {
   const backgroundColor = color || "#00bee8";
@@ -80,9 +80,9 @@ function getAssigneeBadgeTemplate(initials, color, profileImageBase64 = null) {
 
 
 /**
- * Generiert das HTML-Template für fehlende Tasks
- * @param {string} message - Die anzuzeigende Nachricht
- * @returns {string} Das HTML-Template für die Fehlmeldung
+ * Generates the HTML template for missing tasks
+ * @param {string} message - The message to display
+ * @returns {string} The HTML template for the error message
  */
 function getNoTasksTemplate(message) {
   return `<p class="no-tasks" aria-label="${message}">${message}</p>`;
@@ -90,11 +90,11 @@ function getNoTasksTemplate(message) {
 
 
 /**
- * Generiert das HTML-Template für ein Subtask-Element in der Detailansicht
- * @param {number} taskId - Die ID des Tasks
- * @param {number} index - Der Index des Subtasks
- * @param {Object} st - Das Subtask-Objekt
- * @returns {string} Das HTML-Template für das Subtask-Element
+ * Generates the HTML template for a subtask element in the details view
+ * @param {number} taskId - The ID of the task
+ * @param {number} index - The index of the subtask
+ * @param {Object} st - The subtask object
+ * @returns {string} The HTML template for the subtask element
  */
 function getSubtaskItemDetailTemplate(taskId, index, st) {
   const checkedClass = st.completed ? "checked" : "";
@@ -108,14 +108,14 @@ function getSubtaskItemDetailTemplate(taskId, index, st) {
 
 
 /**
- * Generiert das HTML-Template für die Task-Detailansicht
- * @param {Object} task - Das Task-Objekt
- * @param {string} subtasksHtml - Das HTML für die Subtasks
- * @param {string} priorityIcon - Das HTML für das Prioritäts-Icon
- * @param {string} categoryClass - Die CSS-Klasse für die Kategorie
- * @param {string} categoryLabel - Das Label für die Kategorie
- * @param {string} assignedToHtml - Das HTML für die zugewiesenen Kontakte
- * @returns {string} Das HTML-Template für die Task-Details
+ * Generates the HTML template for the task detail view
+ * @param {Object} task - The task object
+ * @param {string} subtasksHtml - The HTML for the subtasks
+ * @param {string} priorityIcon - The HTML for the priority icon
+ * @param {string} categoryClass - The CSS class for the category
+ * @param {string} categoryLabel - The label for the category
+ * @param {string} assignedToHtml - The HTML for the assigned contacts
+ * @returns {string} The HTML template for the task details
  */
 function getTaskDetailsTemplate(
   task,
@@ -230,11 +230,11 @@ function getTaskDetailsTemplate(
 
 
 /**
- * Generiert ein HTML-Template für einen zugewiesenen Kontakt in der Detailansicht
- * @param {string} initials - Initialen des Kontakts
- * @param {string} color - Hintergrundfarbe des Badges
- * @param {string} name - Vollständiger Name des Kontakts
- * @returns {string} Das HTML für den Kontakt-Eintrag
+ * Generates an HTML template for an assigned contact in the details view
+ * @param {string} initials - Initials of the contact
+ * @param {string} color - background color of the badge
+ * @param {string} name - Full name of the contact
+ * @returns {string} The HTML for the contact entry
  */
 function getAssignedToDetailItemTemplate(initials, color, name, profileImageBase64 = null) {
   if (profileImageBase64) {
@@ -249,8 +249,8 @@ function getAssignedToDetailItemTemplate(initials, color, name, profileImageBase
 
 
 /**
- * Generiert das HTML-Icon für hohe Priorität
- * @returns {string} Das HTML für das Urgent-Icon
+ * Generates the high priority HTML icon
+ * @returns {string} The HTML for the urgent icon
  */
 function getUrgentPriorityIcon() {
   return `<img src="./assets/icons/urgent-iconAddTask.png" alt="Urgent">`;
@@ -258,8 +258,8 @@ function getUrgentPriorityIcon() {
 
 
 /**
- * Generiert das HTML-Icon für mittlere Priorität
- * @returns {string} Das HTML für das Medium-Icon
+ * Generates the medium priority HTML icon
+ * @returns {string} The HTML for the media icon
  */
 function getMediumPriorityIcon() {
   return `<img src="./assets/icons/medium-iconAddTask.png" alt="Medium">`;
@@ -267,15 +267,15 @@ function getMediumPriorityIcon() {
 
 
 /**
- * Generiert das HTML-Icon für niedrige Priorität
- * @returns {string} Das HTML für das Low-Icon
+ * Generates the low priority HTML icon
+ * @returns {string} The HTML for the low icon
  */
 function getLowPriorityIcon() {
   return `<img src="./assets/icons/low-iconAddTask.png" alt="Low">`;
 }
 
 /**
- * HTML-Template für ein Attachment Thumbnail
+ * HTML template for an attachment thumbnail
  * @param {number} taskId 
  * @param {number} index 
  * @param {string} previewSrc 
@@ -299,7 +299,7 @@ function getTaskAttachmentThumbnailTemplate(taskId, index, previewSrc, name) {
 }
 
 /**
- * HTML-Template für die Attachments-Sektion
+ * HTML template for the attachments section
  * @param {string} thumbnailsHtml 
  * @returns {string} HTML
  */

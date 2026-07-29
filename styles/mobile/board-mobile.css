@@ -1,5 +1,5 @@
 /* ========================================================= */
-/*       GRUNDLEGENDES LAYOUT FÜR MOBILE (BIS 780PX)         */
+/*       GRUNDLEGENDES LAYOUT FOR MOBILE (TO 780PX)         */
 /* ========================================================= */
 @media (max-width: 780px) {
   html,
@@ -259,7 +259,7 @@
 
   .task-list::-webkit-scrollbar {
     display: none;
-    /* Chrome, Safari, Opera */
+    
   }
 
   /* ========================================================= */
@@ -485,7 +485,6 @@
 }
 
 /* ========================================================= */
-/* LANDSCAPE-MODUS DEAKTIVIEREN AUF MOBILEN GERÄTEN          */
 /* ========================================================= */
 .landscape-block {
   display: none;

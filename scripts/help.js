@@ -1,8 +1,8 @@
 /**
- * @fileoverview Logic for the help page.
+ * @fileoview Logic for the help page.
  */
 /**
- * Initialisiert die Help-Seite und zeigt die Benutzer-Initialen an
+ * Initializes the help page and displays the user initials
  */
 function initHelp() {
   const currentUser = getCurrentUser();
@@ -16,8 +16,8 @@ function initHelp() {
 
 
 /**
- * Aktualisiert die Benutzer-Initialen im Header
- * @param {Object} user - Das Benutzer-Objekt mit name-Eigenschaft
+ * Updates user initials in header
+ * @param {Object} user - The user object with name property
  */
 function updateHeaderInitials(user) {
   const initialsElement = document.getElementById("user-initials");
@@ -34,9 +34,9 @@ function updateHeaderInitials(user) {
 
 
 /**
- * Generiert Initialen aus einem Namen
- * @param {string} name - Der vollständige Name des Benutzers
- * @returns {string} Die generierten Initialen
+ * Generates initials from a name
+ * @param {string} name - The user's full name
+ * @returns {string} The generated initials
  */
 function getInitialsFromName(name) {
   const parts = name.trim().split(" ");

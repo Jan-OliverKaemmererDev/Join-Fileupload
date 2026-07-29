@@ -2,14 +2,14 @@
  * @fileoverview HTML templates for the mobile board view overlay.
  */
 /**
- * Gibt das HTML für eine Kontakt-Option im Assigned-To-Dropdown zurück.
- * @param {Object} contact - Das Kontakt-Objekt
- * @param {boolean} isSelected - Ob der Kontakt ausgewählt ist
- * @param {string} selectedClass - CSS-Klasse für den Auswahlstatus
- * @param {string} nameSuffix - Suffix für den Namen (z.B. " (You)")
- * @param {string} avatarInner - Inner-HTML des Avatars
- * @param {string} avatarStyle - Inline-Style des Avatars
- * @returns {string} HTML-String
+ * Returns the HTML for a Contact option in the Assigned To dropdown.
+ * @param {Object} contact - The contact object
+ * @param {boolean} isSelected - Whether the contact is selected
+ * @param {string} selectedClass - CSS class for selection state
+ * @param {string} nameSuffix - Suffix for the name (e.g. " (You)")
+ * @param {string} avatarInner - Inner HTML of the avatar
+ * @param {string} avatarStyle - Inline style of the avatar
+ * @returns {string} HTML string
  */
 function getMobileEditContactOptionHtml(contact, selectedClass, nameSuffix, avatarInner, avatarStyle) {
   return `
@@ -26,19 +26,19 @@ function getMobileEditContactOptionHtml(contact, selectedClass, nameSuffix, avat
 }
 
 /**
- * Gibt das HTML für einen ausgewählten Kontakt-Avatar zurück.
- * @param {string} avatarInner - Inner-HTML des Avatars
- * @param {string} avatarStyle - Inline-Style des Avatars
- * @returns {string} HTML-String
+ * Returns the HTML for a selected contact avatar.
+ * @param {string} avatarInner - Inner HTML of the avatar
+ * @param {string} avatarStyle - Inline style of the avatar
+ * @returns {string} HTML string
  */
 function getMobileEditSelectedAvatarHtml(avatarInner, avatarStyle) {
   return `<span class="selected-avatar" style="${avatarStyle}">${avatarInner}</span>`;
 }
 
 /**
- * Gibt das HTML für einen Subtask-Listeneintrag zurück.
- * @param {Object} subtask - Das Subtask-Objekt
- * @returns {string} HTML-String
+ * Returns the HTML for a subtask list entry.
+ * @param {Object} subtask - The subtask object
+ * @returns {string} HTML string
  */
 function getMobileEditSubtaskItemHtml(subtask) {
   return `
@@ -54,9 +54,9 @@ function getMobileEditSubtaskItemHtml(subtask) {
 }
 
 /**
- * Gibt das HTML für einen Subtask im Bearbeitungsmodus zurück.
- * @param {Object} subtask - Das Subtask-Objekt
- * @returns {string} HTML-String
+ * Returns the HTML for a subtask in edit mode.
+ * @param {Object} subtask - The subtask object
+ * @returns {string} HTML string
  */
 function getMobileEditSubtaskEditHtml(subtask) {
   return `
@@ -72,10 +72,10 @@ function getMobileEditSubtaskEditHtml(subtask) {
 }
 
 /**
- * Gibt das HTML für eine Attachment-Thumbnail-Vorschau zurück.
- * @param {Object} att - Das Attachment-Objekt
- * @param {number} index - Der Index des Attachments
- * @returns {string} HTML-String
+ * Returns the HTML for an attachment thumbnail preview.
+ * @param {Object} att - The attachment object
+ * @param {number} index - The index of the attachment
+ * @returns {string} HTML string
  */
 function getMobileEditAttachmentThumbnailHtml(att, index) {
   return `

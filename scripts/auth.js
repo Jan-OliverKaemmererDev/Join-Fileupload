@@ -1,8 +1,8 @@
 /**
- * @fileoverview Authentication logic for user login and sessions.
+ * @fileoview Authentication logic for user login and sessions.
  */
 /**
- * Wartet darauf, dass Firebase initialisiert ist
+ * Waiting for Firebase to initialize
  * @returns {Promise}
  */
 function waitForFirebase() {
@@ -18,11 +18,11 @@ function waitForFirebase() {
 }
 
 /**
- * Erstellt einen Firebase Auth-Benutzer und aktualisiert sein Profil
+ * Creates a Firebase Auth user and updates their profile
  * @param {string} name
  * @param {string} email
  * @param {string} password
- * @returns {Object} Firebase User-Objekt
+ * @returns {Object} Firebase User object
  */
 async function createFirebaseUser(name, email, password) {
   const userCredential = await window.fbCreateUser(window.firebaseAuth, email, password);
@@ -32,11 +32,11 @@ async function createFirebaseUser(name, email, password) {
 }
 
 /**
- * Registriert einen neuen Benutzer über Firebase Authentication
+ * Registers a new user via Firebase Authentication
  * @param {string} name
  * @param {string} email
  * @param {string} password
- * @returns {Object} Ergebnis-Objekt mit success und message
+ * @returns {Object} Result object with success and message
  */
 async function signUpUser(name, email, password) {
   try {
@@ -50,7 +50,7 @@ async function signUpUser(name, email, password) {
 }
 
 /**
- * Initialisiert Benutzerprofil, Standardkontakte und Standard-Tasks in einem Batch
+ * Initializes user profile, default contacts and default tasks in one batch
  * @param {string} uid
  * @param {string} name
  * @param {string} email
@@ -66,7 +66,7 @@ async function initializeUserData(uid, name, email) {
 }
 
 /**
- * Speichert das Benutzerprofil in Firestore
+ * Saves user profile in Firestore
  * @param {string} uid
  * @param {string} name
  * @param {string} email
@@ -88,7 +88,7 @@ async function saveUserProfile(uid, name, email, batch) {
 }
 
 /**
- * Gibt das Daten-Objekt eines Kontakts zurück
+ * Returns a contact's data object
  * @param {Object} contact
  * @returns {Object}
  */
@@ -97,7 +97,7 @@ function getContactData(contact) {
 }
 
 /**
- * Schreibt einen einzelnen Kontakt in Firestore
+ * Writes a single contact to Firestore
  * @param {string} uid
  * @param {Object} contact
  * @param {Object} batch
@@ -113,7 +113,7 @@ async function writeContact(uid, contact, batch) {
 }
 
 /**
- * Schreibt die Standard-Kontakte für einen neuen Benutzer in Firestore
+ * Writes the default contacts for a new user in Firestore
  * @param {string} uid
  * @param {Object} batch
  */
@@ -124,7 +124,7 @@ async function initDefaultContacts(uid, batch) {
 }
 
 /**
- * Schreibt einen einzelnen Task in Firestore
+ * Writes a single task to Firestore
  * @param {string} uid
  * @param {Object} task
  * @param {Object} batch
@@ -139,7 +139,7 @@ async function writeTask(uid, task, batch) {
 }
 
 /**
- * Schreibt die Standard-Tasks für einen neuen Benutzer in Firestore
+ * Writes the default tasks for a new user in Firestore
  * @param {string} uid
  * @param {Object} batch
  */
@@ -150,9 +150,9 @@ async function initDefaultTasks(uid, batch) {
 }
 
 /**
- * Verarbeitet den angemeldeten Firebase-Benutzer und erstellt eine Session
- * @param {Object} user - Firebase Auth-Objekt
- * @returns {Object} Session-Benutzer-Objekt
+ * Processes the logged in Firebase user and creates a session
+ * @param {Object} user - Firebase Auth object
+ * @returns {Object} Session user object
  */
 async function processLoginUser(user) {
   const profile = await loadUserProfile(user.uid);
@@ -165,10 +165,10 @@ async function processLoginUser(user) {
 }
 
 /**
- * Meldet einen Benutzer über Firebase Authentication an
+ * Signs in a user via Firebase Authentication
  * @param {string} email
  * @param {string} password
- * @returns {Object} Ergebnis-Objekt mit success und user
+ * @returns {Object} Result object with success and user
  */
 async function loginUser(email, password) {
   try {
@@ -183,7 +183,7 @@ async function loginUser(email, password) {
 }
 
 /**
- * Ermittelt den anzuzeigenden Benutzernamen aus Profil und Auth-Objekt
+ * Determines the username to display from the profile and auth object
  * @param {Object} profile
  * @param {Object} authUser
  * @returns {string}
@@ -193,7 +193,7 @@ function resolveUserName(profile, authUser) {
 }
 
 /**
- * Ermittelt die anzuzeigende E-Mail aus Profil und Auth-Objekt
+ * Determines the email to be displayed from the profile and auth object
  * @param {Object} profile
  * @param {Object} authUser
  * @returns {string}
@@ -203,7 +203,7 @@ function resolveUserEmail(profile, authUser) {
 }
 
 /**
- * Erstellt ein Session-Benutzer-Objekt
+ * Creates a session user object
  * @param {string} uid
  * @param {string} name
  * @param {string} email
@@ -217,7 +217,7 @@ function buildSessionUser(uid, name, email, phone = "", profileImage, profileIma
 }
 
 /**
- * Speichert den angemeldeten Benutzer in der Session
+ * Saves the logged in user in the session
  * @param {Object} sessionUser
  */
 function storeUserSession(sessionUser) {
@@ -226,9 +226,9 @@ function storeUserSession(sessionUser) {
 }
 
 /**
- * Lädt das Benutzerprofil aus Firestore
+ * Loads the user profile from Firestore
  * @param {string} uid
- * @returns {Object} Das Benutzerprofil
+ * @returns {Object} The user profile
  */
 async function loadUserProfile(uid) {
   const userRef = window.fbDoc(window.firebaseDb, "users", uid);
@@ -240,7 +240,7 @@ async function loadUserProfile(uid) {
 }
 
 /**
- * Erstellt das Gast-Session-Objekt
+ * Creates the guest session object
  * @param {string} uid
  * @returns {Object}
  */
@@ -249,8 +249,8 @@ function buildGuestSession(uid) {
 }
 
 /**
- * Meldet einen Gast-Benutzer über Firebase Anonymous Auth an
- * @returns {Object} Ergebnis-Objekt mit success und user
+ * Logs in a guest user via Firebase Anonymous Auth
+ * @returns {Object} Result object with success and user
  */
 async function guestLoginUser() {
   try {
@@ -267,7 +267,7 @@ async function guestLoginUser() {
 }
 
 /**
- * Erstellt ein neues Gast-Profil in Firestore mit Standarddaten
+ * Creates a new guest profile in Firestore with default details
  * @param {string} uid
  */
 async function createGuestProfile(uid) {
@@ -279,7 +279,7 @@ async function createGuestProfile(uid) {
 }
 
 /**
- * Stellt sicher, dass ein Gast-Profil in Firestore existiert
+ * Ensures a guest profile exists in Firestore
  * @param {string} uid
  */
 async function ensureGuestProfile(uid) {
@@ -291,7 +291,7 @@ async function ensureGuestProfile(uid) {
 }
 
 /**
- * Ruft den aktuell angemeldeten Benutzer ab
+ * Gets the currently logged in user
  * @returns {Object|null}
  */
 function getCurrentUser() {
@@ -300,7 +300,7 @@ function getCurrentUser() {
 }
 
 /**
- * Prüft ob der aktuelle Benutzer ein anonymer Gast ist
+ * Checks whether the current user is an anonymous guest
  * @param {Object} currentUser
  * @param {Object} firebaseUser
  * @returns {boolean}
@@ -310,7 +310,7 @@ function isGuestUser(currentUser, firebaseUser) {
 }
 
 /**
- * Meldet den aktuellen Benutzer ab und löscht Gast-Daten falls zutreffend
+ * Logs out the current user and deletes guest data if applicable
  */
 async function logoutUser() {
   const currentUser = getCurrentUser();
@@ -327,7 +327,7 @@ async function logoutUser() {
 }
 
 /**
- * Löscht die Daten und den Auth-Account eines Gast-Benutzers
+ * Deletes a guest user's data and auth account
  * @param {Object} currentUser
  * @param {Object} firebaseUser
  */
@@ -341,14 +341,14 @@ async function deleteGuestAccount(currentUser, firebaseUser) {
 }
 
 /**
- * Entfernt den angemeldeten Benutzer aus der Session
+ * Removes the logged in user from the session
  */
 function clearUserSession() {
   sessionStorage.removeItem("join_current_user");
 }
 
 /**
- * Löscht alle Dokumente einer Subcollection in einem Batch
+ * Deletes all documents in a subcollection in one batch
  * @param {Object} batch
  * @param {string} uid
  * @param {string} collectionName
@@ -360,7 +360,7 @@ async function addCollectionDeletesToBatch(batch, uid, collectionName) {
 }
 
 /**
- * Fügt alle Lösch-Operationen für Benutzer-Collections dem Batch hinzu
+ * Adds all user collection delete operations to the batch
  * @param {Object} batch
  * @param {string} uid
  */
@@ -371,7 +371,7 @@ async function batchDeleteUserCollections(batch, uid) {
 }
 
 /**
- * Löscht alle Daten eines Benutzers aus Firestore
+ * Deletes all a user's data from Firestore
  * @param {string} uid
  */
 async function deleteUserData(uid) {
@@ -385,7 +385,7 @@ async function deleteUserData(uid) {
 }
 
 /**
- * Prüft ob ein Benutzer angemeldet ist
+ * Checks whether a user is logged in
  * @returns {boolean}
  */
 function isLoggedIn() {
@@ -393,7 +393,7 @@ function isLoggedIn() {
 }
 
 /**
- * Gibt die Fehlerdetails für einen Firebase-Fehlercode zurück
+ * Returns the error details for a Firebase error code
  * @param {string} code
  * @returns {Array|null}
  */
@@ -410,7 +410,7 @@ function getFirebaseErrorDetails(code) {
 }
 
 /**
- * Erstellt ein Fehler-Ergebnis-Objekt aus einem Firebase-Fehler
+ * Creates an error result object from a Firebase error
  * @param {Object} error
  * @returns {Object}
  */
@@ -423,7 +423,7 @@ function handleFirebaseError(error) {
 }
 
 /**
- * Erstellt ein Fehler-Ergebnis-Objekt
+ * Creates an error result object
  * @param {string} error
  * @param {string} message
  * @returns {Object}

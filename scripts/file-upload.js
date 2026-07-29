@@ -12,7 +12,7 @@ let originalImageHeight = 0;
 let previewImgElement = null;
 
 /**
- * Initialisiert den File-Upload.
+ * Initializes the file upload.
  */
 function initFileUpload() {
   createHiddenFileInput();
@@ -20,7 +20,7 @@ function initFileUpload() {
 }
 
 /**
- * Erstellt einen versteckten File-Input im DOM.
+ * Creates a hidden file input in the DOM.
  */
 function createHiddenFileInput() {
   if (document.getElementById("profile-file-input")) return;
@@ -34,7 +34,7 @@ function createHiddenFileInput() {
 }
 
 /**
- * Bindet den Klick-Handler an den Camera-Badge.
+ * Binds the click handler to the camera badge.
  */
 function bindCameraBadgeClick() {
   const badge = document.getElementById("account-camera-badge");
@@ -44,7 +44,7 @@ function bindCameraBadgeClick() {
 }
 
 /**
- * Öffnet den nativen Filepicker.
+ * Opens the native file picker.
  */
 function openFilePicker() {
   if (!fileInput) createHiddenFileInput();
@@ -53,8 +53,8 @@ function openFilePicker() {
 }
 
 /**
- * Wird aufgerufen, wenn der User eine Datei ausgewählt hat.
- * @param {Event} event - Das Change-Event des File-Inputs.
+ * Called when the user has selected a file.
+ * @param {Event} event - The change event of the file input.
  */
 async function handleFileSelected(event) {
   const file = event.target.files[0];
@@ -71,9 +71,9 @@ async function handleFileSelected(event) {
 }
 
 /**
- * Validiert die ausgewählte Bilddatei.
- * @param {File} file - Die zu validierende Datei.
- * @returns {Promise<boolean>} True, wenn das Bild gültig ist.
+ * Validates the selected image file.
+ * @param {File} file - The file to validate.
+ * @returns {Promise<boolean>} True if the image is valid.
  */
 async function validateSelectedImage(file) {
   if (!isValidImageFile(file)) {
@@ -88,8 +88,8 @@ async function validateSelectedImage(file) {
 }
 
 /**
- * Aktiviert das Verschieben des Bildes im Avatar-Kreis.
- * @param {string} src - Die Bildquelle als Object URL.
+ * Enables moving the image in the avatar circle.
+ * @param {string} src - The image source as Object URL.
  */
 function enableImagePanning(src) {
   const avatarContainer = document.getElementById("account-initials");
@@ -99,9 +99,9 @@ function enableImagePanning(src) {
 }
 
 /**
- * Erstellt und fügt das Vorschaubild ein.
- * @param {HTMLElement} container - Der Avatar-Container.
- * @param {string} src - Die Bildquelle.
+ * Creates and inserts the preview image.
+ * @param {HTMLElement} container - The avatar container.
+ * @param {string} src - The image source.
  */
 function setupPreviewImage(container, src) {
   container.innerHTML = "";
@@ -114,8 +114,8 @@ function setupPreviewImage(container, src) {
 }
 
 /**
- * Berechnet und wendet Skalierung für das geladene Vorschaubild an.
- * @param {HTMLElement} container - Der Avatar-Container.
+ * Calculates and applies scaling for the loaded preview image.
+ * @param {HTMLElement} container - The avatar container.
  */
 function handlePreviewLoaded(container) {
   originalImageWidth = previewImgElement.naturalWidth;
@@ -127,9 +127,9 @@ function handlePreviewLoaded(container) {
 }
 
 /**
- * Wendet Skalierung und Positionierung auf das Bild an.
- * @param {number} scale - Der berechnete Skalierungsfaktor.
- * @param {number} cWidth - Die Container-Breite.
+ * Applies scaling and positioning to the image.
+ * @param {number} scale - The calculated scaling factor.
+ * @param {number} cWidth - The container width.
  */
 function applyImageScale(scale, cWidth) {
   const scaledWidth = originalImageWidth * scale;
@@ -141,7 +141,7 @@ function applyImageScale(scale, cWidth) {
 }
 
 /**
- * Bindet die Drag-Events an das Vorschaubild.
+ * Binds the drag events to the preview image.
  */
 function bindImageDragEvents() {
   previewImgElement.addEventListener("mousedown", handleDragStart);
@@ -153,8 +153,8 @@ function bindImageDragEvents() {
 }
 
 /**
- * Startet den Drag-Vorgang für das Profilbild.
- * @param {Event} e - Das Event.
+ * Starts the profile picture dragging process.
+ * @param {Event} e - The event.
  */
 function handleDragStart(e) {
   if (!pendingProfileImageFile) return;
@@ -166,8 +166,8 @@ function handleDragStart(e) {
 }
 
 /**
- * Verschiebt das Bild während des Drags.
- * @param {Event} e - Das Event.
+ * Moves the image while dragging.
+ * @param {Event} e - The event.
  */
 function handleDragMove(e) {
   if (!isPanning || !pendingProfileImageFile || !previewImgElement) return;
@@ -180,9 +180,9 @@ function handleDragMove(e) {
 }
 
 /**
- * Begrenzt den Offset-Wert auf den erlaubten Bereich.
- * @param {number} offset - Der gewünschte Offset-Wert.
- * @returns {number} Der begrenzte Offset-Wert.
+ * Limits the offset value to the permitted range.
+ * @param {number} offset - The desired offset value.
+ * @returns {number} The limited offset value.
  */
 function constrainDragOffset(offset) {
   const scale = parseFloat(previewImgElement.dataset.scale) || 1;
@@ -194,7 +194,7 @@ function constrainDragOffset(offset) {
 }
 
 /**
- * Beendet den Drag-Vorgang.
+ * Ends the dragging process.
  */
 function handleDragEnd() {
   if (isPanning && previewImgElement) {
@@ -204,15 +204,15 @@ function handleDragEnd() {
 }
 
 /**
- * Gibt zurück, ob ein Profilbild zum Speichern bereitliegt.
- * @returns {boolean} True, wenn ein Bild bereitliegt.
+ * Returns whether a profile picture is ready to be saved.
+ * @returns {boolean} True if an image is available.
  */
 function hasPendingProfileImage() {
   return pendingProfileImageFile !== null;
 }
 
 /**
- * Bricht den anstehenden Bild-Upload ab.
+ * Cancels the pending image upload.
  */
 function cancelPendingProfileImage() {
   pendingProfileImageFile = null;
@@ -225,8 +225,8 @@ function cancelPendingProfileImage() {
 }
 
 /**
- * Schneidet das verschobene Bild aus, komprimiert es und lädt es hoch.
- * @returns {Promise<void>} Ein Promise für den Vorgang.
+ * Cuts the moved image, compresses it and uploads it.
+ * @returns {Promise<void>} A promise for the operation.
  */
 async function processPendingProfileImage() {
   if (!pendingProfileImageFile) return;
@@ -239,10 +239,10 @@ async function processPendingProfileImage() {
 }
 
 /**
- * Führt die Bildverarbeitung nach dem Laden durch.
- * @param {HTMLImageElement} img - Das geladene Bild.
- * @param {Function} resolve - Die Promise Resolve-Funktion.
- * @param {Function} reject - Die Promise Reject-Funktion.
+ * Performs image processing after loading.
+ * @param {HTMLImageElement} img - The loaded image.
+ * @param {Function} resolve - The Promise Resolve function.
+ * @param {Function} reject - The Promise Reject function.
  */
 function handleImageProcessing(img, resolve, reject) {
   const canvas = document.createElement("canvas");
@@ -255,10 +255,10 @@ function handleImageProcessing(img, resolve, reject) {
 }
 
 /**
- * Bereitet das Canvas für den Bildzuschnitt vor.
- * @param {HTMLCanvasElement} canvas - Das Canvas-Element.
- * @param {CanvasRenderingContext2D} ctx - Der Kontext.
- * @param {HTMLImageElement} img - Das zu zeichnende Bild.
+ * Prepares the canvas for image cropping.
+ * @param {HTMLCanvasElement} canvas - The canvas element.
+ * @param {CanvasRenderingContext2D} ctx - The context.
+ * @param {HTMLImageElement} img - The image to draw.
  */
 function setupCropCanvas(canvas, ctx, img) {
   const scale = parseFloat(previewImgElement?.dataset.scale) || 1;
@@ -273,10 +273,10 @@ function setupCropCanvas(canvas, ctx, img) {
 }
 
 /**
- * Komprimiert den zugeschnittenen Blob und wandelt ihn um.
- * @param {Blob} blob - Der zugeschnittene Bild-Blob.
- * @param {Function} resolve - Die Promise Resolve-Funktion.
- * @param {Function} reject - Die Promise Reject-Funktion.
+ * Compresses and transforms the cropped blob.
+ * @param {Blob} blob - The cropped image blob.
+ * @param {Function} resolve - The Promise Resolve function.
+ * @param {Function} reject - The Promise Reject function.
  */
 async function processCroppedBlob(blob, resolve, reject) {
   if (!blob) return reject(new Error("Konnte das Bild nicht zuschneiden."));
@@ -292,9 +292,9 @@ async function processCroppedBlob(blob, resolve, reject) {
 }
 
 /**
- * Baut das Resultat zusammen und speichert es.
- * @param {Blob} largeBlob - Der große Bild-Blob.
- * @param {Blob} smallBlob - Der kleine Bild-Blob.
+ * Assembles the result and saves it.
+ * @param {Blob} largeBlob - The large image blob.
+ * @param {Blob} smallBlob - The small image blob.
  */
 async function buildProfileResult(largeBlob, smallBlob) {
   const largeBase64 = await blobToBase64(largeBlob);
@@ -312,8 +312,8 @@ async function buildProfileResult(largeBlob, smallBlob) {
 }
 
 /**
- * Verarbeitet und lädt ein direkt ausgewähltes Bild ohne Panning hoch.
- * @param {File} file - Die ausgewählte Bilddatei.
+ * Processes and uploads a directly selected image without panning.
+ * @param {File} file - The selected image file.
  */
 async function processAndUploadImage(file) {
   if (file.size > (typeof MAX_FILE_SIZE !== 'undefined' ? MAX_FILE_SIZE : 2 * 1024 * 1024)) {

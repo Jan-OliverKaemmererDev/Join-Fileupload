@@ -1,8 +1,8 @@
 /**
- * @fileoverview Subtask management for the add task page.
+ * @fileooverview Subtask management for the add task page.
  */
 /**
- * Fügt einen neuen Subtask hinzu
+ * Adds a new subtask
  */
 function addSubtask() {
   const input = document.getElementById("subtask-input");
@@ -22,8 +22,8 @@ function addSubtask() {
 }
 
 /**
- * Verarbeitet die Erstellung eines neuen Subtasks
- * @param {string} text - Der Text des Subtasks
+ * Handles the creation of a new subtask
+ * @param {string} text - The text of the subtask
  */
 function processNewSubtask(text) {
   const subtask = createSubtask(text);
@@ -31,7 +31,7 @@ function processNewSubtask(text) {
 }
 
 /**
- * Zeigt die Subtask-Icons (Clear & Save) an und entfernt alle Ausblend-Klassen
+ * Shows the subtask icons (Clear & Save) and removes all hide classes
  */
 function showSubtaskIcons() {
   const activeIcons = document.getElementById("subtask-icons-active");
@@ -42,7 +42,7 @@ function showSubtaskIcons() {
 }
 
 /**
- * Blendet die Subtask-Icons (Clear & Save) aus
+ * Hides the subtask icons (Clear & Save).
  */
 function hideSubtaskIcons() {
   const activeIcons = document.getElementById("subtask-icons-active");
@@ -50,7 +50,7 @@ function hideSubtaskIcons() {
 }
 
 /**
- * Leert das Subtask-Eingabefeld und blendet die Icons aus
+ * Empties the subtask input field and hides the icons
  */
 function clearSubtaskInput() {
   const input = document.getElementById("subtask-input");
@@ -70,8 +70,8 @@ document.addEventListener("click", function (event) {
 });
 
 /**
- * Verhindert das Absenden des Formulars bei Enter im Subtask-Feld
- * @param {KeyboardEvent} event - Das Tastatur-Event
+ * Prevents form submission on Enter in the subtask field
+ * @param {KeyboardEvent} event - The keyboard event
  */
 function handleSubtaskKeydown(event) {
   if (event.key === "Enter") {
@@ -81,9 +81,9 @@ function handleSubtaskKeydown(event) {
 }
 
 /**
- * Erstellt ein Subtask-Objekt
- * @param {string} text - Der Subtask-Text
- * @returns {Object} Das Subtask-Objekt
+ * Creates a Subtask object
+ * @param {string} text - The subtask text
+ * @returns {Object} The subtask object
  */
 function createSubtask(text) {
   return {
@@ -94,7 +94,7 @@ function createSubtask(text) {
 }
 
 /**
- * Rendert die Liste der Subtasks
+ * Renders the list of subtasks
  */
 function renderSubtasks() {
   const list = document.getElementById("subtask-list");
@@ -108,8 +108,8 @@ function renderSubtasks() {
 }
 
 /**
- * Wechselt ein Subtask in den Bearbeitungsmodus
- * @param {number} id - Die ID des Subtasks
+ * Switches a subtask to edit mode
+ * @param {number} id - The ID of the subtask
  */
 function editSubtask(id) {
   const subtask = findSubtaskById(id);
@@ -122,7 +122,7 @@ function editSubtask(id) {
 }
 
 /**
- * Setzt den Fokus auf das Subtask-Edit-Feld
+ * Sets focus on the subtask edit field
  */
 function setupSubtaskEditFocus(id) {
   const input = document.getElementById(`subtask-input-${id}`);
@@ -133,8 +133,8 @@ function setupSubtaskEditFocus(id) {
 }
 
 /**
- * Speichert die Bearbeitung eines Subtasks
- * @param {number} id - Die ID des Subtasks
+ * Saves the processing of a subtask
+ * @param {number} id - The ID of the subtask
  */
 function saveEditSubtask(id) {
   const input = document.getElementById(`subtask-input-${id}`);
@@ -152,7 +152,7 @@ function saveEditSubtask(id) {
 }
 
 /**
- * Aktualisiert den Text eines Subtasks
+ * Updates the text of a subtask
  */
 function updateSubtaskText(id, newText) {
   const subtask = findSubtaskById(id);
@@ -163,9 +163,9 @@ function updateSubtaskText(id, newText) {
 }
 
 /**
- * Verarbeitet Tasteneingaben im Subtask-Edit-Feld
- * @param {number} id - Die ID des Subtasks
- * @param {KeyboardEvent} event - Das Keyboard-Event
+ * Processes keystrokes in the subtask edit field
+ * @param {number} id - The ID of the subtask
+ * @param {KeyboardEvent} event - The keyboard event
  */
 function handleSubtaskEditKeydown(id, event) {
   if (event.key === "Enter") {
@@ -177,8 +177,8 @@ function handleSubtaskEditKeydown(id, event) {
 }
 
 /**
- * Entfernt einen Subtask anhand der ID
- * @param {number} id - Die ID des zu entfernenden Subtasks
+ * Removes a subtask by ID
+ * @param {number} id - The ID of the subtask to remove
  */
 function removeSubtask(id) {
   subtasks = subtasks.filter(function (s) {
@@ -192,8 +192,8 @@ function removeSubtask(id) {
 }
 
 /**
- * Erstellt eine Kopie des Subtasks-Arrays
- * @returns {Array} Die Kopie des Subtasks-Arrays
+ * Creates a copy of the subtasks array
+ * @returns {Array} The copy of the subtasks array
  */
 function copySubtasks() {
   const copy = [];
@@ -204,7 +204,7 @@ function copySubtasks() {
 }
 
 /**
- * Findet einen Subtask anhand seiner ID
+ * Finds a subtask by its ID
  */
 function findSubtaskById(id) {
   return subtasks.find(function (s) {

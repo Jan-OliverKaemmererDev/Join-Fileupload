@@ -12,7 +12,7 @@ let contactOriginalImageHeight = 0;
 let contactPreviewImgElement = null;
 
 /**
- * Initialisiert den File-Upload für Kontakte.
+ * Initializes file upload for contacts.
  */
 function initContactFileUpload() {
   createHiddenContactFileInput();
@@ -20,7 +20,7 @@ function initContactFileUpload() {
 }
 
 /**
- * Erstellt einen versteckten File-Input im DOM.
+ * Creates a hidden file input in the DOM.
  */
 function createHiddenContactFileInput() {
   if (document.getElementById("contact-profile-file-input")) return;
@@ -34,7 +34,7 @@ function createHiddenContactFileInput() {
 }
 
 /**
- * Bindet den Klick-Handler an den Camera-Badge.
+ * Binds the click handler to the camera badge.
  */
 function bindContactCameraBadgeClick() {
   const badge = document.getElementById("contact-camera-badge");
@@ -44,7 +44,7 @@ function bindContactCameraBadgeClick() {
 }
 
 /**
- * Öffnet den nativen Filepicker.
+ * Opens the native file picker.
  */
 function openContactFilePicker() {
   if (!contactFileInput) createHiddenContactFileInput();
@@ -53,8 +53,8 @@ function openContactFilePicker() {
 }
 
 /**
- * Wird aufgerufen, wenn der User eine Datei ausgewählt hat.
- * @param {Event} event - Das Change-Event des File-Inputs.
+ * Called when the user has selected a file.
+ * @param {Event} event - The change event of the file input.
  */
 async function handleContactFileSelected(event) {
   const file = event.target.files[0];
@@ -66,9 +66,9 @@ async function handleContactFileSelected(event) {
 }
 
 /**
- * Validiert die ausgewählte Bilddatei anhand von Endung und Magic Bytes.
- * @param {File} file - Die zu validierende Datei.
- * @returns {Promise<boolean>} True, wenn das Bild gültig ist, sonst false.
+ * Validates the selected image file based on extension and magic bytes.
+ * @param {File} file - The file to validate.
+ * @returns {Promise<boolean>} True if the image is valid, false otherwise.
  */
 async function validateContactImage(file) {
   if (typeof isValidImageFile === "function" && !isValidImageFile(file)) {
@@ -83,8 +83,8 @@ async function validateContactImage(file) {
 }
 
 /**
- * Aktiviert das Verschieben des Bildes im Avatar-Kreis.
- * @param {string} src - Die Bildquelle als Object URL.
+ * Enables moving the image in the avatar circle.
+ * @param {string} src - The image source as Object URL.
  */
 function enableContactImagePanning(src) {
   const avatarContainer = document.getElementById("contact-initials");
@@ -94,9 +94,9 @@ function enableContactImagePanning(src) {
 }
 
 /**
- * Erstellt und fügt das Vorschaubild in den Container ein.
- * @param {HTMLElement} container - Der Avatar-Container.
- * @param {string} src - Die Bildquelle als Object URL.
+ * Creates and inserts the preview image into the container.
+ * @param {HTMLElement} container - The avatar container.
+ * @param {string} src - The image source as Object URL.
  */
 function setupContactPreviewImage(container, src) {
   container.innerHTML = "";
@@ -109,8 +109,8 @@ function setupContactPreviewImage(container, src) {
 }
 
 /**
- * Verarbeitet das geladene Bild und skaliert es passend zum Container.
- * @param {HTMLElement} container - Der Avatar-Container.
+ * Processes the loaded image and scales it to fit the container.
+ * @param {HTMLElement} container - The avatar container.
  */
 function handleContactImageLoaded(container) {
   contactOriginalImageWidth = contactPreviewImgElement.naturalWidth;
@@ -122,9 +122,9 @@ function handleContactImageLoaded(container) {
 }
 
 /**
- * Wendet Skalierung und zentrierte Positionierung auf das Bild an.
- * @param {number} scale - Der berechnete Skalierungsfaktor.
- * @param {number} cWidth - Die Container-Breite.
+ * Applies scaling and centered positioning to the image.
+ * @param {number} scale - The calculated scaling factor.
+ * @param {number} cWidth - The container width.
  */
 function applyContactImageScaleAndPosition(scale, cWidth) {
   const scaledWidth = contactOriginalImageWidth * scale;
@@ -136,7 +136,7 @@ function applyContactImageScaleAndPosition(scale, cWidth) {
 }
 
 /**
- * Bindet die Mouse- und Touch-Events für das Verschieben.
+ * Binds the mouse and touch events for moving.
  */
 function bindContactDragEvents() {
   contactPreviewImgElement.addEventListener("mousedown", handleContactDragStart);
@@ -148,8 +148,8 @@ function bindContactDragEvents() {
 }
 
 /**
- * Startet den Drag-Vorgang für das Profilbild.
- * @param {Event} e - Das Mouse- oder Touch-Event.
+ * Starts the profile picture dragging process.
+ * @param {Event} e - The mouse or touch event.
  */
 function handleContactDragStart(e) {
   if (!pendingContactProfileImageFile) return;
@@ -161,8 +161,8 @@ function handleContactDragStart(e) {
 }
 
 /**
- * Verschiebt das Bild während des Drag-Vorgangs.
- * @param {Event} e - Das Mouse- oder Touch-Event.
+ * Moves the image during dragging.
+ * @param {Event} e - The mouse or touch event.
  */
 function handleContactDragMove(e) {
   if (!isContactPanning || !pendingContactProfileImageFile || !contactPreviewImgElement) return;
@@ -175,9 +175,9 @@ function handleContactDragMove(e) {
 }
 
 /**
- * Begrenzt den Offset-Wert auf den erlaubten Bereich.
- * @param {number} offset - Der gewünschte Offset-Wert.
- * @returns {number} Der begrenzte Offset-Wert.
+ * Limits the offset value to the permitted range.
+ * @param {number} offset - The desired offset value.
+ * @returns {number} The limited offset value.
  */
 function constrainContactDragOffset(offset) {
   const scale = parseFloat(contactPreviewImgElement.dataset.scale) || 1;
@@ -189,7 +189,7 @@ function constrainContactDragOffset(offset) {
 }
 
 /**
- * Beendet den Drag-Vorgang für das Profilbild.
+ * Stops dragging the profile picture.
  */
 function handleContactDragEnd() {
   if (isContactPanning && contactPreviewImgElement) {
@@ -199,15 +199,15 @@ function handleContactDragEnd() {
 }
 
 /**
- * Gibt zurück, ob ein Profilbild zum Speichern bereitliegt.
- * @returns {boolean} True, wenn ein Bild bereitliegt.
+ * Returns whether a profile picture is ready to be saved.
+ * @returns {boolean} True if an image is available.
  */
 function hasPendingContactProfileImage() {
   return pendingContactProfileImageFile !== null;
 }
 
 /**
- * Bricht den anstehenden Bild-Upload ab.
+ * Cancels the pending image upload.
  */
 function cancelPendingContactProfileImage() {
   pendingContactProfileImageFile = null;
@@ -220,8 +220,8 @@ function cancelPendingContactProfileImage() {
 }
 
 /**
- * Schneidet das verschobene Bild aus, komprimiert es und gibt die Base64-Daten zurück.
- * @returns {Promise<{profileImage: Object, profileImageSmall: Object} | null>} Ein Promise mit den Bilddaten.
+ * Cuts the moved image, compresses it and returns the Base64 data.
+ * @returns {Promise<{profileImage: Object, profileImageSmall: Object} | null>} A Promise with the image data.
  */
 async function processPendingContactProfileImage() {
   if (!pendingContactProfileImageFile) return null;
@@ -234,10 +234,10 @@ async function processPendingContactProfileImage() {
 }
 
 /**
- * Führt die Bildverarbeitung nach dem Laden durch.
- * @param {HTMLImageElement} img - Das geladene Bild-Element.
- * @param {Function} resolve - Die Promise Resolve-Funktion.
- * @param {Function} reject - Die Promise Reject-Funktion.
+ * Performs image processing after loading.
+ * @param {HTMLImageElement} img - The loaded image element.
+ * @param {Function} resolve - The Promise Resolve function.
+ * @param {Function} reject - The Promise Reject function.
  */
 function handleContactImageProcessing(img, resolve, reject) {
   const canvas = document.createElement("canvas");
@@ -250,10 +250,10 @@ function handleContactImageProcessing(img, resolve, reject) {
 }
 
 /**
- * Bereitet das Canvas für den Bildzuschnitt vor und zeichnet das Bild.
- * @param {HTMLCanvasElement} canvas - Das Canvas-Element.
- * @param {CanvasRenderingContext2D} ctx - Der 2D-Kontext.
- * @param {HTMLImageElement} img - Das zu zeichnende Bild.
+ * Prepares the canvas for image cropping and draws the image.
+ * @param {HTMLCanvasElement} canvas - The canvas element.
+ * @param {CanvasRenderingContext2D} ctx - The 2D context.
+ * @param {HTMLImageElement} img - The image to draw.
  */
 function setupContactCropCanvas(canvas, ctx, img) {
   const scale = parseFloat(contactPreviewImgElement?.dataset.scale) || 1;
@@ -268,10 +268,10 @@ function setupContactCropCanvas(canvas, ctx, img) {
 }
 
 /**
- * Komprimiert den zugeschnittenen Blob und wandelt ihn um.
- * @param {Blob} blob - Der zugeschnittene Bild-Blob.
- * @param {Function} resolve - Die Promise Resolve-Funktion.
- * @param {Function} reject - Die Promise Reject-Funktion.
+ * Compresses and transforms the cropped blob.
+ * @param {Blob} blob - The cropped image blob.
+ * @param {Function} resolve - The Promise Resolve function.
+ * @param {Function} reject - The Promise Reject function.
  */
 async function processContactCroppedBlob(blob, resolve, reject) {
   if (!blob) return reject(new Error("Konnte das Bild nicht zuschneiden."));
@@ -285,10 +285,10 @@ async function processContactCroppedBlob(blob, resolve, reject) {
 }
 
 /**
- * Baut das finale Ergebnis-Objekt zusammen.
- * @param {Blob} largeBlob - Der große Bild-Blob.
- * @param {Blob} smallBlob - Der kleine Bild-Blob.
- * @returns {Promise<{profileImage: Object, profileImageSmall: Object}>} Das Ergebnis-Objekt.
+ * Assembles the final result object.
+ * @param {Blob} largeBlob - The large image blob.
+ * @param {Blob} smallBlob - The small image blob.
+ * @returns {Promise<{profileImage: Object, profileImageSmall: Object}>} The result object.
  */
 async function buildContactProfileResult(largeBlob, smallBlob) {
   const largeBase64 = await blobToBase64(largeBlob);

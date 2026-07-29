@@ -2,9 +2,9 @@
  * @fileoverview Attachment handling for the mobile board edit overlay.
  */
 /**
- * Behandelt die Dateiauswahl im mobilen Edit-Overlay.
- * Übergibt die ausgewählten Dateien zur Verarbeitung und setzt das Input zurück.
- * @param {Event} event - Das Change-Event des File-Inputs
+ * Handles file selection in mobile edit overlay.
+ * Submits the selected files for processing and resets the input.
+ * @param {Event} event - The change event of the file input
  */
 function handleMobileEditFileSelect(event) {
   processMobileEditFiles(event.target.files);
@@ -12,9 +12,9 @@ function handleMobileEditFileSelect(event) {
 }
 
 /**
- * Verarbeitet eine Liste von Dateien für das mobile Edit-Overlay.
- * Validiert jede Datei und liest sie als Data-URL ein.
- * @param {FileList} files - Die zu verarbeitenden Dateien
+ * Processes a list of files for the mobile edit overlay.
+ * Validates each file and reads it as a data URL.
+ * @param {FileList} files - The files to process
  */
 function processMobileEditFiles(files) {
   if (!files || files.length === 0) return;
@@ -31,8 +31,8 @@ function processMobileEditFiles(files) {
 }
 
 /**
- * Liest eine einzelne Datei als Data-URL ein und speichert sie als Attachment.
- * @param {File} file - Die einzulesende Datei
+ * Reads a single file as a data URL and saves it as an attachment.
+ * @param {File} file - The file to read
  */
 function readAndStoreMobileEditFile(file) {
   const reader = new FileReader();
@@ -49,8 +49,8 @@ function readAndStoreMobileEditFile(file) {
 }
 
 /**
- * Aktualisiert die Vorschau aller Attachments im mobilen Edit-Overlay.
- * Rendert Thumbnails und steuert den "Alle löschen"-Button sowie Scroll-Status.
+ * Updates the preview of all attachments in the mobile edit overlay.
+ * Renders thumbnails and controls the "Delete all" button and scroll status.
  */
 function updateMobileEditAttachmentsPreview() {
   const previewContainer = document.getElementById("mobile-edit-upload-preview");
@@ -70,9 +70,9 @@ function updateMobileEditAttachmentsPreview() {
 }
 
 /**
- * Schaltet die Sichtbarkeit des "Alle löschen"-Buttons um.
- * @param {HTMLElement|null} btnDeleteAll - Der Button zum Löschen aller Attachments
- * @param {boolean} hide - Ob der Button versteckt werden soll
+ * Toggles the visibility of the "Delete All" button.
+ * @param {HTMLElement|null} btnDeleteAll - The button to delete all attachments
+ * @param {boolean} hide - Whether the button should be hidden
  */
 function toggleMobileEditDeleteAllButton(btnDeleteAll, hide) {
   if (!btnDeleteAll) return;
@@ -84,8 +84,8 @@ function toggleMobileEditDeleteAllButton(btnDeleteAll, hide) {
 }
 
 /**
- * Rendert alle Attachment-Thumbnails in den Vorschau-Container.
- * @param {HTMLElement} previewContainer - Der Container für die Thumbnails
+ * Renders all attachment thumbnails into the preview container.
+ * @param {HTMLElement} previewContainer - The container for the thumbnails
  */
 function renderMobileEditThumbnails(previewContainer) {
   mobileEditAttachments.forEach((att, index) => {
@@ -94,8 +94,8 @@ function renderMobileEditThumbnails(previewContainer) {
 }
 
 /**
- * Aktualisiert den Scroll-Status des Vorschau-Containers basierend auf der Attachment-Anzahl.
- * @param {HTMLElement} container - Der Vorschau-Container
+ * Updates preview container scroll status based on attachment count.
+ * @param {HTMLElement} container - The preview container
  */
 function updateMobileEditPreviewScrollState(container) {
   if (mobileEditAttachments.length > 3) {
@@ -106,9 +106,9 @@ function updateMobileEditPreviewScrollState(container) {
 }
 
 /**
- * Entfernt ein einzelnes Attachment anhand seines Index.
- * @param {Event} event - Das Klick-Event
- * @param {number} index - Der Index des zu entfernenden Attachments
+ * Removes a single attachment based on its index.
+ * @param {Event} event - The click event
+ * @param {number} index - The index of the attachment to remove
  */
 function removeMobileEditAttachment(event, index) {
   if (event) {
@@ -120,7 +120,7 @@ function removeMobileEditAttachment(event, index) {
 }
 
 /**
- * Entfernt alle Attachments im mobilen Edit-Overlay.
+ * Removes all attachments in the mobile edit overlay.
  */
 function clearMobileEditAttachments() {
   mobileEditAttachments = [];

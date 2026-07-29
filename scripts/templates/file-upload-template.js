@@ -1,9 +1,9 @@
 /**
- * @fileoverview HTML template generating functions for file uploads.
+ * @fileoview HTML template generating functions for file uploads.
  */
 /**
- * Gibt das HTML für das File-Format-Error Overlay zurück.
- * @returns {string} HTML-String
+ * Returns the HTML for the file format error overlay.
+ * @returns {string} HTML string
  */
 function getFileFormatErrorTemplate() {
   return `
@@ -18,8 +18,8 @@ function getFileFormatErrorTemplate() {
 }
 
 /**
- * Gibt das HTML für das File-Size-Error Overlay zurück.
- * @returns {string} HTML-String
+ * Returns the HTML for the file size error overlay.
+ * @returns {string} HTML string
  */
 function getFileSizeErrorTemplate() {
   return `

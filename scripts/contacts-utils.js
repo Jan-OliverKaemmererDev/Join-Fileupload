@@ -1,5 +1,5 @@
 /**
- * @fileoverview Utility functions for contact management operations.
+ * @fileoview Utility functions for contact management operations.
  */
 /**
  * Loads all contacts for the given user from Firestore and populates the local contacts array.

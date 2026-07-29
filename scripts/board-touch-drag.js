@@ -8,7 +8,7 @@ let scrollDirectionX = 0; // 1 for right, -1 for left, 0 for none
 let currentScrollingList = null;
 
 /**
- * Initialisiert Touch-Drag-and-Drop für mobile Geräte
+ * Initializes touch drag and drop for mobile devices
  */
 function initTouchDragDrop() {
   document.addEventListener("touchstart", handleTouchStart, { passive: true });
@@ -17,8 +17,8 @@ function initTouchDragDrop() {
 }
 
 /**
- * Behandelt den Touchstart auf einer Task-Karte
- * @param {TouchEvent} ev - Das Touch-Event
+ * Handles touchstart on a task card
+ * @param {TouchEvent} ev - The touch event
  */
 function handleTouchStart(ev) {
   const card = ev.target.closest(".task-card");
@@ -31,8 +31,8 @@ function handleTouchStart(ev) {
 }
 
 /**
- * Behandelt die Touchmove-Events während des Drags
- * @param {TouchEvent} ev - Das Touch-Event
+ * Handles the touchmove events during drag
+ * @param {TouchEvent} ev - The touch event
  */
 function handleTouchMove(ev) {
   if (!touchDragElement) return;
@@ -48,8 +48,8 @@ function handleTouchMove(ev) {
 }
 
 /**
- * Erstellt einen visuellen Klon der Karte für den Touch-Drag
- * @param {Touch} touch - Das Touch-Objekt
+ * Creates a visual clone of the map for touch drag
+ * @param {Touch} touch - The touch object
  */
 function createTouchDragClone(touch) {
   touchDragClone = touchDragElement.cloneNode(true);
@@ -67,7 +67,7 @@ function createTouchDragClone(touch) {
 }
 
 /**
- * Aktualisiert Position des Klons und prüft Highlights/Scroll
+ * Updates clone position and checks highlights/scroll
  */
 function updateDragClonePosition(ev, touch) {
   if (ev.cancelable) ev.preventDefault();
@@ -80,8 +80,8 @@ function updateDragClonePosition(ev, touch) {
 }
 
 /**
- * Behandelt das Touchend-Event und führt den Drop aus
- * @param {TouchEvent} ev - Das Touch-Event
+ * Handles the touchend event and executes the drop
+ * @param {TouchEvent} ev - The touch event
  */
 function handleTouchEnd(ev) {
   stopAutoScroll();
@@ -101,7 +101,7 @@ function handleTouchEnd(ev) {
 }
 
 /**
- * Führt den eigentlichen Drop-Vorgang aus
+ * Performs the actual drop operation
  */
 function performTouchDrop(ev) {
   const touch = ev.changedTouches[0];
@@ -132,7 +132,7 @@ function performTouchDrop(ev) {
 }
 
 /**
- * Bereinigt den Drag-Zustand nach dem Drop
+ * Cleans up drag state after drop
  */
 function cleanupTouchDragState() {
   touchDragClone.remove();
@@ -142,8 +142,8 @@ function cleanupTouchDragState() {
 }
 
 /**
- * Aktualisiert die Auto-Scroll-Richtung basierend auf der Touch-Position
- * @param {number} y - Y-Koordinate des Touches
+ * Updates auto-scroll direction based on touch position
+ * @param {number} y - Y coordinate of the touch
  */
 function updateAutoScroll(y) {
   const scrollThreshold = 100;
@@ -161,7 +161,7 @@ function updateAutoScroll(y) {
 }
 
 /**
- * Startet den Auto-Scroll-Intervall
+ * Starts the auto-scroll interval
  */
 function startAutoScroll() {
   if (autoScrollInterval) return;
@@ -171,7 +171,7 @@ function startAutoScroll() {
 }
 
 /**
- * Stoppt den Auto-Scroll-Intervall
+ * Stops auto-scroll interval
  */
 function stopAutoScroll() {
   if (autoScrollInterval) {
@@ -182,7 +182,7 @@ function stopAutoScroll() {
 }
 
 /**
- * Aktualisiert die horizontale Auto-Scroll-Richtung basierend auf der Touch-Position innerhalb einer Spalte
+ * Updates horizontal auto-scroll direction based on touch position within a column
  */
 function updateHorizontalAutoScroll(x, y) {
   const column = getColumnUnderPoint(x, y);
@@ -209,7 +209,7 @@ function updateHorizontalAutoScroll(x, y) {
 }
 
 /**
- * Startet den horizontalen Auto-Scroll-Intervall für eine spezifische Liste
+ * Starts the horizontal auto-scroll interval for a specific list
  */
 function startHorizontalAutoScroll(list) {
   if (horizontalAutoScrollInterval && currentScrollingList === list) return;
@@ -223,7 +223,7 @@ function startHorizontalAutoScroll(list) {
 }
 
 /**
- * Stoppt den horizontalen Auto-Scroll-Intervall
+ * Stops horizontal auto-scroll interval
  */
 function stopHorizontalAutoScroll() {
   if (horizontalAutoScrollInterval) {
@@ -235,10 +235,10 @@ function stopHorizontalAutoScroll() {
 }
 
 /**
- * Findet die Board-Spalte unter einem bestimmten Punkt
- * @param {number} x - X-Koordinate
- * @param {number} y - Y-Koordinate
- * @returns {HTMLElement|null} Das Spalten-Element oder null
+ * Finds the board column under a specific point
+ * @param {number} x - X coordinate
+ * @param {number} y - Y coordinate
+ * @returns {HTMLElement|null} The column element or null
  */
 function getColumnUnderPoint(x, y) {
   const columns = document.querySelectorAll(".board-column");
@@ -254,9 +254,9 @@ function getColumnUnderPoint(x, y) {
 }
 
 /**
- * Gibt den Status-String für eine Spalten-ID zurück
- * @param {string} columnId - Die HTML-ID der Spalte
- * @returns {string|null} Der Status-String oder null
+ * Returns the status string for a column ID
+ * @param {string} columnId - The HTML ID of the column
+ * @returns {string|null} The status string or null
  */
 function getStatusFromColumnId(columnId) {
   if (columnId === "column-todo") return "todo";
@@ -267,9 +267,9 @@ function getStatusFromColumnId(columnId) {
 }
 
 /**
- * Hebt die Spalte unter dem Touch-Punkt hervor
- * @param {number} x - X-Koordinate
- * @param {number} y - Y-Koordinate
+ * Highlights the column under the touch point
+ * @param {number} x - X coordinate
+ * @param {number} y - Y coordinate
  */
 function highlightColumnUnderTouch(x, y) {
   removeAllHighlights();
@@ -283,7 +283,7 @@ function highlightColumnUnderTouch(x, y) {
 }
 
 /**
- * Entfernt alle Drag-Hervorhebungen
+ * Removes all drag highlighting
  */
 function removeAllHighlights() {
   const lists = document.querySelectorAll(".task-list");

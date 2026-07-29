@@ -1,8 +1,8 @@
 /**
- * @fileoverview Dummy logic for the user summary dashboard.
+ * @fileoview Dummy logic for the user summary dashboard.
  */
 /**
- * Initialisiert die Summary-Seite für angemeldete Benutzer
+ * Initializes the summary page for logged in users
  */
 async function initSummaryUser() {
   await waitForFirebase();
@@ -19,8 +19,8 @@ async function initSummaryUser() {
 }
 
 /**
- * Aktualisiert den Benutzernamen auf der Seite
- * @param {Object} user - Das Benutzer-Objekt
+ * Updates the username on the page
+ * @param {Object} user - The user object
  */
 function updateUserName(user) {
   const userNameElement = document.getElementById("user-name");
@@ -30,8 +30,8 @@ function updateUserName(user) {
 }
 
 /**
- * Aktualisiert die Benutzer-Initialen im Header
- * @param {Object} user - Das Benutzer-Objekt
+ * Updates user initials in header
+ * @param {Object} user - The user object
  */
 function updateUserInitials(user) {
   const initialsElement = document.getElementById("user-initials");
@@ -42,9 +42,9 @@ function updateUserInitials(user) {
 }
 
 /**
- * Generiert Initialen aus einem Namen
- * @param {string} name - Der vollständige Name
- * @returns {string} Die generierten Initialen
+ * Generates initials from a name
+ * @param {string} name - The full name
+ * @returns {string} The generated initials
  */
 function getInitials(name) {
   const parts = name.trim().split(" ");
@@ -58,7 +58,7 @@ function getInitials(name) {
 }
 
 /**
- * Aktualisiert die Begrüßungsnachricht basierend auf der Tageszeit
+ * Updates welcome message based on time of day
  */
 function updateGreeting() {
   const hour = new Date().getHours();
@@ -81,8 +81,8 @@ function updateGreeting() {
 }
 
 /**
- * Zeigt die berechneten Task-Metriken in der Summary-Seite an
- * @param {Object} metrics - Das Metriken-Objekt
+ * Displays the calculated task metrics in the summary page
+ * @param {Object} metrics - The metrics object
  */
 function displayTaskMetrics(metrics) {
   document.getElementById("count-todo").textContent = metrics.todo;
@@ -104,8 +104,8 @@ function displayTaskMetrics(metrics) {
 }
 
 /**
- * Aktualisiert die Task-Metriken auf der Summary-Seite
- * @param {Object} user - Das Benutzer-Objekt
+ * Updates task metrics on the summary page
+ * @param {Object} user - The user object
  */
 async function updateTaskMetrics(user) {
   await syncExternalTasksToFirestore(user);
@@ -166,9 +166,9 @@ async function syncExternalTasksToFirestore(user) {
 }
 
 /**
- * Normalisiert Subtasks aus verschiedenen Firebase-Formaten in das Board-Format
- * @param {*} raw - Die rohen Subtask-Daten aus Firebase
- * @returns {Array} Array von {text, completed} Objekten
+ * Normalizes subtasks from various Firebase formats to board format
+ * @param {*} raw - The raw subtask data from Firebase
+ * @returns {Array} Array of {text, completed} objects
  */
 function parseSubtasks(raw) {
   if (!raw) return [];
@@ -245,9 +245,9 @@ async function ensureContactExistsFromSummary(user, email, name) {
 }
 
 /**
- * Ruft die Tasks eines Benutzers aus Firestore ab
- * @param {string} userId - Die ID des Benutzers
- * @returns {Array} Array mit den Tasks des Benutzers
+ * Retrieves a user's tasks from Firestore
+ * @param {string} userId - The user's ID
+ * @returns {Array} Array with the user's tasks
  */
 async function getUserTasks(userId) {
   try {
@@ -270,9 +270,9 @@ async function getUserTasks(userId) {
 }
 
 /**
- * Berechnet die Task-Metriken aus einem Task-Array
- * @param {Array} tasks - Array mit Tasks
- * @returns {Object} Objekt mit berechneten Metriken
+ * Calculates task metrics from a task array
+ * @param {Array} tasks - Array with tasks
+ * @returns {Object} Object with calculated metrics
  */
 function calculateTaskMetrics(tasks) {
   const metrics = createInitialMetrics();
@@ -305,9 +305,9 @@ function createInitialMetrics() {
 }
 
 /**
- * Verarbeitet den Status eines Tasks und aktualisiert die Metriken
- * @param {Object} task - Das Task-Objekt
- * @param {Object} metrics - Das Metriken-Objekt
+ * Processes the status of a task and updates the metrics
+ * @param {Object} task - The task object
+ * @param {Object} metrics - The metrics object
  */
 function processTaskStatus(task, metrics) {
   switch (task.status) {
@@ -332,9 +332,9 @@ function processTaskStatus(task, metrics) {
 }
 
 /**
- * Zählt dringende Tasks in den Metriken
- * @param {Object} task - Das Task-Objekt
- * @param {Object} metrics - Das Metriken-Objekt
+ * Counts urgent tasks in metrics
+ * @param {Object} task - The task object
+ * @param {Object} metrics - The metrics object
  */
 function countUrgentTasks(task, metrics) {
   if (task.priority === "urgent") {
@@ -343,10 +343,10 @@ function countUrgentTasks(task, metrics) {
 }
 
 /**
- * Verfolgt die nächste Deadline
- * @param {Object} task - Das Task-Objekt
- * @param {string|null} nearestDeadline - Die aktuell nächste Deadline
- * @returns {string|null} Die aktualisierte nächste Deadline
+ * Tracks the next deadline
+ * @param {Object} task - The task object
+ * @param {string|null} nearestDeadline - The current next deadline
+ * @returns {string|null} The updated next deadline
  */
 function trackNearestDeadline(task, nearestDeadline) {
   if (task.dueDate) {
@@ -359,9 +359,9 @@ function trackNearestDeadline(task, nearestDeadline) {
 }
 
 /**
- * Formatiert eine Deadline für die Anzeige
- * @param {string} deadline - Die Deadline als String
- * @returns {string} Die formatierte Deadline
+ * Formats a deadline for the ad
+ * @param {string} deadline - The deadline as a string
+ * @returns {string} The formatted deadline
  */
 function formatDeadline(deadline) {
   const date = new Date(deadline);
@@ -370,14 +370,14 @@ function formatDeadline(deadline) {
 }
 
 /**
- * Meldet den Benutzer ab und leitet zur Login-Seite
+ * Logs the user out and redirects to the login page
  */
 async function logoutFromSummary() {
   await logoutUser();
   window.location.href = "index.html";
 }
 /**
- * Initialisiert die Summary-Seite (Legacy-Support)
+ * Initializes the summary page (legacy support)
  */
 function initSummary() {
   updateGreeting();
@@ -385,7 +385,7 @@ function initSummary() {
 }
 
 /**
- * Rendert die Task-Metriken auf der Seite (Fallback oder Gast-View)
+ * Renders the task metrics on the page (fallback or guest view)
  */
 function renderTaskMetrics() {
   const elements = {
@@ -407,15 +407,15 @@ function renderTaskMetrics() {
 }
 
 /**
- * Entfernt das Begrüßungs-Flag aus dem sessionStorage
+ * Removes the welcome flag from the sessionStorage
  */
 function removeMobileGreetingFlag() {
   sessionStorage.removeItem("showJoinGreeting");
 }
 
 /**
- * Startet die Ausblend-Animation des Begrüßungs-Overlays
- * @param {HTMLElement} greetingContainer - Das Begrüßungs-Container-Element
+ * Starts the fade-out animation of the welcome overlay
+ * @param {HTMLElement} greetingContainer - The greeting container element
  */
 function startGreetingFadeOut(greetingContainer) {
   setTimeout(function () {
@@ -428,8 +428,8 @@ function startGreetingFadeOut(greetingContainer) {
 }
 
 /**
- * Zeigt das mobile Begrüßungs-Overlay und startet die Ausblend-Animation
- * @param {HTMLElement} greetingContainer - Das Begrüßungs-Container-Element
+ * Shows the mobile welcome overlay and starts the fade out animation
+ * @param {HTMLElement} greetingContainer - The greeting container element
  */
 function showMobileGreetingOverlay(greetingContainer) {
   greetingContainer.classList.add("mobile-greeting-overlay");
@@ -437,7 +437,7 @@ function showMobileGreetingOverlay(greetingContainer) {
 }
 
 /**
- * Überprüft, ob die mobile Begrüßungs-Animation angezeigt werden soll. Das sessionStorage-Flag wird nach dem ersten Aufruf entfernt, um eine erneute Anzeige beim Neuladen zu verhindern.
+ * Checks whether to display the mobile welcome animation. The sessionStorage flag is removed after the first call to prevent re-display on reload.
  */
 function checkMobileGreeting() {
   const showGreeting = sessionStorage.getItem("showJoinGreeting");
@@ -452,8 +452,8 @@ function checkMobileGreeting() {
 }
 
 /**
- * Leitet den Benutzer zur Board-Seite weiter mit einer kurzen Animation
- * @param {Event} event - Das Klick-Event
+ * Redirects the user to the board page with a short animation
+ * @param {Event} event - The click event
  */
 function redirectToBoard(event) {
   const card = event.currentTarget;

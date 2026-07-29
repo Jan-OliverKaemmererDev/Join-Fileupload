@@ -11,7 +11,7 @@ let touchStartY = 0;
 let touchDragTaskId = null;
 
 /**
- * Initialisiert das Board und lädt die Tasks sowie Kontakte (aus addtask.js).
+ * Initializes the board and loads the tasks and contacts (from addtask.js).
  */
 async function initBoard() {
   checkUser();
@@ -25,7 +25,7 @@ async function initBoard() {
 }
 
 /**
- * Richtet den Event-Listener für hinzugefügte Tasks ein.
+ * Sets up the event listener for added tasks.
  */
 function setupTaskAddedListener() {
   window.addEventListener("taskAdded", function () {
@@ -37,7 +37,7 @@ function setupTaskAddedListener() {
 }
 
 /**
- * Überprüft ob ein Benutzer angemeldet ist.
+ * Checks whether a user is logged in.
  */
 function checkUser() {
   const currentUser = getCurrentUser();
@@ -52,7 +52,7 @@ function checkUser() {
 
 
 /**
- * Leert alle Board-Spalten.
+ * Clears all board columns.
  */
 function clearAllColumns() {
   document.getElementById("triage-list").innerHTML = "";
@@ -63,7 +63,7 @@ function clearAllColumns() {
 }
 
 /**
- * Rendert alle Tasks auf dem Board.
+ * Renders all tasks on the board.
  */
 function renderTasks() {
   tasks.sort((a, b) => (a.position || 0) - (b.position || 0));
@@ -76,9 +76,9 @@ function renderTasks() {
 }
 
 /**
- * Rendert eine einzelne Task-Karte.
- * @param {Object} task - Das Task-Objekt
- * @param {Object} counts - Die Zähl-Objekt für Task-Stati
+ * Renders a single task map.
+ * @param {Object} task - The task object
+ * @param {Object} counts - The counting object for task states
  */
 function renderTaskCard(task, counts) {
   const cardHtml = generateTaskCardHtml(task);
@@ -91,8 +91,8 @@ function renderTaskCard(task, counts) {
 }
 
 /**
- * Rendert Empty-States für alle leeren Spalten.
- * @param {Object} counts - Die Zähl-Objekt mit Task-Anzahlen pro Status
+ * Renders empty states for all empty columns.
+ * @param {Object} counts - The counting object with task counts per status
  */
 function renderAllEmptyStates(counts) {
   renderEmptyState("triage", counts.triage, "No tasks in Triage");
@@ -103,10 +103,10 @@ function renderAllEmptyStates(counts) {
 }
 
 /**
- * Rendert einen Empty-State für eine Spalte.
- * @param {string} status - Der Status der Spalte
- * @param {number} count - Die Anzahl der Tasks in dieser Spalte
- * @param {string} message - Die anzuzeigende Nachricht
+ * Renders an empty state for a column.
+ * @param {string} status - The status of the column
+ * @param {number} count - The number of tasks in this column
+ * @param {string} message - The message to display
  */
 function renderEmptyState(status, count, message) {
   const list = document.getElementById(status + "-list");
@@ -116,9 +116,9 @@ function renderEmptyState(status, count, message) {
 }
 
 /**
- * Startet das Drag-and-Drop für einen Task.
- * @param {number} id - Die ID des Tasks
- * @param {Event} ev - Das Drag-Event
+ * Starts drag and drop for a task.
+ * @param {number} id - The ID of the task
+ * @param {Event} ev - The drag event
  */
 function startDragging(id, ev) {
   isDragging = true;
@@ -130,7 +130,7 @@ function startDragging(id, ev) {
 }
 
 /**
- * Beendet das Drag-and-Drop.
+ * Stops drag and drop.
  */
 function endDragging() {
   setTimeout(function () {
@@ -139,33 +139,33 @@ function endDragging() {
 }
 
 /**
- * Erlaubt das Ablegen eines Tasks.
- * @param {Event} ev - Das Drag-Event
+ * Allows you to drop a task.
+ * @param {Event} ev - The drag event
  */
 function allowDrop(ev) {
   ev.preventDefault();
 }
 
 /**
- * Hebt eine Drop-Zone hervor.
- * @param {string} id - Die ID der Drop-Zone
+ * Highlights a drop zone.
+ * @param {string} id - The ID of the drop zone
  */
 function highlight(id) {
   document.getElementById(id).classList.add("drag-over");
 }
 
 /**
- * Entfernt die Hervorhebung einer Drop-Zone.
- * @param {string} id - Die ID der Drop-Zone
+ * Removes highlighting of a drop zone.
+ * @param {string} id - The ID of the drop zone
  */
 function removeHighlight(id) {
   document.getElementById(id).classList.remove("drag-over");
 }
 
 /**
- * Findet den Index eines Tasks anhand der ID.
- * @param {number} taskId - Die ID des Tasks
- * @returns {number} Der Index des Tasks oder -1
+ * Finds the index of a task by ID.
+ * @param {number} taskId - The ID of the task
+ * @returns {number} The index of the task or -1
  */
 function findTaskById(taskId) {
   for (let i = 0; i < tasks.length; i++) {
@@ -177,10 +177,10 @@ function findTaskById(taskId) {
 }
 
 /**
- * Verschiebt einen Task zu einem neuen Status.
- * @param {string} status - Der neue Status
- * @param {number|null} targetTaskId - Die ID des Ziels
- * @param {string} relativePos - 'before' oder 'after'
+ * Moves a task to a new state.
+ * @param {string} status - The new status
+ * @param {number|null} targetTaskId - The ID of the target
+ * @param {string} relativePos - 'before' or 'after'
  */
 async function moveTo(status, targetTaskId = null, relativePos = "after") {
   const taskIndex = findTaskById(currentDraggedTaskId);
@@ -196,11 +196,11 @@ async function moveTo(status, targetTaskId = null, relativePos = "after") {
 }
 
 /**
- * Aktualisiert die Position und den Status eines Tasks.
- * @param {Object} task - Der Task
- * @param {string} status - Der neue Status
- * @param {number|null} targetTaskId - Ziel-Task
- * @param {string} relativePos - Position relativ zum Ziel
+ * Updates the position and status of a task.
+ * @param {Object} task - The task
+ * @param {string} status - The new status
+ * @param {number|null} targetTaskId - Target task
+ * @param {string} relativePos - Position relative to the target
  */
 function updateTaskPosition(task, status, targetTaskId, relativePos) {
   task.status = status;
@@ -212,10 +212,10 @@ function updateTaskPosition(task, status, targetTaskId, relativePos) {
 }
 
 /**
- * Prüft und sendet Benachrichtigungen bei Statusänderung.
- * @param {Object} task - Der Task
- * @param {string} oldStatus - Alter Status
- * @param {string} status - Neuer Status
+ * Checks and sends notifications when status changes.
+ * @param {Object} task - The task
+ * @param {string} oldStatus - Old status
+ * @param {string} status - New status
  */
 function checkAndNotifyStatusChange(task, oldStatus, status) {
   const emailToNotify = task.creatorEmail ||
@@ -226,9 +226,9 @@ function checkAndNotifyStatusChange(task, oldStatus, status) {
 }
 
 /**
- * Berechnet die neue Position für einen Task am Ende einer Spalte.
- * @param {string} status - Der Status
- * @returns {number} Die neue Position
+ * Calculates the new position for a task at the end of a column.
+ * @param {string} status - The status
+ * @returns {number} The new position
  */
 function getNewPositionAtEnd(status) {
   const columnTasks = tasks.filter(t => t.status === status);
@@ -243,11 +243,11 @@ function getNewPositionAtEnd(status) {
 }
 
 /**
- * Berechnet die neue Position zwischen zwei Tasks.
- * @param {string} status - Der Status
- * @param {number} targetTaskId - Ziel-Task-ID
- * @param {string} relativePos - 'before' oder 'after'
- * @returns {number} Die neue Position
+ * Calculates the new position between two tasks.
+ * @param {string} status - The status
+ * @param {number} targetTaskId - Target task ID
+ * @param {string} relativePos - 'before' or 'after'
+ * @returns {number} The new position
  */
 function calculateNewPosition(status, targetTaskId, relativePos) {
   const columnTasks = getSortedTasksByStatus(status);
@@ -262,9 +262,9 @@ function calculateNewPosition(status, targetTaskId, relativePos) {
 }
 
 /**
- * Gibt sortierte Tasks für einen bestimmten Status zurück.
- * @param {string} status - Der Status
- * @returns {Array} Sortierte Tasks
+ * Returns sorted tasks for a given status.
+ * @param {string} status - The status
+ * @returns {Array} Sorted tasks
  */
 function getSortedTasksByStatus(status) {
   return tasks
@@ -273,10 +273,10 @@ function getSortedTasksByStatus(status) {
 }
 
 /**
- * Berechnet die Position vor dem Ziel-Task.
- * @param {Array} columnTasks - Tasks der Spalte
- * @param {number} targetIndex - Index des Ziel-Tasks
- * @returns {number} Neue Position
+ * Calculates the position in front of the target task.
+ * @param {Array} columnTasks - Tasks of the column
+ * @param {number} targetIndex - Index of the target task
+ * @returns {number} New position
  */
 function calculatePositionBefore(columnTasks, targetIndex) {
   const prevTask = columnTasks[targetIndex - 1];
@@ -286,10 +286,10 @@ function calculatePositionBefore(columnTasks, targetIndex) {
 }
 
 /**
- * Berechnet die Position nach dem Ziel-Task.
- * @param {Array} columnTasks - Tasks der Spalte
- * @param {number} targetIndex - Index des Ziel-Tasks
- * @returns {number} Neue Position
+ * Calculates the position according to the target task.
+ * @param {Array} columnTasks - Tasks of the column
+ * @param {number} targetIndex - Index of the target task
+ * @returns {number} New position
  */
 function calculatePositionAfter(columnTasks, targetIndex) {
   const targetTask = columnTasks[targetIndex];
@@ -299,9 +299,9 @@ function calculatePositionAfter(columnTasks, targetIndex) {
 }
 
 /**
- * Behandelt das Drop-Event für einen Task.
- * @param {Event} ev - Das Drop-Event
- * @param {string} status - Der neue Status
+ * Handles the drop event for a task.
+ * @param {Event} ev - The drop event
+ * @param {string} status - The new status
  */
 function drop(ev, status) {
   ev.preventDefault();
@@ -313,8 +313,8 @@ function drop(ev, status) {
 }
 
 /**
- * Holt die verschobene Task-ID aus dem Event.
- * @param {Event} ev - Das Event
+ * Gets the moved task ID from the event.
+ * @param {Event} ev - The event
  */
 function resolveDraggedTaskId(ev) {
   if (currentDraggedTaskId === null && ev.dataTransfer) {
@@ -324,10 +324,10 @@ function resolveDraggedTaskId(ev) {
 }
 
 /**
- * Bestimmt das Drop-Ziel und die relative Position.
- * @param {Event} ev - Das Drop-Event
- * @param {HTMLElement} targetCard - Das anvisierte Kartenelement
- * @returns {Object} Ziel-Task und relative Position
+ * Determines the drop target and relative position.
+ * @param {Event} ev - The drop event
+ * @param {HTMLElement} targetCard - The targeted card element
+ * @returns {Object} Target task and relative position
  */
 function resolveDropTarget(ev, targetCard) {
   let targetTaskId = null;
@@ -346,9 +346,9 @@ function resolveDropTarget(ev, targetCard) {
 
 
 /**
- * Findet einen Task anhand der ID.
- * @param {number} taskId - Die ID des Tasks
- * @returns {Object|null} Das Task-Objekt oder null
+ * Finds a task by ID.
+ * @param {number} taskId - The ID of the task
+ * @returns {Object|null} The task object or null
  */
 function findTask(taskId) {
   for (let i = 0; i < tasks.length; i++) {
@@ -360,9 +360,9 @@ function findTask(taskId) {
 }
 
 /**
- * Liest die Task-ID aus dem data-Attribut einer Karte.
- * @param {HTMLElement} card - Das Task-Karten-Element
- * @returns {number|null} Die Task-ID oder null
+ * Reads the task ID from the data attribute of a card.
+ * @param {HTMLElement} card - The task card element
+ * @returns {number|null} The task ID or null
  */
 function getTaskIdFromCard(card) {
   const id = card.getAttribute("data-task-id");

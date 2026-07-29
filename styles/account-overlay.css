@@ -171,7 +171,7 @@
 }
 
 .account-profile-img.panning-active {
-  border-radius: 0; /* Remove border-radius to avoid clipping issues during drag if container has overflow: hidden */
+  border-radius: 0; 
   object-fit: unset;
   cursor: grab;
 }
@@ -319,9 +319,9 @@
   background-color: white;
   text-align: center;
   align-items: center;
-  /* Start completely off-screen or faded */
+  
   transform: translateY(100vh);
-  z-index: 1001; /* Above normal dialog */
+  z-index: 1001; 
 }
 
 #account-overlay .delete-confirm-dialog.active {

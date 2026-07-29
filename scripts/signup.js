@@ -2,7 +2,7 @@
  * @fileoverview Main logic for user registration on the signup page.
  */
 /**
- * Initialisiert die Signup-Seite
+ * Initializes the signup page
  */
 function initSignup() {
   attachSignupBlurValidators();
@@ -10,7 +10,7 @@ function initSignup() {
 }
 
 /**
- * Fügt blur-Event-Listener zu den Eingabefeldern der Signup-Seite hinzu.
+ * Adds blur event listeners to the signup page input fields.
  */
 function attachSignupBlurValidators() {
   const fields = ["name", "email", "password", "confirm-password"];
@@ -31,7 +31,7 @@ function attachSignupBlurValidators() {
 }
 
 /**
- * Setzt den Fehler-Zustand auf ein Input-Feld und den zugehörigen Hint.
+ * Sets the error status to an input field and the associated hint.
  * @param {HTMLElement} input
  * @param {HTMLElement} hint
  * @param {string} message
@@ -43,7 +43,7 @@ function applyFieldError(input, hint, message) {
 }
 
 /**
- * Entfernt den Fehler-Zustand von einem Input-Feld und dem zugehörigen Hint.
+ * Removes the error status from an input field and the associated hint.
  * @param {HTMLElement} input
  * @param {HTMLElement} hint
  */
@@ -54,7 +54,7 @@ function clearFieldError(input, hint) {
 }
 
 /**
- * Zeigt oder versteckt einen Hinweis unter einem Input-Feld.
+ * Shows or hides a hint under an input field.
  * @param {string} inputId
  * @param {string|null} message
  */
@@ -70,7 +70,7 @@ function setFieldHint(inputId, message) {
 }
 
 /**
- * Liest alle Formularwerte der Registrierungsseite aus.
+ * Reads all form values ​​from the registration page.
  * @returns {{name: string, email: string, pass: string, confirm: string, privacy: boolean}}
  */
 function getSignupFormValues() {
@@ -84,7 +84,7 @@ function getSignupFormValues() {
 }
 
 /**
- * Validiert alle Felder des Registrierungsformulars.
+ * Validates all fields of the registration form.
  * @param {string} name
  * @param {string} email
  * @param {string} pass
@@ -145,7 +145,7 @@ function showConfirmHint(values, showErrors = false) {
 }
 
 /**
- * Zeigt Validierungshinweise für alle Felder an.
+ * Displays validation notes for all fields.
  * @param {Object} values
  * @param {Object} validity
  */
@@ -157,7 +157,7 @@ function showSignupFieldHints(values, validity, showErrors = false) {
 }
 
 /**
- * Aktiviert oder deaktiviert den Submit-Button.
+ * Enables or disables the submit button.
  * @param {boolean} allValid
  */
 function updateSignupSubmitButton(allValid) {
@@ -167,7 +167,7 @@ function updateSignupSubmitButton(allValid) {
 }
 
 /**
- * Prüft ob alle Pflichtfelder gültig sind.
+ * Checks whether all mandatory fields are valid.
  * @param {Object} validity
  * @param {boolean} privacy
  * @returns {boolean}
@@ -178,7 +178,7 @@ function isFormComplete(validity, privacy) {
 }
 
 /**
- * Überprüft die Gültigkeit des Formulars und aktualisiert UI-Hinweise.
+ * Checks form validity and updates UI notes.
  */
 function checkFormValidity(showErrors = false) {
   const values = getSignupFormValues();
@@ -190,7 +190,7 @@ function checkFormValidity(showErrors = false) {
 }
 
 /**
- * Liest die Rohwerte des Registrierungsformulars aus.
+ * Reads the raw values ​​of the registration form.
  * @returns {{name: string, email: string, pass: string, confirm: string}}
  */
 function getRegistrationFormValues() {
@@ -203,7 +203,7 @@ function getRegistrationFormValues() {
 }
 
 /**
- * Führt den eigentlichen Registrierungsversuch durch und verarbeitet das Ergebnis.
+ * Performs the actual registration attempt and processes the result.
  * @param {string} name
  * @param {string} email
  * @param {string} pass
@@ -220,7 +220,7 @@ async function attemptSignUp(name, email, pass) {
 }
 
 /**
- * Verarbeitet die Benutzerregistrierung.
+ * Processes user registration.
  * @param {Event} event
  */
 async function handleRegistration(event) {
@@ -235,7 +235,7 @@ async function handleRegistration(event) {
 }
 
 /**
- * Aktiviert die visuelle Fehlermeldung bei Passwort-Mismatch.
+ * Enables visual error message in case of password mismatch.
  * @param {HTMLElement|null} errorMsg
  * @param {HTMLElement} confirmInput
  */
@@ -245,7 +245,7 @@ function displayPasswordMismatchError(errorMsg, confirmInput) {
 }
 
 /**
- * Zeigt eine Passwort-Fehlermeldung an und registriert einen Reset-Listener.
+ * Displays a password error message and registers a reset listener.
  */
 function showPasswordError() {
   const errorMsg = document.getElementById("error-message");
@@ -260,7 +260,7 @@ function showPasswordError() {
 }
 
 /**
- * Zeigt die Fehlermeldung und markiert ggf. das E-Mail-Feld.
+ * Shows the error message and checks the email field if necessary.
  * @param {HTMLElement|null} errorMsg
  * @param {HTMLElement} emailInput
  * @param {{error: string, message: string}} result
@@ -276,7 +276,7 @@ function displayRegistrationError(errorMsg, emailInput, result) {
 }
 
 /**
- * Verarbeitet Registrierungsfehler und zeigt entsprechende Meldungen.
+ * Handles registration errors and displays appropriate messages.
  * @param {{error: string, message: string}} result
  */
 function handleRegistrationError(result) {
@@ -292,7 +292,7 @@ function handleRegistrationError(result) {
 }
 
 /**
- * Zeigt eine Erfolgsmeldung an und leitet zur Login-Seite weiter.
+ * Displays a success message and redirects to the login page.
  */
 function showSuccessMessageAndRedirect() {
   const msg = document.getElementById("success-message");

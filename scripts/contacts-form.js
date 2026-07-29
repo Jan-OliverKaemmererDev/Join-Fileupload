@@ -1,9 +1,9 @@
 /**
- * @fileoverview Form handling logic for managing contacts.
+ * @fileoview Form handling logic for managing contacts.
  */
 /**
- * Setzt das HTML des Overlays, aktiviert es und sperrt das Scrollen
- * @param {string} html - Das HTML für den Overlay-Inhalt
+ * Sets the HTML of the overlay, activates it and locks scrolling
+ * @param {string} html - The HTML for the overlay content
  */
 function activateContactOverlay(html) {
   const overlay = document.getElementById("add-contact-overlay");
@@ -16,7 +16,7 @@ function activateContactOverlay(html) {
 }
 
 /**
- * Öffnet den Dialog zum Hinzufügen eines Kontakts
+ * Opens the dialog for adding a contact
  */
 function openAddContactDialog() {
   const html = window.innerWidth <= 780 ? getMobileAddContactTemplate() : getDesktopAddContactTemplate();
@@ -36,8 +36,8 @@ function openAddContactDialog() {
 }
 
 /**
- * Öffnet den Dialog zum Bearbeiten eines Kontakts
- * @param {string|number} id - Die Kontakt-ID
+ * Opens the dialog for editing a contact
+ * @param {string|number} id - The contact ID
  */
 function openEditContactDialog(id) {
   const contact = findContactById(id);
@@ -58,7 +58,7 @@ function openEditContactDialog(id) {
 }
 
 /**
- * Schließt den Kontakt-Dialog
+ * Closes the contact dialog
  */
 function closeAddContactDialog() {
   const overlay = document.getElementById("add-contact-overlay");
@@ -76,9 +76,9 @@ function closeAddContactDialog() {
 }
 
 /**
- * Validiert das Name-Feld eines Kontaktformulars
- * @param {string} nameId - Die ID des Name-Eingabefelds
- * @returns {boolean} True wenn das Feld gültig ist
+ * Validates the name field of a contact form
+ * @param {string} nameId - The ID of the name input field
+ * @returns {boolean} True if the field is valid
  */
 function validateNameField(nameId) {
   const name = document.getElementById(nameId).value.trim();
@@ -92,9 +92,9 @@ function validateNameField(nameId) {
 }
 
 /**
- * Validiert das E-Mail-Feld eines Kontaktformulars
- * @param {string} emailId - Die ID des E-Mail-Eingabefelds
- * @returns {boolean} True wenn das Feld gültig ist
+ * Validates the email field of a contact form
+ * @param {string} emailId - The ID of the email input field
+ * @returns {boolean} True if the field is valid
  */
 function validateEmailField(emailId) {
   const email = document.getElementById(emailId).value.trim();
@@ -108,9 +108,9 @@ function validateEmailField(emailId) {
 }
 
 /**
- * Validiert das Telefon-Feld eines Kontaktformulars
- * @param {string} phoneId - Die ID des Telefon-Eingabefelds
- * @returns {boolean} True wenn das Feld gültig ist
+ * Validates the phone field of a contact form
+ * @param {string} phoneId - The ID of the phone input field
+ * @returns {boolean} True if the field is valid
  */
 function validatePhoneField(phoneId) {
   const phone = document.getElementById(phoneId).value.trim();
@@ -126,11 +126,11 @@ function validatePhoneField(phoneId) {
 }
 
 /**
- * Validiert das Kontaktformular (Name min. 3 Buchstaben, gültiges E-Mail-Format, Telefon min. 6 Ziffern)
- * @param {string} nameId - Die ID des Name-Eingabefelds
- * @param {string} emailId - Die ID des E-Mail-Eingabefelds
- * @param {string} phoneId - Die ID des Telefon-Eingabefelds
- * @returns {boolean} True wenn alle Felder gültig sind
+ * Validates the contact form (name at least 3 letters, valid email format, telephone at least 6 digits)
+ * @param {string} nameId - The ID of the name input field
+ * @param {string} emailId - The ID of the email input field
+ * @param {string} phoneId - The ID of the phone input field
+ * @returns {boolean} True if all fields are valid
  */
 function validateContactForm(nameId, emailId, phoneId) {
   const nameValid = validateNameField(nameId);
@@ -140,9 +140,9 @@ function validateContactForm(nameId, emailId, phoneId) {
 }
 
 /**
- * Zeigt einen Fehlerhinweis für ein Feld an
- * @param {string} inputId - Die ID des Eingabefelds
- * @param {string} message - Die Fehlermeldung
+ * Displays an error message for a field
+ * @param {string} inputId - The ID of the input field
+ * @param {string} message - The error message
  */
 function showFieldError(inputId, message) {
   const input = document.getElementById(inputId);
@@ -158,8 +158,8 @@ function showFieldError(inputId, message) {
 }
 
 /**
- * Entfernt den Fehlerhinweis eines Felds
- * @param {string} inputId - Die ID des Eingabefelds
+ * Removes the error notice from a field
+ * @param {string} inputId - The ID of the input field
  */
 function clearFieldError(inputId) {
   const input = document.getElementById(inputId);
@@ -172,11 +172,11 @@ function clearFieldError(inputId) {
 }
 
 /**
- * Überprüft die Validität des gesamten Kontaktformulars und aktualisiert den Button-Status
- * @param {string} nameId - ID des Namensfeldes
- * @param {string} emailId - ID des E-Mail-Feldes
- * @param {string} phoneId - ID des Telefonfeldes
- * @param {string} buttonId - ID des Buttons
+ * Checks the validity of the entire contact form and updates the button status
+ * @param {string} nameId - ID of the name field
+ * @param {string} emailId - ID of the email field
+ * @param {string} phoneId - ID of the phone field
+ * @param {string} buttonId - ID of the button
  */
 function checkContactFormValidity(nameId, emailId, phoneId, buttonId, showErrors = false) {
   const name = document.getElementById(nameId).value.trim();
@@ -203,7 +203,7 @@ function checkContactFormValidity(nameId, emailId, phoneId, buttonId, showErrors
 }
 
 /**
- * Fügt blur-Event-Listener zu den Eingabefeldern hinzu, um Fehler beim Verlassen anzuzeigen
+ * Adds blur event listeners to input fields to show exit errors
  */
 function attachBlurValidators(nameId, emailId, phoneId) {
   const nameEl = document.getElementById(nameId);
@@ -230,11 +230,11 @@ function attachBlurValidators(nameId, emailId, phoneId) {
 }
 
 /**
- * Aktualisiert das visuelle Feedback für ein Eingabefeld
- * @param {string} inputId - ID des Eingabefeldes
- * @param {string} value - Der aktuelle Wert
- * @param {boolean} isValid - Ob der Wert gültig ist
- * @param {string} errorMessage - Die anzuzeigende Fehlermeldung
+ * Updates visual feedback for an input field
+ * @param {string} inputId - ID of the input field
+ * @param {string} value - The current value
+ * @param {boolean} isValid - Whether the value is valid
+ * @param {string} errorMessage - The error message to display
  */
 function updateContactFieldFeedback(inputId, value, isValid, errorMessage) {
   if (value.length > 0) {
@@ -249,8 +249,8 @@ function updateContactFieldFeedback(inputId, value, isValid, errorMessage) {
 }
 
 /**
- * Erstellt einen neuen Kontakt aus dem Formular
- * @param {Event} e - Das Submit-Event
+ * Creates a new contact from the form
+ * @param {Event} e - The submit event
  */
 async function createContact(e) {
   e.preventDefault();
@@ -278,9 +278,9 @@ async function createContact(e) {
 }
 
 /**
- * Baut das Objekt für einen neuen Kontakt
- * @param {string} name - Der Name des Kontakts
- * @returns {Object} Das Kontakt-Objekt
+ * Builds the object for a new contact
+ * @param {string} name - The name of the contact
+ * @returns {Object} The contact object
  */
 function buildNewContactObject(name) {
   const colors = ["#AB47BC", "#FF9800", "#5C6BC0", "#26A69A"];
@@ -296,8 +296,8 @@ function buildNewContactObject(name) {
 }
 
 /**
- * Schließt die Erstellung ab und aktualisiert die UI
- * @param {Object} newContact - Der neue Kontakt
+ * Completes the build and updates the UI
+ * @param {Object} newContact - The new contact
  */
 function finalizeContactCreation(newContact) {
   contacts.push(newContact);
@@ -307,9 +307,9 @@ function finalizeContactCreation(newContact) {
 }
 
 /**
- * Speichert Änderungen an einem bestehenden Kontakt
- * @param {Event} e - Das Submit-Event
- * @param {string|number} id - Die ID des Kontakts
+ * Saves changes to an existing contact
+ * @param {Event} e - The submit event
+ * @param {string|number} id - The ID of the contact
  */
 async function saveContact(e, id) {
   e.preventDefault();
@@ -338,8 +338,8 @@ async function saveContact(e, id) {
 }
 
 /**
- * Aktualisiert die Daten eines Kontakts basierend auf Formulareingaben
- * @param {Object} contact - Das Kontakt-Objekt
+ * Updates a contact's information based on form input
+ * @param {Object} contact - The contact object
  */
 function updateContactFromForm(contact) {
   contact.name = document.getElementById("edit-contact-name").value;
@@ -349,8 +349,8 @@ function updateContactFromForm(contact) {
 }
 
 /**
- * Schließt das Update ab und aktualisiert die UI
- * @param {Object} contact - Der aktualisierte Kontakt
+ * Completes the update and updates the UI
+ * @param {Object} contact - The updated contact
  */
 function finalizeContactUpdate(contact) {
   renderContactList();
@@ -365,8 +365,8 @@ function finalizeContactUpdate(contact) {
 }
 
 /**
- * Löscht einen Kontakt
- * @param {string|number} id - Die ID des zu löschenden Kontakts
+ * Deletes a contact
+ * @param {string|number} id - The ID of the contact to delete
  */
 function deleteContact(id) {
   const currentUser = getCurrentUser();
@@ -375,8 +375,8 @@ function deleteContact(id) {
 }
 
 /**
- * Schließt die Löschung in der UI ab
- * @param {string|number} id - Die Kontakt-ID
+ * Completes deletion in the UI
+ * @param {string|number} id - The contact ID
  */
 function finalizeContactDeletion(id) {
   removeContactFromLocal(id);
@@ -385,8 +385,8 @@ function finalizeContactDeletion(id) {
 }
 
 /**
- * Entfernt einen Kontakt aus dem lokalen Array
- * @param {string|number} id - Die Kontakt-ID
+ * Removes a contact from the local array
+ * @param {string|number} id - The contact ID
  */
 function removeContactFromLocal(id) {
   contacts = contacts.filter(function (c) {

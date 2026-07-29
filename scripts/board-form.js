@@ -1,8 +1,8 @@
 /**
- * @fileoverview Form handling logic for board tasks.
+ * @fileoview Form handling logic for board tasks.
  */
 /**
- * Schaltet das Kategorie-Dropdown um
+ * Toggles the category dropdown
  */
 function toggleCategoryDropdown() {
   const wrapper = document.getElementById("category-wrapper");
@@ -12,8 +12,8 @@ function toggleCategoryDropdown() {
 }
 
 /**
- * Aktualisiert den angezeigten Kategorie-Text und den versteckten Eingabewert
- * @param {string} category - Die ausgewählte Kategorie
+ * Updates displayed category text and hidden input value
+ * @param {string} category - The selected category
  */
 function updateCategoryDisplay(category) {
   document.getElementById("selected-category-text").textContent = category;
@@ -21,7 +21,7 @@ function updateCategoryDisplay(category) {
 }
 
 /**
- * Schließt das Kategorie-Dropdown
+ * Closes the category dropdown
  */
 function closeCategoryDropdown() {
   const wrapper = document.getElementById("category-wrapper");
@@ -31,9 +31,9 @@ function closeCategoryDropdown() {
 }
 
 /**
- * Wählt eine Kategorie aus, aktualisiert die Anzeige und schließt das Dropdown
- * @param {string} category - Die ausgewählte Kategorie
- * @param {Event} event - Das Klick-Event
+ * Selects a category, refreshes the display and closes the dropdown
+ * @param {string} category - The selected category
+ * @param {Event} event - The click event
  */
 function selectCategory(category, event) {
   event.stopPropagation();
@@ -58,7 +58,7 @@ document.addEventListener(
 );
 
 /**
- * Setzt das Kategorie-Dropdown auf den Ausgangszustand zurück
+ * Resets the category dropdown to its initial state
  */
 function resetCategoryDropdown() {
   const categoryText = document.getElementById("selected-category-text");
@@ -72,7 +72,7 @@ function resetCategoryDropdown() {
 }
 
 /**
- * Setzt das Assigned-To-Dropdown auf den Ausgangszustand zurück
+ * Resets the Assigned-To dropdown to its initial state
  */
 function resetAssignedToDropdown() {
   const assignedWrapper = document.getElementById("assigned-to-wrapper");
@@ -82,7 +82,7 @@ function resetAssignedToDropdown() {
 }
 
 /**
- * Setzt die Board-Dropdowns nach dem Schließen des Overlays zurück
+ * Resets the board dropdowns after closing the overlay
  */
 function resetBoardDropdowns() {
   resetCategoryDropdown();

@@ -1,5 +1,5 @@
 /* ========================================================= */
-/*             LOGIN-SEITE: SPEZIFISCHE INPUTS               */
+/*             LOGIN PAGE: SPECIFIC INPUTS               */
 /* ========================================================= */
 
 #email {
@@ -19,7 +19,7 @@
 }
 
 /* ========================================================= */
-/*                 LOGIN-SEITE: BUTTONS                      */
+/*                 LOGIN PAGE: BUTTONS                      */
 /* ========================================================= */
 
 .btn-signup {
@@ -78,7 +78,7 @@
 }
 
 /* ========================================================= */
-/*              LOGIN-SEITE: FOOTER & SIGNUP                 */
+/*              LOGIN PAGE: FOOTER & SIGNUP                 */
 /* ========================================================= */
 
 .mobile-signup {
@@ -330,7 +330,7 @@
 }
 
 /* ========================================================= */
-/*     MOBILE NAVIGATION (STANDARDMÄSSIG AUSGEBLENDET)       */
+/*     MOBILE NAVIGATION (HIDDEN BY DEFAULT)       */
 /* ========================================================= */
 
 .mobile-nav {
@@ -394,11 +394,11 @@
 }
 
 .login-main form {
-  gap: 8px; /* Reduced gap because input-wraps now have internal spacing */
+  gap: 8px; 
 }
 
 @media (max-width: 480px) {
   .login-main form {
-    gap: 0; /* Min-height is enough on mobile */
+    gap: 0; 
   }
 }

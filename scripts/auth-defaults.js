@@ -1,5 +1,5 @@
 /**
- * @fileoverview Default authentication settings and configurations.
+ * @fileoview Default authentication settings and configurations.
  */
 /**
  * Default guest user object used when no authenticated user is present.

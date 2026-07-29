@@ -4,7 +4,7 @@
 let contacts = [];
 
 /**
- * Initialisiert die Kontaktseite, lädt Daten und wählt ggf. einen Kontakt aus
+ * Initializes the contact page, loads data and selects a contact if necessary
  */
 function initContacts() {
   return (async function () {
@@ -26,7 +26,7 @@ function initContacts() {
 }
 
 /**
- * Lädt die Kontakte aus Firestore
+ * Loads the contacts from Firestore
  */
 function loadContactsFromFirestore() {
   return (async function () {
@@ -37,8 +37,8 @@ function loadContactsFromFirestore() {
 }
 
 /**
- * Befüllt das lokale Kontakte-Array aus einem Firestore-Snapshot
- * @param {Object} snapshot - Der Firestore Snapshot
+ * Populates the local contacts array from a Firestore snapshot
+ * @param {Object} snapshot - The Firestore snapshot
  */
 function populateContactsFromSnapshot(snapshot) {
   contacts = [];
@@ -68,7 +68,7 @@ function populateContactsFromSnapshot(snapshot) {
 }
 
 /**
- * Sortiert die Kontakte alphabetisch nach Namen
+ * Sorts contacts alphabetically by name
  */
 function sortContacts() {
   contacts.sort(function (a, b) {
@@ -77,9 +77,9 @@ function sortContacts() {
 }
 
 /**
- * Generiert die Initialen aus dem Namen
- * @param {string} name - Der vollständige Name
- * @returns {string} Die Initialen
+ * Generates the initials from the name
+ * @param {string} name - The full name
+ * @returns {string} The initials
  */
 function getInitials(name) {
   const parts = name.split(" ");
@@ -92,7 +92,7 @@ function getInitials(name) {
 }
 
 /**
- * Rendert die Kontaktliste
+ * Renders the contact list
  */
 function renderContactList() {
   const list = document.getElementById("contacts-list");
@@ -105,9 +105,9 @@ function renderContactList() {
 }
 
 /**
- * Fügt eine Buchstabengruppe zur Liste hinzu, falls der Anfangsbuchstabe neu ist
- * @param {HTMLElement} list - Das Listen-Element
- * @param {Object} contact - Das Kontakt-Objekt
+ * Adds a letter group to the list if the first letter is new
+ * @param {HTMLElement} list - The list element
+ * @param {Object} contact - The contact object
  */
 function addLetterGroupIfNeeded(list, contact) {
   const first = contact.name[0].toUpperCase();
@@ -118,9 +118,9 @@ function addLetterGroupIfNeeded(list, contact) {
 }
 
 /**
- * Fügt einen einzelnen Kontakt zur Liste hinzu
- * @param {HTMLElement} list - Das Listen-Element
- * @param {Object} contact - Das Kontakt-Objekt
+ * Adds a single contact to the list
+ * @param {HTMLElement} list - The list element
+ * @param {Object} contact - The contact object
  */
 function appendContactItemToList(list, contact) {
   addLetterGroupIfNeeded(list, contact);
@@ -130,25 +130,25 @@ function appendContactItemToList(list, contact) {
 let lastRenderedLetter = "";
 
 /**
- * Gibt den zuletzt gerenderten Buchstaben zurück
- * @returns {string} Der Buchstabe
+ * Returns the last rendered letter
+ * @returns {string} The letter
  */
 function getLastRenderedLetter() {
   return lastRenderedLetter;
 }
 
 /**
- * Aktualisiert den zuletzt gerenderten Buchstaben
- * @param {string} letter - Der Buchstabe
+ * Updates the last rendered letter
+ * @param {string} letter - The letter
  */
 function updateLastRenderedLetter(letter) {
   lastRenderedLetter = letter;
 }
 
 /**
- * Fügt einen Buchstaben-Trenner zur Liste hinzu
- * @param {HTMLElement} list - Das Listen-Element
- * @param {string} letter - Der Buchstabe
+ * Adds a letter separator to the list
+ * @param {HTMLElement} list - The list element
+ * @param {string} letter - The letter
  */
 function addLetterGroupToList(list, letter) {
   list.innerHTML +=
@@ -156,9 +156,9 @@ function addLetterGroupToList(list, letter) {
 }
 
 /**
- * Findet einen Kontakt anhand seiner ID
- * @param {string|number} id - Die Kontakt-ID
- * @returns {Object|null} Der Kontakt oder null
+ * Finds a contact by their ID
+ * @param {string|number} id - The contact ID
+ * @returns {Object|null} The contact or null
  */
 function findContactById(id) {
   const found = contacts.find(function (c) {
@@ -168,8 +168,8 @@ function findContactById(id) {
 }
 
 /**
- * Zeigt die Details eines Kontakts an
- * @param {string|number} id - Die Kontakt-ID
+ * Displays the details of a contact
+ * @param {string|number} id - The contact ID
  */
 function showContactDetails(id) {
   const contact = findContactById(id);
@@ -180,9 +180,9 @@ function showContactDetails(id) {
 }
 
 /**
- * Rendert die Detailansicht eines Kontakts abhängig von der Bildschirmgröße
- * @param {Object} contact - Der Kontakt
- * @param {string|number} id - Die Kontakt-ID
+ * Renders the detailed view of a contact depending on the screen size
+ * @param {Object} contact - The contact
+ * @param {string|number} id - The contact ID
  */
 function renderContactDetailsView(contact, id) {
   const content = document.getElementById("contact-details-content");
@@ -194,8 +194,8 @@ function renderContactDetailsView(contact, id) {
 }
 
 /**
- * Markiert einen Kontakt in der Liste als aktiv
- * @param {string|number} id - Die Kontakt-ID
+ * Marks a contact in the list as active
+ * @param {string|number} id - The contact ID
  */
 function markActiveContact(id) {
   const items = document.querySelectorAll(".contact-item");
@@ -206,8 +206,8 @@ function markActiveContact(id) {
 }
 
 /**
- * Wendet Sichtbarkeitsklassen für die Detailansicht an
- * @param {string|number} id - Die Kontakt-ID
+ * Applies visibility classes for the detail view
+ * @param {string|number} id - The contact ID
  */
 function applyContactDetailsVisibility(id) {
   if (window.innerWidth <= 780) {
@@ -218,7 +218,7 @@ function applyContactDetailsVisibility(id) {
 }
 
 /**
- * Wendet Sichtbarkeitsklassen für die mobile Detailansicht an
+ * Applies visibility classes for mobile detail view
  */
 function applyMobileContactDetailsVisibility() {
   const container = document.querySelector(".contact-details-container");
@@ -226,7 +226,7 @@ function applyMobileContactDetailsVisibility() {
 }
 
 /**
- * Wendet Sichtbarkeitsklassen für die Desktop-Detailansicht an
+ * Applies visibility classes for the desktop detail view
  */
 function applyDesktopContactDetailsVisibility() {
   const container = document.getElementById("contact-details-view");
@@ -234,7 +234,7 @@ function applyDesktopContactDetailsVisibility() {
 }
 
 /**
- * Blendet die Kontakt-Detail-Container (Mobile und Desktop) aus
+ * Hides the contact detail containers (mobile and desktop).
  */
 function hideContactDetailsContainers() {
   const containerMobile = document.querySelector(".contact-details-container");
@@ -244,7 +244,7 @@ function hideContactDetailsContainers() {
 }
 
 /**
- * Leert den Inhalt der Kontakt-Detailansicht nach der CSS-Transition
+ * Empties the contents of the contact detail view after the CSS transition
  */
 function clearContactDetailContent() {
   const content = document.getElementById("contact-details-content");
@@ -256,7 +256,7 @@ function clearContactDetailContent() {
 }
 
 /**
- * Entfernt die aktive Markierung von allen Kontakt-Listenelementen
+ * Removes the active flag from all contact list items
  */
 function deactivateContactItems() {
   const items = document.querySelectorAll(".contact-item");
@@ -266,7 +266,7 @@ function deactivateContactItems() {
 }
 
 /**
- * Schließt die Kontakt-Detailansicht und entfernt alle aktiven Zustände. Leert den Inhalt nach der CSS-Transition.
+ * Closes the contact details view and removes all active states. Empties the content after the CSS transition.
  */
 function closeContactDetails() {
   hideContactDetailsContainers();
@@ -275,7 +275,7 @@ function closeContactDetails() {
 }
 
 /**
- * Prüft den Benutzer und aktualisiert ggf. Initialen im Header
+ * Checks the user and updates initials in the header if necessary
  */
 function checkUser() {
   if (typeof getCurrentUser === "function") {
@@ -293,8 +293,8 @@ function checkUser() {
 }
 
 /**
- * Schaltet das Kontakt-Menü auf Mobilgeräten um
- * @param {Event} e - Das Klick-Event
+ * Toggles the contact menu on mobile devices
+ * @param {Event} e - The click event
  */
 function toggleContactMenu(e) {
   e.stopPropagation();

@@ -1,9 +1,9 @@
 /* ========================================================= */
-/*       MOBILE STYLES FÜR LOGIN UND ALLGEMEINE KOMPONENTEN  */
+/*       MOBILE STYLES FOR LOGIN AND GENERAL COMPONENTS  */
 /* ========================================================= */
 
 /* ========================================================= */
-/*             SIDEBAR VERSTECKEN BEI MOBILE                 */
+/*             HIDE SIDEBAR ON MOBILE                 */
 /* ========================================================= */
 @media (min-width: 320px) and (max-width: 780px) {
   .sidebar,
@@ -21,7 +21,7 @@
 }
 
 /* ========================================================= */
-/*             STANDARDS AUSSERHALB MEDIA QUERY              */
+/*             DEFAULTS OUTSIDE MEDIA QUERY              */
 /* ========================================================= */
 .mobile-logo {
   display: none;
@@ -256,7 +256,7 @@
   }
 
   /* ========================================================= */
-  /*                 INPUT WRAPPER (FÜR ICONS)                 */
+  /*                 INPUT WRAPPER (FOR ICONS)                 */
   /* ========================================================= */
   .input-wrapper {
     position: relative;
@@ -291,7 +291,7 @@
   }
 
   /* ========================================================= */
-  /*                 PRIMÄRER BUTTON (DUNKEL)                  */
+  /*                 PRIMARY BUTTON (DUNKEL)                  */
   /* ========================================================= */
   .btn-dark {
     flex: unset;
@@ -322,7 +322,7 @@
   }
 
   /* ========================================================= */
-  /*             SEKUNDÄRER BUTTON (HELL/OUTLINED)             */
+  /*             SECONDARY BUTTON (HELL/OUTLINED)             */
   /* ========================================================= */
   .btn-light {
     flex: unset;
@@ -418,7 +418,7 @@
   }
 
   /* ========================================================= */
-  /*         ANPASSUNGEN FÜR DAS WELCOME OVERLAY AUF MOBILE    */
+  /*         ANPASSUNGEN FOR THE WELCOME OVERLAY AUF MOBILE    */
   /* ========================================================= */
   .welcome-overlay {
     position: absolute;

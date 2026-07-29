@@ -282,11 +282,11 @@
 /* ========================================================= */
 @media (max-width: 1300px) {
   .summary-section {
-    padding: 40px 40px; /* Mehr Platz für den Hauptbereich */
+    padding: 40px 40px; 
   }
 
   .summary-container {
-    gap: 30px; /* Reduzierter Abstand zwischen Grid und Grußwort */
+    gap: 30px; 
   }
 
   .card-large {
@@ -321,8 +321,6 @@
   }
 }
 
-/* Wir brechen das Layout etwas früher um (1180px statt 1000px),
-   damit die Elemente niemals zu sehr gequetscht werden. */
 @media (max-width: 1180px) {
   .summary-container {
     flex-direction: column-reverse;

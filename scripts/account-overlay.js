@@ -2,7 +2,7 @@
  * @fileoverview Logic for the account overlay UI.
  */
 /**
- * Schließt das User-Dropdown-Menü.
+ * Closes the user dropdown menu.
  */
 function closeUserDropdown() {
   const dropdown = document.getElementById("user-dropdown");
@@ -10,8 +10,8 @@ function closeUserDropdown() {
 }
 
 /**
- * Stellt sicher, dass das Account-Overlay-DOM existiert.
- * @returns {HTMLElement} Das Account-Overlay-Element.
+ * Ensures that the account overlay DOM exists.
+ * @returns {HTMLElement} The account overlay element.
  */
 function ensureAccountOverlayExists() {
   let overlay = document.getElementById("account-overlay");
@@ -23,7 +23,7 @@ function ensureAccountOverlayExists() {
 }
 
 /**
- * Öffnet das Account-Overlay und zeigt die Benutzerdaten an.
+ * Opens the account overlay and displays user data.
  */
 function openAccountOverlay() {
   closeUserDropdown();
@@ -37,7 +37,7 @@ function openAccountOverlay() {
 }
 
 /**
- * Schließt das Account-Overlay mit Slide-Out-Animation.
+ * Closes account overlay with slide-out animation.
  */
 function closeAccountOverlay() {
   const overlay = document.getElementById("account-overlay");
@@ -51,7 +51,7 @@ function closeAccountOverlay() {
 }
 
 /**
- * Erstellt das Account-Overlay-DOM und fügt es in den Body ein.
+ * Creates the account overlay DOM and inserts it into the body.
  */
 function createAccountOverlay() {
   const html = getAccountOverlayTemplate();
@@ -59,8 +59,8 @@ function createAccountOverlay() {
 }
 
 /**
- * Liest den aktuellen Benutzer aus der Session aus.
- * @returns {Object|null} Das Benutzer-Objekt oder null.
+ * Reads the current user from the session.
+ * @returns {Object|null} The user object or null.
  */
 function getAccountUserData() {
   if (typeof getCurrentUser === "function") return getCurrentUser();
@@ -68,7 +68,7 @@ function getAccountUserData() {
 }
 
 /**
- * Befüllt das Account-Overlay mit den aktuellen Benutzerdaten.
+ * Populates the account overlay with current user data.
  */
 function populateAccountData() {
   const currentUser = getAccountUserData();
@@ -81,8 +81,8 @@ function populateAccountData() {
 }
 
 /**
- * Aktualisiert die Initialen im Avatar-Kreis.
- * @param {string} name - Der Benutzername.
+ * Updated the initials in the avatar circle.
+ * @param {string} name - The username.
  */
 function updateAccountInitials(name) {
   const el = document.getElementById("account-initials");
@@ -94,9 +94,9 @@ function updateAccountInitials(name) {
 }
 
 /**
- * Setzt den Initialen-Text im Avatar-Element.
- * @param {HTMLElement} el - Das Avatar-Element.
- * @param {string} text - Der Initialen-Text.
+ * Sets the initials text in the avatar element.
+ * @param {HTMLElement} el - The avatar element.
+ * @param {string} text - The initials text.
  */
 function setAccountInitialsText(el, text) {
   let textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
@@ -108,8 +108,8 @@ function setAccountInitialsText(el, text) {
 }
 
 /**
- * Lädt und zeigt das Profilbild im Account-Overlay.
- * @param {Object} currentUser - Das aktuelle User-Objekt.
+ * Loads and displays profile picture in account overlay.
+ * @param {Object} currentUser - The current User object.
  */
 function loadAccountProfileImage(currentUser) {
   if (!currentUser || !currentUser.profileImage) return;
@@ -119,7 +119,7 @@ function loadAccountProfileImage(currentUser) {
 }
 
 /**
- * Setzt die Formularfelder auf readonly.
+ * Sets the form fields to readonly.
  */
 function setAccountFieldsReadonly() {
   document.getElementById("account-name").readOnly = true;
@@ -128,7 +128,7 @@ function setAccountFieldsReadonly() {
 }
 
 /**
- * Setzt die Formularfelder auf bearbeitbar.
+ * Sets the form fields to editable.
  */
 function setAccountFieldsEditable() {
   document.getElementById("account-name").readOnly = false;
@@ -137,7 +137,7 @@ function setAccountFieldsEditable() {
 }
 
 /**
- * Setzt das Account-Overlay in den Ansichtsmodus (readonly).
+ * Sets the account overlay to view mode (readonly).
  */
 function setAccountViewMode() {
   resetAccountViewUI();
@@ -147,7 +147,7 @@ function setAccountViewMode() {
 }
 
 /**
- * Setzt die UI-Elemente für den Ansichtsmodus zurück.
+ * Resets the UI elements for view mode.
  */
 function resetAccountViewUI() {
   document.getElementById("account-dialog-title").textContent = "My account";
@@ -157,7 +157,7 @@ function resetAccountViewUI() {
 }
 
 /**
- * Lädt die Profildaten des aktuellen Benutzers.
+ * Loads the current user's profile information.
  */
 function loadCurrentUserProfile() {
   const currentUser = getAccountUserData();
@@ -168,7 +168,7 @@ function loadCurrentUserProfile() {
 }
 
 /**
- * Konfiguriert den Button für den Ansichtsmodus.
+ * Configures the view mode button.
  */
 function setupEditAccountButton() {
   const actionBtn = document.getElementById("account-action-btn");
@@ -177,7 +177,7 @@ function setupEditAccountButton() {
 }
 
 /**
- * Wechselt das Account-Overlay in den Bearbeitungsmodus.
+ * Switches the account overlay to edit mode.
  */
 function toggleEditAccount() {
   document.getElementById("account-dialog-title").textContent = "Edit account";
@@ -191,7 +191,7 @@ function toggleEditAccount() {
 }
 
 /**
- * Speichert Account-Änderungen in Firebase und aktualisiert die Session.
+ * Saves account changes in Firebase and updates the session.
  */
 async function saveAccountChanges() {
   let currentUser = getAccountUserData();
@@ -201,9 +201,9 @@ async function saveAccountChanges() {
 }
 
 /**
- * Verarbeitet den Upload eines neuen Profilbilds.
- * @param {Object} currentUser - Das aktuelle User-Objekt.
- * @returns {Promise<Object>} Das aktualisierte User-Objekt.
+ * Processes the upload of a new profile picture.
+ * @param {Object} currentUser - The current User object.
+ * @returns {Promise<Object>} The updated User object.
  */
 async function handleProfileImageUpload(currentUser) {
   try {
@@ -219,8 +219,8 @@ async function handleProfileImageUpload(currentUser) {
 }
 
 /**
- * Speichert die Formulardaten und aktualisiert die UI.
- * @param {Object} currentUser - Das aktuelle User-Objekt.
+ * Saves the form data and updates the UI.
+ * @param {Object} currentUser - The current User object.
  */
 async function handleAccountDataSave(currentUser) {
   const data = getAccountInputData();
@@ -235,8 +235,8 @@ async function handleAccountDataSave(currentUser) {
 }
 
 /**
- * Liest die Eingabedaten aus dem Account-Overlay aus.
- * @returns {Object} Die Formulardaten als Objekt.
+ * Reads the input data from the account overlay.
+ * @returns {Object} The form data as an object.
  */
 function getAccountInputData() {
   return {
@@ -247,9 +247,9 @@ function getAccountInputData() {
 }
 
 /**
- * Aktualisiert das Benutzerdokument in Firebase.
- * @param {string} uid - Die User-ID.
- * @param {Object} data - Die zu speichernden Daten.
+ * Updates the user document in Firebase.
+ * @param {string} uid - The user ID.
+ * @param {Object} data - The data to store.
  */
 async function updateFirebaseAccount(uid, data) {
   const userRef = window.fbDoc(window.firebaseDb, "users", uid);
@@ -257,9 +257,9 @@ async function updateFirebaseAccount(uid, data) {
 }
 
 /**
- * Aktualisiert die lokalen Session-Daten.
- * @param {Object} user - Das User-Objekt.
- * @param {Object} data - Die neuen Daten.
+ * Updates local session data.
+ * @param {Object} user - The user object.
+ * @param {Object} data - The new data.
  */
 function updateLocalAccountSession(user, data) {
   user.name = data.name;
@@ -269,8 +269,8 @@ function updateLocalAccountSession(user, data) {
 }
 
 /**
- * Aktualisiert die UI nach dem Speichern der Account-Daten.
- * @param {Object} user - Das aktuelle User-Objekt.
+ * Updates UI after saving account details.
+ * @param {Object} user - The current User object.
  */
 function updateAccountUI(user) {
   if (typeof updateHeaderInitials === "function") updateHeaderInitials(user);
@@ -284,7 +284,7 @@ function updateAccountUI(user) {
 }
 
 /**
- * Zeigt das Overlay zur Bestätigung der Account-Löschung an.
+ * Displays the account deletion confirmation overlay.
  */
 function showDeleteConfirmOverlay() {
   const accountDialog = document.getElementById("account-dialog");
@@ -296,7 +296,7 @@ function showDeleteConfirmOverlay() {
 }
 
 /**
- * Schließt das Bestätigungs-Overlay und zeigt den Account-Dialog wieder.
+ * Closes the confirmation overlay and shows the account dialog again.
  */
 function closeDeleteConfirmOverlay() {
   const confirmDialog = document.getElementById("delete-confirm-dialog");
@@ -308,7 +308,7 @@ function closeDeleteConfirmOverlay() {
 }
 
 /**
- * Löscht den kompletten Account des Users und loggt ihn aus.
+ * Deletes the user's entire account and logs him out.
  */
 async function confirmDeleteAccount() {
   const currentUser = getAccountUserData();
@@ -319,9 +319,9 @@ async function confirmDeleteAccount() {
 }
 
 /**
- * Führt die Löschung der Daten und des Auth-Accounts aus.
- * @param {Object} currentUser - Das aktuelle User-Objekt.
- * @param {Object} firebaseUser - Der Firebase Auth User.
+ * Executes the deletion of the data and the auth account.
+ * @param {Object} currentUser - The current User object.
+ * @param {Object} firebaseUser - The Firebase Auth User.
  */
 async function deleteUserAndData(currentUser, firebaseUser) {
   try {
@@ -336,8 +336,8 @@ async function deleteUserAndData(currentUser, firebaseUser) {
 }
 
 /**
- * Behandelt Fehler beim Löschen des Accounts.
- * @param {Error} error - Das aufgetretene Fehler-Objekt.
+ * Handles account deletion errors.
+ * @param {Error} error - The error object that occurred.
  */
 async function handleDeleteError(error) {
   console.error("Fehler beim Löschen des Accounts:", error);

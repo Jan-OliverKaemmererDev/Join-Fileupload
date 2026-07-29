@@ -59,7 +59,7 @@
   border: 1px solid #d1d1d1;
   border-radius: 10px;
   padding: 13px 21px;
-  padding-right: 50px; /* Space for icon */
+  padding-right: 50px; 
   font-size: 20px;
   width: 100%;
   box-sizing: border-box;
@@ -73,7 +73,7 @@
   width: 24px;
   height: 24px;
   opacity: 0.5;
-  pointer-events: none; /* Ensure clicks go to input */
+  pointer-events: none; 
 }
 
 /* ========================================================= */
@@ -252,7 +252,6 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-/* Spezifisch für den Add-Contact Slogan */
 .dialog-subtitle-white {
   color: white;
   font-size: 20px;
@@ -275,7 +274,6 @@
   border: none;
 }
 
-/* Der graue Standard-Avatar für neue Kontakte */
 .contact-form-avatar-default {
   width: 120px;
   height: 120px;
@@ -290,10 +288,9 @@
 
 .contact-form-avatar-default img {
   width: 64px;
-  filter: brightness(0) invert(1); /* Macht das Icon weiß */
+  filter: brightness(0) invert(1); 
 }
 
-/* Button-Styling für "Cancel X" */
 .btn-cancel {
   display: flex;
   align-items: center;
@@ -346,8 +343,8 @@
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  max-width: 422px; /* Prevent expansion on desktop */
-  min-height: 80px; /* Reserved space for error message */
+  max-width: 422px; 
+  min-height: 80px; 
 }
 
 /* ========================================================= */

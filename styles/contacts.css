@@ -231,7 +231,7 @@ body {
   }
 }
 
-/* ---- 900px–1100px: Liste schmäler ---- */
+
 @media (min-width: 901px) and (max-width: 1100px) {
   .contacts-list-container {
     width: 320px;

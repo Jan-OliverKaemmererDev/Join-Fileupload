@@ -1,9 +1,9 @@
 /**
- * @fileoverview HTML template generating functions for legal and privacy pages.
+ * @fileoview HTML template generating functions for legal and privacy pages.
  */
 /**
- * Generiert das HTML-Template für die Sidebar im öffentlichen Modus (nicht eingeloggt)
- * @returns {string} Das HTML-Template für die öffentliche Sidebar
+ * Generates the HTML template for the sidebar in public mode (not logged in)
+ * @returns {string} The HTML template for the public sidebar
  */
 function getPublicSidebarTemplate() {
   const isPrivacyActive = window.location.pathname.includes("privacypolicy")
@@ -35,9 +35,9 @@ function getPublicSidebarTemplate() {
 }
 
 /**
- * Generiert das HTML-Template für den mobilen Zurück-Pfeil
- * @param {string} backHref - Das Ziel der Verlinkung
- * @returns {string} Das HTML-Template für den Zurück-Pfeil
+ * Generates the HTML template for the mobile back arrow
+ * @param {string} backHref - The target of the link
+ * @returns {string} The HTML template for the back arrow
  */
 function getMobileBackArrowTemplate(backHref) {
   return `

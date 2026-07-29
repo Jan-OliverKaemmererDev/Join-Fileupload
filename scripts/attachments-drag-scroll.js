@@ -2,8 +2,8 @@
  * @fileoverview Logic for drag-scrolling attachments.
  */
 /**
- * Initialisiert das Drag-Scrolling für einen Container.
- * @param {HTMLElement} container - Das scrollbare DOM-Element.
+ * Initializes drag scrolling for a container.
+ * @param {HTMLElement} container - The scrollable DOM element.
  */
 function initDragScroll(container) {
   if (!container || container.dataset.dragInitialized) return;
@@ -14,9 +14,9 @@ function initDragScroll(container) {
 }
 
 /**
- * Konfiguriert die Mouse-Events für das Drag-Scrolling.
- * @param {HTMLElement} container - Das DOM-Element.
- * @param {Object} state - Der Scroll-Status.
+ * Configures the mouse events for drag scrolling.
+ * @param {HTMLElement} container - The DOM element.
+ * @param {Object} state - The scroll state.
  */
 function setupDragScrollMouseEvents(container, state) {
   container.addEventListener("mousedown", (e) => startDragScroll(e, container, state));
@@ -26,10 +26,10 @@ function setupDragScrollMouseEvents(container, state) {
 }
 
 /**
- * Startet den Drag-Vorgang.
- * @param {MouseEvent} e - Das MouseEvent.
- * @param {HTMLElement} container - Das DOM-Element.
- * @param {Object} state - Der Scroll-Status.
+ * Starts the dragging process.
+ * @param {MouseEvent} e - The MouseEvent.
+ * @param {HTMLElement} container - The DOM element.
+ * @param {Object} state - The scroll state.
  */
 function startDragScroll(e, container, state) {
   state.isDragging = true;
@@ -39,9 +39,9 @@ function startDragScroll(e, container, state) {
 }
 
 /**
- * Beendet den Drag-Vorgang.
- * @param {HTMLElement} container - Das DOM-Element.
- * @param {Object} state - Der Scroll-Status.
+ * Ends the dragging process.
+ * @param {HTMLElement} container - The DOM element.
+ * @param {Object} state - The scroll state.
  */
 function stopDragScroll(container, state) {
   state.isDragging = false;
@@ -49,10 +49,10 @@ function stopDragScroll(container, state) {
 }
 
 /**
- * Führt das Scrolling basierend auf der Mausbewegung aus.
- * @param {MouseEvent} e - Das MouseEvent.
- * @param {HTMLElement} container - Das DOM-Element.
- * @param {Object} state - Der Scroll-Status.
+ * Performs scrolling based on mouse movement.
+ * @param {MouseEvent} e - The MouseEvent.
+ * @param {HTMLElement} container - The DOM element.
+ * @param {Object} state - The scroll state.
  */
 function handleDragScroll(e, container, state) {
   if (!state.isDragging) return;
@@ -62,8 +62,8 @@ function handleDragScroll(e, container, state) {
 }
 
 /**
- * Aktualisiert die Scroll-Klasse abhängig von der Breite.
- * @param {HTMLElement} container - Das DOM-Element.
+ * Updates scroll class depending on width.
+ * @param {HTMLElement} container - The DOM element.
  */
 function updateDragScrollClass(container) {
   if (container.scrollWidth > container.clientWidth) {
@@ -74,8 +74,8 @@ function updateDragScrollClass(container) {
 }
 
 /**
- * Überwacht DOM- und Fenster-Änderungen für die Scroll-Klasse.
- * @param {HTMLElement} container - Das DOM-Element.
+ * Monitors DOM and window changes for the Scroll class.
+ * @param {HTMLElement} container - The DOM element.
  */
 function setupDragScrollObserver(container) {
   const check = () => updateDragScrollClass(container);

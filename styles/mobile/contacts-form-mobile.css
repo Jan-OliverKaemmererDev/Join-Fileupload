@@ -393,7 +393,7 @@
   .input-group {
     position: relative;
     width: 100%;
-    min-height: 80px; /* Reserved space for error message */
+    min-height: 80px; 
     display: flex;
     flex-direction: column;
   }
@@ -406,7 +406,7 @@
   .input-group input {
     width: 100%;
     padding: 12px 21px;
-    padding-right: 40px; /* Space for icon */
+    padding-right: 40px; 
     border-radius: 10px;
     border: 1px solid #d1d1d1;
     font-size: 20px;

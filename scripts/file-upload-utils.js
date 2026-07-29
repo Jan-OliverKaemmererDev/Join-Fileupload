@@ -1,25 +1,29 @@
 /**
- * @fileoverview Utility functions for handling file uploads.
+ * @fileoview Utility functions for handling file uploads.
  */
-/** Erlaubte MIME-Types für Bilddateien */
+/**
+ Allowed MIME types for image files
+ */
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png"];
 
-/** Maximale Dateigröße in Bytes (2 MB) */
+/**
+ Maximum file size in bytes (2 MB)
+ */
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
 /**
- * Prüft, ob die ausgewählte Datei ein gültiges Bild ist.
- * @param {File} file - Die zu prüfende Datei.
- * @returns {boolean} True, wenn es ein gültiges Bildformat ist.
+ * Checks whether the selected file is a valid image.
+ * @param {File} file - The file to check.
+ * @returns {boolean} True if it is a valid image format.
  */
 function isValidImageFile(file) {
   return ALLOWED_IMAGE_TYPES.includes(file.type);
 }
 
 /**
- * Validiert die Magic Bytes einer Datei asynchron.
- * @param {File} file - Die zu prüfende Datei.
- * @returns {Promise<boolean>} True, wenn Magic Bytes einem Bildformat entsprechen.
+ * Validates a file's magic bytes asynchronously.
+ * @param {File} file - The file to check.
+ * @returns {Promise<boolean>} True if magic bytes match an image format.
  */
 async function validateImageMagicBytes(file) {
   const buffer = await file.slice(0, 4).arrayBuffer();
@@ -30,12 +34,12 @@ async function validateImageMagicBytes(file) {
 }
 
 /**
- * Berechnet die neuen Dimensionen unter Beibehaltung des Seitenverhältnisses.
- * @param {number} origWidth - Originalbreite.
- * @param {number} origHeight - Originalhöhe.
- * @param {number} maxWidth - Maximale Breite.
- * @param {number} maxHeight - Maximale Höhe.
- * @returns {{width: number, height: number}} Die berechneten Dimensionen.
+ * Calculates the new dimensions while maintaining the aspect ratio.
+ * @param {number} origWidth - original width.
+ * @param {number} origHeight - Original height.
+ * @param {number} maxWidth - Maximum width.
+ * @param {number} maxHeight - Maximum height.
+ * @returns {{width: number, height: number}} The calculated dimensions.
  */
 function calculateDimensions(origWidth, origHeight, maxWidth, maxHeight) {
   let width = origWidth;
@@ -52,12 +56,12 @@ function calculateDimensions(origWidth, origHeight, maxWidth, maxHeight) {
 }
 
 /**
- * Komprimiert ein Bild auf die angegebene Maximalgröße.
- * @param {File} file - Die Bilddatei.
- * @param {number} maxWidth - Maximale Breite.
- * @param {number} maxHeight - Maximale Höhe.
- * @param {number} quality - JPEG-Qualität (0-1).
- * @returns {Promise<Blob>} Der komprimierte Bild-Blob.
+ * Compresses an image to the specified maximum size.
+ * @param {File} file - The image file.
+ * @param {number} maxWidth - Maximum width.
+ * @param {number} maxHeight - Maximum height.
+ * @param {number} quality - JPEG quality (0-1).
+ * @returns {Promise<Blob>} The compressed image blob.
  */
 function compressImage(file, maxWidth, maxHeight, quality) {
   return new Promise((resolve, reject) => {
@@ -70,12 +74,12 @@ function compressImage(file, maxWidth, maxHeight, quality) {
 }
 
 /**
- * Führt die eigentliche Bild-Komprimierung durch.
- * @param {HTMLImageElement} img - Das geladene Bild.
- * @param {number} maxWidth - Maximale Breite.
- * @param {number} maxHeight - Maximale Höhe.
- * @param {number} quality - JPEG-Qualität.
- * @param {string} fileType - Der MIME-Type des Bildes.
+ * Performs the actual image compression.
+ * @param {HTMLImageElement} img - The loaded image.
+ * @param {number} maxWidth - Maximum width.
+ * @param {number} maxHeight - Maximum height.
+ * @param {number} quality - JPEG quality.
+ * @param {string} fileType - The MIME type of the image.
  * @param {Function} resolve - Promise Resolve.
  * @param {Function} reject - Promise Reject.
  */
@@ -97,12 +101,12 @@ function handleImageCompression(img, maxWidth, maxHeight, quality, fileType, res
 }
 
 /**
- * Zeichnet das Bild auf das Canvas zur Komprimierung.
- * @param {HTMLImageElement} img - Das geladene Bild.
- * @param {HTMLCanvasElement} canvas - Das Canvas-Element.
- * @param {CanvasRenderingContext2D} ctx - Der Canvas-Kontext.
- * @param {number} maxWidth - Maximale Breite.
- * @param {number} maxHeight - Maximale Höhe.
+ * Draws the image onto the canvas for compression.
+ * @param {HTMLImageElement} img - The loaded image.
+ * @param {HTMLCanvasElement} canvas - The canvas element.
+ * @param {CanvasRenderingContext2D} ctx - The canvas context.
+ * @param {number} maxWidth - Maximum width.
+ * @param {number} maxHeight - Maximum height.
  */
 function drawCompressionCanvas(img, canvas, ctx, maxWidth, maxHeight) {
   const dims = calculateDimensions(img.width, img.height, maxWidth, maxHeight);
@@ -112,12 +116,12 @@ function drawCompressionCanvas(img, canvas, ctx, maxWidth, maxHeight) {
 }
 
 /**
- * Komprimiert einen Blob auf die angegebene Maximalgröße.
- * @param {Blob} blob - Der zu komprimierende Blob.
- * @param {number} maxWidth - Maximale Breite.
- * @param {number} maxHeight - Maximale Höhe.
- * @param {number} quality - JPEG-Qualität (0-1).
- * @returns {Promise<Blob>} Der komprimierte Bild-Blob.
+ * Compresses a blob to the specified maximum size.
+ * @param {Blob} blob - The blob to compress.
+ * @param {number} maxWidth - Maximum width.
+ * @param {number} maxHeight - Maximum height.
+ * @param {number} quality - JPEG quality (0-1).
+ * @returns {Promise<Blob>} The compressed image blob.
  */
 function compressBlob(blob, maxWidth, maxHeight, quality) {
   return new Promise((resolve, reject) => {
@@ -130,12 +134,12 @@ function compressBlob(blob, maxWidth, maxHeight, quality) {
 }
 
 /**
- * Führt die Blob-Komprimierung durch.
- * @param {HTMLImageElement} img - Das geladene Bild.
- * @param {number} maxWidth - Maximale Breite.
- * @param {number} maxHeight - Maximale Höhe.
- * @param {number} quality - JPEG-Qualität.
- * @param {string} fileType - Der MIME-Type des Bildes.
+ * Performs blob compression.
+ * @param {HTMLImageElement} img - The loaded image.
+ * @param {number} maxWidth - Maximum width.
+ * @param {number} maxHeight - Maximum height.
+ * @param {number} quality - JPEG quality.
+ * @param {string} fileType - The MIME type of the image.
  * @param {Function} resolve - Promise Resolve.
  * @param {Function} reject - Promise Reject.
  */
@@ -157,9 +161,9 @@ function handleBlobCompression(img, maxWidth, maxHeight, quality, fileType, reso
 }
 
 /**
- * Konvertiert einen Blob in einen Base64-String.
- * @param {Blob} blob - Der zu konvertierende Blob.
- * @returns {Promise<string>} Der Base64-String (inkl. Data-URL-Prefix).
+ * Converts a blob to a Base64 string.
+ * @param {Blob} blob - The blob to convert.
+ * @returns {Promise<string>} The base64 string (including data URL prefix).
  */
 function blobToBase64(blob) {
   return new Promise((resolve, reject) => {
@@ -171,21 +175,21 @@ function blobToBase64(blob) {
 }
 
 /**
- * Baut das JSON-Objekt für das Profilbild.
- * @param {string} filename - Der originale Dateiname.
- * @param {string} fileType - Der MIME-Type.
- * @param {string} base64 - Der Base64-String.
- * @param {number} [size] - Die Dateigröße.
- * @returns {Object} Das Profilbild-Datenobjekt.
+ * Builds the JSON object for the profile picture.
+ * @param {string} filename - The original filename.
+ * @param {string} fileType - The MIME type.
+ * @param {string} base64 - The base64 string.
+ * @param {number} [size] - The file size.
+ * @returns {Object} The profile picture data object.
  */
 function buildProfileImageData(filename, fileType, base64, size) {
   return { filename, fileType, base64, ...(size !== undefined && { size }) };
 }
 
 /**
- * Speichert das Profilbild in Firebase Firestore.
- * @param {Object} profileImage - Das große Profilbild-Objekt.
- * @param {Object} profileImageSmall - Das kleine Profilbild-Objekt.
+ * Saves profile picture in Firebase Firestore.
+ * @param {Object} profileImage - The large profile image object.
+ * @param {Object} profileImageSmall - The small profile image object.
  */
 async function saveProfileImageToFirebase(profileImage, profileImageSmall) {
   const currentUser = getCurrentUser();
@@ -196,10 +200,10 @@ async function saveProfileImageToFirebase(profileImage, profileImageSmall) {
 }
 
 /**
- * Aktualisiert die Session-Daten mit dem neuen Profilbild.
- * @param {Object} currentUser - Das aktuelle User-Objekt.
- * @param {Object} profileImage - Das große Profilbild-Objekt.
- * @param {Object} profileImageSmall - Das kleine Profilbild-Objekt.
+ * Updates session data with the new profile picture.
+ * @param {Object} currentUser - The current User object.
+ * @param {Object} profileImage - The large profile image object.
+ * @param {Object} profileImageSmall - The small profile image object.
  */
 function updateSessionProfileImage(currentUser, profileImage, profileImageSmall) {
   currentUser.profileImage = profileImage;
@@ -208,9 +212,9 @@ function updateSessionProfileImage(currentUser, profileImage, profileImageSmall)
 }
 
 /**
- * Aktualisiert alle UI-Elemente mit dem neuen Profilbild.
- * @param {string} largeBase64 - Base64 des großen Bildes.
- * @param {string} smallBase64 - Base64 des kleinen Bildes.
+ * Updates all UI elements with the new profile picture.
+ * @param {string} largeBase64 - Base64 of the large image.
+ * @param {string} smallBase64 - Base64 of the small image.
  */
 function updateProfileImageUI(largeBase64, smallBase64) {
   showAccountProfileImage(largeBase64);
@@ -218,8 +222,8 @@ function updateProfileImageUI(largeBase64, smallBase64) {
 }
 
 /**
- * Zeigt das Profilbild im Account-Overlay-Avatar.
- * @param {string} base64 - Base64 des Bildes.
+ * Shows profile picture in account overlay avatar.
+ * @param {string} base64 - Base64 of the image.
  */
 function showAccountProfileImage(base64) {
   const avatar = document.getElementById("account-initials");
@@ -231,9 +235,9 @@ function showAccountProfileImage(base64) {
 }
 
 /**
- * Stellt sicher, dass ein Image-Element im Account-Avatar existiert.
- * @param {HTMLElement} avatar - Der Avatar-Container.
- * @returns {HTMLImageElement} Das Image-Element.
+ * Ensures that an image element exists in the account avatar.
+ * @param {HTMLElement} avatar - The avatar container.
+ * @returns {HTMLImageElement} The Image element.
  */
 function ensureAccountImageElement(avatar) {
   let img = document.getElementById("account-profile-img");
@@ -248,8 +252,8 @@ function ensureAccountImageElement(avatar) {
 }
 
 /**
- * Versteckt den Initialen-Text im Account-Avatar.
- * @param {HTMLElement} avatar - Das Avatar-Element.
+ * Hides the initials text in the account avatar.
+ * @param {HTMLElement} avatar - The avatar element.
  */
 function hideAccountInitialsText(avatar) {
   const textNodes = avatar.childNodes;
@@ -261,8 +265,8 @@ function hideAccountInitialsText(avatar) {
 }
 
 /**
- * Zeigt das kleine Profilbild im Header.
- * @param {string} base64 - Base64 des kleinen Bildes.
+ * Shows the small profile picture in the header.
+ * @param {string} base64 - Base64 of the small image.
  */
 function showHeaderProfileImage(base64) {
   const initialsEl = document.getElementById("user-initials");
@@ -275,9 +279,9 @@ function showHeaderProfileImage(base64) {
 }
 
 /**
- * Stellt sicher, dass das Header-Bild-Element existiert.
- * @param {HTMLElement} initialsEl - Das Header-Initialen-Element.
- * @returns {HTMLImageElement} Das Image-Element.
+ * Ensures that the header image element exists.
+ * @param {HTMLElement} initialsEl - The header initials element.
+ * @returns {HTMLImageElement} The Image element.
  */
 function ensureHeaderImageElement(initialsEl) {
   let img = initialsEl.querySelector(".header-profile-img");
@@ -291,8 +295,8 @@ function ensureHeaderImageElement(initialsEl) {
 }
 
 /**
- * Löscht den Text aus dem Header-Avatar.
- * @param {HTMLElement} initialsEl - Das Header-Initialen-Element.
+ * Deletes the text from the header avatar.
+ * @param {HTMLElement} initialsEl - The header initials element.
  */
 function clearHeaderTextNodes(initialsEl) {
   const textNodes = initialsEl.childNodes;
@@ -304,7 +308,7 @@ function clearHeaderTextNodes(initialsEl) {
 }
 
 /**
- * Zeigt eine Fehlermeldung für ein ungültiges Dateiformat an.
+ * Displays an error message for an invalid file format.
  */
 function showFileFormatError() {
   const errorMsg = ensureErrorMsgElement();
@@ -312,8 +316,8 @@ function showFileFormatError() {
 }
 
 /**
- * Stellt sicher, dass das Fehler-Element existiert.
- * @returns {HTMLElement} Das Fehlermeldungs-Element.
+ * Ensures that the error element exists.
+ * @returns {HTMLElement} The error message element.
  */
 function ensureErrorMsgElement() {
   let errorMsg = document.getElementById("file-format-error");
@@ -328,8 +332,8 @@ function ensureErrorMsgElement() {
 }
 
 /**
- * Löst die Animation für die Fehlermeldung aus.
- * @param {HTMLElement} errorMsg - Das Fehlermeldungs-Element.
+ * Triggers the animation for the error message.
+ * @param {HTMLElement} errorMsg - The error message element.
  */
 function triggerErrorMsgAnimation(errorMsg) {
   errorMsg.classList.remove("show");
@@ -342,7 +346,7 @@ function triggerErrorMsgAnimation(errorMsg) {
 }
 
 /**
- * Zeigt eine Fehlermeldung für eine zu große Datei an.
+ * Displays an error message for a file that is too large.
  */
 function showFileSizeError() {
   const errorMsg = ensureSizeErrorMsgElement();
@@ -350,8 +354,8 @@ function showFileSizeError() {
 }
 
 /**
- * Stellt sicher, dass das Fehler-Element für die Dateigröße existiert.
- * @returns {HTMLElement} Das Fehlermeldungs-Element.
+ * Ensures that the file size error element exists.
+ * @returns {HTMLElement} The error message element.
  */
 function ensureSizeErrorMsgElement() {
   let errorMsg = document.getElementById("file-size-error");

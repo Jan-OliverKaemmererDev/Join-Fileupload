@@ -1,12 +1,12 @@
 /**
- * @fileoverview User interactions logic for the board view.
+ * @fileoview User interactions logic for the board view.
  */
 let currentEditTaskOriginalState = null;
 
 /**
- * Kompensiert die Scrollbar-Breite beim Sperren/Entsperren des Scrollens.
- * Verhindert, dass das Layout springt, wenn der Scrollbalken ein-/ausgeblendet wird.
- * @param {boolean} lock - true zum Sperren, false zum Entsperren
+ * Compensates for scrollbar width when locking/unlocking scrolling.
+ * Prevents layout from jumping when scroll bar is shown/hidden.
+ * @param {boolean} lock - true to lock, false to unlock
  */
 function toggleScrollLock(lock) {
   const mainContent = document.querySelector(".main-content");
@@ -29,7 +29,7 @@ function toggleScrollLock(lock) {
 }
 
 /**
- * Öffnet das Add-Task-Overlay. Auf mobilen Geräten (≤780px) erfolgt eine Weiterleitung zu addtask.html, auf Desktop wird das Overlay eingeblendet.
+ * Opens the Add task overlay. On mobile devices (≤780px) you are redirected to addtask.html; on desktop the overlay is displayed.
  */
 function openAddTaskOverlay() {
   if (window.innerWidth <= 780) {
@@ -47,7 +47,7 @@ function openAddTaskOverlay() {
 }
 
 /**
- * Schließt das Add-Task-Overlay
+ * Closes the add task overlay
  */
 function closeAddTaskOverlay() {
   document.getElementById("add-task-overlay").classList.remove("active");
@@ -56,8 +56,8 @@ function closeAddTaskOverlay() {
 }
 
 /**
- * Öffnet die Task-Detailansicht
- * @param {number} taskId - Die ID des Tasks
+ * Opens the task detail view
+ * @param {number} taskId - The ID of the task
  */
 function openTaskDetails(taskId) {
   if (isDragging) return;
@@ -75,9 +75,9 @@ function openTaskDetails(taskId) {
 }
 
 /**
- * Baut das vollständige HTML für die Task-Detailansicht
- * @param {Object} task - Das Task-Objekt
- * @returns {string} Das HTML für die Detailansicht
+ * Builds the full HTML for the task detail view
+ * @param {Object} task - The task object
+ * @returns {string} The HTML for the detailed view
  */
 function buildTaskDetailsHtml(task) {
   return getTaskDetailsTemplate(
@@ -92,16 +92,16 @@ function buildTaskDetailsHtml(task) {
 }
 
 /**
- * Schließt die Task-Detailansicht
+ * Closes the task detail view
  */
 function closeTaskDetails() {
   document.getElementById("task-details-overlay").classList.remove("active");
 }
 
 /**
- * Schaltet die Checkbox-Klasse eines Subtask-Elements im DOM um
- * @param {NodeList} subtaskItems - Die Subtask-Elemente im Detail-View
- * @param {number} subtaskIndex - Der Index des Subtasks
+ * Toggles the checkbox class of a subtask element in the DOM
+ * @param {NodeList} subtaskItems - The subtask items in the detail view
+ * @param {number} subtaskIndex - The index of the subtask
  */
 function toggleSubtaskCheckboxInDom(subtaskItems, subtaskIndex) {
   if (subtaskItems[subtaskIndex]) {
@@ -114,9 +114,9 @@ function toggleSubtaskCheckboxInDom(subtaskItems, subtaskIndex) {
 }
 
 /**
- * Invertiert den completed-Status eines Subtasks im Task-Objekt
- * @param {Object} task - Das Task-Objekt
- * @param {number} subtaskIndex - Der Index des Subtasks
+ * Inverts the completed status of a subtask in the task object
+ * @param {Object} task - The task object
+ * @param {number} subtaskIndex - The index of the subtask
  */
 function updateSubtaskCompletedState(task, subtaskIndex) {
   task.subtasks[subtaskIndex].completed =
@@ -124,9 +124,9 @@ function updateSubtaskCompletedState(task, subtaskIndex) {
 }
 
 /**
- * Schaltet den Status eines Subtasks um. Verwendet Optimistisches Update: Checkbox und Fortschrittsbalken werden sofort aktualisiert, Speichern erfolgt im Hintergrund.
- * @param {number} taskId - Die ID des Tasks
- * @param {number} subtaskIndex - Der Index des Subtasks
+ * Toggles the status of a subtask. Uses Optimistic Update: Checkbox and progress bar are updated immediately, saving takes place in the background.
+ * @param {number} taskId - The ID of the task
+ * @param {number} subtaskIndex - The index of the subtask
  */
 async function toggleSubtask(taskId, subtaskIndex) {
   const task = findTask(taskId);
@@ -139,9 +139,9 @@ async function toggleSubtask(taskId, subtaskIndex) {
 }
 
 /**
- * Berechnet die Fortschrittsdaten für die Subtasks eines Tasks
- * @param {Array} subtasks - Die Subtask-Liste des Tasks
- * @returns {Object} Objekt mit completed, total und percent
+ * Calculates the progress data for the subtasks of a task
+ * @param {Array} subtasks - The task's subtask list
+ * @returns {Object} Object with completed, total and percent
  */
 function getSubtaskProgressData(subtasks) {
   const completed = countCompletedSubtasks(subtasks);
@@ -151,27 +151,27 @@ function getSubtaskProgressData(subtasks) {
 }
 
 /**
- * Setzt die Breite des Fortschrittsbalkens
- * @param {HTMLElement} progressBar - Das Fortschrittsbalken-Element
- * @param {number} percent - Der Prozentwert (0-100)
+ * Sets the width of the progress bar
+ * @param {HTMLElement} progressBar - The progress bar element
+ * @param {number} percent - The percentage value (0-100)
  */
 function applyProgressBarWidth(progressBar, percent) {
   if (progressBar) progressBar.style.width = `${percent}%`;
 }
 
 /**
- * Setzt den Fortschrittstext einer Task-Karte
- * @param {HTMLElement} progressText - Das Text-Element
- * @param {number} completed - Anzahl erledigter Subtasks
- * @param {number} total - Gesamtzahl der Subtasks
+ * Sets the progress text of a task card
+ * @param {HTMLElement} progressText - The text element
+ * @param {number} completed - Number of subtasks completed
+ * @param {number} total - Total number of subtasks
  */
 function applyProgressText(progressText, completed, total) {
   if (progressText) progressText.innerText = `${completed}/${total} Subtasks`;
 }
 
 /**
- * Aktualisiert den Fortschrittsbalken einer Task-Karte auf dem Board
- * @param {Object} task - Das Task-Objekt
+ * Updates the progress bar of a task card on the board
+ * @param {Object} task - The task object
  */
 function updateTaskCardProgress(task) {
   const card = document.querySelector(`.task-card[data-task-id="${task.id}"]`);
@@ -189,9 +189,9 @@ function updateTaskCardProgress(task) {
 }
 
 /**
- * Löscht einen Task aus Firestore
- * @param {number} taskId - Die ID des zu löschenden Tasks
- * @param {string} userId - Die ID des Benutzers
+ * Deletes a task from Firestore
+ * @param {number} taskId - The ID of the task to delete
+ * @param {string} userId - The user's ID
  */
 async function deleteTaskFromFirestore(taskId, userId) {
   const taskRef = window.fbDoc(
@@ -205,8 +205,8 @@ async function deleteTaskFromFirestore(taskId, userId) {
 }
 
 /**
- * Entfernt einen Task aus dem lokalen Array, rendert das Board und schließt die Detailansicht
- * @param {number} taskId - Die ID des Tasks
+ * Removes a task from the local array, renders the board and closes the details view
+ * @param {number} taskId - The ID of the task
  */
 function removeTaskFromBoard(taskId) {
   tasks = filterOutTask(taskId);
@@ -215,8 +215,8 @@ function removeTaskFromBoard(taskId) {
 }
 
 /**
- * Löscht einen Task
- * @param {number} taskId - Die ID des zu löschenden Tasks
+ * Deletes a task
+ * @param {number} taskId - The ID of the task to delete
  */
 async function deleteTask(taskId) {
   const currentUser = getCurrentUser();
@@ -230,9 +230,9 @@ async function deleteTask(taskId) {
 }
 
 /**
- * Filtert einen Task aus dem Tasks-Array
- * @param {number} taskId - Die ID des zu entfernenden Tasks
- * @returns {Array} Das gefilterte Tasks-Array
+ * Filters a task from the tasks array
+ * @param {number} taskId - The ID of the task to remove
+ * @returns {Array} The filtered tasks array
  */
 function filterOutTask(taskId) {
   const filtered = [];
@@ -245,7 +245,7 @@ function filterOutTask(taskId) {
 }
 
 /**
- * Durchsucht Tasks anhand einer Suchanfrage
+ * Searches tasks based on a search query
  */
 function searchTasks() {
   const query = document.getElementById("search-input").value.toLowerCase();
@@ -257,9 +257,9 @@ function searchTasks() {
 }
 
 /**
- * Filtert eine Task-Karte basierend auf der Suchanfrage
- * @param {HTMLElement} card - Das Task-Karten-Element
- * @param {string} query - Die Suchanfrage
+ * Filters a task card based on the search query
+ * @param {HTMLElement} card - The task card element
+ * @param {string} query - The search query
  */
 function filterCard(card, query) {
   const title = card.querySelector(".task-title").innerText.toLowerCase();
@@ -272,9 +272,9 @@ function filterCard(card, query) {
 }
 
 /**
- * Öffnet das Bearbeitungs-Overlay für einen Task auf dem Desktop
- * @param {Object} task - Das Task-Objekt
- * @param {number} taskId - Die ID des Tasks
+ * Opens the editing overlay for a task on the desktop
+ * @param {Object} task - The task object
+ * @param {number} taskId - The ID of the task
  */
 async function openEditOverlay(task, taskId) {
   closeTaskDetails();
@@ -284,8 +284,8 @@ async function openEditOverlay(task, taskId) {
 }
 
 /**
- * Öffnet den Bearbeitungsmodus für einen Task
- * @param {number} taskId - Die ID des Tasks
+ * Opens editing mode for a task
+ * @param {number} taskId - The ID of the task
  */
 async function editTask(taskId) {
   if (window.innerWidth <= 780) {
@@ -298,8 +298,8 @@ async function editTask(taskId) {
 }
 
 /**
- * Füllt das Formular mit den Daten eines Tasks
- * @param {Object} task - Das Task-Objekt
+ * Fills the form with the data of a task
+ * @param {Object} task - The task object
  */
 async function fillFormWithTaskData(task) {
   currentEditTaskOriginalState = JSON.stringify({
@@ -337,8 +337,8 @@ async function fillFormWithTaskData(task) {
 }
 
 /**
- * Überprüft, ob das Formular seit dem Laden des Tasks geändert wurde.
- * @returns {boolean} True, wenn Änderungen vorgenommen wurden.
+ * Checks whether the form has changed since the task was loaded.
+ * @returns {boolean} True if changes were made.
  */
 function isTaskDirty() {
   if (!currentEditTaskOriginalState) return true;
@@ -362,8 +362,8 @@ function isTaskDirty() {
 }
 
 /**
- * Lädt die zugewiesenen Kontakte in den Formularzustand
- * @param {Object} task - Das Task-Objekt
+ * Loads the assigned contacts into the form state
+ * @param {Object} task - The task object
  */
 function loadAssigneesForEdit(task) {
   selectedContacts = [];
@@ -377,7 +377,7 @@ function loadAssigneesForEdit(task) {
 }
 
 /**
- * Sucht einen Kontakt und fügt ihn zu den selektierten Kontakten hinzu
+ * Searches for a contact and adds it to the selected contacts
  */
 function findAndAddContactForEdit(contactId) {
   const contact = allContacts.find(function (c) {
@@ -389,7 +389,7 @@ function findAndAddContactForEdit(contactId) {
 }
 
 /**
- * Setzt den Formulartitel auf "Edit Task"
+ * Sets the form title to "Edit Task"
  */
 function setBoardEditTitle() {
   const title = document.querySelector(".add-task-title");
@@ -397,7 +397,7 @@ function setBoardEditTitle() {
 }
 
 /**
- * Aktualisiert den Submit-Button auf "Save Changes"
+ * Updates the submit button to "Save Changes"
  */
 function setBoardEditButton() {
   const submitBtn = document.getElementById("create-task-btn");
@@ -405,8 +405,8 @@ function setBoardEditButton() {
 }
 
 /**
- * Setzt den Submit-Handler des Formulars für den Board-Bearbeitungsmodus
- * @param {number} taskId - Die ID des Tasks
+ * Sets the form's submit handler for board edit mode
+ * @param {number} taskId - The ID of the task
  */
 function setBoardEditSubmitHandler(taskId) {
   const form = document.getElementById("add-task-form");
@@ -417,8 +417,8 @@ function setBoardEditSubmitHandler(taskId) {
 }
 
 /**
- * Konfiguriert das Formular für die Bearbeitung
- * @param {number} taskId - Die ID des zu bearbeitenden Tasks
+ * Configures the form for editing
+ * @param {number} taskId - The ID of the task to process
  */
 function setupFormForEdit(taskId) {
   setBoardEditTitle();
@@ -427,8 +427,8 @@ function setupFormForEdit(taskId) {
 }
 
 /**
- * Überträgt die Formulardaten in das Task-Objekt
- * @param {Object} task - Das zu aktualisierende Task-Objekt
+ * Transfers the form data to the task object
+ * @param {Object} task - The task object to update
  */
 async function applyFormDataToTask(task) {
   task.title = document.getElementById("title").value.trim();
@@ -447,7 +447,7 @@ async function applyFormDataToTask(task) {
 }
 
 /**
- * Schließt das Overlay, setzt das Formular zurück und zeigt eine Erfolgsmeldung
+ * Closes the overlay, resets the form and shows a success message
  */
 function finalizeTaskUpdate() {
   renderTasks();
@@ -457,8 +457,8 @@ function finalizeTaskUpdate() {
 }
 
 /**
- * Aktualisiert einen vorhandenen Task
- * @param {number} taskId - Die ID des zu aktualisierenden Tasks
+ * Updates an existing task
+ * @param {number} taskId - The ID of the task to update
  */
 async function updateTask(taskId) {
   const taskIndex = findTaskById(taskId);
@@ -469,7 +469,7 @@ async function updateTask(taskId) {
 }
 
 /**
- * Setzt den Formulartitel auf "Add Task"
+ * Sets the form title to "Add Task"
  */
 function setAddFormTitle() {
   const title = document.querySelector(".add-task-title");
@@ -477,7 +477,7 @@ function setAddFormTitle() {
 }
 
 /**
- * Setzt den Submit-Button zurück auf "Create Task"
+ * Resets the submit button to "Create Task"
  */
 function setAddFormButton() {
   const submitBtn = document.getElementById("create-task-btn");
@@ -485,7 +485,7 @@ function setAddFormButton() {
 }
 
 /**
- * Setzt den Submit-Handler des Formulars auf den Standard-Add-Handler
+ * Sets the form's submit handler to the default add handler
  */
 function setAddFormSubmitHandler() {
   const form = document.getElementById("add-task-form");
@@ -493,7 +493,7 @@ function setAddFormSubmitHandler() {
 }
 
 /**
- * Setzt das Formular zurück in den Add-Modus
+ * Sets the form back to add mode
  */
 function resetFormToAddMode() {
   setAddFormTitle();

@@ -2,7 +2,7 @@
  * @fileoverview Subtask management for the mobile board edit overlay.
  */
 /**
- * Zeigt die Subtask-Icons im mobilen Edit an.
+ * Shows the subtask icons in mobile edit.
  */
 function showMobileEditSubtaskIcons() {
   const icons = document.getElementById("mobile-edit-subtask-icons-active");
@@ -10,7 +10,7 @@ function showMobileEditSubtaskIcons() {
 }
 
 /**
- * Leert das Subtask-Eingabefeld im mobilen Edit und setzt den Fokus.
+ * Empties the subtask input field in mobile edit and sets the focus.
  */
 function clearMobileEditSubtaskInput() {
   const input = document.getElementById("mobile-edit-subtask-input");
@@ -21,8 +21,8 @@ function clearMobileEditSubtaskInput() {
 }
 
 /**
- * Fügt einen neuen Subtask im mobilen Edit hinzu.
- * Liest den Text aus dem Eingabefeld, erstellt ein neues Subtask-Objekt und rendert die Liste.
+ * Adds a new subtask in mobile edit.
+ * Reads the text from the input field, creates a new Subtask object and renders the list.
  */
 function addMobileEditSubtask() {
   const input = document.getElementById("mobile-edit-subtask-input");
@@ -40,9 +40,9 @@ function addMobileEditSubtask() {
 }
 
 /**
- * Behandelt Tasteneingaben im Subtask-Eingabefeld.
- * Enter fügt einen Subtask hinzu, Escape leert das Feld.
- * @param {KeyboardEvent} event - Das Keyboard-Event
+ * Handles keystrokes in the subtask input field.
+ * Enter adds a subtask, Escape clears the field.
+ * @param {KeyboardEvent} event - The keyboard event
  */
 function handleMobileEditSubtaskKeydown(event) {
   if (event.key === "Enter") {
@@ -55,8 +55,8 @@ function handleMobileEditSubtaskKeydown(event) {
 }
 
 /**
- * Wechselt einen Subtask im mobilen Edit in den Bearbeitungsmodus.
- * @param {number} id - Die ID des Subtasks
+ * Switches a subtask in mobile edit to edit mode.
+ * @param {number} id - The ID of the subtask
  */
 function editMobileEditSubtask(id) {
   const subtask = findMobileSubtaskById(id);
@@ -69,8 +69,8 @@ function editMobileEditSubtask(id) {
 }
 
 /**
- * Setzt Fokus und Cursor-Position auf das Subtask-Edit-Eingabefeld.
- * @param {number} id - Die ID des Subtasks
+ * Sets focus and cursor position to the subtask edit input field.
+ * @param {number} id - The ID of the subtask
  */
 function setupMobileSubtaskEditFocus(id) {
   const input = document.getElementById(`mobile-edit-subtask-input-${id}`);
@@ -81,9 +81,9 @@ function setupMobileSubtaskEditFocus(id) {
 }
 
 /**
- * Findet einen Subtask im mobilen Edit anhand seiner ID.
- * @param {number} id - Die ID des Subtasks
- * @returns {Object|undefined} Das gefundene Subtask-Objekt oder undefined
+ * Finds a subtask in mobile edit by its ID.
+ * @param {number} id - The ID of the subtask
+ * @returns {Object|undefined} The subtask object found or undefined
  */
 function findMobileSubtaskById(id) {
   return mobileEditSubtasks.find(function (s) {
@@ -92,19 +92,19 @@ function findMobileSubtaskById(id) {
 }
 
 /**
- * Generiert das HTML-Template für einen Subtask im Bearbeitungsmodus.
- * Delegiert an die HTML-Template-Funktion in board-mobile-template.js.
- * @param {Object} subtask - Das Subtask-Objekt
- * @returns {string} HTML-String des Edit-Templates
+ * Generates the HTML template for a subtask in edit mode.
+ * Delegated to the HTML template function in board-mobile-template.js.
+ * @param {Object} subtask - The subtask object
+ * @returns {string} HTML string of the edit template
  */
 function getMobileEditSubtaskEditTemplate(subtask) {
   return getMobileEditSubtaskEditHtml(subtask);
 }
 
 /**
- * Speichert die Bearbeitung eines Subtasks im mobilen Edit.
- * Entfernt den Subtask bei leerem Text, aktualisiert sonst den Text.
- * @param {number} id - Die ID des Subtasks
+ * Saves the editing of a subtask in mobile edit.
+ * Removes the subtask if the text is empty, otherwise updates the text.
+ * @param {number} id - The ID of the subtask
  */
 function saveMobileEditSubtask(id) {
   const input = document.getElementById(`mobile-edit-subtask-input-${id}`);
@@ -122,9 +122,9 @@ function saveMobileEditSubtask(id) {
 }
 
 /**
- * Aktualisiert den Text eines Subtasks und rendert die Liste neu.
- * @param {number} id - Die ID des Subtasks
- * @param {string} newText - Der neue Text des Subtasks
+ * Updates the text of a subtask and re-renders the list.
+ * @param {number} id - The ID of the subtask
+ * @param {string} newText - The new text of the subtask
  */
 function updateMobileSubtaskText(id, newText) {
   const subtask = findMobileSubtaskById(id);
@@ -135,10 +135,10 @@ function updateMobileSubtaskText(id, newText) {
 }
 
 /**
- * Behandelt Tasteneingaben im Subtask-Edit-Feld.
- * Enter speichert den Subtask, Escape bricht die Bearbeitung ab.
- * @param {number} id - Die ID des Subtasks
- * @param {KeyboardEvent} event - Das Keyboard-Event
+ * Handles keystrokes in the subtask edit field.
+ * Enter saves the subtask, Escape aborts processing.
+ * @param {number} id - The ID of the subtask
+ * @param {KeyboardEvent} event - The keyboard event
  */
 function handleMobileEditSubtaskEditKeydown(id, event) {
   if (event.key === "Enter") {
@@ -150,7 +150,7 @@ function handleMobileEditSubtaskEditKeydown(id, event) {
 }
 
 /**
- * Rendert die komplette Subtask-Liste im mobilen Edit.
+ * Renders the complete subtask list in mobile edit.
  */
 function renderMobileEditSubtasks() {
   const list = document.getElementById("mobile-edit-subtask-list");
@@ -162,8 +162,8 @@ function renderMobileEditSubtasks() {
 }
 
 /**
- * Entfernt einen Subtask anhand seiner ID und rendert die Liste neu.
- * @param {number} id - Die ID des zu entfernenden Subtasks
+ * Removes a subtask by its ID and re-renders the list.
+ * @param {number} id - The ID of the subtask to remove
  */
 function removeMobileEditSubtask(id) {
   mobileEditSubtasks = mobileEditSubtasks.filter(function (s) {

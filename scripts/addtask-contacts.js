@@ -1,8 +1,8 @@
 /**
- * @fileoverview Contact selection and handling for the add task page.
+ * @fileoview Contact selection and handling for the add task page.
  */
 /**
- * Lädt Kontakte aus Firestore
+ * Loads contacts from Firestore
  */
 async function loadContacts() {
   const currentUser = getCurrentUser();
@@ -18,7 +18,7 @@ async function loadContacts() {
 }
 
 /**
- * Holt den Snapshot der Kontakte aus Firestore
+ * Gets the snapshot of contacts from Firestore
  */
 function fetchContactsSnapshot(userId) {
   const contactsRef = window.fbCollection(
@@ -31,7 +31,7 @@ function fetchContactsSnapshot(userId) {
 }
 
 /**
- * Verarbeitet den Firestore Snapshot der Kontakte
+ * Processes the Firestore snapshot of contacts
  */
 function processContactsSnapshot(snapshot, currentUser) {
   allContacts = [];
@@ -60,7 +60,7 @@ function processContactsSnapshot(snapshot, currentUser) {
 }
 
 /**
- * Sortiert Kontakte alphabetisch
+ * Sorts contacts alphabetically
  */
 function sortContactsByName() {
   allContacts.sort(function (a, b) {
@@ -69,7 +69,7 @@ function sortContactsByName() {
 }
 
 /**
- * Rendert die Kontakt-Optionen im Dropdown
+ * Renders contact options in dropdown
  */
 function renderAssignedToOptions() {
   const optionsContainer = document.getElementById("assigned-to-options");
@@ -102,7 +102,7 @@ function renderAssignedToOptions() {
 }
 
 /**
- * Schaltet das Dropdown-Menü um
+ * Toggles the drop down menu
  */
 function toggleAssignedToDropdown() {
   const wrapper = document.getElementById("assigned-to-wrapper");
@@ -112,9 +112,9 @@ function toggleAssignedToDropdown() {
 }
 
 /**
- * Schaltet die Auswahl eines Kontakts um
- * @param {string} contactId - Die ID des Kontakts
- * @param {Event} event - Das Klick-Event
+ * Toggles the selection of a contact
+ * @param {string} contactId - The ID of the contact
+ * @param {Event} event - The click event
  */
 function toggleContactSelection(contactId, event) {
   event.stopPropagation();
@@ -132,7 +132,7 @@ function toggleContactSelection(contactId, event) {
 }
 
 /**
- * Aktualisiert die Liste der ausgewählten Kontakte
+ * Updates the list of selected contacts
  */
 function updateSelectedContacts(contact, contactId) {
   const index = selectedContacts.findIndex(function (c) {
@@ -146,7 +146,7 @@ function updateSelectedContacts(contact, contactId) {
 }
 
 /**
- * Rendert die Initialen der ausgewählten Kontakte
+ * Renders the initials of the selected contacts
  */
 function renderSelectedInitials() {
   const container = document.getElementById("selected-contacts-initials");
@@ -180,8 +180,8 @@ document.addEventListener(
 );
 
 /**
- * Lädt die zugewiesenen Kontakte in den Formularzustand
- * @param {Object} task - Das Task-Objekt
+ * Loads the assigned contacts into the form state
+ * @param {Object} task - The task object
  */
 function loadAssigneesForEdit(task) {
   selectedContacts = [];
@@ -193,7 +193,7 @@ function loadAssigneesForEdit(task) {
 }
 
 /**
- * Verarbeitet die Assignees beim Bearbeiten eines Tasks
+ * Processes the assignees when processing a task
  */
 function processEditAssignees(assignedToList) {
   for (let i = 0; i < assignedToList.length; i++) {
@@ -205,7 +205,7 @@ function processEditAssignees(assignedToList) {
 }
 
 /**
- * Findet einen Kontakt anhand seiner ID
+ * Finds a contact by their ID
  */
 function findContactById(id) {
   return allContacts.find(function (c) {

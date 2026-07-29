@@ -82,18 +82,18 @@
 
 /* Legal Links auf Desktop ganz nach unten schieben */
 .sidebar-content-wrapper .legal-links {
-  margin-top: auto; /* Schiebt es ans Ende des Flex-Containers */
+  margin-top: auto; 
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-bottom: 16px; /* Abstand zum unteren Rand */
+  padding-bottom: 16px; 
 }
 
 /* Auf Desktop wollen wir Log In Text NEBEN dem Icon (Standard) */
 .nav-links a.login-link {
   display: flex;
   align-items: center;
-  flex-direction: row; /* Nebeneinander auf Desktop */
+  flex-direction: row; 
   gap: 10px;
 }
 

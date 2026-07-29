@@ -1,5 +1,5 @@
 ﻿/**
- * @fileoverview Dummy logic and data for stakeholder views.
+ * @fileoview Dummy logic and data for stakeholder views.
  */
 const DAILY_LIMIT = 10;
 const AUTH_TOKEN = "YOUR_FIREBASE_AUTH_TOKEN";

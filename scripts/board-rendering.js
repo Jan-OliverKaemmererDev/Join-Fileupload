@@ -2,9 +2,9 @@
  * @fileoverview Rendering logic for the board view and its tasks.
  */
 /**
- * Generiert das HTML für eine Task-Karte
- * @param {Object} task - Das Task-Objekt
- * @returns {string} Das generierte HTML
+ * Generates the HTML for a task card
+ * @param {Object} task - The task object
+ * @returns {string} The generated HTML
  */
 function generateTaskCardHtml(task) {
   const catClass = getCategoryClass(task.category);
@@ -20,9 +20,9 @@ function generateTaskCardHtml(task) {
 }
 
 /**
- * Gibt die CSS-Klasse für eine Kategorie zurück
- * @param {string} category - Die Kategorie
- * @returns {string} Die CSS-Klasse
+ * Returns the CSS class for a category
+ * @param {string} category - The category
+ * @returns {string} The CSS class
  */
 function getCategoryClass(category) {
   return category === "user-story"
@@ -31,18 +31,18 @@ function getCategoryClass(category) {
 }
 
 /**
- * Gibt das Label für eine Kategorie zurück
- * @param {string} category - Die Kategorie
- * @returns {string} Das Kategorie-Label
+ * Returns the label for a category
+ * @param {string} category - The category
+ * @returns {string} The category label
  */
 function getCategoryLabel(category) {
   return category === "user-story" ? "User Story" : "Technical Task";
 }
 
 /**
- * Generiert das HTML für den Fortschrittsbalken
- * @param {Object} task - Das Task-Objekt
- * @returns {string} Das HTML für den Fortschrittsbalken
+ * Generates the HTML for the progress bar
+ * @param {Object} task - The task object
+ * @returns {string} The HTML for the progress bar
  */
 function generateProgressHtml(task) {
   if (task.subtasks && task.subtasks.length > 0) {
@@ -54,9 +54,9 @@ function generateProgressHtml(task) {
 }
 
 /**
- * Zählt die abgeschlossenen Subtasks
- * @param {Array} subtasks - Array mit Subtasks
- * @returns {number} Anzahl der abgeschlossenen Subtasks
+ * Counts completed subtasks
+ * @param {Array} subtasks - Array of subtasks
+ * @returns {number} Number of subtasks completed
  */
 function countCompletedSubtasks(subtasks) {
   let count = 0;
@@ -69,9 +69,9 @@ function countCompletedSubtasks(subtasks) {
 }
 
 /**
- * Generiert das HTML für zugewiesene Benutzer
- * @param {Object} task - Das Task-Objekt
- * @returns {string} Das HTML für die Assignees
+ * Generates the HTML for assigned users
+ * @param {Object} task - The task object
+ * @returns {string} The HTML for the assignees
  */
 function generateAssigneesHtml(task) {
   if (!task.assignedTo || !Array.isArray(task.assignedTo)) return "";
@@ -83,7 +83,7 @@ function generateAssigneesHtml(task) {
 }
 
 /**
- * Fügt die Badges für die ersten 3 Assignees hinzu
+ * Adds the badges for the first 3 assignees
  */
 function addAssigneeBadges(assignedTo) {
   let html = "";
@@ -105,14 +105,14 @@ function addAssigneeBadges(assignedTo) {
 }
 
 /**
- * Fügt das "+X" Badge hinzu
+ * Adds the "+X" badge
  */
 function addExtraAssigneesBadge(totalCount) {
   return getAssigneeBadgeTemplate(`+${totalCount - 3}`, "#2A3647");
 }
 
 /**
- * Sucht einen Kontakt anhand der ID (ohne Arrow Function)
+ * Searches for a contact by ID (without Arrow Function)
  */
 function findContactById(contactId) {
   return allContacts.find(function (c) {
@@ -121,9 +121,9 @@ function findContactById(contactId) {
 }
 
 /**
- * Generiert das HTML für zugewiesene Kontakte in der Detailansicht
- * @param {Object} task - Das Task-Objekt
- * @returns {string} Das HTML mit Kontakt-Badges und Namen
+ * Generates the HTML for assigned contacts in the details view
+ * @param {Object} task - The task object
+ * @returns {string} The HTML with contact badges and names
  */
 function buildAssignedToDetailsHtml(task) {
   if (
@@ -137,9 +137,9 @@ function buildAssignedToDetailsHtml(task) {
 }
 
 /**
- * Baut die HTML-Einträge für alle zugewiesenen Kontakte
- * @param {Array} assignedIds - Array von Kontakt-IDs
- * @returns {string} Das HTML für alle Kontakt-Einträge
+ * Builds the HTML entries for all assigned contacts
+ * @param {Array} assignedIds - Array of contact IDs
+ * @returns {string} The HTML for all contact entries
  */
 function buildAssigneeDetailItems(assignedIds) {
   let html = "";
@@ -150,7 +150,7 @@ function buildAssigneeDetailItems(assignedIds) {
 }
 
 /**
- * Verarbeitet einen einzelnen Assignee-Eintrag für Details
+ * Processes a single assignee entry for details
  */
 function processAssigneeItem(contactId) {
   const contact = findContactById(contactId);
@@ -173,9 +173,9 @@ function processAssigneeItem(contactId) {
 }
 
 /**
- * Gibt das Icon für eine Priorität zurück
- * @param {string} priority - Die Priorität
- * @returns {string} Das HTML für das Prioritäts-Icon
+ * Returns the icon for a priority
+ * @param {string} priority - The priority
+ * @returns {string} The HTML for the priority icon
  */
 function getPriorityIcon(priority) {
   if (priority === "urgent") {
@@ -188,9 +188,9 @@ function getPriorityIcon(priority) {
 }
 
 /**
- * Generiert das HTML für die Subtasks-Liste
- * @param {Object} task - Das Task-Objekt
- * @returns {string} Das HTML für die Subtasks
+ * Generates the HTML for the subtasks list
+ * @param {Object} task - The task object
+ * @returns {string} The HTML for the subtasks
  */
 function buildSubtasksHtml(task) {
   let subtasksHtml = "";

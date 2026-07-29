@@ -1,8 +1,8 @@
 /**
- * @fileoverview Utility functions for adding and managing tasks.
+ * @fileoview Utility functions for adding and managing tasks.
  */
 /**
- * Setzt das Mindestdatum für das Due-Date-Feld auf heute
+ * Sets the minimum date for the due date field to today
  */
 function setMinimumDate() {
   const today = new Date().toISOString().split("T")[0];
@@ -10,8 +10,8 @@ function setMinimumDate() {
 }
 
 /**
- * Aktualisiert die Benutzer-Initialen im Header
- * @param {Object} user - Das Benutzer-Objekt
+ * Updates user initials in header
+ * @param {Object} user - The user object
  */
 function updateHeaderInitials(user) {
   const initialsElement = document.getElementById("user-initials");
@@ -27,9 +27,9 @@ function updateHeaderInitials(user) {
 }
 
 /**
- * Generiert Initialen aus einem Namen
- * @param {string} name - Der vollständige Name
- * @returns {string} Die generierten Initialen
+ * Generates initials from a name
+ * @param {string} name - The full name
+ * @returns {string} The generated initials
  */
 function getInitialsFromName(name) {
   if (!name || typeof name !== "string") return "U";
@@ -41,8 +41,8 @@ function getInitialsFromName(name) {
 }
 
 /**
- * Wählt eine Priorität aus und aktualisiert die UI
- * @param {string} priority - Die ausgewählte Priorität
+ * Selects a priority and updates the UI
+ * @param {string} priority - The selected priority
  */
 function selectPriority(priority) {
   const buttons = document.querySelectorAll(".priority-btn");
@@ -55,8 +55,8 @@ function selectPriority(priority) {
 }
 
 /**
- * Entfernt die active-Klasse von allen Buttons
- * @param {NodeList} buttons - Die Liste der Priority-Buttons
+ * Removes the active class from all buttons
+ * @param {NodeList} buttons - The list of priority buttons
  */
 function removeActiveFromAll(buttons) {
   for (let i = 0; i < buttons.length; i++) {
@@ -65,8 +65,8 @@ function removeActiveFromAll(buttons) {
 }
 
 /**
- * Fügt die active-Klasse zum ausgewählten Priority-Button hinzu
- * @param {string} priority - Die ausgewählte Priorität
+ * Adds the active class to the selected priority button
+ * @param {string} priority - The selected priority
  */
 function addActiveToSelected(priority) {
   const selectedBtn = document.querySelector(
@@ -79,8 +79,8 @@ function addActiveToSelected(priority) {
 }
 
 /**
- * Zeigt eine Toast-Nachricht an
- * @param {string} message - Die anzuzeigende Nachricht
+ * Displays a toast message
+ * @param {string} message - The message to display
  */
 function showToast(message) {
   let toast = document.getElementById("toast-message");
@@ -95,8 +95,8 @@ function showToast(message) {
 }
 
 /**
- * Erstellt ein Toast-Element
- * @returns {HTMLElement} Das erstellte Toast-Element
+ * Creates a toast element
+ * @returns {HTMLElement} The created Toast element
  */
 function createToastElement() {
   const toast = document.createElement("div");
@@ -107,8 +107,8 @@ function createToastElement() {
 }
 
 /**
- * Versteckt die Toast-Nachricht nach einer Verzögerung
- * @param {HTMLElement} toast - Das Toast-Element
+ * Hides the toast message after a delay
+ * @param {HTMLElement} toast - The toast element
  */
 function hideToastAfterDelay(toast) {
   setTimeout(function () {

@@ -1,9 +1,9 @@
 /**
- * @fileoverview HTML template generating functions for the account overlay.
+ * @fileoview HTML template generating functions for the account overlay.
  */
 /**
- * Gibt das HTML-Template für das Account-Overlay zurück
- * @returns {string} Das vollständige HTML-Template des Account-Overlays
+ * Returns the HTML template for the account overlay
+ * @returns {string} The full HTML template of the account overlay
  */
 function getAccountOverlayTemplate() {
   return `
@@ -21,8 +21,8 @@ function getAccountOverlayTemplate() {
 
 
 /**
- * Gibt das HTML für die linke Seite des Account-Dialogs zurück
- * @returns {string} HTML-String mit Logo, Titel und Unterstrich
+ * Returns the HTML for the left side of the account dialog
+ * @returns {string} HTML string with logo, title and underscore
  */
 function getAccountDialogLeftHTML() {
   return `
@@ -36,8 +36,8 @@ function getAccountDialogLeftHTML() {
 
 
 /**
- * Gibt das HTML für die rechte Seite des Account-Dialogs zurück
- * @returns {string} HTML-String mit Close-Button, Avatar und Formular
+ * Returns the HTML for the right side of the account dialog
+ * @returns {string} HTML string with close button, avatar and form
  */
 function getAccountDialogRightHTML() {
   return `
@@ -53,8 +53,8 @@ function getAccountDialogRightHTML() {
 
 
 /**
- * Gibt das HTML für den Schließen-Button zurück
- * @returns {string} HTML-String mit dem X-Button (SVG)
+ * Returns the HTML for the close button
+ * @returns {string} HTML string with the X button (SVG)
  */
 function getAccountCloseButtonHTML() {
   return `
@@ -68,8 +68,8 @@ function getAccountCloseButtonHTML() {
 
 
 /**
- * Gibt das HTML für den Avatar-Bereich zurück
- * @returns {string} HTML-String mit Initialen-Kreis und Kamera-Icon
+ * Returns the HTML for the avatar area
+ * @returns {string} HTML string with initials circle and camera icon
  */
 function getAccountAvatarHTML() {
   return `
@@ -86,8 +86,8 @@ function getAccountAvatarHTML() {
 
 
 /**
- * Gibt das HTML für die Formularfelder und Aktions-Buttons zurück
- * @returns {string} HTML-String mit Name-, E-Mail-, Telefon-Inputs und Buttons
+ * Returns the HTML for the form fields and action buttons
+ * @returns {string} HTML string with name, email, phone inputs and buttons
  */
 function getAccountFormFieldsHTML() {
   return `
@@ -102,11 +102,11 @@ function getAccountFormFieldsHTML() {
 
 
 /**
- * Gibt das HTML für ein einzelnes Input-Feld zurück
- * @param {string} type - Der Input-Typ (text, email, tel)
- * @param {string} id - Die ID des Input-Elements
- * @param {string} iconFile - Der Dateiname des Icons
- * @returns {string} HTML-String mit Input-Wrapper und Icon
+ * Returns the HTML for a single input field
+ * @param {string} type - The input type (text, email, tel)
+ * @param {string} id - The ID of the input element
+ * @param {string} iconFile - The filename of the icon
+ * @returns {string} HTML string with input wrapper and icon
  */
 function getAccountInputHTML(type, id, iconFile) {
   const iconPath = iconFile === "phone.svg"
@@ -125,8 +125,8 @@ function getAccountInputHTML(type, id, iconFile) {
 
 
 /**
- * Gibt das HTML für die Aktions-Buttons (Delete/Edit/Save) zurück
- * @returns {string} HTML-String mit Delete- und Edit-Button
+ * Returns the HTML for the action buttons (Delete/Edit/Save).
+ * @returns {string} HTML string with delete and edit buttons
  */
 function getAccountActionButtonsHTML() {
   return `
@@ -139,7 +139,7 @@ function getAccountActionButtonsHTML() {
 
 
 /**
- * Gibt das HTML für das Delete Confirmation Overlay zurück.
+ * Returns the HTML for the Delete Confirmation Overlay.
  * @returns {string}
  */
 function getDeleteConfirmDialogHTML() {

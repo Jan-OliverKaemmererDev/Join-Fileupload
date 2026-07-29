@@ -1,8 +1,8 @@
 /**
- * @fileoverview HTML template generating functions for the contacts page.
+ * @fileoview HTML template generating functions for the contacts page.
  */
 /**
- * Generiert das HTML-Template für ein Contact-Listen-Element
+ * Generates the HTML template for a contact list element
  */
 function getContactItemTemplate(contact) {
   let avatarInner = contact.initials;
@@ -27,7 +27,7 @@ function getContactItemTemplate(contact) {
 }
 
 /**
- * --- DETAIL ANSICHT LOGIK ---
+ * --- DETAIL VIEW LOGIC ---
  */
 
 function getDesktopContactDetailsTemplate(contact) {
@@ -123,7 +123,7 @@ function getMobileContactDetailsTemplate(contact) {
 }
 
 /**
- * --- EDIT DIALOG LOGIK (Screenshot Design) ---
+ * --- EDIT DIALOG LOGIC (Screenshot Design) ---
  */
 
 function getDesktopEditContactTemplate(contact) {
@@ -255,7 +255,7 @@ function getMobileEditContactTemplate(contact) {
 }
 
 /**
- * --- ADD CONTACT DIALOG LOGIK ---
+ * --- ADD CONTACT DIALOG LOGIC ---
  */
 
 function getDesktopAddContactTemplate() {

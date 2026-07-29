@@ -17,9 +17,9 @@ let viewerPinchStartDist = 0;
 let viewerPinchStartScale = 1;
 
 /**
- * Öffnet den Image Viewer für ein bestimmtes Bild eines Tasks.
- * @param {number} taskId - Die ID des Tasks.
- * @param {number} index - Der Index des Attachments.
+ * Opens the Image Viewer for a specific image of a task.
+ * @param {number} taskId - The ID of the task.
+ * @param {number} index - The index of the attachment.
  */
 function openImageViewer(taskId, index) {
   const task = typeof findTask === "function" ? findTask(taskId) : null;
@@ -34,7 +34,7 @@ function openImageViewer(taskId, index) {
 }
 
 /**
- * Initialisiert die Event-Listener des Viewers einmalig.
+ * Initializes the viewer's event listeners once.
  */
 function initViewerEvents() {
   if (!viewerEventsSetup) {
@@ -44,7 +44,7 @@ function initViewerEvents() {
 }
 
 /**
- * Aktualisiert das Bild und die Metadaten im Viewer.
+ * Updates the image and metadata in the viewer.
  */
 function updateViewer() {
   if (!currentViewerTask) return;
@@ -56,8 +56,8 @@ function updateViewer() {
 }
 
 /**
- * Aktualisiert die Dateigrößenanzeige im Viewer.
- * @param {Object} att - Das Attachment-Objekt.
+ * Updates the file size display in the viewer.
+ * @param {Object} att - The attachment object.
  */
 function updateViewerFileSize(att) {
   const sizeText = att.size ? formatFileSize(att.size) : "Unknown size";
@@ -65,9 +65,9 @@ function updateViewerFileSize(att) {
 }
 
 /**
- * Formatiert eine Dateigröße in Bytes zu KB oder MB.
- * @param {number} bytes - Die Dateigröße in Bytes.
- * @returns {string} Formatierter Dateigrößen-String.
+ * Formats a file size in bytes to KB or MB.
+ * @param {number} bytes - The file size in bytes.
+ * @returns {string} Formatted file size string.
  */
 function formatFileSize(bytes) {
   if (bytes < 1024) return bytes + " B";
@@ -76,8 +76,8 @@ function formatFileSize(bytes) {
 }
 
 /**
- * Schließt den Image Viewer.
- * @param {Event} [event] - Optionales DOM-Event.
+ * Closes the Image Viewer.
+ * @param {Event} [event] - Optional DOM event.
  */
 function closeImageViewer(event) {
   if (event) event.stopPropagation();
@@ -87,9 +87,9 @@ function closeImageViewer(event) {
 }
 
 /**
- * Navigiert durch die Bilder im Viewer.
- * @param {number} step - -1 für vorheriges, +1 für nächstes.
- * @param {Event} [event] - Optionales DOM-Event.
+ * Navigates through the images in the viewer.
+ * @param {number} step - -1 for previous, +1 for next.
+ * @param {Event} [event] - Optional DOM event.
  */
 function navigateViewer(step, event) {
   if (event) event.stopPropagation();
@@ -101,7 +101,7 @@ function navigateViewer(step, event) {
 }
 
 /**
- * Lädt das aktuelle Bild herunter.
+ * Downloads the current image.
  */
 function downloadViewerImage() {
   if (!currentViewerTask) return;
@@ -116,8 +116,8 @@ function downloadViewerImage() {
 }
 
 /**
- * Tastatursteuerung für den Image Viewer.
- * @param {KeyboardEvent} e - Das Tastatur-Event.
+ * Keyboard controls for the image viewer.
+ * @param {KeyboardEvent} e - The keyboard event.
  */
 function handleViewerKeydown(e) {
   if (e.key === "Escape") closeImageViewer();
@@ -126,7 +126,7 @@ function handleViewerKeydown(e) {
 }
 
 /**
- * Setzt den Zoom und die Verschiebung des Viewers zurück.
+ * Resets viewer zoom and pan.
  */
 function resetViewerZoom() {
   viewerScale = 1;
@@ -140,8 +140,8 @@ function resetViewerZoom() {
 }
 
 /**
- * Ändert den Zoom-Faktor des Viewer-Bildes.
- * @param {number} step - Der Zoom-Schritt.
+ * Changes the zoom factor of the viewer image.
+ * @param {number} step - The zoom step.
  */
 function changeViewerZoom(step) {
   viewerScale = Math.min(5, Math.max(1, viewerScale + step * 0.5));
@@ -159,15 +159,15 @@ function changeViewerZoom(step) {
 }
 
 /**
- * Wendet die CSS-Transformation auf das Bild an.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Applies CSS transform to the image.
+ * @param {HTMLElement} img - The image element.
  */
 function applyViewerTransform(img) {
   img.style.transform = `translate(${viewerTranslateX}px, ${viewerTranslateY}px) scale(${viewerScale})`;
 }
 
 /**
- * Richtet alle Maus- und Touch-Events für den Viewer ein.
+ * Sets up all mouse and touch events for the viewer.
  */
 function setupViewerEvents() {
   const img = document.getElementById("viewer-image");
@@ -180,8 +180,8 @@ function setupViewerEvents() {
 }
 
 /**
- * Richtet das Wheel-Event für den Zoom ein.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Sets up the wheel event for zoom.
+ * @param {HTMLElement} img - The image element.
  */
 function setupViewerWheelEvent(img) {
   img.addEventListener('wheel', (e) => {
@@ -191,8 +191,8 @@ function setupViewerWheelEvent(img) {
 }
 
 /**
- * Richtet das MouseDown-Event für das Panning ein.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Sets up the MouseDown event for panning.
+ * @param {HTMLElement} img - The image element.
  */
 function setupViewerMouseDownEvent(img) {
   img.addEventListener('mousedown', (e) => {
@@ -208,8 +208,8 @@ function setupViewerMouseDownEvent(img) {
 }
 
 /**
- * Richtet das MouseMove-Event für das Panning ein.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Sets up the MouseMove event for panning.
+ * @param {HTMLElement} img - The image element.
  */
 function setupViewerMouseMoveEvent(img) {
   window.addEventListener('mousemove', (e) => {
@@ -222,8 +222,8 @@ function setupViewerMouseMoveEvent(img) {
 }
 
 /**
- * Richtet das MouseUp-Event für das Panning ein.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Sets up the MouseUp event for panning.
+ * @param {HTMLElement} img - The image element.
  */
 function setupViewerMouseUpEvent(img) {
   window.addEventListener('mouseup', () => {
@@ -235,8 +235,8 @@ function setupViewerMouseUpEvent(img) {
 }
 
 /**
- * Richtet die Touch-Events für Pinch-to-Zoom und Panning ein.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Sets up the touch events for pinch-to-zoom and panning.
+ * @param {HTMLElement} img - The image element.
  */
 function setupViewerTouchEvents(img) {
   img.addEventListener('touchstart', (e) => handleViewerTouchStart(e, img), { passive: false });
@@ -245,9 +245,9 @@ function setupViewerTouchEvents(img) {
 }
 
 /**
- * Behandelt den TouchStart-Event (Pinch oder Pan).
- * @param {TouchEvent} e - Das Touch-Event.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Handles the TouchStart event (pinch or pan).
+ * @param {TouchEvent} e - The touch event.
+ * @param {HTMLElement} img - The image element.
  */
 function handleViewerTouchStart(e, img) {
   if (e.touches.length === 2) {
@@ -265,9 +265,9 @@ function handleViewerTouchStart(e, img) {
 }
 
 /**
- * Behandelt den TouchMove-Event (Pinch oder Pan).
- * @param {TouchEvent} e - Das Touch-Event.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Handles the TouchMove event (pinch or pan).
+ * @param {TouchEvent} e - The touch event.
+ * @param {HTMLElement} img - The image element.
  */
 function handleViewerTouchMove(e, img) {
   if (e.touches.length === 2) {
@@ -280,9 +280,9 @@ function handleViewerTouchMove(e, img) {
 }
 
 /**
- * Behandelt den Pinch-Zoom während eines TouchMoves.
- * @param {TouchList} touches - Die Touch-Punkte.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Handles pinch zoom during a TouchMove.
+ * @param {TouchList} touches - The touch points.
+ * @param {HTMLElement} img - The image element.
  */
 function handlePinchZoom(touches, img) {
   const ratio = getTouchDistance(touches) / viewerPinchStartDist;
@@ -299,9 +299,9 @@ function handlePinchZoom(touches, img) {
 }
 
 /**
- * Behandelt das Touch-Panning während eines TouchMoves.
- * @param {Touch} touch - Der Touch-Punkt.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Handles touch panning during a TouchMove.
+ * @param {Touch} touch - The touch point.
+ * @param {HTMLElement} img - The image element.
  */
 function handleTouchPan(touch, img) {
   viewerTranslateX = viewerInitTranslateX + (touch.clientX - viewerStartX);
@@ -311,8 +311,8 @@ function handleTouchPan(touch, img) {
 }
 
 /**
- * Behandelt das Ende eines Touch-Events.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Handles the end of a touch event.
+ * @param {HTMLElement} img - The image element.
  */
 function handleViewerTouchEnd(img) {
   isViewerDragging = false;
@@ -320,9 +320,9 @@ function handleViewerTouchEnd(img) {
 }
 
 /**
- * Berechnet die Distanz zwischen zwei Touch-Punkten.
- * @param {TouchList} touches - Die Touch-Punkte.
- * @returns {number} Die Distanz in Pixeln.
+ * Calculates the distance between two touch points.
+ * @param {TouchList} touches - The touch points.
+ * @returns {number} The distance in pixels.
  */
 function getTouchDistance(touches) {
   const dx = touches[0].clientX - touches[1].clientX;
@@ -331,8 +331,8 @@ function getTouchDistance(touches) {
 }
 
 /**
- * Begrenzt die Verschiebung, damit das Bild nicht aus dem Viewport verschwindet.
- * @param {HTMLElement} img - Das Bild-Element.
+ * Limits the displacement so that the image does not disappear from the viewport.
+ * @param {HTMLElement} img - The image element.
  */
 function constrainTranslation(img) {
   const maxTx = (img.clientWidth * viewerScale - img.clientWidth) / 2;

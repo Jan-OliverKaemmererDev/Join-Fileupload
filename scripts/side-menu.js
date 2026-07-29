@@ -1,9 +1,9 @@
 /**
- * @fileoverview Logic for the side navigation menu.
+ * @fileoview Logic for the side navigation menu.
  */
 /**
- * Initialisiert das Seitenmenü und markiert die aktive Seite
- * @param {string} currentPage - Die aktuell aktive Seite
+ * Initializes the page menu and highlights the active page
+ * @param {string} currentPage - The currently active page
  */
 function initSideMenu(currentPage) {
   const navLinks = document.querySelectorAll(".sidebar .nav-links a");
@@ -14,9 +14,9 @@ function initSideMenu(currentPage) {
 
 
 /**
- * Verarbeitet einen einzelnen Navigationslink
- * @param {HTMLElement} link - Das Link-Element
- * @param {string} currentPage - Die aktuell aktive Seite
+ * Handles a single navigation link
+ * @param {HTMLElement} link - The link element
+ * @param {string} currentPage - The currently active page
  */
 function processNavLink(link, currentPage) {
   link.classList.remove("active");
@@ -28,8 +28,8 @@ function processNavLink(link, currentPage) {
 
 
 /**
- * Navigiert zu einer bestimmten Seite
- * @param {string} pageName - Der Name der Zielseite
+ * Navigates to a specific page
+ * @param {string} pageName - The name of the target page
  */
 function navigateTo(pageName) {
   window.location.href = pageName;
@@ -37,8 +37,8 @@ function navigateTo(pageName) {
 
 
 /**
- * Zeigt die Benutzer-Initialen im Header an
- * @param {string} username - Der Benutzername
+ * Displays user initials in header
+ * @param {string} username - The username
  */
 function displayUserInitials(username) {
   const initialsElement = document.getElementById("user-initials");
@@ -62,7 +62,7 @@ function displayUserInitials(username) {
 
 
 /**
- * Zeigt die Gast-Initialen im Header an
+ * Displays the guest initials in the header
  */
 function displayGuestInitials() {
   const initialsElement = document.getElementById("user-initials");

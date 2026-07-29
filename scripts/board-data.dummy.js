@@ -1,10 +1,10 @@
 ﻿/**
- * @fileoverview Dummy data for the board view.
+ * @fileooverview Dummy data for the board view.
  */
 /**
- * Normalisiert Subtasks aus verschiedenen Firebase-Formaten in das Board-Format.
- * @param {*} raw - Die rohen Subtask-Daten aus Firebase
- * @returns {Array} Array von {text, completed} Objekten
+ * Normalizes subtasks from various Firebase formats to board format.
+ * @param {*} raw - The raw subtask data from Firebase
+ * @returns {Array} Array of {text, completed} objects
  */
 function parseSubtasks(raw) {
   if (!raw) return [];
@@ -13,9 +13,9 @@ function parseSubtasks(raw) {
 }
 
 /**
- * Extrahiert rohe Subtask-EintrÃ¤ge in ein Array.
- * @param {*} raw - Rohdaten (Array, String oder Object)
- * @returns {Array} Array von Items
+ * Extracts raw subtask entries into an array.
+ * @param {*} raw - raw data (array, string or object)
+ * @returns {Array} Array of items
  */
 function extractSubtaskItems(raw) {
   if (Array.isArray(raw)) return raw;
@@ -25,9 +25,9 @@ function extractSubtaskItems(raw) {
 }
 
 /**
- * Parst Subtasks aus einem String (JSON oder kommagetrennt).
- * @param {string} raw - Der String
- * @returns {Array} Extrahierte Items
+ * Parses subtasks from a string (JSON or comma separated).
+ * @param {string} raw - The string
+ * @returns {Array} Extracted items
  */
 function parseSubtasksFromString(raw) {
   try {
@@ -38,9 +38,9 @@ function parseSubtasksFromString(raw) {
 }
 
 /**
- * Parst Subtasks aus einem Objekt.
- * @param {Object} raw - Das Objekt
- * @returns {Array} Extrahierte Items
+ * Parses subtasks from an object.
+ * @param {Object} raw - The object
+ * @returns {Array} Extracted items
  */
 function parseSubtasksFromObject(raw) {
   let items = [];
@@ -52,9 +52,9 @@ function parseSubtasksFromObject(raw) {
 }
 
 /**
- * Normalisiert ein einzelnes Subtask-Item in ein Standardobjekt.
- * @param {*} st - Das Item
- * @returns {Object|null} Normalisiertes Objekt oder null
+ * Normalizes a single subtask item to a standard object.
+ * @param {*} st - The item
+ * @returns {Object|null} Normalized object or null
  */
 function normalizeSubtaskItem(st) {
   if (typeof st === "string") {
@@ -67,9 +67,9 @@ function normalizeSubtaskItem(st) {
 }
 
 /**
- * Synchronisiert externe Stakeholder-Tasks aus der Realtime Database.
- * @param {Object} currentUser - Der aktuelle Benutzer
- * @returns {Promise<boolean>} Ob neue Tasks synchronisiert wurden
+ * Synchronizes external stakeholder tasks from the real-time database.
+ * @param {Object} currentUser - The current user
+ * @returns {Promise<boolean>} Whether new tasks have been synchronized
  */
 async function syncStakeholderTasks(currentUser) {
   if (currentUser.email !== "jowsds@gmail.com") return false;
@@ -86,9 +86,9 @@ async function syncStakeholderTasks(currentUser) {
 }
 
 /**
- * Holt externe Tasks von der API.
- * @param {string} url - Die URL
- * @returns {Promise<Object|null>} Die Tasks oder null
+ * Gets external tasks from the API.
+ * @param {string} url - The URL
+ * @returns {Promise<Object|null>} The tasks or null
  */
 async function fetchExternalTasks(url) {
   const response = await fetch(url);
@@ -96,10 +96,10 @@ async function fetchExternalTasks(url) {
 }
 
 /**
- * Verarbeitet alle gefundenen externen Tasks.
- * @param {Object} currentUser - Der aktuelle Benutzer
- * @param {Object} data - Die Task-Daten
- * @param {string} token - Das Auth-Token
+ * Processes all external tasks found.
+ * @param {Object} currentUser - The current user
+ * @param {Object} data - The task data
+ * @param {string} token - The auth token
  * @returns {Promise<boolean>}
  */
 async function processAllExternalTasks(currentUser, data, token) {
@@ -112,11 +112,11 @@ async function processAllExternalTasks(currentUser, data, token) {
 }
 
 /**
- * Verarbeitet einen einzelnen externen Task.
- * @param {Object} currentUser - Der Benutzer
- * @param {Object} taskData - Die Daten
- * @param {string} key - Der Task-Key
- * @param {string} token - Das Token
+ * Processes a single external task.
+ * @param {Object} currentUser - The user
+ * @param {Object} taskData - The data
+ * @param {string} key - The task key
+ * @param {string} token - The token
  */
 async function processSingleExternalTask(currentUser, taskData, key, token) {
   const newTask = createExternalTaskObject(taskData);
@@ -127,9 +127,9 @@ async function processSingleExternalTask(currentUser, taskData, key, token) {
 }
 
 /**
- * Erstellt das Task-Objekt fÃ¼r einen externen Task.
- * @param {Object} taskData - Die Daten von Firebase
- * @returns {Object} Das erstellte Task-Objekt
+ * Creates the Task object for an external task.
+ * @param {Object} taskData - The data from Firebase
+ * @returns {Object} The created task object
  */
 function createExternalTaskObject(taskData) {
   return {
@@ -151,9 +151,9 @@ function createExternalTaskObject(taskData) {
 }
 
 /**
- * LÃ¶scht einen externen Task aus der Realtime Database.
- * @param {string} key - Der Key
- * @param {string} token - Das Token
+ * Deletes an external task from the Realtime Database.
+ * @param {string} key - The key
+ * @param {string} token - The token
  */
 async function deleteExternalTask(key, token) {
   const url = `https://join-4e7df-default-rtdb.europe-west1.firebasedatabase.app/tasks/${key}.json?auth=${token}`;
@@ -161,10 +161,10 @@ async function deleteExternalTask(key, token) {
 }
 
 /**
- * Stellt sicher, dass der Ersteller in den Kontakten existiert.
- * @param {Object} currentUser - Der Benutzer
- * @param {string} email - Die E-Mail
- * @param {string} name - Der Name
+ * Ensures the creator exists in contacts.
+ * @param {Object} currentUser - The user
+ * @param {string} email - The email
+ * @param {string} name - The name
  */
 async function ensureTaskCreatorInContacts(currentUser, email, name) {
   if (!email) return;
@@ -179,10 +179,10 @@ async function ensureTaskCreatorInContacts(currentUser, email, name) {
 }
 
 /**
- * PrÃ¼ft, ob eine E-Mail bereits in den Kontakten existiert.
- * @param {string} userId - Die Benutzer-ID
- * @param {string} email - Die E-Mail
- * @returns {Promise<boolean>} Ob der Kontakt existiert
+ * Checks whether an email already exists in contacts.
+ * @param {string} userId - The user ID
+ * @param {string} email - The email
+ * @returns {Promise<boolean>} Whether the contact exists
  */
 async function checkIfContactExists(userId, email) {
   const contactsRef = window.fbCollection(window.firebaseDb, "users", userId, "contacts");
@@ -195,10 +195,10 @@ async function checkIfContactExists(userId, email) {
 }
 
 /**
- * Erstellt einen neuen externen Kontakt.
- * @param {string} userId - Die Benutzer-ID
- * @param {string} email - Die E-Mail
- * @param {string} name - Der Name
+ * Creates a new external contact.
+ * @param {string} userId - The user ID
+ * @param {string} email - The email
+ * @param {string} name - The name
  */
 async function createNewExternalContact(userId, email, name) {
   const newContact = buildNewContactObject(email, name);
@@ -207,10 +207,10 @@ async function createNewExternalContact(userId, email, name) {
 }
 
 /**
- * Baut das Objekt fÃ¼r einen neuen Kontakt.
- * @param {string} email - Die E-Mail
- * @param {string} name - Der Name
- * @returns {Object} Das Kontakt-Objekt
+ * Builds the object for a new contact.
+ * @param {string} email - The email
+ * @param {string} name - The name
+ * @returns {Object} The contact object
  */
 function buildNewContactObject(email, name) {
   const colors = ["#AB47BC", "#FF9800", "#5C6BC0", "#26A69A"];
@@ -227,9 +227,9 @@ function buildNewContactObject(email, name) {
 }
 
 /**
- * Generiert die Initialen aus einem Namen.
- * @param {string} name - Der Name
- * @returns {string} Die Initialen
+ * Generates the initials from a name.
+ * @param {string} name - The name
+ * @returns {string} The initials
  */
 function generateInitialsForName(name) {
   const parts = name.split(" ").filter(Boolean);
@@ -238,11 +238,11 @@ function generateInitialsForName(name) {
 }
 
 /**
- * Benachrichtigt einen externen Ersteller Ã¼ber einen Statuswechsel.
- * @param {Object} task - Der Task
- * @param {string} oldStatus - Alter Status
- * @param {string} newStatus - Neuer Status
- * @param {string} creatorEmail - Die E-Mail
+ * Notifies an external creator of a status change.
+ * @param {Object} task - The task
+ * @param {string} oldStatus - Old status
+ * @param {string} newStatus - New status
+ * @param {string} creatorEmail - The email
  */
 function notifyExternalCreatorOnStatusChange(task, oldStatus, newStatus, creatorEmail) {
   const webhookUrl = "https://jan-oliver91.app.n8n.cloud/webhook-test/join-status-update";
@@ -255,12 +255,12 @@ function notifyExternalCreatorOnStatusChange(task, oldStatus, newStatus, creator
 }
 
 /**
- * Baut das Payload fÃ¼r den Webhook.
- * @param {Object} task - Der Task
- * @param {string} oldStatus - Alter Status
- * @param {string} newStatus - Neuer Status
- * @param {string} creatorEmail - Die E-Mail
- * @returns {Object} Das Payload
+ * Builds the payload for the webhook.
+ * @param {Object} task - The task
+ * @param {string} oldStatus - Old status
+ * @param {string} newStatus - New status
+ * @param {string} creatorEmail - The email
+ * @returns {Object} The payload
  */
 function buildWebhookPayload(task, oldStatus, newStatus, creatorEmail) {
   return {

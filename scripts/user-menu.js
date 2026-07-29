@@ -2,8 +2,8 @@
  * @fileoverview Logic for handling the user dropdown menu.
  */
 /**
- * Fügt einen Help-Link in das Dropdown ein, falls noch nicht vorhanden (nur mobil)
- * @param {HTMLElement} dropdown - Das Dropdown-Element
+ * Adds a help link to the dropdown if not already present (mobile only)
+ * @param {HTMLElement} dropdown - The dropdown element
  */
 function insertMobileHelpLink(dropdown) {
   if (window.innerWidth <= 780 && !document.getElementById("dropdown-help-link")) {
@@ -17,7 +17,7 @@ function insertMobileHelpLink(dropdown) {
 }
 
 /**
- * Schaltet das Benutzer-Dropdown-Menü um. Auf mobilen Geräten (≤780px) wird zusätzlich ein Help-Link eingefügt.
+ * Toggles the user dropdown menu. On mobile devices (≤780px) a help link is also inserted.
  */
 function toggleUserMenu() {
   const dropdown = document.getElementById("user-dropdown");
@@ -27,8 +27,8 @@ function toggleUserMenu() {
 
 
 /**
- * Schließt das Dropdown-Menü bei Klick außerhalb
- * @param {Event} event - Das Click-Event
+ * Closes dropdown menu when clicked outside
+ * @param {Event} event - The click event
  */
 function handleClickOutside(event) {
   const dropdown = document.getElementById("user-dropdown");
@@ -45,7 +45,7 @@ function handleClickOutside(event) {
 
 
 /**
- * Meldet den Benutzer ab und leitet zur Login-Seite weiter
+ * Logs the user out and redirects to the login page
  */
 async function handleLogout() {
   await waitForFirebase();
@@ -55,7 +55,7 @@ async function handleLogout() {
 
 
 /**
- * Richtet den Event-Listener für Klicks außerhalb des Menüs ein
+ * Sets up the event listener for clicks outside the menu
  */
 function setupClickOutsideListener() {
   document.addEventListener("click", handleClickOutside, true);

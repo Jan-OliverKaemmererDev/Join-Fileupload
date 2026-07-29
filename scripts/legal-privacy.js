@@ -2,8 +2,8 @@
  * @fileoverview Logic for rendering legal and privacy policy pages.
  */
 /**
- * Initialisiert die Legal Notice oder Privacy Policy Seite.
- * Unterscheidet zwischen öffentlichem Zugriff (nicht eingeloggt) und internem Zugriff.
+ * Initializes the Legal Notice or Privacy Policy page.
+ * Distinguishes between public access (not logged in) and internal access.
  */
 function initLegalPrivacy() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -21,7 +21,7 @@ function initLegalPrivacy() {
 }
 
 /**
- * Setzt die Ansicht für nicht eingeloggte Nutzer oder öffentlichen Zugriff.
+ * Sets the view for non-logged in users or public access.
  */
 function setupPublicView() {
   const sidebar = document.querySelector(".sidebar");
@@ -37,8 +37,8 @@ function setupPublicView() {
 }
 
 /**
- * Setzt die Ansicht für eingeloggte Nutzer.
- * @param {Object} currentUser - Das aktuelle Nutzer-Objekt
+ * Sets the view for logged in users.
+ * @param {Object} currentUser - The current user object
  */
 function setupUserView(currentUser) {
   document.body.classList.add("is-logged-in");
@@ -52,9 +52,9 @@ function setupUserView(currentUser) {
 }
 
 /**
- * Konfiguriert den mobilen Zurück-Pfeil basierend auf dem Zugriffskontext.
- * @param {boolean} isPublic - Ob öffentlicher Zugriff besteht
- * @param {Object|null} currentUser - Der aktuelle Nutzer
+ * Configures mobile back arrow based on access context.
+ * @param {boolean} isPublic - Whether public access exists
+ * @param {Object|null} currentUser - The current user
  */
 function setupMobileBackArrow(isPublic, currentUser) {
   const contentTitle = document.querySelector("h1");

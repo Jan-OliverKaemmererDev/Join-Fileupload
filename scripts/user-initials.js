@@ -2,9 +2,9 @@
  * @fileoverview Logic for generating and displaying user initials.
  */
 /**
- * Generiert Initialen aus einem Namen
- * @param {string} name - Der vollständige Name
- * @returns {string} Die generierten Initialen
+ * Generates initials from a name
+ * @param {string} name - The full name
+ * @returns {string} The generated initials
  */
 function getInitialsFromName(name) {
   if (!name) return "?";
@@ -20,8 +20,8 @@ function getInitialsFromName(name) {
 
 
 /**
- * Aktualisiert die Benutzer-Initialen im Header
- * @param {Object} user - Das Benutzer-Objekt mit name-Eigenschaft
+ * Updates user initials in header
+ * @param {Object} user - The user object with name property
  */
 function updateHeaderInitials(user) {
   const initialsElement = document.getElementById("user-initials");
@@ -38,8 +38,8 @@ function updateHeaderInitials(user) {
 
 
 /**
- * Zeigt die Benutzer-Initialen an
- * @param {string} name - Der Benutzername
+ * Displays user initials
+ * @param {string} name - The username
  */
 function displayUserInitials(name) {
   const initialsElement = document.getElementById("user-initials");
@@ -57,7 +57,7 @@ function displayUserInitials(name) {
 
 
 /**
- * Zeigt die Gast-Initialen an
+ * Displays the guest initials
  */
 function displayGuestInitials() {
   const initialsElement = document.getElementById("user-initials");
@@ -68,8 +68,8 @@ function displayGuestInitials() {
 
 
 /**
- * Initialisiert das Seitenmenü
- * @param {string} page - Die aktuelle Seite
+ * Initializes the side menu
+ * @param {string} page - The current page
  */
 function initSideMenu(page) {
   console.log("Side menu initialized for page:", page);
