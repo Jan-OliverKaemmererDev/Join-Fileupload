@@ -1,4 +1,7 @@
-﻿let selectedPriority = "medium";
+﻿/**
+ * @fileoverview Dummy data and logic for the add task page testing.
+ */
+let selectedPriority = "medium";
 let subtasks = [];
 let allContacts = [];
 let selectedContacts = [];

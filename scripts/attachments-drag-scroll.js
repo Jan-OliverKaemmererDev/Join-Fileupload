@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Logic for drag-scrolling attachments.
+ */
+/**
  * Initialisiert das Drag-Scrolling für einen Container.
  * @param {HTMLElement} container - Das scrollbare DOM-Element.
  */

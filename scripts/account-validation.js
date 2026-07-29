@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Logic for validating user accounts.
+ */
+/**
  * Überprüft die Formularwerte des Account-Overlays.
  */
 function checkAccountFormValidity(showErrors = false) {

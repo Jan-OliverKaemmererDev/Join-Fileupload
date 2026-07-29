@@ -1,3 +1,6 @@
+/**
+ * @fileoverview Dummy logic and mocked functions for the board view.
+ */
 let tasks = [];
 let currentDraggedTaskId = null;
 let isDragging = false;

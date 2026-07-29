@@ -1,9 +1,6 @@
 /**
- * @fileoverview Profilbild-Upload Logik für Kontakte.
- * Erstellt einen versteckten Filepicker, validiert Bilder,
- * erlaubt das Zuschneiden und gibt die Base64-Daten für das Speichern zurück.
+ * @fileoverview Profile picture upload logic for contacts.
  */
-
 let contactFileInput = null;
 let pendingContactProfileImageFile = null;
 let contactCurrentOffsetY = 0;

@@ -1,4 +1,7 @@
 /**
+ * @fileoverview HTML template generating functions for the account overlay.
+ */
+/**
  * Gibt das HTML-Template für das Account-Overlay zurück
  * @returns {string} Das vollständige HTML-Template des Account-Overlays
  */

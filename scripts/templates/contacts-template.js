@@ -1,4 +1,7 @@
 /**
+ * @fileoverview HTML template generating functions for the contacts page.
+ */
+/**
  * Generiert das HTML-Template für ein Contact-Listen-Element
  */
 function getContactItemTemplate(contact) {

@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Main logic for user registration on the signup page.
+ */
+/**
  * Initialisiert die Signup-Seite
  */
 function initSignup() {

@@ -1,3 +1,6 @@
+/**
+ * @fileoverview Main logic for the contacts page.
+ */
 let contacts = [];
 
 /**

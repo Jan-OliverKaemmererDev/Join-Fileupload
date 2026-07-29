@@ -1,8 +1,6 @@
 /**
- * @fileoverview Attachment-Handling für das mobile Board-Edit Overlay.
- * Verwaltet Dateiauswahl, Vorschau-Rendering und Entfernen von Attachments.
+ * @fileoverview Attachment handling for the mobile board edit overlay.
  */
-
 /**
  * Behandelt die Dateiauswahl im mobilen Edit-Overlay.
  * Übergibt die ausgewählten Dateien zur Verarbeitung und setzt das Input zurück.

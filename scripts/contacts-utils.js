@@ -1,9 +1,6 @@
 /**
- * @fileoverview Utility functions for Firestore-based contact management.
- * Handles loading, creating, updating, and deleting contacts for the current user,
- * as well as displaying success alert notifications.
+ * @fileoverview Utility functions for contact management operations.
  */
-
 /**
  * Loads all contacts for the given user from Firestore and populates the local contacts array.
  * @param {{id: string}} currentUser - The currently authenticated user object.

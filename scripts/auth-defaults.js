@@ -1,9 +1,6 @@
 /**
- * @fileoverview Default data used for guest sessions.
- * Provides a guest user object, a list of pre-defined demo contacts,
- * and a set of sample tasks that are loaded when a user logs in as guest.
+ * @fileoverview Default authentication settings and configurations.
  */
-
 /**
  * Default guest user object used when no authenticated user is present.
  * @type {{id: string, name: string, email: string, isGuest: boolean}}

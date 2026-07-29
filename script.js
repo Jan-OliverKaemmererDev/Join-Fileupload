@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Main application logic and initialization.
+ */
+/**
  * Initialisiert die Login-Seite
  */
 function initLogin() {

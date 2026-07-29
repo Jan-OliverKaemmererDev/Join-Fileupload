@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Authentication logic for user login and sessions.
+ */
+/**
  * Wartet darauf, dass Firebase initialisiert ist
  * @returns {Promise}
  */

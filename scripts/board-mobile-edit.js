@@ -1,8 +1,6 @@
 /**
- * @fileoverview Logik für das mobile Board-Edit Overlay.
- * Verwaltet Formular, Kontakte, Priorität und Speichern beim Bearbeiten eines Tasks.
+ * @fileoverview Main logic for the mobile board edit overlay.
  */
-
 let mobileEditTaskId = null;
 let mobileEditSelectedContacts = [];
 let mobileEditSubtasks = [];

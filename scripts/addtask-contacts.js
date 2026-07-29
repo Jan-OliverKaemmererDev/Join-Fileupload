@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Contact selection and handling for the add task page.
+ */
+/**
  * Lädt Kontakte aus Firestore
  */
 async function loadContacts() {

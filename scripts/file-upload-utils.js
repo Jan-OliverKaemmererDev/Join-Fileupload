@@ -1,9 +1,6 @@
 /**
- * @fileoverview Utility-Funktionen für den Profilbild-Upload.
- * Beinhaltet Validierung, Komprimierung, Base64-Konvertierung,
- * Firebase-Speicherung und UI-Updates.
+ * @fileoverview Utility functions for handling file uploads.
  */
-
 /** Erlaubte MIME-Types für Bilddateien */
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png"];
 

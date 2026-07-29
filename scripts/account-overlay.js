@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Logic for the account overlay UI.
+ */
+/**
  * Schließt das User-Dropdown-Menü.
  */
 function closeUserDropdown() {

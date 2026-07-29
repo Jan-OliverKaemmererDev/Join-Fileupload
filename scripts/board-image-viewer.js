@@ -1,3 +1,6 @@
+/**
+ * @fileoverview Image viewer logic for task attachments in the board.
+ */
 let currentViewerTask = null;
 let currentViewerIndex = 0;
 

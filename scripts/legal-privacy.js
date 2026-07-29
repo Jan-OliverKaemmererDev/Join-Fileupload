@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Logic for rendering legal and privacy policy pages.
+ */
+/**
  * Initialisiert die Legal Notice oder Privacy Policy Seite.
  * Unterscheidet zwischen öffentlichem Zugriff (nicht eingeloggt) und internem Zugriff.
  */

@@ -1,4 +1,7 @@
 ﻿/**
+ * @fileoverview Dummy data for the board view.
+ */
+/**
  * Normalisiert Subtasks aus verschiedenen Firebase-Formaten in das Board-Format.
  * @param {*} raw - Die rohen Subtask-Daten aus Firebase
  * @returns {Array} Array von {text, completed} Objekten

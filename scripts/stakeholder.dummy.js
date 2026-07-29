@@ -1,4 +1,7 @@
-﻿const DAILY_LIMIT = 10;
+﻿/**
+ * @fileoverview Dummy logic and data for stakeholder views.
+ */
+const DAILY_LIMIT = 10;
 const AUTH_TOKEN = "YOUR_FIREBASE_AUTH_TOKEN";
 let currentCount = 0;
 

@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Attachment handling for the add task page.
+ */
+/**
  * Globales Array für alle validen Bildanhänge.
  * @type {File[]}
  */

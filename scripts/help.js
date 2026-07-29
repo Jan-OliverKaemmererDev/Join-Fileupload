@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Logic for the help page.
+ */
+/**
  * Initialisiert die Help-Seite und zeigt die Benutzer-Initialen an
  */
 function initHelp() {

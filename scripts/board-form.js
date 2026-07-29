@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Form handling logic for board tasks.
+ */
+/**
  * Schaltet das Kategorie-Dropdown um
  */
 function toggleCategoryDropdown() {

@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Utility functions for adding and managing tasks.
+ */
+/**
  * Setzt das Mindestdatum für das Due-Date-Feld auf heute
  */
 function setMinimumDate() {

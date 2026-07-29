@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Form handling logic for managing contacts.
+ */
+/**
  * Setzt das HTML des Overlays, aktiviert es und sperrt das Scrollen
  * @param {string} html - Das HTML für den Overlay-Inhalt
  */

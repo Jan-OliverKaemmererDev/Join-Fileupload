@@ -1,4 +1,7 @@
 /**
+ * @fileoverview HTML template generating functions for the add task page.
+ */
+/**
  * Generiert das HTML-Template für ein Subtask-Element (Normalansicht)
  * @param {Object} subtask - Das Subtask-Objekt
  * @returns {string} Das HTML-Template

@@ -1,10 +1,6 @@
 /**
- * @fileoverview Firebase initialization module.
- * Imports Firebase Auth and Firestore functions and exposes them on the global
- * `window` object so that non-module scripts can access them.
- * Dispatches a `firebaseReady` event once all globals are registered.
+ * @fileoverview Firebase initialization module and global setup.
  */
-
 import { auth, db } from "./firebase-config.js";
 import {
   createUserWithEmailAndPassword,

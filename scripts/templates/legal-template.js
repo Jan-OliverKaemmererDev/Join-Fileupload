@@ -1,4 +1,7 @@
 /**
+ * @fileoverview HTML template generating functions for legal and privacy pages.
+ */
+/**
  * Generiert das HTML-Template für die Sidebar im öffentlichen Modus (nicht eingeloggt)
  * @returns {string} Das HTML-Template für die öffentliche Sidebar
  */

@@ -1,4 +1,7 @@
 /**
+ * @fileoverview HTML templates generating functions for the board view.
+ */
+/**
  * Generiert das HTML-Template für eine Task-Karte
  * @param {Object} task - Das Task-Objekt
  * @param {string} categoryClass - Die CSS-Klasse für die Kategorie

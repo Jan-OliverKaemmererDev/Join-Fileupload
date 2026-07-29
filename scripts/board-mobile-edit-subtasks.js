@@ -1,8 +1,6 @@
 /**
- * @fileoverview Subtask-Handling für das mobile Board-Edit Overlay.
- * Verwaltet Hinzufügen, Bearbeiten, Löschen und Rendern von Subtasks.
+ * @fileoverview Subtask management for the mobile board edit overlay.
  */
-
 /**
  * Zeigt die Subtask-Icons im mobilen Edit an.
  */

@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Attachment handling for the board view.
+ */
+/**
  * Builds HTML for task attachments in the details view
  * @param {Object} task - The task object
  * @returns {string} HTML string

@@ -1,9 +1,6 @@
 /**
- * @fileoverview Profilbild-Upload Logik.
- * Erstellt einen versteckten Filepicker, behandelt Bildauswahl,
- * Panning und steuert den Komprimierungs- und Upload-Prozess.
+ * @fileoverview Main logic for the file upload component.
  */
-
 let fileInput = null;
 let pendingProfileImageFile = null;
 let currentOffsetY = 0;

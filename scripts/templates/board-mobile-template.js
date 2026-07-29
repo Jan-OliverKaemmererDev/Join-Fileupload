@@ -1,7 +1,6 @@
 /**
- * @fileoverview Templates für das mobile Board-Edit Overlay.
+ * @fileoverview HTML templates for the mobile board view overlay.
  */
-
 /**
  * Gibt das HTML für eine Kontakt-Option im Assigned-To-Dropdown zurück.
  * @param {Object} contact - Das Kontakt-Objekt

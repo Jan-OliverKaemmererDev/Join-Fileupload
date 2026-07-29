@@ -1,7 +1,6 @@
 /**
- * @fileoverview Template für den File-Upload Fehler.
+ * @fileoverview HTML template generating functions for file uploads.
  */
-
 /**
  * Gibt das HTML für das File-Format-Error Overlay zurück.
  * @returns {string} HTML-String

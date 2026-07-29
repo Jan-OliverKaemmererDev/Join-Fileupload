@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Dummy logic for the user summary dashboard.
+ */
+/**
  * Initialisiert die Summary-Seite für angemeldete Benutzer
  */
 async function initSummaryUser() {

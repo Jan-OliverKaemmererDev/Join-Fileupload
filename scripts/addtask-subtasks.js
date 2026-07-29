@@ -1,4 +1,7 @@
 /**
+ * @fileoverview Subtask management for the add task page.
+ */
+/**
  * Fügt einen neuen Subtask hinzu
  */
 function addSubtask() {

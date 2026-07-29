@@ -1,9 +1,6 @@
 /**
- * @fileoverview WCAG Accessibility Enhancements
- * Adds keyboard navigation support for all interactive elements.
- * This file is purely additive and does NOT modify any existing JS logic.
+ * @fileoverview WCAG Accessibility Enhancements for keyboard navigation.
  */
-
 /**
  * Handles ESC key to close active overlays in priority order.
  * The image viewer already has its own ESC handler in board-image-viewer.js,
