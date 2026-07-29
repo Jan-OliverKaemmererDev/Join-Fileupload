@@ -1,4 +1,6 @@
-/* ---- Login-Seite: Spezifische Inputs ---- */
+/* ========================================================= */
+/*             LOGIN-SEITE: SPEZIFISCHE INPUTS               */
+/* ========================================================= */
 
 #email {
   width: 100%;
@@ -16,7 +18,9 @@
   background-position: right 21px center;
 }
 
-/* ---- Login-Seite: Buttons ---- */
+/* ========================================================= */
+/*                 LOGIN-SEITE: BUTTONS                      */
+/* ========================================================= */
 
 .btn-signup {
   background-color: var(--dark-blue);
@@ -73,7 +77,9 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
-/* ---- Login-Seite: Footer & Signup ---- */
+/* ========================================================= */
+/*              LOGIN-SEITE: FOOTER & SIGNUP                 */
+/* ========================================================= */
 
 .mobile-signup {
   display: none;
@@ -104,7 +110,9 @@
   text-shadow: 0 0 0.5px var(--light-blue);
 }
 
-/* ---- Sidebar Navigation ---- */
+/* ========================================================= */
+/*                  SIDEBAR NAVIGATION                       */
+/* ========================================================= */
 
 .sidebar {
   height: 100vh;
@@ -177,7 +185,9 @@
   font-weight: 700;
 }
 
-/* ---- Dashboard Layout ---- */
+/* ========================================================= */
+/*                   DASHBOARD LAYOUT                        */
+/* ========================================================= */
 
 .main-content {
   margin-left: 232px;
@@ -186,7 +196,9 @@
   height: 100vh;
 }
 
-/* ---- Dashboard Header ---- */
+/* ========================================================= */
+/*                   DASHBOARD HEADER                        */
+/* ========================================================= */
 
 .dashboard-header {
   height: 80px;
@@ -317,13 +329,17 @@
   height: 100%;
 }
 
-/* ---- Mobile Navigation (standardmäßig ausgeblendet) ---- */
+/* ========================================================= */
+/*     MOBILE NAVIGATION (STANDARDMÄSSIG AUSGEBLENDET)       */
+/* ========================================================= */
 
 .mobile-nav {
   display: none;
 }
 
-/* ===== Disabled Button State ===== */
+/* ========================================================= */
+/*                 DISABLED BUTTON STATE                     */
+/* ========================================================= */
 .btn-dark:disabled,
 .btn-dark.btn-disabled {
   background-color: #d1d1d1;
@@ -338,7 +354,9 @@
   box-shadow: none;
 }
 
-/* ===== Inline Field Hints ===== */
+/* ========================================================= */
+/*                  INLINE FIELD HINTS                       */
+/* ========================================================= */
 .signup-hint {
   display: none;
   color: #ff3d00;

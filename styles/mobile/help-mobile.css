@@ -1,5 +1,7 @@
 @media (min-width: 320px) and (max-width: 780px) {
-  /* 1. GLOBAL & MAIN CONTENT */
+  /* ========================================================= */
+  /*               1. GLOBAL & MAIN CONTENT                    */
+  /* ========================================================= */
   body {
     margin: 0;
     padding: 0;
@@ -18,8 +20,12 @@
     flex-direction: column;
   }
 
-  /* 2. HEADER ANPASSUNGEN */
-  /* --- Header --- */
+  /* ========================================================= */
+  /*                  2. HEADER ANPASSUNGEN                    */
+  /* ========================================================= */
+  /* ========================================================= */
+  /*                        HEADER                             */
+  /* ========================================================= */
   .dashboard-header {
     position: fixed;
     top: 0;
@@ -79,8 +85,12 @@
     color: #29abe2;
   }
 
-  /* 3. BOTTOM NAVIGATION (Sidebar) */
-  /* --- Bottom Navigation (Repurposed Sidebar) --- */
+  /* ========================================================= */
+  /*              3. BOTTOM NAVIGATION (SIDEBAR)               */
+  /* ========================================================= */
+  /* ========================================================= */
+  /*         BOTTOM NAVIGATION (REPURPOSED SIDEBAR)            */
+  /* ========================================================= */
   .sidebar {
     display: flex !important;
     position: fixed;
@@ -144,7 +154,9 @@
     filter: brightness(0) invert(1) opacity(1);
   }
 
-  /* 4. HELP CONTENT ANPASSUNGEN */
+  /* ========================================================= */
+  /*               4. HELP CONTENT ANPASSUNGEN                 */
+  /* ========================================================= */
   .help-section {
     padding: 24px 16px 100px 16px !important;
   }

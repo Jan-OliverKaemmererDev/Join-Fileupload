@@ -1,4 +1,6 @@
-/* ===== Overlay Backdrop ===== */
+/* ========================================================= */
+/*                   OVERLAY BACKDROP                        */
+/* ========================================================= */
 #account-overlay {
   position: fixed;
   top: 0;
@@ -19,7 +21,9 @@
   opacity: 1;
 }
 
-/* ===== Dialog Card ===== */
+/* ========================================================= */
+/*                     DIALOG CARD                           */
+/* ========================================================= */
 #account-overlay .slide-in-dialog {
   position: relative;
   right: auto;
@@ -40,7 +44,9 @@
   transform: translateX(0);
 }
 
-/* ===== Dialog Left Panel ===== */
+/* ========================================================= */
+/*                  DIALOG LEFT PANEL                        */
+/* ========================================================= */
 #account-overlay .dialog-left {
   flex: 0 0 364px;
   width: 364px;
@@ -75,7 +81,9 @@
   border: none;
 }
 
-/* ===== Dialog Right Panel ===== */
+/* ========================================================= */
+/*                  DIALOG RIGHT PANEL                       */
+/* ========================================================= */
 #account-overlay .dialog-right {
   padding: 66px 48px;
   background-color: white;
@@ -89,7 +97,9 @@
   overflow: hidden;
 }
 
-/* ===== Close Button ===== */
+/* ========================================================= */
+/*                     CLOSE BUTTON                          */
+/* ========================================================= */
 #account-overlay .close-btn-container {
   display: flex;
   justify-content: flex-end;
@@ -112,7 +122,9 @@
   border-radius: 50%;
 }
 
-/* ===== Content Layout ===== */
+/* ========================================================= */
+/*                    CONTENT LAYOUT                         */
+/* ========================================================= */
 #account-overlay .edit-content-container {
   display: flex;
   align-items: center;
@@ -129,7 +141,9 @@
   min-width: 0;
 }
 
-/* ===== Avatar ===== */
+/* ========================================================= */
+/*                        AVATAR                             */
+/* ========================================================= */
 #account-overlay .contact-form-avatar {
   width: 120px;
   height: 120px;
@@ -194,7 +208,9 @@
   pointer-events: none;
 }
 
-/* ===== Form Inputs ===== */
+/* ========================================================= */
+/*                      FORM INPUTS                          */
+/* ========================================================= */
 #account-overlay .input-group {
   position: relative;
   display: flex;
@@ -236,7 +252,9 @@
   pointer-events: none;
 }
 
-/* ===== Action Buttons ===== */
+/* ========================================================= */
+/*                    ACTION BUTTONS                         */
+/* ========================================================= */
 #account-overlay .form-actions-dialog {
   display: flex;
   gap: 24px;
@@ -289,7 +307,9 @@
   width: 20px;
 }
 
-/* ===== Delete Confirmation Dialog ===== */
+/* ========================================================= */
+/*              DELETE CONFIRMATION DIALOG                   */
+/* ========================================================= */
 #account-overlay .delete-confirm-dialog {
   position: absolute;
   flex-direction: column;

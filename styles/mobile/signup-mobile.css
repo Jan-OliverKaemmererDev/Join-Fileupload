@@ -1,7 +1,11 @@
-/* Mobile Styles für Sign Up */
+/* ========================================================= */
+/*               MOBILE STYLES FÜR SIGN UP                   */
+/* ========================================================= */
 
 @media (min-width: 320px) and (max-width: 780px) {
-  /* Logo: top: 37px, left: 38px, width: 64px */
+  /* ========================================================= */
+  /*          LOGO: TOP: 37PX, LEFT: 38PX, WIDTH: 64PX         */
+  /* ========================================================= */
   .logo-top-left {
     position: absolute;
     top: 37px;
@@ -9,7 +13,9 @@
     width: 64px;
   }
 
-  /* Überschreibt style-mobile.css (padding: 225px 16px 0) */
+  /* ========================================================= */
+  /*   ÜBERSCHREIBT STYLE-MOBILE.CSS (PADDING: 225PX 16PX 0)   */
+  /* ========================================================= */
   .login-main {
     justify-content: flex-start;
     padding-top: 130px;
@@ -18,7 +24,9 @@
     min-height: auto;
   }
 
-  /* Karte */
+  /* ========================================================= */
+  /*                         KARTE                             */
+  /* ========================================================= */
   .login-card {
     margin-top: 0;
     padding: 32px 24px;
@@ -26,7 +34,9 @@
     box-sizing: border-box;
   }
 
-  /* Signup Header: width: 500px (desktop) → width: 100% */
+  /* ========================================================= */
+  /*     SIGNUP HEADER: WIDTH: 500PX (DESKTOP) -> WIDTH: 100%  */
+  /* ========================================================= */
   .signup-header {
     width: 100%;
   }
@@ -37,19 +47,25 @@
     margin: 0;
   }
 
-  /* Blauer Unterstrich */
+  /* ========================================================= */
+  /*                  BLAUER UNTERSTRICH                       */
+  /* ========================================================= */
   .blue-underline {
     width: 130px;
     height: 3px;
     margin: 4px 0 24px 0;
   }
 
-  /* Formular: engere Abstände damit alles in den Screen passt */
+  /* ========================================================= */
+  /* FORMULAR: ENGERE ABSTÄNDE DAMIT ALLES IN DEN SCREEN PASST */
+  /* ========================================================= */
   form {
     gap: 12px;
   }
 
-  /* Inputs: kompakteres Padding */
+  /* ========================================================= */
+  /*               INPUTS: KOMPAKTERES PADDING                 */
+  /* ========================================================= */
   input[type="text"],
   input[type="email"],
   input[type="password"] {
@@ -59,25 +75,33 @@
     box-sizing: border-box;
   }
 
-  /* Name input: width: 450px (desktop) → width: 100% */
+  /* ========================================================= */
+  /*     NAME INPUT: WIDTH: 450PX (DESKTOP) -> WIDTH: 100%     */
+  /* ========================================================= */
   #name {
     width: 100%;
     box-sizing: border-box;
   }
 
-  /* Input wrapper (password/confirm): width: 450px → width: 100% */
+  /* ========================================================= */
+  /* INPUT WRAPPER (PASSWORD/CONFIRM): WIDTH: 450PX -> WIDTH: 100% */
+  /* ========================================================= */
   .input-wrapper {
     width: 100%;
     box-sizing: border-box;
   }
 
-  /* Hint wrapper: width: 450px (desktop) → width: 100% */
+  /* ========================================================= */
+  /*     HINT WRAPPER: WIDTH: 450PX (DESKTOP) -> WIDTH: 100%   */
+  /* ========================================================= */
   .signup-input-wrap {
     width: 100%;
     box-sizing: border-box;
   }
 
-  /* Privacy Policy Checkbox */
+  /* ========================================================= */
+  /*                 PRIVACY POLICY CHECKBOX                   */
+  /* ========================================================= */
   .privacy-policy-check {
     font-size: 14px;
     gap: 10px;
@@ -93,13 +117,17 @@
     flex-shrink: 0;
   }
 
-  /* Error Text */
+  /* ========================================================= */
+  /*                       ERROR TEXT                          */
+  /* ========================================================= */
   .error-text {
     font-size: 14px;
     margin-top: 4px;
   }
 
-  /* Sign up Button */
+  /* ========================================================= */
+  /*                     SIGN UP BUTTON                        */
+  /* ========================================================= */
   .center-button {
     margin-top: 4px;
   }
@@ -115,13 +143,17 @@
     justify-content: center;
   }
 
-  /* Footer */
+  /* ========================================================= */
+  /*                         FOOTER                            */
+  /* ========================================================= */
   .login-footer {
     bottom: auto;
   }
 }
 
-/* Galaxy S9+ specific fix (360px width) to reserve space for 2-line error text */
+/* ========================================================= */
+/* GALAXY S9+ SPECIFIC FIX (360PX WIDTH) TO RESERVE SPACE FOR 2-LINE ERROR TEXT */
+/* ========================================================= */
 @media (max-width: 380px) {
   .signup-input-wrap,
   .login-input-wrap {

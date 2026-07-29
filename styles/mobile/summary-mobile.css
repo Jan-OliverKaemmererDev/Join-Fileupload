@@ -24,7 +24,9 @@
     overflow: hidden;
   }
 
-  /* --- Header --- */
+  /* ========================================================= */
+  /*                        HEADER                             */
+  /* ========================================================= */
   .dashboard-header {
     position: fixed;
     top: 0;
@@ -87,7 +89,9 @@
     color: #29abe2;
   }
 
-  /* --- Bottom Navigation --- */
+  /* ========================================================= */
+  /*                  BOTTOM NAVIGATION                        */
+  /* ========================================================= */
   .sidebar {
     display: flex !important;
     position: fixed;
@@ -151,7 +155,9 @@
     filter: brightness(0) invert(1) opacity(1);
   }
 
-  /* --- Summary Title --- */
+  /* ========================================================= */
+  /*                    SUMMARY TITLE                          */
+  /* ========================================================= */
   .summary-title {
     flex-direction: column !important;
     align-items: flex-start !important;
@@ -190,7 +196,9 @@
     background-color: #29abe2;
   }
 
-  /* --- Metrics Grid --- */
+  /* ========================================================= */
+  /*                    METRICS GRID                           */
+  /* ========================================================= */
   .summary-container {
     display: flex !important;
     flex-direction: column-reverse !important;
@@ -257,7 +265,9 @@
     object-fit: contain;
   }
 
-  /* To-do & Done */
+  /* ========================================================= */
+  /*                    TO-DO & DONE                           */
+  /* ========================================================= */
   .card-small {
     grid-column: span 3 !important;
     flex-direction: row !important;
@@ -290,7 +300,9 @@
       hue-rotate(178deg) brightness(96%) contrast(91%);
   }
 
-  /* Urgent */
+  /* ========================================================= */
+  /*                       URGENT                              */
+  /* ========================================================= */
   .card-large {
     grid-column: span 4 !important;
     flex-direction: row !important;
@@ -345,7 +357,9 @@
     color: #2a3647;
   }
 
-  /* Square cards */
+  /* ========================================================= */
+  /*                    SQUARE CARDS                           */
+  /* ========================================================= */
   .card-square {
     grid-column: span 2 !important;
     flex-direction: column !important;
@@ -363,7 +377,9 @@
     margin: 0 !important;
   }
 
-  /* --- Greeting Overlay --- */
+  /* ========================================================= */
+  /*                  GREETING OVERLAY                         */
+  /* ========================================================= */
   .greeting-container {
     display: none;
   }

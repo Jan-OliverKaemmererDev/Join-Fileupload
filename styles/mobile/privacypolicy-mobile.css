@@ -1,16 +1,20 @@
-/* ==========================================================================
-   RESPONSIVE DESIGN (320px bis 780px)
-   ========================================================================== */
+/* ========================================================= */
+/*             RESPONSIVE DESIGN (320PX BIS 780PX)           */
+/* ========================================================= */
 
 @media (min-width: 320px) and (max-width: 780px) {
-  /* 1. GLOBAL & MAIN CONTENT */
+  /* ========================================================= */
+  /*               1. GLOBAL & MAIN CONTENT                    */
+  /* ========================================================= */
   body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
   }
 
-  /* Sidebar bottom nav immer sichtbar */
+  /* ========================================================= */
+  /*            SIDEBAR BOTTOM NAV IMMER SICHTBAR              */
+  /* ========================================================= */
   .sidebar {
     visibility: visible;
   }
@@ -24,8 +28,12 @@
     box-sizing: border-box;
   }
 
-  /* 2. HEADER ANPASSUNGEN */
-  /* --- Header --- */
+  /* ========================================================= */
+  /*                  2. HEADER ANPASSUNGEN                    */
+  /* ========================================================= */
+  /* ========================================================= */
+  /*                        HEADER                             */
+  /* ========================================================= */
   .dashboard-header {
     position: fixed;
     top: 0;
@@ -90,7 +98,9 @@
     display: flex !important;
   }
 
-  /* 3. BOTTOM NAVIGATION (Ehemals Sidebar) */
+  /* ========================================================= */
+  /*           3. BOTTOM NAVIGATION (EHEMALS SIDEBAR)          */
+  /* ========================================================= */
   .sidebar {
     position: fixed !important;
     bottom: 0 !important;
@@ -162,7 +172,9 @@
     height: 40px !important;
   }
 
-  /* Guest Navigation spezifische Styles */
+  /* ========================================================= */
+  /*             GUEST NAVIGATION SPEZIFISCHE STYLES           */
+  /* ========================================================= */
   .nav-links .guest-nav-link {
     display: flex !important;
     flex-direction: column !important;
@@ -190,7 +202,9 @@
     overflow: visible !important;
   }
 
-  /* Aktive Seite hervorheben */
+  /* ========================================================= */
+  /*                AKTIVE SEITE HERVORHEBEN                   */
+  /* ========================================================= */
   .nav-links .guest-nav-link.active,
   .nav-links .guest-text-only.active {
     background-color: rgba(0, 0, 0, 0.2) !important;
@@ -199,7 +213,9 @@
     margin: -5px 0 !important;
   }
 
-  /* Leerer Platz in der Guest-Navigation */
+  /* ========================================================= */
+  /*             LEERER PLATZ IN DER GUEST-NAVIGATION          */
+  /* ========================================================= */
   .nav-links .empty-space {
     flex: 1 !important;
     display: block !important;
@@ -224,7 +240,9 @@
     font-weight: bold;
   }
 
-  /* 4. PRIVACY POLICY CONTENT ANPASSUNGEN */
+  /* ========================================================= */
+  /*          4. PRIVACY POLICY CONTENT ANPASSUNGEN            */
+  /* ========================================================= */
   .privacy-policy-container {
     padding: 40px 16px 100px 16px !important; /* Unten mehr Padding wegen Nav */
     max-width: 100% !important;
@@ -245,7 +263,9 @@
     align-items: center;
   }
 
-  /* Der neue funktionale Pfeil */
+  /* ========================================================= */
+  /*               DER NEUE FUNKTIONALE PFEIL                  */
+  /* ========================================================= */
   .mobile-back-arrow {
     display: flex !important;
     align-items: center;
@@ -257,13 +277,17 @@
     height: 24px;
   }
 
-  /* Der blaue Pfeil im H1 */
+  /* ========================================================= */
+  /*                  DER BLAUE PFEIL IM H1                    */
+  /* ========================================================= */
   .privacy-policy-container h1::after,
   .legal-notice-container h1::after {
     content: none !important; /* Entfernt den nicht-klickbaren Pfeil */
   }
 
-  /* --- SIDEBAR MOBILE BOTTOM BAR --- */
+  /* ========================================================= */
+  /*                SIDEBAR MOBILE BOTTOM BAR                  */
+  /* ========================================================= */
 
   .sidebar {
     position: fixed !important;
@@ -282,12 +306,16 @@
     visibility: visible !important;
   }
 
-  /* 1. Das große Desktop-Logo verstecken */
+  /* ========================================================= */
+  /*            1. DAS GROßE DESKTOP-LOGO VERSTECKEN           */
+  /* ========================================================= */
   .sidebar .sidebar-logo {
     display: none !important;
   }
 
-  /* 2. Den Wrapper für die Inhalte quer anordnen */
+  /* ========================================================= */
+  /*        2. DEN WRAPPER FÜR DIE INHALTE QUER ANORDNEN       */
+  /* ========================================================= */
   .sidebar-content-wrapper {
     display: flex !important;
     flex-direction: row !important; /* Nebeneinander */
@@ -298,7 +326,9 @@
     height: 100% !important;
   }
 
-  /* 3. Linker Teil: Log In Button */
+  /* ========================================================= */
+  /*              3. LINKER TEIL: LOG IN BUTTON                */
+  /* ========================================================= */
   .nav-links {
     margin: 0 !important;
     flex: 1; /* Nimmt Platz ein */
@@ -333,7 +363,9 @@
     line-height: 1 !important;
   }
 
-  /* 4. Rechter Teil: Legal Links */
+  /* ========================================================= */
+  /*               4. RECHTER TEIL: LEGAL LINKS                */
+  /* ========================================================= */
   .legal-links {
     display: flex !important;
     flex-direction: row !important; /* Nebeneinander */
@@ -365,12 +397,16 @@
     font-weight: 400 !important;
   }
 
-  /* Verstecke Legal Links in der mobilen Bottom-Nav wenn eingeloggt */
+  /* ========================================================= */
+  /* VERSTECKE LEGAL LINKS IN DER MOBILEN BOTTOM-NAV WENN EINGELOGGT */
+  /* ========================================================= */
   body.is-logged-in .legal-links {
     display: none !important;
   }
 
-  /* Korrektur der Verteilung der Nav-Links wenn eingeloggt */
+  /* ========================================================= */
+  /*  KORREKTUR DER VERTEILUNG DER NAV-LINKS WENN EINGELOGGT   */
+  /* ========================================================= */
   body.is-logged-in .nav-links {
     justify-content: space-between !important;
   }

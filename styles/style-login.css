@@ -1,4 +1,6 @@
-/* ---- Login-Seite: Animation ---- */
+/* ========================================================= */
+/*               LOGIN-SEITE: ANIMATION                      */
+/* ========================================================= */
 
 .animation-container {
   position: fixed;
@@ -46,7 +48,9 @@
   }
 }
 
-/* ---- Welcome Overlay ---- */
+/* ========================================================= */
+/*                   WELCOME OVERLAY                         */
+/* ========================================================= */
 
 .welcome-overlay {
   position: fixed;
@@ -168,7 +172,9 @@
   }
 }
 
-/* ---- Login-Seite: Layout ---- */
+/* ========================================================= */
+/*                 LOGIN-SEITE: LAYOUT                       */
+/* ========================================================= */
 
 .welcome-overlay .overlay-footer {
   position: absolute;
@@ -224,7 +230,9 @@
   font-weight: 700;
 }
 
-/* ---- Tablet / small-laptop fix (e.g. 1024×600) ---- */
+/* ========================================================= */
+/*        TABLET / SMALL-LAPTOP FIX (E.G. 1024X600)          */
+/* ========================================================= */
 /* Prevents login-card from overlapping logo while keeping horizontal centering */
 @media (min-width: 781px) and (max-height: 750px) {
   .login-header {

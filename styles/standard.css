@@ -46,7 +46,9 @@ body {
   overflow-x: hidden;
 }
 
-/* ---- Formular-Elemente ---- */
+/* ========================================================= */
+/*                  FORMULAR-ELEMENTE                        */
+/* ========================================================= */
 
 form {
   align-items: center;
@@ -73,7 +75,9 @@ input:focus {
   border: 1px solid var(--light-blue);
 }
 
-/* ---- Buttons ---- */
+/* ========================================================= */
+/*                       BUTTONS                             */
+/* ========================================================= */
 
 button {
   cursor: pointer;
@@ -86,7 +90,9 @@ button:hover {
   filter: brightness(1.2);
 }
 
-/* ---- Utility ---- */
+/* ========================================================= */
+/*                       UTILITY                             */
+/* ========================================================= */
 
 .d-none {
   display: none;
@@ -119,7 +125,9 @@ button:hover {
   box-sizing: border-box;
 }
 
-/* ---- Toast Nachricht ---- */
+/* ========================================================= */
+/*                   TOAST NACHRICHT                         */
+/* ========================================================= */
 
 .toast-message {
   position: fixed;
@@ -139,7 +147,9 @@ button:hover {
   bottom: 75%;
 }
 
-/* ---- Scroll Prevention ---- */
+/* ========================================================= */
+/*                  SCROLL PREVENTION                        */
+/* ========================================================= */
 
 html.no-scroll,
 body.no-scroll {
@@ -150,7 +160,9 @@ body.no-scroll .main-content {
   overflow: hidden !important;
 }
 
-/* ---- File Format Error Overlay ---- */
+/* ========================================================= */
+/*              FILE FORMAT ERROR OVERLAY                    */
+/* ========================================================= */
 .file-format-error {
   position: fixed;
   bottom: -400px;

@@ -1,4 +1,6 @@
-/* --- Grundlegendes Layout für Mobile (bis 780px) --- */
+/* ========================================================= */
+/*       GRUNDLEGENDES LAYOUT FÜR MOBILE (BIS 780PX)         */
+/* ========================================================= */
 @media (max-width: 780px) {
   html,
   body {
@@ -12,8 +14,12 @@
     overflow-y: auto;
   }
 
-  /* 2. Header anpassen (Logo links, Profil rechts) */
-  /* --- Header --- */
+  /* ========================================================= */
+  /*    2. HEADER ANPASSEN (LOGO LINKS, PROFIL RECHTS)         */
+  /* ========================================================= */
+  /* ========================================================= */
+  /*                        HEADER                             */
+  /* ========================================================= */
   .dashboard-header {
     position: fixed;
     top: 0;
@@ -79,7 +85,9 @@
     top: 66px !important;
   }
 
-  /* 3. Main Content anpassen */
+  /* ========================================================= */
+  /*                3. MAIN CONTENT ANPASSEN                   */
+  /* ========================================================= */
   .main-content {
     margin-left: 0 !important;
     width: 100% !important;
@@ -90,12 +98,16 @@
     box-sizing: border-box;
   }
 
-  /* Board Container */
+  /* ========================================================= */
+  /*                     BOARD CONTAINER                       */
+  /* ========================================================= */
   .board-container {
     padding: 16px;
   }
 
-  /* Board Header */
+  /* ========================================================= */
+  /*                      BOARD HEADER                         */
+  /* ========================================================= */
   .board-header {
     display: flex;
     flex-wrap: wrap;
@@ -113,12 +125,16 @@
     margin: 0;
   }
 
-  /* Board Actions - display: contents macht Kinder direkt zu Flex-Items von .board-header */
+  /* ========================================================= */
+  /* BOARD ACTIONS - DISPLAY: CONTENTS MACHT KINDER DIREKT ZU FLEX-ITEMS VON .BOARD-HEADER */
+  /* ========================================================= */
   .board-actions {
     display: contents;
   }
 
-  /* Search Bar - zweite Reihe, volle Breite */
+  /* ========================================================= */
+  /*          SEARCH BAR - ZWEITE REIHE, VOLLE BREITE          */
+  /* ========================================================= */
   .search-bar {
     order: 3;
     width: 100%;
@@ -151,7 +167,9 @@
     cursor: pointer;
   }
 
-  /* Add Task Button - erste Reihe rechts neben Board */
+  /* ========================================================= */
+  /*       ADD TASK BUTTON - ERSTE REIHE RECHTS NEBEN BOARD    */
+  /* ========================================================= */
   .btn-add-task {
     order: 2;
     width: 36px;
@@ -178,7 +196,9 @@
     height: 20px;
   }
 
-  /* Board Columns - vertikal */
+  /* ========================================================= */
+  /*                 BOARD COLUMNS - VERTIKAL                  */
+  /* ========================================================= */
   .board-columns {
     flex-direction: column;
     gap: 32px;
@@ -189,7 +209,9 @@
     min-width: 0;
   }
 
-  /* Column Header */
+  /* ========================================================= */
+  /*                      COLUMN HEADER                        */
+  /* ========================================================= */
   .column-header {
     font-size: 27px;
     margin-bottom: 24px;
@@ -218,7 +240,9 @@
     height: 16px;
   }
 
-  /* Task Lists - horizontales Scrollen */
+  /* ========================================================= */
+  /*             TASK LISTS - HORIZONTALES SCROLLEN            */
+  /* ========================================================= */
   .task-list {
     display: flex;
     flex-direction: row;
@@ -238,7 +262,9 @@
     /* Chrome, Safari, Opera */
   }
 
-  /* Task Cards */
+  /* ========================================================= */
+  /*                       TASK CARDS                          */
+  /* ========================================================= */
   .task-card {
     padding: 16px;
     border-radius: 24px;
@@ -384,12 +410,16 @@
     gap: 8px;
   }
 
-  /* Mobile Nav ausblenden (wird durch Sidebar ersetzt) */
+  /* ========================================================= */
+  /* MOBILE NAV AUSBLENDEN (WIRD DURCH SIDEBAR ERSETZT)        */
+  /* ========================================================= */
   .mobile-nav {
     display: none !important;
   }
 
-  /* --- Bottom Navigation (Repurposed Sidebar) --- */
+  /* ========================================================= */
+  /*         BOTTOM NAVIGATION (REPURPOSED SIDEBAR)            */
+  /* ========================================================= */
   .sidebar {
     display: flex !important;
     position: fixed;
@@ -454,7 +484,9 @@
   }
 }
 
-/* --- Landscape-Modus deaktivieren auf mobilen Geräten --- */
+/* ========================================================= */
+/* LANDSCAPE-MODUS DEAKTIVIEREN AUF MOBILEN GERÄTEN          */
+/* ========================================================= */
 .landscape-block {
   display: none;
 }
@@ -477,7 +509,9 @@
   }
 }
 
-/* --- Mobile Edit Overlay --- */
+/* ========================================================= */
+/*                   MOBILE EDIT OVERLAY                     */
+/* ========================================================= */
 .mobile-edit-overlay {
   display: none;
 }

@@ -1,6 +1,10 @@
-/* Mobile Styles für Login und allgemeine Komponenten */
+/* ========================================================= */
+/*       MOBILE STYLES FÜR LOGIN UND ALLGEMEINE KOMPONENTEN  */
+/* ========================================================= */
 
-/* Sidebar verstecken bei mobile */
+/* ========================================================= */
+/*             SIDEBAR VERSTECKEN BEI MOBILE                 */
+/* ========================================================= */
 @media (min-width: 320px) and (max-width: 780px) {
   .sidebar,
   aside,
@@ -16,7 +20,9 @@
   }
 }
 
-/* Standards außerhalb Media Query */
+/* ========================================================= */
+/*             STANDARDS AUSSERHALB MEDIA QUERY              */
+/* ========================================================= */
 .mobile-logo {
   display: none;
 }
@@ -25,7 +31,9 @@
   display: none;
 }
 
-/* Mobile Responsive Styles */
+/* ========================================================= */
+/*                 MOBILE RESPONSIVE STYLES                  */
+/* ========================================================= */
 @media (min-width: 320px) and (max-width: 780px) {
   html {
     min-height: 100vh;
@@ -41,7 +49,9 @@
     background-color: var(--dark-blue);
   }
 
-  /* Animation Container */
+  /* ========================================================= */
+  /*                   ANIMATION CONTAINER                     */
+  /* ========================================================= */
   .animation-container {
     position: absolute;
     top: 0;
@@ -60,7 +70,9 @@
     }
   }
 
-  /* Desktop logo fliegt zur oberen linken Ecke, dann wird es unsichtbar */
+  /* ========================================================= */
+  /* DESKTOP LOGO FLIEGT ZUR OBEREN LINKEN ECKE, DANN UNSICHTBAR */
+  /* ========================================================= */
   #flying-logo {
     opacity: 0;
     z-index: 1002;
@@ -91,7 +103,9 @@
     }
   }
 
-  /* Mobile Logo: startet mittig, fliegt nach oben links, dann wird es unsichtbar */
+  /* ========================================================= */
+  /* MOBILE LOGO: STARTET MITTIG, FLIEGT NACH OBEN LINKS, UNSICHTBAR */
+  /* ========================================================= */
   .mobile-logo {
     display: block;
     position: absolute;
@@ -128,7 +142,9 @@
     }
   }
 
-  /* Logo permanent oben links sichtbar nach Animation */
+  /* ========================================================= */
+  /*   LOGO PERMANENT OBEN LINKS SICHTBAR NACH ANIMATION       */
+  /* ========================================================= */
   #flying-logo {
     position: absolute;
     top: 37px;
@@ -137,12 +153,16 @@
     height: auto;
   }
 
-  /* Header ausblenden – wird durch mobile-signup ersetzt */
+  /* ========================================================= */
+  /* HEADER AUSBLENDEN - WIRD DURCH MOBILE-SIGNUP ERSETZT      */
+  /* ========================================================= */
   .login-header {
     display: none;
   }
 
-  /* Haupt-Layout */
+  /* ========================================================= */
+  /*                      HAUPT-LAYOUT                         */
+  /* ========================================================= */
   .login-main {
     display: flex;
     flex-direction: column;
@@ -154,7 +174,9 @@
     min-height: auto;
   }
 
-  /* Login Card */
+  /* ========================================================= */
+  /*                       LOGIN CARD                          */
+  /* ========================================================= */
   .login-card {
     padding: 32px 24px 36px;
     box-shadow: 0 0 14px 3px rgba(0, 0, 0, 0.06);
@@ -173,7 +195,9 @@
     line-height: 1.1;
   }
 
-  /* Blauer Unterstrich unter "Log in" */
+  /* ========================================================= */
+  /*             BLAUER UNTERSTRICH UNTER "LOG IN"             */
+  /* ========================================================= */
   .blue-underline {
     width: 130px;
     height: 3px;
@@ -182,7 +206,9 @@
     margin: 4px 0 20px 0;
   }
 
-  /* Formular */
+  /* ========================================================= */
+  /*                         FORMULAR                          */
+  /* ========================================================= */
   form {
     display: flex;
     flex-direction: column;
@@ -190,7 +216,9 @@
     width: 100%;
   }
 
-  /* Input-Felder */
+  /* ========================================================= */
+  /*                       INPUT-FELDER                        */
+  /* ========================================================= */
   input[type="email"],
   input[type="password"],
   input[type="text"] {
@@ -227,7 +255,9 @@
     box-sizing: border-box;
   }
 
-  /* Input Wrapper (für Icons) */
+  /* ========================================================= */
+  /*                 INPUT WRAPPER (FÜR ICONS)                 */
+  /* ========================================================= */
   .input-wrapper {
     position: relative;
     width: 100%;
@@ -248,7 +278,9 @@
     opacity: 0.4;
   }
 
-  /* Login Aktionen (Buttons) */
+  /* ========================================================= */
+  /*                 LOGIN AKTIONEN (BUTTONS)                  */
+  /* ========================================================= */
   .login-actions {
     display: flex;
     flex-direction: column;
@@ -258,7 +290,9 @@
     width: 100%;
   }
 
-  /* Primärer Button (dunkel) */
+  /* ========================================================= */
+  /*                 PRIMÄRER BUTTON (DUNKEL)                  */
+  /* ========================================================= */
   .btn-dark {
     flex: unset;
     font-size: 18px;
@@ -287,7 +321,9 @@
     transform: scale(0.97);
   }
 
-  /* Sekundärer Button (hell/outlined) */
+  /* ========================================================= */
+  /*             SEKUNDÄRER BUTTON (HELL/OUTLINED)             */
+  /* ========================================================= */
   .btn-light {
     flex: unset;
     font-size: 18px;
@@ -318,7 +354,9 @@
     transform: scale(0.97);
   }
 
-  /* Mobile Signup-Bereich unter der Card */
+  /* ========================================================= */
+  /*             MOBILE SIGNUP-BEREICH UNTER DER CARD          */
+  /* ========================================================= */
   .mobile-signup {
     display: flex;
     justify-content: center;
@@ -352,7 +390,9 @@
     background-color: var(--blue, #29abe2);
   }
 
-  /* Footer unterm Content stoppen lassen (verhindert Überlappung) */
+  /* ========================================================= */
+  /* FOOTER UNTERM CONTENT STOPPEN LASSEN (VERHINDERT ÜBERLAPPUNG) */
+  /* ========================================================= */
   .login-footer {
     position: relative;
     bottom: auto;
@@ -377,7 +417,9 @@
     text-decoration: underline;
   }
 
-  /* Anpassungen für das Welcome Overlay auf Mobile */
+  /* ========================================================= */
+  /*         ANPASSUNGEN FÜR DAS WELCOME OVERLAY AUF MOBILE    */
+  /* ========================================================= */
   .welcome-overlay {
     position: absolute;
     min-height: 100vh;
@@ -492,7 +534,9 @@
   }
 }
 
-/* Galaxy S9+ specific fix (380px width) to reserve space for 2-line error text */
+/* ========================================================= */
+/* GALAXY S9+ SPECIFIC FIX (380PX WIDTH) TO RESERVE SPACE FOR 2-LINE ERROR TEXT */
+/* ========================================================= */
 @media (max-width: 360px) {
   .login-input-wrap {
     min-height: 90px;

@@ -1,4 +1,6 @@
-/* Attachments in Task Details */
+/* ========================================================= */
+/*              ATTACHMENTS IN TASK DETAILS                  */
+/* ========================================================= */
 .task-details-attachments {
   display: flex;
   flex-direction: column;
@@ -57,7 +59,9 @@
   pointer-events: none;
 }
 
-/* Viewer Overlay */
+/* ========================================================= */
+/*                   VIEWER OVERLAY                          */
+/* ========================================================= */
 #image-viewer-overlay {
   background-color: transparent;
   display: flex;
@@ -111,7 +115,9 @@
   transition: none;
 }
 
-/* Hover Controls */
+/* ========================================================= */
+/*                   HOVER CONTROLS                          */
+/* ========================================================= */
 .viewer-controls {
   position: absolute;
   top: 0;
