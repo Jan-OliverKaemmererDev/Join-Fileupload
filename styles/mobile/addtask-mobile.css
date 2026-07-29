@@ -326,6 +326,15 @@
     flex: 1;
   }
 
+  .selected-contacts-initials::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .selected-contacts-initials {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   /* ========================================================= */
   /*                         SUBTASKS                          */
   /* ========================================================= */
