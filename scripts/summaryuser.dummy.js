@@ -431,6 +431,9 @@ function startGreetingFadeOut(greetingContainer) {
 }
 
 /**
+ * Shows the mobile greeting overlay and starts fade out.
+ * @param {HTMLElement} greetingContainer - The greeting container element.
+ */
 function showMobileGreetingOverlay(greetingContainer) {
   greetingContainer.classList.add("mobile-greeting-overlay");
   startGreetingFadeOut(greetingContainer);

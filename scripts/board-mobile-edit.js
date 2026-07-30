@@ -276,6 +276,7 @@ function buildMobileCurrentEditState() {
 /**
  * Validates the mobile edit form.
  * Disables the save button if the title or date is missing or no changes have been made.
+ */
 function validateMobileEditForm() {
   const title = document.getElementById("mobile-edit-title").value.trim();
   const dueDate = document.getElementById("mobile-edit-due-date").value;
