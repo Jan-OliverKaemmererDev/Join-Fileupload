@@ -11,21 +11,31 @@ let currentEditTaskOriginalState = null;
 function toggleScrollLock(lock) {
   const mainContent = document.querySelector(".main-content");
   if (lock) {
-    const scrollbarWidth = mainContent
-      ? mainContent.offsetWidth - mainContent.clientWidth
-      : 0;
-    document.documentElement.classList.add("no-scroll");
-    document.body.classList.add("no-scroll");
-    if (mainContent && scrollbarWidth > 0) {
-      mainContent.style.paddingRight = scrollbarWidth + "px";
-    }
+    lockScrolling(mainContent);
   } else {
-    document.documentElement.classList.remove("no-scroll");
-    document.body.classList.remove("no-scroll");
-    if (mainContent) {
-      mainContent.style.paddingRight = "";
-    }
+    unlockScrolling(mainContent);
   }
+}
+
+/**
+ * Locks the scrolling
+ */
+function lockScrolling(mainContent) {
+  const scrollbarWidth = mainContent ? mainContent.offsetWidth - mainContent.clientWidth : 0;
+  document.documentElement.classList.add("no-scroll");
+  document.body.classList.add("no-scroll");
+  if (mainContent && scrollbarWidth > 0) {
+    mainContent.style.paddingRight = scrollbarWidth + "px";
+  }
+}
+
+/**
+ * Unlocks the scrolling
+ */
+function unlockScrolling(mainContent) {
+  document.documentElement.classList.remove("no-scroll");
+  document.body.classList.remove("no-scroll");
+  if (mainContent) mainContent.style.paddingRight = "";
 }
 
 /**
@@ -302,38 +312,55 @@ async function editTask(taskId) {
  * @param {Object} task - The task object
  */
 async function fillFormWithTaskData(task) {
+  saveOriginalEditState(task);
+  fillBasicTaskFields(task);
+  loadAssigneesForEdit(task);
+  fillCategoryAndPriority(task);
+  
+  subtasks = task.subtasks && task.subtasks.length > 0 
+    ? JSON.parse(JSON.stringify(task.subtasks)) : [];
+  renderSubtasks();
+  
+  if (typeof loadExistingAttachments === 'function') {
+    await loadExistingAttachments(task.attachments || []);
+  }
+  validateForm();
+}
+
+/**
+ * Saves the original task state to check for dirtiness later
+ */
+function saveOriginalEditState(task) {
   currentEditTaskOriginalState = JSON.stringify({
-    title: task.title,
-    description: task.description,
-    dueDate: task.dueDate,
-    category: task.category,
-    priority: task.priority,
+    title: task.title, description: task.description, dueDate: task.dueDate,
+    category: task.category, priority: task.priority,
     assignedTo: task.assignedTo ? [...task.assignedTo].sort() : [],
     subtasks: task.subtasks ? JSON.parse(JSON.stringify(task.subtasks)) : [],
     attachments: task.attachments ? task.attachments.length : 0
   });
+}
 
+/**
+ * Fills basic text fields and dates
+ */
+function fillBasicTaskFields(task) {
   document.getElementById("title").value = task.title;
   document.getElementById("description").value = task.description;
   const dateInput = document.getElementById("due-date");
   if (task.dueDate) dateInput.type = "date";
   dateInput.value = task.dueDate;
-  loadAssigneesForEdit(task);
+}
+
+/**
+ * Fills category and priority UI elements
+ */
+function fillCategoryAndPriority(task) {
   document.getElementById("category").value = task.category;
   const categoryText = document.getElementById("selected-category-text");
   if (categoryText) {
     categoryText.textContent = task.category === "user-story" ? "User Story" : "Technical Task";
   }
   selectPriority(task.priority);
-  subtasks =
-    task.subtasks && task.subtasks.length > 0
-      ? JSON.parse(JSON.stringify(task.subtasks))
-      : [];
-  renderSubtasks();
-  if (typeof loadExistingAttachments === 'function') {
-    await loadExistingAttachments(task.attachments || []);
-  }
-  validateForm();
 }
 
 /**
@@ -342,23 +369,25 @@ async function fillFormWithTaskData(task) {
  */
 function isTaskDirty() {
   if (!currentEditTaskOriginalState) return true;
-  
+  const currentStateObj = buildCurrentEditState();
+  return JSON.stringify(currentStateObj) !== currentEditTaskOriginalState;
+}
+
+/**
+ * Builds the current form state for comparison
+ */
+function buildCurrentEditState() {
   const currentAssignedTo = selectedContacts ? [...selectedContacts].map(c => typeof c === 'object' ? c.id : c).sort() : [];
-  const currentSubtasks = subtasks ? subtasks : [];
-  const currentAttachments = typeof taskAttachments !== 'undefined' ? taskAttachments.length : 0;
-  
-  const currentState = JSON.stringify({
+  return {
     title: document.getElementById("title").value.trim(),
     description: document.getElementById("description").value.trim(),
     dueDate: document.getElementById("due-date").value,
     category: document.getElementById("category").value,
     priority: typeof selectedPriority !== 'undefined' ? selectedPriority : "medium",
     assignedTo: currentAssignedTo,
-    subtasks: currentSubtasks,
-    attachments: currentAttachments
-  });
-  
-  return currentState !== currentEditTaskOriginalState;
+    subtasks: subtasks ? subtasks : [],
+    attachments: typeof taskAttachments !== 'undefined' ? taskAttachments.length : 0
+  };
 }
 
 /**
@@ -435,14 +464,12 @@ async function applyFormDataToTask(task) {
   task.description = document.getElementById("description").value.trim();
   task.dueDate = document.getElementById("due-date").value;
   task.priority = selectedPriority;
-  task.assignedTo = selectedContacts.map(function (c) {
-    return c.id;
-  });
+  task.assignedTo = selectedContacts.map(c => c.id);
   task.category = document.getElementById("category").value;
   task.subtasks = JSON.parse(JSON.stringify(subtasks));
+  
   if (typeof processTaskAttachments === 'function') {
-    const newAttachments = await processTaskAttachments();
-    task.attachments = newAttachments;
+    task.attachments = await processTaskAttachments();
   }
 }
 

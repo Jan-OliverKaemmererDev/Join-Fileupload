@@ -1,6 +1,7 @@
 /**
  * @fileoverview Attachment handling for the add task page.
  */
+
 /**
  * Global array for all valid image attachments.
  * @type {File[]}
@@ -54,18 +55,32 @@ function processFiles(files) {
  * @param {Object} state - The processing status.
  */
 function processSingleFile(file, state) {
-  if (file.size > (typeof MAX_FILE_SIZE !== 'undefined' ? MAX_FILE_SIZE : 2 * 1024 * 1024)) {
-    if (!state.errorShown) {
-      if (typeof showFileSizeError === "function") showFileSizeError();
-      state.errorShown = true;
-    }
-    return;
-  }
-
+  const max = typeof MAX_FILE_SIZE !== 'undefined' ? MAX_FILE_SIZE : 2 * 1024 * 1024;
+  if (file.size > max) return handleSizeError(state);
+  
   if (isValidImage(file)) {
     taskAttachments.push(file);
     state.added = true;
-  } else if (!state.errorShown) {
+  } else {
+    handleFormatError(state);
+  }
+}
+
+/**
+ * Handles file size error
+ */
+function handleSizeError(state) {
+  if (!state.errorShown) {
+    if (typeof showFileSizeError === "function") showFileSizeError();
+    state.errorShown = true;
+  }
+}
+
+/**
+ * Handles file format error
+ */
+function handleFormatError(state) {
+  if (!state.errorShown) {
     if (typeof showFileFormatError === "function") showFileFormatError();
     state.errorShown = true;
   }
@@ -167,14 +182,7 @@ async function processTaskAttachments() {
  */
 async function processSingleAttachment(file) {
   let images = await generateAttachmentImages(file);
-  
-  // Calculate size in bytes from base64 (approx string length * 0.75)
-  const base64Size = images.original.length * 0.75;
-  if (base64Size > 1024 * 1024) { // 1 MB
-    if (typeof showFileSizeError === "function") showFileSizeError();
-    throw new Error("File too large for Firebase after compression");
-  }
-
+  validateAttachmentSize(images.original);
   return {
     name: file.name || "unnamed",
     type: file.type || "application/octet-stream",
@@ -182,6 +190,17 @@ async function processSingleAttachment(file) {
     data: images.original || "",
     preview: images.preview || ""
   };
+}
+
+/**
+ * Validates that compressed attachment is under 1MB
+ */
+function validateAttachmentSize(base64Data) {
+  const base64Size = base64Data.length * 0.75;
+  if (base64Size > 1024 * 1024) {
+    if (typeof showFileSizeError === "function") showFileSizeError();
+    throw new Error("File too large for Firebase after compression");
+  }
 }
 
 /**
@@ -247,16 +266,12 @@ function updateAttachmentsPreview() {
   const deleteBtn = document.getElementById('delete-all-attachments');
   if (!container) return;
   container.innerHTML = '';
-  if (taskAttachments.length > 0) {
-    deleteBtn.classList.remove('d-none');
+  const hasFiles = taskAttachments.length > 0;
+  deleteBtn.classList.toggle('d-none', !hasFiles);
+  if (hasFiles) {
     taskAttachments.forEach((f, i) => container.appendChild(createThumbnail(f, i)));
-  } else {
-    deleteBtn.classList.add('d-none');
   }
-  
-  if (typeof validateForm === 'function') {
-    validateForm();
-  }
+  if (typeof validateForm === 'function') validateForm();
 }
 
 /**

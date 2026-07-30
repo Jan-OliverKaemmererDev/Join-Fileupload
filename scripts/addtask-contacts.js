@@ -1,6 +1,7 @@
 /**
  * @fileoview Contact selection and handling for the add task page.
  */
+
 /**
  * Loads contacts from Firestore
  */
@@ -35,28 +36,34 @@ function fetchContactsSnapshot(userId) {
  */
 function processContactsSnapshot(snapshot, currentUser) {
   allContacts = [];
-  
   if (currentUser) {
-    allContacts.push({
-      id: currentUser.id,
-      name: currentUser.name,
-      email: currentUser.email,
-      phone: currentUser.phone || "",
-      color: "#29ABE2",
-      initials: getInitialsFromName(currentUser.name),
-      isYou: true,
-      profileImageSmall: currentUser.profileImageSmall
-    });
+    allContacts.push(createCurrentUserContact(currentUser));
   }
-
   snapshot.forEach(function (doc) {
-    const contact = doc.data();
-    contact.id = doc.id;
-    contact.isYou = contact.email === currentUser.email;
-    if (!contact.isYou) {
-      allContacts.push(contact);
-    }
+    addSnapshotContact(doc, currentUser);
   });
+}
+
+/**
+ * Creates contact object for current user
+ */
+function createCurrentUserContact(user) {
+  return {
+    id: user.id, name: user.name, email: user.email,
+    phone: user.phone || "", color: "#29ABE2",
+    initials: getInitialsFromName(user.name),
+    isYou: true, profileImageSmall: user.profileImageSmall
+  };
+}
+
+/**
+ * Adds a snapshot contact to the allContacts array
+ */
+function addSnapshotContact(doc, currentUser) {
+  const contact = doc.data();
+  contact.id = doc.id;
+  contact.isYou = contact.email === currentUser.email;
+  if (!contact.isYou) allContacts.push(contact);
 }
 
 /**
@@ -72,33 +79,38 @@ function sortContactsByName() {
  * Renders contact options in dropdown
  */
 function renderAssignedToOptions() {
-  const optionsContainer = document.getElementById("assigned-to-options");
-  if (!optionsContainer) return;
-  optionsContainer.innerHTML = "";
-  allContacts.forEach(function (contact) {
-    const isSelected = selectedContacts.some(function (c) {
-      return c.id === contact.id;
-    });
-    
-    const selectedClass = isSelected ? "selected" : "";
-    const nameSuffix = contact.isYou ? " (You)" : "";
-    let avatarInner = contact.initials;
-    let avatarStyle = `background-color: ${contact.color}`;
-    
-    if (contact.profileImageSmall && contact.profileImageSmall.base64) {
-      avatarInner = `<img src="${contact.profileImageSmall.base64}" class="account-profile-img" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-      avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
-    }
+  const container = document.getElementById("assigned-to-options");
+  if (!container) return;
+  container.innerHTML = "";
+  allContacts.forEach(c => container.innerHTML += createContactOption(c));
+}
 
-    optionsContainer.innerHTML += getContactOptionTemplate(
-      contact.id, 
-      contact.name, 
-      selectedClass, 
-      nameSuffix, 
-      avatarStyle, 
-      avatarInner
-    );
-  });
+/**
+ * Creates HTML template for a single contact option
+ */
+function createContactOption(contact) {
+  const isSelected = selectedContacts.some(c => c.id === contact.id);
+  const selectedClass = isSelected ? "selected" : "";
+  const nameSuffix = contact.isYou ? " (You)" : "";
+  const avatar = getContactAvatarData(contact, true);
+  return getContactOptionTemplate(
+    contact.id, contact.name, selectedClass, nameSuffix,
+    avatar.style, avatar.inner
+  );
+}
+
+/**
+ * Gets avatar data for a contact
+ */
+function getContactAvatarData(contact, isOption) {
+  let inner = contact.initials;
+  let style = `background-color: ${contact.color}`;
+  if (contact.profileImageSmall && contact.profileImageSmall.base64) {
+    const cls = isOption ? 'class="account-profile-img" ' : '';
+    inner = `<img src="${contact.profileImageSmall.base64}" ${cls}style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+    style = `background-color: transparent; position: relative; overflow: hidden;`;
+  }
+  return { inner, style };
 }
 
 /**
@@ -152,32 +164,21 @@ function renderSelectedInitials() {
   const container = document.getElementById("selected-contacts-initials");
   if (!container) return;
   container.innerHTML = "";
-  selectedContacts.forEach(function (contact) {
-    let avatarInner = contact.initials;
-    let avatarStyle = `background-color: ${contact.color}`;
-    
-    if (contact.profileImageSmall && contact.profileImageSmall.base64) {
-      avatarInner = `<img src="${contact.profileImageSmall.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-      avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
-    }
-
-    container.innerHTML += getSelectedContactInitialsTemplate(avatarStyle, avatarInner);
+  selectedContacts.forEach(c => {
+    const avatar = getContactAvatarData(c, false);
+    container.innerHTML += getSelectedContactInitialsTemplate(avatar.style, avatar.inner);
   });
 }
 
 // Schließt das Dropdown bei Klick außerhalb
-document.addEventListener(
-  "click",
-  function (event) {
-    const wrapper = document.getElementById("assigned-to-wrapper");
-    if (wrapper && !wrapper.contains(event.target)) {
-      wrapper.classList.remove("open");
-      const options = document.getElementById("assigned-to-options");
-      if (options) options.classList.add("d-none");
-    }
-  },
-  true,
-);
+document.addEventListener("click", function (event) {
+  const wrapper = document.getElementById("assigned-to-wrapper");
+  if (wrapper && !wrapper.contains(event.target)) {
+    wrapper.classList.remove("open");
+    const options = document.getElementById("assigned-to-options");
+    if (options) options.classList.add("d-none");
+  }
+}, true);
 
 /**
  * Loads the assigned contacts into the form state

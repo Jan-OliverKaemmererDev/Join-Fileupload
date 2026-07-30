@@ -1,24 +1,27 @@
 /**
  * @fileooverview Subtask management for the add task page.
  */
+
 /**
  * Adds a new subtask
  */
 function addSubtask() {
   const input = document.getElementById("subtask-input");
   const subtaskText = input.value.trim();
-  if (subtaskText === "") {
-    hideSubtaskIcons();
-    return;
-  }
+  if (subtaskText === "") return hideSubtaskIcons();
+  
   processNewSubtask(subtaskText);
   input.value = "";
   renderSubtasks();
   hideSubtaskIcons();
-  
-  if (typeof validateForm === 'function') {
-    validateForm();
-  }
+  triggerValidation();
+}
+
+/**
+ * Triggers form validation if available
+ */
+function triggerValidation() {
+  if (typeof validateForm === 'function') validateForm();
 }
 
 /**
@@ -63,9 +66,7 @@ document.addEventListener("click", function (event) {
   const wrapper = document.getElementById("subtask-wrapper");
   const input = document.getElementById("subtask-input");
   if (wrapper && input && !wrapper.contains(event.target)) {
-    if (input.value.trim() === "") {
-      hideSubtaskIcons();
-    }
+    if (input.value.trim() === "") hideSubtaskIcons();
   }
 });
 
@@ -86,11 +87,7 @@ function handleSubtaskKeydown(event) {
  * @returns {Object} The subtask object
  */
 function createSubtask(text) {
-  return {
-    id: Date.now(),
-    text: text,
-    completed: false,
-  };
+  return { id: Date.now(), text: text, completed: false };
 }
 
 /**
@@ -140,15 +137,10 @@ function saveEditSubtask(id) {
   const input = document.getElementById(`subtask-input-${id}`);
   if (!input) return;
   const newText = input.value.trim();
-  if (newText === "") {
-    removeSubtask(id);
-    return;
-  }
-  updateSubtaskText(id, newText);
+  if (newText === "") return removeSubtask(id);
   
-  if (typeof validateForm === 'function') {
-    validateForm();
-  }
+  updateSubtaskText(id, newText);
+  triggerValidation();
 }
 
 /**
@@ -185,10 +177,7 @@ function removeSubtask(id) {
     return s.id !== id;
   });
   renderSubtasks();
-  
-  if (typeof validateForm === 'function') {
-    validateForm();
-  }
+  triggerValidation();
 }
 
 /**

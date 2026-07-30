@@ -12,7 +12,6 @@ function initSideMenu(currentPage) {
   }
 }
 
-
 /**
  * Handles a single navigation link
  * @param {HTMLElement} link - The link element
@@ -26,7 +25,6 @@ function processNavLink(link, currentPage) {
   }
 }
 
-
 /**
  * Navigates to a specific page
  * @param {string} pageName - The name of the target page
@@ -35,31 +33,46 @@ function navigateTo(pageName) {
   window.location.href = pageName;
 }
 
-
 /**
  * Displays user initials in header
  * @param {string} username - The username
  */
 function displayUserInitials(username) {
-  const initialsElement = document.getElementById("user-initials");
-  if (!initialsElement || !username) return;
-  const currentUser = typeof getCurrentUser === "function" ? getCurrentUser() : null;
-  if (currentUser && currentUser.profileImageSmall && currentUser.profileImageSmall.base64) {
-    if (typeof showHeaderProfileImage === "function") {
-      showHeaderProfileImage(currentUser.profileImageSmall.base64);
-    }
-    return;
-  }
-  const nameParts = username.trim().split(" ");
-  let initials = "";
-  if (nameParts.length >= 2) {
-    initials = nameParts[0][0] + nameParts[1][0];
-  } else if (nameParts.length === 1) {
-    initials = nameParts[0][0];
-  }
-  initialsElement.textContent = initials.toUpperCase();
+  const initialsEl = document.getElementById("user-initials");
+  if (!initialsEl || !username) return;
+  
+  if (tryDisplayHeaderProfileImage()) return;
+  
+  initialsEl.textContent = extractInitials(username);
 }
 
+/**
+ * Attempts to display the header profile image if available
+ * @returns {boolean} True if image was displayed
+ */
+function tryDisplayHeaderProfileImage() {
+  const currentUser = typeof getCurrentUser === "function" ? getCurrentUser() : null;
+  if (currentUser?.profileImageSmall?.base64 && typeof showHeaderProfileImage === "function") {
+    showHeaderProfileImage(currentUser.profileImageSmall.base64);
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Extracts initials from a username
+ * @param {string} username - The username
+ * @returns {string} The extracted initials
+ */
+function extractInitials(username) {
+  const nameParts = username.trim().split(" ");
+  if (nameParts.length >= 2) {
+    return (nameParts[0][0] + nameParts[1][0]).toUpperCase();
+  } else if (nameParts.length === 1 && nameParts[0].length > 0) {
+    return nameParts[0][0].toUpperCase();
+  }
+  return "";
+}
 
 /**
  * Displays the guest initials in the header

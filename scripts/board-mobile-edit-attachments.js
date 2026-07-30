@@ -11,6 +11,7 @@ function handleMobileEditFileSelect(event) {
   document.getElementById("mobile-edit-file-upload").value = "";
 }
 
+
 /**
  * Processes a list of files for the mobile edit overlay.
  * Validates each file and reads it as a data URL.
@@ -57,12 +58,28 @@ function updateMobileEditAttachmentsPreview() {
   const btnDeleteAll = document.getElementById("mobile-edit-delete-all-attachments");
   if (!previewContainer) return;
   previewContainer.innerHTML = "";
+  
   if (mobileEditAttachments.length === 0) {
-    toggleMobileEditDeleteAllButton(btnDeleteAll, true);
-    previewContainer.classList.remove("can-scroll");
-    if (typeof validateMobileEditForm === 'function') validateMobileEditForm();
+    handleEmptyMobileEditPreview(previewContainer, btnDeleteAll);
     return;
   }
+  
+  handleFilledMobileEditPreview(previewContainer, btnDeleteAll);
+}
+
+/**
+ * Handles the state when there are no attachments
+ */
+function handleEmptyMobileEditPreview(previewContainer, btnDeleteAll) {
+  toggleMobileEditDeleteAllButton(btnDeleteAll, true);
+  previewContainer.classList.remove("can-scroll");
+  if (typeof validateMobileEditForm === 'function') validateMobileEditForm();
+}
+
+/**
+ * Handles the state when there are attachments
+ */
+function handleFilledMobileEditPreview(previewContainer, btnDeleteAll) {
   toggleMobileEditDeleteAllButton(btnDeleteAll, false);
   renderMobileEditThumbnails(previewContainer);
   updateMobileEditPreviewScrollState(previewContainer);

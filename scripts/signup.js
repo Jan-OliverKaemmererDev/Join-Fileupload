@@ -1,6 +1,7 @@
 /**
  * @fileoverview Main logic for user registration on the signup page.
  */
+
 /**
  * Initializes the signup page
  */
@@ -14,19 +15,22 @@ function initSignup() {
  */
 function attachSignupBlurValidators() {
   const fields = ["name", "email", "password", "confirm-password"];
-  fields.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener('blur', () => {
-        const values = getSignupFormValues();
-        const validity = validateSignupFields(values.name, values.email, values.pass, values.confirm);
-        
-        if (id === "name") showNameHint(values, validity, true);
-        if (id === "email") showEmailHint(values, validity, true);
-        if (id === "password") showPasswordHint(values, validity, true);
-        if (id === "confirm-password") showConfirmHint(values, true);
-      });
-    }
+  fields.forEach(setupBlurValidator);
+}
+
+/**
+ * Sets up a blur validator for a specific input field
+ */
+function setupBlurValidator(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('blur', () => {
+    const vals = getSignupFormValues();
+    const valids = validateSignupFields(vals.name, vals.email, vals.pass, vals.confirm);
+    if (id === "name") showNameHint(vals, valids, true);
+    if (id === "email") showEmailHint(vals, valids, true);
+    if (id === "password") showPasswordHint(vals, valids, true);
+    if (id === "confirm-password") showConfirmHint(vals, true);
   });
 }
 

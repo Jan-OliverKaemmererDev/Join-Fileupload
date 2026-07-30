@@ -89,19 +89,29 @@ function addAssigneeBadges(assignedTo) {
   let html = "";
   const displayCount = Math.min(assignedTo.length, 3);
   for (let i = 0; i < displayCount; i++) {
-    const contact = findContactById(assignedTo[i]);
-    if (contact) {
-      const initials = getInitialsFromName(contact.name);
-      let profileImg = null;
-      if (contact.profileImageSmall && contact.profileImageSmall.base64) {
-        profileImg = contact.profileImageSmall.base64;
-      } else if (contact.profileImage && contact.profileImage.base64) {
-        profileImg = contact.profileImage.base64;
-      }
-      html += getAssigneeBadgeTemplate(initials, contact.color, profileImg);
-    }
+    html += buildSingleAssigneeBadge(assignedTo[i]);
   }
   return html;
+}
+
+/**
+ * Builds a single assignee badge HTML
+ */
+function buildSingleAssigneeBadge(contactId) {
+  const contact = findContactById(contactId);
+  if (!contact) return "";
+  const initials = getInitialsFromName(contact.name);
+  const profileImg = getContactProfileImage(contact);
+  return getAssigneeBadgeTemplate(initials, contact.color, profileImg);
+}
+
+/**
+ * Returns the profile image base64 if available
+ */
+function getContactProfileImage(contact) {
+  if (contact.profileImageSmall?.base64) return contact.profileImageSmall.base64;
+  if (contact.profileImage?.base64) return contact.profileImage.base64;
+  return null;
 }
 
 /**
@@ -154,22 +164,17 @@ function buildAssigneeDetailItems(assignedIds) {
  */
 function processAssigneeItem(contactId) {
   const contact = findContactById(contactId);
-  if (contact) {
-    const initials = getInitialsFromName(contact.name);
-    let profileImg = null;
-    if (contact.profileImageSmall && contact.profileImageSmall.base64) {
-      profileImg = contact.profileImageSmall.base64;
-    } else if (contact.profileImage && contact.profileImage.base64) {
-      profileImg = contact.profileImage.base64;
-    }
-    return getAssignedToDetailItemTemplate(
-      initials,
-      contact.color,
-      contact.name,
-      profileImg
-    );
-  }
-  return "";
+  if (!contact) return "";
+  
+  const initials = getInitialsFromName(contact.name);
+  const profileImg = getContactProfileImage(contact);
+  
+  return getAssignedToDetailItemTemplate(
+    initials,
+    contact.color,
+    contact.name,
+    profileImg
+  );
 }
 
 /**

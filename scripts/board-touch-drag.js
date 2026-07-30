@@ -93,11 +93,16 @@ function handleTouchEnd(ev) {
     performTouchDrop(ev);
     cleanupTouchDragState();
   }
+  resetTouchDragVariables();
+}
+
+/**
+ * Resets the touch drag variables
+ */
+function resetTouchDragVariables() {
   touchDragElement = null;
   touchDragTaskId = null;
-  setTimeout(function () {
-    isDragging = false;
-  }, 0);
+  setTimeout(() => isDragging = false, 0);
 }
 
 /**
@@ -105,30 +110,32 @@ function handleTouchEnd(ev) {
  */
 function performTouchDrop(ev) {
   const touch = ev.changedTouches[0];
-  const x = touch.clientX;
-  const y = touch.clientY;
-  const column = getColumnUnderPoint(x, y);
+  const column = getColumnUnderPoint(touch.clientX, touch.clientY);
+  if (!column || touchDragTaskId === null) return;
+  
+  currentDraggedTaskId = touchDragTaskId;
+  const status = getStatusFromColumnId(column.id);
+  if (!status) return;
 
-  if (column && touchDragTaskId !== null) {
-    currentDraggedTaskId = touchDragTaskId;
-    const status = getStatusFromColumnId(column.id);
+  const targetInfo = getTouchDropTargetInfo(touch.clientX, touch.clientY);
+  moveTo(status, targetInfo.taskId, targetInfo.relativePos);
+}
 
-    const element = document.elementFromPoint(x, y);
-    const targetCard = element ? element.closest(".task-card") : null;
-    let targetTaskId = null;
-    let relativePos = "after";
-
-    if (targetCard && targetCard !== touchDragElement) {
-      targetTaskId = getTaskIdFromCard(targetCard);
-      const rect = targetCard.getBoundingClientRect();
-      const midX = rect.left + rect.width / 2;
-      if (x < midX) relativePos = "before";
-    }
-
-    if (status) {
-      moveTo(status, targetTaskId, relativePos);
-    }
+/**
+ * Gets the drop target information (taskId and relativePos)
+ */
+function getTouchDropTargetInfo(x, y) {
+  const element = document.elementFromPoint(x, y);
+  const targetCard = element ? element.closest(".task-card") : null;
+  let taskId = null;
+  let relativePos = "after";
+  
+  if (targetCard && targetCard !== touchDragElement) {
+    taskId = getTaskIdFromCard(targetCard);
+    const rect = targetCard.getBoundingClientRect();
+    if (x < rect.left + rect.width / 2) relativePos = "before";
   }
+  return { taskId, relativePos };
 }
 
 /**
@@ -186,15 +193,9 @@ function stopAutoScroll() {
  */
 function updateHorizontalAutoScroll(x, y) {
   const column = getColumnUnderPoint(x, y);
-  if (!column) {
-    stopHorizontalAutoScroll();
-    return;
-  }
-  const list = column.querySelector(".task-list");
-  if (!list) {
-    stopHorizontalAutoScroll();
-    return;
-  }
+  const list = column ? column.querySelector(".task-list") : null;
+  if (!list) return stopHorizontalAutoScroll();
+  
   const rect = list.getBoundingClientRect();
   const threshold = 50;
   if (x < rect.left + threshold) {

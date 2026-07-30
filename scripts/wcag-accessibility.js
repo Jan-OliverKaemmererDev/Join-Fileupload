@@ -143,6 +143,41 @@ function isClickableDiv(el) {
 
 /**
  * Sets up focus trapping within the currently active modal dialog.
+ */
+function closeUserDropdownMenu() {
+  const dropdown = document.getElementById("user-dropdown");
+  if (dropdown) dropdown.classList.remove("active");
+}
+
+/**
+ * Handles Enter and Space key presses on elements with role="button".
+ * This allows keyboard activation of custom button elements.
+ * @param {KeyboardEvent} event - The keyboard event.
+ */
+function handleRoleButtonKeydown(event) {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const target = event.target;
+  if (!target) return;
+  if (target.getAttribute("role") === "button" || isClickableDiv(target)) {
+    event.preventDefault();
+    target.click();
+  }
+}
+
+/**
+ * Checks if an element is a non-native clickable div with onclick and tabindex.
+ * @param {HTMLElement} el - The element to check.
+ * @returns {boolean}
+ */
+function isClickableDiv(el) {
+  if (el.tagName === "BUTTON" || el.tagName === "A" || el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA") {
+    return false;
+  }
+  return el.hasAttribute("onclick") && el.hasAttribute("tabindex");
+}
+
+/**
+ * Sets up focus trapping within the currently active modal dialog.
  * @param {KeyboardEvent} event - The keyboard event.
  */
 function handleFocusTrap(event) {
@@ -157,16 +192,7 @@ function handleFocusTrap(event) {
  * @returns {HTMLElement|null}
  */
 function findActiveModal() {
-  const modalIds = [
-    "image-viewer-overlay",
-    "delete-confirm-dialog",
-    "account-overlay",
-    "mobile-edit-overlay",
-    "task-details-overlay",
-    "add-task-overlay",
-    "add-contact-overlay",
-    "welcome-overlay"
-  ];
+  const modalIds = getModalIds();
   for (let i = 0; i < modalIds.length; i++) {
     const el = document.getElementById(modalIds[i]);
     if (el && el.classList.contains("active")) {
@@ -174,6 +200,17 @@ function findActiveModal() {
     }
   }
   return null;
+}
+
+/**
+ * Returns a list of modal element IDs.
+ */
+function getModalIds() {
+  return [
+    "image-viewer-overlay", "delete-confirm-dialog", "account-overlay",
+    "mobile-edit-overlay", "task-details-overlay", "add-task-overlay",
+    "add-contact-overlay", "welcome-overlay"
+  ];
 }
 
 /**
@@ -216,40 +253,30 @@ function focusFirstElementInContainer(container) {
  * when a modal overlay is opened.
  */
 function initModalObserver() {
-  const modalIds = [
-    "image-viewer-overlay",
-    "delete-confirm-dialog",
-    "account-overlay",
-    "mobile-edit-overlay",
-    "task-details-overlay",
-    "add-task-overlay",
-    "add-contact-overlay",
-    "welcome-overlay"
-  ];
-
   const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.type === "attributes" && mutation.attributeName === "class") {
-        const target = mutation.target;
-        const oldClass = mutation.oldValue || "";
-        const isNowActive = target.classList.contains("active");
-        const wasActive = oldClass.split(" ").includes("active");
-        
-        if (modalIds.includes(target.id) && isNowActive && !wasActive) {
-          setTimeout(() => {
-            focusFirstElementInContainer(target);
-          }, 50);
-        }
-      }
-    });
+    mutations.forEach(processMutation);
   });
-
   observer.observe(document.body, { 
     attributes: true, 
     subtree: true, 
     attributeFilter: ['class'],
     attributeOldValue: true
   });
+}
+
+/**
+ * Processes a single mutation for modal focus.
+ */
+function processMutation(mutation) {
+  if (mutation.type !== "attributes" || mutation.attributeName !== "class") return;
+  const target = mutation.target;
+  const oldClass = mutation.oldValue || "";
+  const isNowActive = target.classList.contains("active");
+  const wasActive = oldClass.split(" ").includes("active");
+  
+  if (getModalIds().includes(target.id) && isNowActive && !wasActive) {
+    setTimeout(() => focusFirstElementInContainer(target), 50);
+  }
 }
 
 /**

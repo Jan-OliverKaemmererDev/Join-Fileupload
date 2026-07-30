@@ -6,34 +6,34 @@ let contacts = [];
 /**
  * Initializes the contact page, loads data and selects a contact if necessary
  */
-function initContacts() {
-  return (async function () {
-    checkUser();
-    await waitForFirebase();
-    initSideMenu("contacts");
-    await loadContactsFromFirestore();
-    renderContactList();
+async function initContacts() {
+  checkUser();
+  await waitForFirebase();
+  initSideMenu("contacts");
+  await loadContactsFromFirestore();
+  renderContactList();
+  handleSelectedContactEmail();
+}
 
-    const selectedEmail = sessionStorage.getItem('selectedContactEmail');
-    if (selectedEmail) {
-      const contactToSelect = contacts.find(function(c) { return c.email === selectedEmail; });
-      if (contactToSelect) {
-        showContactDetails(contactToSelect.id);
-      }
-      sessionStorage.removeItem('selectedContactEmail');
-    }
-  })();
+/**
+ * Checks for a selected contact email in session storage and selects it
+ */
+function handleSelectedContactEmail() {
+  const email = sessionStorage.getItem('selectedContactEmail');
+  if (email) {
+    const contact = contacts.find(c => c.email === email);
+    if (contact) showContactDetails(contact.id);
+    sessionStorage.removeItem('selectedContactEmail');
+  }
 }
 
 /**
  * Loads the contacts from Firestore
  */
-function loadContactsFromFirestore() {
-  return (async function () {
-    const currentUser = getCurrentUser();
-    if (!currentUser) return;
-    await loadContactsFromFirestoreAsync(currentUser);
-  })();
+async function loadContactsFromFirestore() {
+  const currentUser = getCurrentUser();
+  if (!currentUser) return;
+  await loadContactsFromFirestoreAsync(currentUser);
 }
 
 /**
@@ -45,26 +45,33 @@ function populateContactsFromSnapshot(snapshot) {
   const currentUser = typeof getCurrentUser === "function" ? getCurrentUser() : null;
 
   if (currentUser) {
-    contacts.push({
-      id: currentUser.id,
-      name: currentUser.name,
-      email: currentUser.email,
-      phone: currentUser.phone || "",
-      color: "#29ABE2",
-      initials: typeof getInitials === "function" ? getInitials(currentUser.name) : currentUser.name.substring(0,2).toUpperCase(),
-      isYou: true,
-      profileImageSmall: currentUser.profileImageSmall,
-      profileImage: currentUser.profileImage
-    });
+    contacts.push(createCurrentUserContactForList(currentUser));
   }
+  snapshot.forEach(doc => addSnapshotContactToList(doc, currentUser));
+}
 
-  snapshot.forEach(function (doc) {
-    const data = doc.data();
-    data.id = doc.id;
-    if (!currentUser || data.email !== currentUser.email) {
-      contacts.push(data);
-    }
-  });
+/**
+ * Creates contact object for current user for the list
+ */
+function createCurrentUserContactForList(user) {
+  const initials = typeof getInitials === "function" ? getInitials(user.name) : user.name.substring(0,2).toUpperCase();
+  return {
+    id: user.id, name: user.name, email: user.email,
+    phone: user.phone || "", color: "#29ABE2",
+    initials: initials, isYou: true,
+    profileImageSmall: user.profileImageSmall, profileImage: user.profileImage
+  };
+}
+
+/**
+ * Adds a snapshot contact to the contacts array
+ */
+function addSnapshotContactToList(doc, currentUser) {
+  const data = doc.data();
+  data.id = doc.id;
+  if (!currentUser || data.email !== currentUser.email) {
+    contacts.push(data);
+  }
 }
 
 /**
@@ -278,17 +285,23 @@ function closeContactDetails() {
  * Checks the user and updates initials in the header if necessary
  */
 function checkUser() {
-  if (typeof getCurrentUser === "function") {
-    const user = getCurrentUser();
-    if (user && document.getElementById("user-initials")) {
-      if (user.profileImageSmall && user.profileImageSmall.base64 && typeof showHeaderProfileImage === "function") {
-        showHeaderProfileImage(user.profileImageSmall.base64);
-      } else {
-        document.getElementById("user-initials").innerText = getInitials(
-          user.name,
-        );
-      }
-    }
+  if (typeof getCurrentUser !== "function") return;
+  const user = getCurrentUser();
+  const initialsEl = document.getElementById("user-initials");
+  if (user && initialsEl) {
+    updateHeaderUserVisuals(user, initialsEl);
+  }
+}
+
+/**
+ * Updates header visual state for current user
+ */
+function updateHeaderUserVisuals(user, initialsEl) {
+  const hasImage = user.profileImageSmall?.base64 && typeof showHeaderProfileImage === "function";
+  if (hasImage) {
+    showHeaderProfileImage(user.profileImageSmall.base64);
+  } else {
+    initialsEl.innerText = getInitials(user.name);
   }
 }
 

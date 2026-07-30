@@ -1,5 +1,5 @@
-﻿/**
- * @fileoview Dummy data and logic for the add task page testing.
+/**
+ * @fileoverview Dummy data and logic for the add task page testing.
  */
 let selectedPriority = "medium";
 let subtasks = [];
@@ -11,14 +11,29 @@ let selectedContacts = [];
  */
 async function initAddTask() {
   const currentUser = getCurrentUser();
-  if (currentUser) {
-    updateHeaderInitials(currentUser);
-  }
+  if (currentUser) updateHeaderInitials(currentUser);
   await waitForFirebase();
-  if (!currentUser) {
+  if (redirectIfNotLoggedIn(currentUser)) return;
+  await initAddTaskPage();
+}
+
+/**
+ * Redirects if user is not logged in
+ * @param {Object} user - The user object
+ * @returns {boolean} True if redirected
+ */
+function redirectIfNotLoggedIn(user) {
+  if (!user) {
     window.location.href = "index.html";
-    return;
+    return true;
   }
+  return false;
+}
+
+/**
+ * Initializes the rest of the add task page
+ */
+async function initAddTaskPage() {
   setMinimumDate();
   await loadContacts();
   validateForm();
@@ -99,7 +114,18 @@ function getTaskFormData() {
  * Creates the final task object
  */
 function createTaskObject(currentUser, assignedToIds, formData) {
-  const task = {
+  const task = buildBaseTaskObject(currentUser, assignedToIds);
+  return Object.assign(task, formData);
+}
+
+/**
+ * Builds the base properties for a new task
+ * @param {Object} currentUser - The current user
+ * @param {Array} assignedToIds - Array of contact IDs
+ * @returns {Object} Base task object
+ */
+function buildBaseTaskObject(currentUser, assignedToIds) {
+  return {
     id: Date.now(),
     priority: selectedPriority,
     assignedTo: assignedToIds,
@@ -112,7 +138,6 @@ function createTaskObject(currentUser, assignedToIds, formData) {
     creatorEmail: currentUser.email || "",
     creatorType: "internal-user"
   };
-  return Object.assign(task, formData);
 }
 
 /**
@@ -132,43 +157,60 @@ function dispatchTaskAddedEvent(task) {
  */
 async function saveTask(userId, task) {
   try {
-    const taskRef = window.fbDoc(
-      window.firebaseDb,
-      "users",
-      userId,
-      "tasks",
-      String(task.id),
-    );
-    await window.fbSetDoc(taskRef, task);
-
+    await saveTaskToFirestore(userId, task);
     const currentUser = getCurrentUser();
     if (currentUser && currentUser.email !== "jowsds@gmail.com") {
-      const token = "YOUR_FIREBASE_RTDB_AUTH_TOKEN";
-      const url = `https://join-4e7df-default-rtdb.europe-west1.firebasedatabase.app/tasks.json?auth=${token}`;
-      const taskCopy = {
-        title: task.title || "",
-        description: task.description || "",
-        category: task.category || "user-story",
-        priority: task.priority || "medium",
-        deadline: task.dueDate || "",
-        creator: currentUser.email || "unknown",
-        creatorName: currentUser.name || "Unknown",
-        receiver: "jowsds@gmail.com",
-        creatorType: "internal-user",
-        status: "triage"
-      };
-      
-      await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(taskCopy)
-      });
+      const taskCopy = buildExternalTaskCopy(task, currentUser);
+      await sendTaskToRTDB(taskCopy);
     }
   } catch (error) {
     console.error("Error saving task:", error);
   }
+}
+
+/**
+ * Saves task data to Firestore
+ * @param {string} userId - The user ID
+ * @param {Object} task - The task object
+ */
+async function saveTaskToFirestore(userId, task) {
+  const taskRef = window.fbDoc(window.firebaseDb, "users", userId, "tasks", String(task.id));
+  await window.fbSetDoc(taskRef, task);
+}
+
+/**
+ * Builds a copy of the task for external syncing
+ * @param {Object} task - The task object
+ * @param {Object} currentUser - The current user object
+ * @returns {Object} External task copy
+ */
+function buildExternalTaskCopy(task, currentUser) {
+  return {
+    title: task.title || "",
+    description: task.description || "",
+    category: task.category || "user-story",
+    priority: task.priority || "medium",
+    deadline: task.dueDate || "",
+    creator: currentUser.email || "unknown",
+    creatorName: currentUser.name || "Unknown",
+    receiver: "jowsds@gmail.com",
+    creatorType: "internal-user",
+    status: "triage"
+  };
+}
+
+/**
+ * Sends a task copy to the Realtime Database
+ * @param {Object} taskCopy - The task copy object
+ */
+async function sendTaskToRTDB(taskCopy) {
+  const token = "YOUR_FIREBASE_RTDB_AUTH_TOKEN";
+  const url = `https://join-4e7df-default-rtdb.europe-west1.firebasedatabase.app/tasks.json?auth=${token}`;
+  await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(taskCopy)
+  });
 }
 
 /**

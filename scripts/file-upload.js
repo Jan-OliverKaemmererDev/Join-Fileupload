@@ -59,10 +59,7 @@ function openFilePicker() {
 async function handleFileSelected(event) {
   const file = event.target.files[0];
   if (!file) return;
-  if (file.size > (typeof MAX_FILE_SIZE !== 'undefined' ? MAX_FILE_SIZE : 2 * 1024 * 1024)) {
-    if (typeof showFileSizeError === "function") showFileSizeError();
-    return;
-  }
+  if (!isValidImageSizeOrFormat(file)) return;
   if (!(await validateSelectedImage(file))) return;
   pendingProfileImageFile = file;
   currentOffsetY = 0;
@@ -298,17 +295,13 @@ async function processCroppedBlob(blob, resolve, reject) {
  */
 async function buildProfileResult(largeBlob, smallBlob) {
   const largeBase64 = await blobToBase64(largeBlob);
-  if (largeBase64.length * 0.75 > 1024 * 1024) {
-    if (typeof showFileSizeError === "function") showFileSizeError();
+  if (isBase64TooLarge(largeBase64)) {
     cancelPendingProfileImage();
     throw new Error("File too large for Firebase after compression");
   }
   const smallBase64 = await blobToBase64(smallBlob);
   const name = pendingProfileImageFile.name;
-  const profileImage = buildProfileImageData(name, largeBlob.type, largeBase64, largeBlob.size);
-  const profileImageSmall = buildProfileImageData(name, smallBlob.type, smallBase64, smallBlob.size);
-  await saveProfileImageToFirebase(profileImage, profileImageSmall);
-  updateProfileImageUI(largeBase64, smallBase64);
+  await saveAndDisplayImages(name, largeBlob, largeBase64, smallBlob, smallBase64);
 }
 
 /**
@@ -316,24 +309,47 @@ async function buildProfileResult(largeBlob, smallBlob) {
  * @param {File} file - The selected image file.
  */
 async function processAndUploadImage(file) {
-  if (file.size > (typeof MAX_FILE_SIZE !== 'undefined' ? MAX_FILE_SIZE : 2 * 1024 * 1024)) {
-    if (typeof showFileSizeError === "function") showFileSizeError();
-    return;
-  }
-  if (!(await validateImageMagicBytes(file))) {
-    showFileFormatError();
-    return;
-  }
+  if (!isValidImageSizeOrFormat(file)) return;
+  if (!(await validateImageMagicBytes(file))) return showFileFormatError();
+
   const largeBlob = await compressImage(file, 800, 800, 0.8);
   const largeBase64 = await blobToBase64(largeBlob);
-  if (largeBase64.length * 0.75 > 1024 * 1024) {
-    if (typeof showFileSizeError === "function") showFileSizeError();
-    return;
-  }
+  if (isBase64TooLarge(largeBase64)) return;
+
   const smallBlob = await compressImage(file, 100, 100, 0.6);
   const smallBase64 = await blobToBase64(smallBlob);
-  const profileImage = buildProfileImageData(file.name, largeBlob.type, largeBase64, largeBlob.size);
-  const profileImageSmall = buildProfileImageData(file.name, smallBlob.type, smallBase64, smallBlob.size);
-  await saveProfileImageToFirebase(profileImage, profileImageSmall);
-  updateProfileImageUI(largeBase64, smallBase64);
+  await saveAndDisplayImages(file.name, largeBlob, largeBase64, smallBlob, smallBase64);
+}
+
+/**
+ * Validates the file size
+ */
+function isValidImageSizeOrFormat(file) {
+  const max = typeof MAX_FILE_SIZE !== 'undefined' ? MAX_FILE_SIZE : 2 * 1024 * 1024;
+  if (file.size > max) {
+    if (typeof showFileSizeError === "function") showFileSizeError();
+    return false;
+  }
+  return true;
+}
+
+/**
+ * Checks if the generated base64 string is too large
+ */
+function isBase64TooLarge(base64) {
+  if (base64.length * 0.75 > 1024 * 1024) {
+    if (typeof showFileSizeError === "function") showFileSizeError();
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Assembles the user objects and saves them
+ */
+async function saveAndDisplayImages(name, lBlob, lBase, sBlob, sBase) {
+  const pImg = buildProfileImageData(name, lBlob.type, lBase, lBlob.size);
+  const pImgSmall = buildProfileImageData(name, sBlob.type, sBase, sBlob.size);
+  await saveProfileImageToFirebase(pImg, pImgSmall);
+  updateProfileImageUI(lBase, sBase);
 }

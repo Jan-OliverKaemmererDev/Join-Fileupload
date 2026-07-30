@@ -1,5 +1,5 @@
 /**
- * @fileoview Form handling logic for managing contacts.
+ * @fileoverview Form handling logic for managing contacts.
  */
 /**
  * Sets the HTML of the overlay, activates it and locks scrolling
@@ -19,20 +19,26 @@ function activateContactOverlay(html) {
  * Opens the dialog for adding a contact
  */
 function openAddContactDialog() {
-  const html = window.innerWidth <= 780 ? getMobileAddContactTemplate() : getDesktopAddContactTemplate();
+  const html = getAddContactHTML();
   activateContactOverlay(html);
-  
+  initAddContactForm();
+}
+
+/**
+ * Returns HTML for the add contact dialog
+ * @returns {string} The HTML string
+ */
+function getAddContactHTML() {
+  return window.innerWidth <= 780 ? getMobileAddContactTemplate() : getDesktopAddContactTemplate();
+}
+
+/**
+ * Initializes the add contact form fields
+ */
+function initAddContactForm() {
   attachBlurValidators("new-contact-name", "new-contact-email", "new-contact-phone");
-  
-  checkContactFormValidity(
-    "new-contact-name",
-    "new-contact-email",
-    "new-contact-phone",
-    "add-contact-submit",
-  );
-  if (typeof initContactFileUpload === "function") {
-    initContactFileUpload();
-  }
+  checkContactFormValidity("new-contact-name", "new-contact-email", "new-contact-phone", "add-contact-submit");
+  if (typeof initContactFileUpload === "function") initContactFileUpload();
 }
 
 /**
@@ -41,38 +47,48 @@ function openAddContactDialog() {
  */
 function openEditContactDialog(id) {
   const contact = findContactById(id);
-  const html = window.innerWidth <= 780 ? getMobileEditContactTemplate(contact) : getDesktopEditContactTemplate(contact);
+  const html = getEditContactHTML(contact);
   activateContactOverlay(html);
-  
+  initEditContactForm();
+}
+
+/**
+ * Returns HTML for the edit contact dialog
+ * @param {Object} contact - The contact
+ * @returns {string} The HTML string
+ */
+function getEditContactHTML(contact) {
+  return window.innerWidth <= 780 ? getMobileEditContactTemplate(contact) : getDesktopEditContactTemplate(contact);
+}
+
+/**
+ * Initializes the edit contact form fields
+ */
+function initEditContactForm() {
   attachBlurValidators("edit-contact-name", "edit-contact-email", "edit-contact-phone");
-  
-  checkContactFormValidity(
-    "edit-contact-name",
-    "edit-contact-email",
-    "edit-contact-phone",
-    "edit-contact-submit",
-  );
-  if (typeof initContactFileUpload === "function") {
-    initContactFileUpload();
-  }
+  checkContactFormValidity("edit-contact-name", "edit-contact-email", "edit-contact-phone", "edit-contact-submit");
+  if (typeof initContactFileUpload === "function") initContactFileUpload();
 }
 
 /**
  * Closes the contact dialog
  */
 function closeAddContactDialog() {
-  const overlay = document.getElementById("add-contact-overlay");
-  overlay.classList.remove("active");
-  overlay.querySelectorAll(".slide-in-dialog").forEach(d => d.classList.remove("active"));
+  deactivateContactOverlay();
   document.body.style.overflow = "auto";
-  
   if (typeof cancelPendingContactProfileImage === "function") {
     cancelPendingContactProfileImage();
   }
-  
-  setTimeout(function () {
-    overlay.innerHTML = "";
-  }, 400);
+}
+
+/**
+ * Deactivates and clears the contact overlay
+ */
+function deactivateContactOverlay() {
+  const overlay = document.getElementById("add-contact-overlay");
+  overlay.classList.remove("active");
+  overlay.querySelectorAll(".slide-in-dialog").forEach(d => d.classList.remove("active"));
+  setTimeout(() => overlay.innerHTML = "", 400);
 }
 
 /**
@@ -179,51 +195,98 @@ function clearFieldError(inputId) {
  * @param {string} buttonId - ID of the button
  */
 function checkContactFormValidity(nameId, emailId, phoneId, buttonId, showErrors = false) {
-  const name = document.getElementById(nameId).value.trim();
-  const email = document.getElementById(emailId).value.trim();
-  const phone = document.getElementById(phoneId).value.trim();
-  const nameValid = name.replace(/[^a-zA-ZäöüÄÖÜß]/g, "").length >= 3;
-  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
-  const phoneValid = phone.length >= 11;
+  const vals = getContactFieldValues(nameId, emailId, phoneId);
+  const valids = getContactFieldValidities(vals.name, vals.email, vals.phone);
   
-  if (showErrors) {
-    updateContactFieldFeedback(nameId, name, nameValid, "Der Name muss mindestens 3 Buchstaben enthalten.");
-    updateContactFieldFeedback(emailId, email, emailValid, "Bitte eine gültige E-Mail-Adresse eingeben.");
-    updateContactFieldFeedback(phoneId, phone, phoneValid, "Bitte eine gültige Telefonnummer eingeben (mind. 11 Ziffern).");
-  } else {
-    if (nameValid || name.length === 0) clearFieldError(nameId);
-    if (emailValid || email.length === 0) clearFieldError(emailId);
-    if (phoneValid || phone.length === 0) clearFieldError(phoneId);
-  }
+  if (showErrors) showContactFormErrors(nameId, emailId, phoneId, vals, valids);
+  else clearValidContactErrors(nameId, emailId, phoneId, vals, valids);
   
-  const allValid = nameValid && emailValid && phoneValid;
+  const allValid = valids.nameValid && valids.emailValid && valids.phoneValid;
   const btn = document.getElementById(buttonId);
   btn.disabled = !allValid;
   btn.classList.toggle("btn-disabled", !allValid);
 }
 
 /**
+ * Gets the current values of contact fields
+ */
+function getContactFieldValues(nameId, emailId, phoneId) {
+  return {
+    name: document.getElementById(nameId).value.trim(),
+    email: document.getElementById(emailId).value.trim(),
+    phone: document.getElementById(phoneId).value.trim()
+  };
+}
+
+/**
+ * Gets validity for contact fields
+ */
+function getContactFieldValidities(name, email, phone) {
+  return {
+    nameValid: name.replace(/[^a-zA-ZäöüÄÖÜß]/g, "").length >= 3,
+    emailValid: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email),
+    phoneValid: phone.length >= 11
+  };
+}
+
+/**
+ * Shows errors for all fields
+ */
+function showContactFormErrors(nId, eId, pId, vals, valids) {
+  updateContactFieldFeedback(nId, vals.name, valids.nameValid, "Der Name muss mindestens 3 Buchstaben enthalten.");
+  updateContactFieldFeedback(eId, vals.email, valids.emailValid, "Bitte eine gültige E-Mail-Adresse eingeben.");
+  updateContactFieldFeedback(pId, vals.phone, valids.phoneValid, "Bitte eine gültige Telefonnummer eingeben (mind. 11 Ziffern).");
+}
+
+/**
+ * Clears errors for valid fields
+ */
+function clearValidContactErrors(nId, eId, pId, vals, valids) {
+  if (valids.nameValid || vals.name.length === 0) clearFieldError(nId);
+  if (valids.emailValid || vals.email.length === 0) clearFieldError(eId);
+  if (valids.phoneValid || vals.phone.length === 0) clearFieldError(pId);
+}
+
+/**
  * Adds blur event listeners to input fields to show exit errors
  */
 function attachBlurValidators(nameId, emailId, phoneId) {
-  const nameEl = document.getElementById(nameId);
-  const emailEl = document.getElementById(emailId);
-  const phoneEl = document.getElementById(phoneId);
-  
-  if (nameEl) nameEl.addEventListener('blur', () => {
-    const val = nameEl.value.trim();
+  addNameBlurValidator(nameId);
+  addEmailBlurValidator(emailId);
+  addPhoneBlurValidator(phoneId);
+}
+
+/**
+ * Adds a blur validator for the name field
+ */
+function addNameBlurValidator(nameId) {
+  const el = document.getElementById(nameId);
+  if (el) el.addEventListener('blur', () => {
+    const val = el.value.trim();
     const valid = val.replace(/[^a-zA-ZäöüÄÖÜß]/g, "").length >= 3;
     updateContactFieldFeedback(nameId, val, valid, "Der Name muss mindestens 3 Buchstaben enthalten.");
   });
-  
-  if (emailEl) emailEl.addEventListener('blur', () => {
-    const val = emailEl.value.trim();
+}
+
+/**
+ * Adds a blur validator for the email field
+ */
+function addEmailBlurValidator(emailId) {
+  const el = document.getElementById(emailId);
+  if (el) el.addEventListener('blur', () => {
+    const val = el.value.trim();
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
     updateContactFieldFeedback(emailId, val, valid, "Bitte eine gültige E-Mail-Adresse eingeben.");
   });
-  
-  if (phoneEl) phoneEl.addEventListener('blur', () => {
-    const val = phoneEl.value.trim();
+}
+
+/**
+ * Adds a blur validator for the phone field
+ */
+function addPhoneBlurValidator(phoneId) {
+  const el = document.getElementById(phoneId);
+  if (el) el.addEventListener('blur', () => {
+    const val = el.value.trim();
     const valid = val.length >= 11;
     updateContactFieldFeedback(phoneId, val, valid, "Bitte eine gültige Telefonnummer eingeben (mind. 11 Ziffern).");
   });
@@ -261,20 +324,26 @@ async function createContact(e) {
   const name = document.getElementById(ids[0]).value.trim();
   
   const newContact = buildNewContactObject(name);
-  
+  await attachImageToContact(newContact);
+  saveNewContactToFirestore(currentUser, newContact);
+}
+
+/**
+ * Attaches a pending profile image to the contact
+ * @param {Object} contact - The contact object
+ */
+async function attachImageToContact(contact) {
   if (typeof hasPendingContactProfileImage === 'function' && hasPendingContactProfileImage()) {
     try {
       const images = await processPendingContactProfileImage();
       if (images) {
-        newContact.profileImage = images.profileImage;
-        newContact.profileImageSmall = images.profileImageSmall;
+        contact.profileImage = images.profileImage;
+        contact.profileImageSmall = images.profileImageSmall;
       }
     } catch (err) {
       console.error("Fehler beim Verarbeiten des Bildes:", err);
     }
   }
-  
-  saveNewContactToFirestore(currentUser, newContact);
 }
 
 /**
@@ -321,19 +390,7 @@ async function saveContact(e, id) {
   if (!contact) return;
   
   updateContactFromForm(contact);
-  
-  if (typeof hasPendingContactProfileImage === 'function' && hasPendingContactProfileImage()) {
-    try {
-      const images = await processPendingContactProfileImage();
-      if (images) {
-        contact.profileImage = images.profileImage;
-        contact.profileImageSmall = images.profileImageSmall;
-      }
-    } catch (err) {
-      console.error("Fehler beim Verarbeiten des Bildes:", err);
-    }
-  }
-  
+  await attachImageToContact(contact);
   persistContactToFirestore(currentUser, contact, id);
 }
 

@@ -77,6 +77,43 @@ function compressImage(file, maxWidth, maxHeight, quality) {
  * Performs the actual image compression.
  * @param {HTMLImageElement} img - The loaded image.
  * @param {number} maxWidth - Maximum width.
+ */
+function calculateDimensions(origWidth, origHeight, maxWidth, maxHeight) {
+  let width = origWidth;
+  let height = origHeight;
+  if (width > maxWidth) {
+    height = Math.round(height * (maxWidth / width));
+    width = maxWidth;
+  }
+  if (height > maxHeight) {
+    width = Math.round(width * (maxHeight / height));
+    height = maxHeight;
+  }
+  return { width, height };
+}
+
+/**
+ * Compresses an image to the specified maximum size.
+ * @param {File} file - The image file.
+ * @param {number} maxWidth - Maximum width.
+ * @param {number} maxHeight - Maximum height.
+ * @param {number} quality - JPEG quality (0-1).
+ * @returns {Promise<Blob>} The compressed image blob.
+ */
+function compressImage(file, maxWidth, maxHeight, quality) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const fileType = file.type || "image/jpeg";
+    img.onload = () => handleImageCompression(img, maxWidth, maxHeight, quality, fileType, resolve, reject);
+    img.onerror = () => reject(new Error("Bild konnte nicht geladen werden."));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+/**
+ * Performs the actual image compression.
+ * @param {HTMLImageElement} img - The loaded image.
+ * @param {number} maxWidth - Maximum width.
  * @param {number} maxHeight - Maximum height.
  * @param {number} quality - JPEG quality.
  * @param {string} fileType - The MIME type of the image.
@@ -88,11 +125,7 @@ function handleImageCompression(img, maxWidth, maxHeight, quality, fileType, res
   const ctx = canvas.getContext("2d");
   drawCompressionCanvas(img, canvas, ctx, maxWidth, maxHeight);
   
-  // If PNG, it cannot be compressed with quality parameter. Use webp to preserve transparency but allow compression!
-  let outputType = fileType;
-  if (fileType === "image/png") {
-    outputType = "image/webp";
-  }
+  const outputType = fileType === "image/png" ? "image/webp" : fileType;
   
   canvas.toBlob((blob) => {
     if (blob) resolve(blob);
@@ -148,12 +181,8 @@ function handleBlobCompression(img, maxWidth, maxHeight, quality, fileType, reso
   const ctx = canvas.getContext("2d");
   drawCompressionCanvas(img, canvas, ctx, maxWidth, maxHeight);
   
-  // If PNG, it cannot be compressed with quality parameter. Use webp to preserve transparency but allow compression!
-  let outputType = fileType;
-  if (fileType === "image/png") {
-    outputType = "image/webp";
-  }
-
+  const outputType = fileType === "image/png" ? "image/webp" : fileType;
+  
   canvas.toBlob((newBlob) => {
     if (newBlob) resolve(newBlob);
     else reject(new Error("Bild konnte nicht komprimiert werden."));

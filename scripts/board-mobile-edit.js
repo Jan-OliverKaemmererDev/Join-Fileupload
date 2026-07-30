@@ -6,7 +6,6 @@ let mobileEditSelectedContacts = [];
 let mobileEditSubtasks = [];
 let mobileEditSelectedPriority = "medium";
 let mobileEditAttachments = [];
-let currentMobileEditTaskOriginalState = null;
 
 /**
  * Opens the mobile edit overlay for a task.
@@ -39,16 +38,7 @@ function closeMobileEditOverlay() {
  * @param {Object} task - The task object
  */
 function fillMobileEditForm(task) {
-  currentMobileEditTaskOriginalState = JSON.stringify({
-    title: task.title,
-    description: task.description,
-    dueDate: task.dueDate,
-    priority: task.priority,
-    assignedTo: task.assignedTo ? [...task.assignedTo].sort() : [],
-    subtasks: task.subtasks ? JSON.parse(JSON.stringify(task.subtasks)) : [],
-    attachments: task.attachments ? task.attachments.length : 0
-  });
-
+  saveMobileOriginalEditState(task);
   fillMobileEditBasicInfo(task);
   selectMobileEditPriority(task.priority || "medium");
   fillMobileEditSubtasks(task);
@@ -56,10 +46,21 @@ function fillMobileEditForm(task) {
   renderMobileEditAssignedToOptions();
   renderMobileEditSelectedInitials();
   mobileEditAttachments = task.attachments ? JSON.parse(JSON.stringify(task.attachments)) : [];
-  if (typeof updateMobileEditAttachmentsPreview === "function") {
-    updateMobileEditAttachmentsPreview();
-  }
+  if (typeof updateMobileEditAttachmentsPreview === "function") updateMobileEditAttachmentsPreview();
   validateMobileEditForm();
+}
+
+/**
+ * Saves the original task state to check for dirtiness later
+ */
+function saveMobileOriginalEditState(task) {
+  currentMobileEditTaskOriginalState = JSON.stringify({
+    title: task.title, description: task.description,
+    dueDate: task.dueDate, priority: task.priority,
+    assignedTo: task.assignedTo ? [...task.assignedTo].sort() : [],
+    subtasks: task.subtasks ? JSON.parse(JSON.stringify(task.subtasks)) : [],
+    attachments: task.attachments ? task.attachments.length : 0
+  });
 }
 
 /**
@@ -252,28 +253,29 @@ document.addEventListener(
  */
 function isMobileTaskDirty() {
   if (!currentMobileEditTaskOriginalState) return true;
-  
+  const currentStateObj = buildMobileCurrentEditState();
+  return JSON.stringify(currentStateObj) !== currentMobileEditTaskOriginalState;
+}
+
+/**
+ * Builds the current form state for comparison
+ */
+function buildMobileCurrentEditState() {
   const currentAssignedTo = mobileEditSelectedContacts ? [...mobileEditSelectedContacts].map(c => typeof c === 'object' ? c.id : c).sort() : [];
-  const currentSubtasks = mobileEditSubtasks ? mobileEditSubtasks : [];
-  const currentAttachments = typeof mobileEditAttachments !== 'undefined' ? mobileEditAttachments.length : 0;
-  
-  const currentState = JSON.stringify({
+  return {
     title: document.getElementById("mobile-edit-title").value.trim(),
     description: document.getElementById("mobile-edit-description").value.trim(),
     dueDate: document.getElementById("mobile-edit-due-date").value,
     priority: typeof mobileEditSelectedPriority !== 'undefined' ? mobileEditSelectedPriority : "medium",
     assignedTo: currentAssignedTo,
-    subtasks: currentSubtasks,
-    attachments: currentAttachments
-  });
-  
-  return currentState !== currentMobileEditTaskOriginalState;
+    subtasks: mobileEditSubtasks ? mobileEditSubtasks : [],
+    attachments: typeof mobileEditAttachments !== 'undefined' ? mobileEditAttachments.length : 0
+  };
 }
 
 /**
  * Validates the mobile edit form.
  * Disables the save button if the title or date is missing or no changes have been made.
- */
 function validateMobileEditForm() {
   const title = document.getElementById("mobile-edit-title").value.trim();
   const dueDate = document.getElementById("mobile-edit-due-date").value;

@@ -121,41 +121,13 @@ async function updateTaskMetrics(user) {
 async function syncExternalTasksToFirestore(user) {
   const token = "DEIN_FIREBASE_TOKEN_HIER_EINTRAGEN";
   const url = `https://join-4e7df-default-rtdb.europe-west1.firebasedatabase.app/tasks.json?auth=${token}`;
-  
   try {
     const response = await fetch(url);
     const data = await response.json();
     if (!data) return false;
-    
     let hasNewTasks = false;
     for (const key in data) {
-      const taskData = data[key];
-
-      const newTask = {
-        id: Date.now() + Math.floor(Math.random() * 1000),
-        title: taskData.title || "External Task",
-        description: taskData.description || "",
-        category: taskData.category || "user-story",
-        priority: taskData.priority || "medium",
-        dueDate: taskData.deadline || "",
-        assignedTo: [],
-        subtasks: parseSubtasks(taskData.subtasks),
-        status: taskData.status || "triage",
-        position: Date.now(),
-        createdAt: new Date().toISOString(),
-        createdBy: taskData.creatorType || "extern",
-        creatorEmail: taskData.creator || "",
-        creatorName: taskData.creatorName || "Externer Benutzer",
-      };
-      
-      const taskRef = window.fbDoc(window.firebaseDb, "users", user.id, "tasks", String(newTask.id));
-      await window.fbSetDoc(taskRef, newTask);
-      
-      await ensureContactExistsFromSummary(user, newTask.creatorEmail, newTask.creatorName);
-      
-      await fetch(`https://join-4e7df-default-rtdb.europe-west1.firebasedatabase.app/tasks/${key}.json?auth=${token}`, {
-        method: "DELETE"
-      });
+      await processExternalTask(user, key, data[key], token);
       hasNewTasks = true;
     }
     return hasNewTasks;
@@ -166,41 +138,76 @@ async function syncExternalTasksToFirestore(user) {
 }
 
 /**
+ * Processes a single external task
+ */
+async function processExternalTask(user, key, taskData, token) {
+  const newTask = createExternalTaskObject(taskData);
+  const taskRef = window.fbDoc(window.firebaseDb, "users", user.id, "tasks", String(newTask.id));
+  await window.fbSetDoc(taskRef, newTask);
+  await ensureContactExistsFromSummary(user, newTask.creatorEmail, newTask.creatorName);
+  const delUrl = `https://join-4e7df-default-rtdb.europe-west1.firebasedatabase.app/tasks/${key}.json?auth=${token}`;
+  await fetch(delUrl, { method: "DELETE" });
+}
+
+/**
+ * Creates a task object for the external task
+ */
+function createExternalTaskObject(taskData) {
+  return {
+    id: Date.now() + Math.floor(Math.random() * 1000),
+    title: taskData.title || "External Task", description: taskData.description || "",
+    category: taskData.category || "user-story", priority: taskData.priority || "medium",
+    dueDate: taskData.deadline || "", assignedTo: [],
+    subtasks: parseSubtasks(taskData.subtasks), status: taskData.status || "triage",
+    position: Date.now(), createdAt: new Date().toISOString(),
+    createdBy: taskData.creatorType || "extern", creatorEmail: taskData.creator || "",
+    creatorName: taskData.creatorName || "Externer Benutzer"
+  };
+}
+
+/**
  * Normalizes subtasks from various Firebase formats to board format
  * @param {*} raw - The raw subtask data from Firebase
  * @returns {Array} Array of {text, completed} objects
  */
 function parseSubtasks(raw) {
   if (!raw) return [];
-  var items = [];
-  if (Array.isArray(raw)) {
-    items = raw;
-  } else if (typeof raw === "string") {
-    try {
-      var parsed = JSON.parse(raw);
-      if (Array.isArray(parsed)) {
-        items = parsed;
-      } else {
-        items = raw.split(",").map(function(s) { return s.trim(); }).filter(Boolean);
-      }
-    } catch (e) {
-      items = raw.split(",").map(function(s) { return s.trim(); }).filter(Boolean);
-    }
-  } else if (typeof raw === "object") {
-    var keys = Object.keys(raw);
-    for (var i = 0; i < keys.length; i++) {
-      items.push(raw[keys[i]]);
-    }
+  const items = extractSubtaskItems(raw);
+  return items.map(formatSingleSubtask).filter(Boolean);
+}
+
+/**
+ * Extracts subtask items from raw data
+ */
+function extractSubtaskItems(raw) {
+  if (Array.isArray(raw)) return raw;
+  if (typeof raw === "string") return parseStringSubtasks(raw);
+  if (typeof raw === "object") return Object.values(raw);
+  return [];
+}
+
+/**
+ * Parses subtasks from string
+ */
+function parseStringSubtasks(raw) {
+  try {
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) return parsed;
+  } catch (e) {}
+  return raw.split(",").map(s => s.trim()).filter(Boolean);
+}
+
+/**
+ * Formats a single subtask
+ */
+function formatSingleSubtask(st) {
+  if (typeof st === "string") {
+    return { id: Date.now() + Math.floor(Math.random() * 1000), text: st, completed: false };
   }
-  return items.map(function(st) {
-    if (typeof st === "string") {
-      return { id: Date.now() + Math.floor(Math.random() * 1000), text: st, completed: false };
-    }
-    if (st && typeof st === "object" && st.text) {
-      return { id: st.id || (Date.now() + Math.floor(Math.random() * 1000)), text: st.text, completed: !!st.completed };
-    }
-    return null;
-  }).filter(Boolean);
+  if (st && typeof st === "object" && st.text) {
+    return { id: st.id || (Date.now() + Math.floor(Math.random() * 1000)), text: st.text, completed: !!st.completed };
+  }
+  return null;
 }
 
 
@@ -213,35 +220,41 @@ function parseSubtasks(raw) {
 async function ensureContactExistsFromSummary(user, email, name) {
   if (!email) return;
   try {
-    const contactsRef = window.fbCollection(window.firebaseDb, "users", user.id, "contacts");
-    const snapshot = await window.fbGetDocs(contactsRef);
-    let exists = false;
-    snapshot.forEach(function(doc) {
-      if (doc.data().email === email) {
-        exists = true;
-      }
-    });
+    const exists = await checkContactExists(user, email);
     if (!exists) {
-      const colors = ["#AB47BC", "#FF9800", "#5C6BC0", "#26A69A"];
-      const randomColor = colors[Math.floor(Math.random() * 4)];
-      const displayName = name || "Externer Benutzer";
-      const parts = displayName.split(" ").filter(Boolean);
-      const initials = parts.map(function(p) { return p[0]; }).join("").toUpperCase().substring(0, 2);
-      
-      const newContact = {
-        id: String(Date.now() + Math.floor(Math.random() * 1000)),
-        name: displayName,
-        email: email,
-        phone: "",
-        color: randomColor,
-        initials: initials || "EX"
-      };
+      const newContact = createExternalContactObject(email, name);
       const contactRef = window.fbDoc(window.firebaseDb, "users", user.id, "contacts", newContact.id);
       await window.fbSetDoc(contactRef, newContact);
     }
   } catch (error) {
     console.error("Error ensuring contact exists:", error);
   }
+}
+
+/**
+ * Checks if a contact already exists
+ */
+async function checkContactExists(user, email) {
+  const contactsRef = window.fbCollection(window.firebaseDb, "users", user.id, "contacts");
+  const snapshot = await window.fbGetDocs(contactsRef);
+  let exists = false;
+  snapshot.forEach(doc => { if (doc.data().email === email) exists = true; });
+  return exists;
+}
+
+/**
+ * Creates a contact object for external users
+ */
+function createExternalContactObject(email, name) {
+  const colors = ["#AB47BC", "#FF9800", "#5C6BC0", "#26A69A"];
+  const randomColor = colors[Math.floor(Math.random() * 4)];
+  const displayName = name || "Externer Benutzer";
+  const initials = displayName.split(" ").filter(Boolean).map(p => p[0]).join("").toUpperCase().substring(0, 2);
+  return {
+    id: String(Date.now() + Math.floor(Math.random() * 1000)),
+    name: displayName, email: email, phone: "",
+    color: randomColor, initials: initials || "EX"
+  };
 }
 
 /**
@@ -278,14 +291,11 @@ function calculateTaskMetrics(tasks) {
   const metrics = createInitialMetrics();
   if (!tasks || tasks.length === 0) return metrics;
   let nearestDeadline = null;
-  for (let i = 0; i < tasks.length; i++) {
-    const task = tasks[i];
+  tasks.forEach(task => {
     processTaskStatus(task, metrics);
     countUrgentTasks(task, metrics);
-    if (task.status !== "done") {
-      nearestDeadline = trackNearestDeadline(task, nearestDeadline);
-    }
-  }
+    if (task.status !== "done") nearestDeadline = trackNearestDeadline(task, nearestDeadline);
+  });
   metrics.board = tasks.length;
   if (nearestDeadline) metrics.nextDeadline = formatDeadline(nearestDeadline);
   return metrics;
@@ -389,20 +399,13 @@ function initSummary() {
  */
 function renderTaskMetrics() {
   const elements = {
-    "count-todo": "0",
-    "count-done": "0",
-    "count-urgent": "0",
-    "count-board": "0",
-    "count-progress": "0",
-    "count-awaiting": "0",
-    "count-emails": "0",
-    "next-deadline": "No upcoming deadline",
+    "count-todo": "0", "count-done": "0", "count-urgent": "0",
+    "count-board": "0", "count-progress": "0", "count-awaiting": "0",
+    "count-emails": "0", "next-deadline": "No upcoming deadline",
   };
   for (const [id, value] of Object.entries(elements)) {
     const element = document.getElementById(id);
-    if (element) {
-      element.innerText = value;
-    }
+    if (element) element.innerText = value;
   }
 }
 
@@ -428,9 +431,6 @@ function startGreetingFadeOut(greetingContainer) {
 }
 
 /**
- * Shows the mobile welcome overlay and starts the fade out animation
- * @param {HTMLElement} greetingContainer - The greeting container element
- */
 function showMobileGreetingOverlay(greetingContainer) {
   greetingContainer.classList.add("mobile-greeting-overlay");
   startGreetingFadeOut(greetingContainer);
