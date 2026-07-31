@@ -1,5 +1,5 @@
 /**
- * @fileoview Firebase initialization module and global setup.
+ * @fileoverview Firebase initialization module and global setup.
  */
 import { auth, db } from "./firebase-config.js";
 import {

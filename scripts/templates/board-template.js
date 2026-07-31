@@ -1,5 +1,5 @@
 /**
- * @fileoview HTML templates generating functions for the board view.
+ * @fileoverview HTML templates generating functions for the board view.
  */
 /**
  * Generates the HTML template for a task card

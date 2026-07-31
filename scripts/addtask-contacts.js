@@ -1,5 +1,5 @@
 /**
- * @fileoview Contact selection and handling for the add task page.
+ * @fileoverview Contact selection and handling for the add task page.
  */
 
 /**

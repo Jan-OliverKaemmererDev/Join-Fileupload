@@ -1,5 +1,5 @@
 /**
- * @fileoview HTML template generating functions for file uploads.
+ * @fileoverview HTML template generating functions for file uploads.
  */
 /**
  * Returns the HTML for the file format error overlay.

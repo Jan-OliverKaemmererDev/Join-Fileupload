@@ -1,5 +1,5 @@
 /**
- * @fileoview Form handling logic for board tasks.
+ * @fileoverview Form handling logic for board tasks.
  */
 /**
  * Toggles the category dropdown

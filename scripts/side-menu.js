@@ -1,5 +1,5 @@
 /**
- * @fileoview Logic for the side navigation menu.
+ * @fileoverview Logic for the side navigation menu.
  */
 /**
  * Initializes the page menu and highlights the active page

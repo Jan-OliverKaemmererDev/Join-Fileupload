@@ -1,5 +1,5 @@
 /**
- * @fileoview Logic for the help page.
+ * @fileoverview Logic for the help page.
  */
 /**
  * Initializes the help page and displays the user initials

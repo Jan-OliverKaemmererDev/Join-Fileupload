@@ -1,5 +1,5 @@
 /**
- * @fileoview HTML template generating functions for legal and privacy pages.
+ * @fileoverview HTML template generating functions for legal and privacy pages.
  */
 /**
  * Generates the HTML template for the sidebar in public mode (not logged in)

@@ -1,5 +1,5 @@
 /**
- * @fileooverview Dummy data for the board view.
+ * @fileoverview Dummy data for the board view.
  */
 /**
  * Normalize subtasks from various Firebase formats into the board format.

@@ -1,5 +1,5 @@
 /**
- * @fileoview Dummy logic for the user summary dashboard.
+ * @fileoverview Dummy logic for the user summary dashboard.
  */
 /**
  * Initializes the summary page for logged in users

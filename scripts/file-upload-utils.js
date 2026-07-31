@@ -1,5 +1,5 @@
 /**
- * @fileoview Utility functions for handling file uploads.
+ * @fileoverview Utility functions for handling file uploads.
  */
 /**
  Allowed MIME types for image files

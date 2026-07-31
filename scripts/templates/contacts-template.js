@@ -1,5 +1,5 @@
 /**
- * @fileoview HTML template generating functions for the contacts page.
+ * @fileoverview HTML template generating functions for the contacts page.
  */
 /**
  * Generates the HTML template for a contact list element
