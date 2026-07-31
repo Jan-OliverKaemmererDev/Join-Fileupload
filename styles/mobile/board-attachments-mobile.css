@@ -80,7 +80,7 @@
   }
 
   .viewer-content .viewer-filename {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 700;
     color: #fff;
     white-space: nowrap;
@@ -90,7 +90,7 @@
   }
 
   .viewer-content .viewer-filesize {
-    font-size: 14px;
+    font-size: 16px;
     color: #a8a8a8;
     white-space: nowrap;
     flex-shrink: 0;

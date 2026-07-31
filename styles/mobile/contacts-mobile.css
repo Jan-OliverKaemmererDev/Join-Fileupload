@@ -63,7 +63,7 @@
   .nav-links a {
     flex-direction: column !important;
     padding: 0;
-    font-size: 14px;
+    font-size: 16px;
     gap: 4px;
     color: #a8a8a8;
     align-items: center;
@@ -156,7 +156,7 @@
   .user-initials {
     width: 44px;
     height: 44px;
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
     border: 2px solid #091931;
     border-radius: 50%;
@@ -224,7 +224,7 @@
   .contact-avatar {
     width: 42px;
     height: 42px;
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .contact-name-list {
@@ -232,7 +232,7 @@
   }
 
   .contact-email-list {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   /* ========================================================= */

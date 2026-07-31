@@ -271,7 +271,7 @@
 .assignee-details-list .assignee-badge {
   width: 40px;
   height: 40px;
-  font-size: 14px;
+  font-size: 16px;
   margin-left: 0;
   flex-shrink: 0;
 }
@@ -334,7 +334,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 14px;
+  font-size: 16px;
   color: #2a3647;
 }
 
@@ -364,7 +364,7 @@
   gap: 4px;
   text-decoration: none;
   color: #2a3647;
-  font-size: 14px;
+  font-size: 16px;
   margin-left: 8px;
   padding: 4px;
   border-radius: 6px;

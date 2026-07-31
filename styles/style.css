@@ -247,7 +247,7 @@
   justify-content: center;
   align-items: center;
   font-weight: 700;
-  font-size: smaller;
+  font-size: 16px;
   color: rgba(41, 171, 226, 1);
   cursor: pointer;
   transition: background-color 0.2s;

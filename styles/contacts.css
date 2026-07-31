@@ -154,7 +154,7 @@ body {
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   flex-shrink: 0;
   aspect-ratio: 1 / 1;
@@ -260,7 +260,7 @@ body {
 
   .btn-add-contact {
     max-width: 100%;
-    font-size: 14px;
+    font-size: 16px;
     gap: 8px;
     padding: 10px 0;
   }
@@ -276,7 +276,7 @@ body {
   }
 
   .details-header-static p {
-    font-size: 15px;
+    font-size: 16px;
     padding-left: 12px;
   }
 
