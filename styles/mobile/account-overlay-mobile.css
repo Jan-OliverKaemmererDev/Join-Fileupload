@@ -81,6 +81,7 @@
     box-sizing: border-box !important;
     align-items: center !important;
     position: static !important;
+    overflow: visible !important;
   }
 
   #account-overlay .close-btn-container {
