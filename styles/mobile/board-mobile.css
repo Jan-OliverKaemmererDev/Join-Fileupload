@@ -589,6 +589,15 @@
     max-height: none;
   }
 
+  .mobile-edit-card .selected-contacts-initials::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .mobile-edit-card .selected-contacts-initials {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   .mobile-edit-footer {
     padding: 12px 20px 24px 20px;
     display: flex;
