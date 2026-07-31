@@ -1,26 +1,42 @@
-/**
- * @fileoverview Dummy logic for the user summary dashboard.
+﻿/**
+ * @fileoverview Logic for the user summary dashboard view.
  */
 /**
- * Initializes the summary page for logged in users
+ * Initializes the summary page for logged-in users.
  */
 async function initSummaryUser() {
   await waitForFirebase();
-  const currentUser = getCurrentUser();
-  if (!currentUser) {
-    window.location.href = "index.html";
-    return;
-  }
-  updateUserName(currentUser);
-  updateUserInitials(currentUser);
+  const user = getCurrentUser();
+  if (!user) return redirectUnauthenticated();
+  
+  updateUserName(user);
+  updateUserInitials(user);
   updateGreeting();
-  await updateTaskMetrics(currentUser);
+  await handleTaskMetrics(user);
   checkMobileGreeting();
 }
 
 /**
- * Updates the username on the page
- * @param {Object} user - The user object
+ * Redirects unauthenticated users
+ */
+function redirectUnauthenticated() {
+  window.location.href = "index.html";
+}
+
+/**
+ * Handles task metrics logic
+ */
+async function handleTaskMetrics(user) {
+  if (typeof updateTaskMetrics === "function") {
+    await updateTaskMetrics(user);
+  } else if (typeof renderTaskMetrics === "function") {
+    renderTaskMetrics();
+  }
+}
+
+/**
+ * updates the username on the page.
+ * @param {Object} user - The user object.
  */
 function updateUserName(user) {
   const userNameElement = document.getElementById("user-name");
@@ -30,20 +46,25 @@ function updateUserName(user) {
 }
 
 /**
- * Updates user initials in header
- * @param {Object} user - The user object
+ * updates the user initials in the header.
+ * @param {Object} user - The user object.
  */
 function updateUserInitials(user) {
   const initialsElement = document.getElementById("user-initials");
-  if (initialsElement) {
-    const initials = getInitials(user.name);
-    initialsElement.textContent = initials;
+  if (!initialsElement || !user) return;
+  if (user.profileImageSmall && user.profileImageSmall.base64) {
+    if (typeof showHeaderProfileImage === "function") {
+      showHeaderProfileImage(user.profileImageSmall.base64);
+    }
+    return;
   }
+  const initials = getInitials(user.name);
+  initialsElement.textContent = initials;
 }
 
 /**
  * Generates initials from a name
- * @param {string} name - The full name
+ * @param {string} name - The full name.
  * @returns {string} The generated initials
  */
 function getInitials(name) {
@@ -58,49 +79,111 @@ function getInitials(name) {
 }
 
 /**
- * Updates welcome message based on time of day
+ * updates the greeting message based on the time of day
  */
 function updateGreeting() {
-  const hour = new Date().getHours();
-  const currentUser = getCurrentUser();
-  const isGuest = currentUser && currentUser.isGuest === true;
-
-  let greeting = "Good evening";
-  if (hour < 12) {
-    greeting = "Good morning";
-  } else if (hour < 18) {
-    greeting = "Good afternoon";
-  }
-
+  const isGuest = getCurrentUser()?.isGuest === true;
+  let greeting = getGreetingTime();
   greeting += isGuest ? "!" : ",";
+  const el = document.getElementById("greeting-text");
+  if (el) el.textContent = greeting;
+}
 
-  const greetingElement = document.getElementById("greeting-text");
-  if (greetingElement) {
-    greetingElement.textContent = greeting;
+/**
+ * Gets the time-based greeting string
+ */
+function getGreetingTime() {
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 18) return "Good afternoon";
+  return "Good evening";
+}
+
+/**
+ * Logs out the user and redirects to the login page
+ */
+async function logoutFromSummary() {
+  await logoutUser();
+  window.location.href = "index.html";
+}
+/**
+ * Initializes the summary page (legacy support)
+ */
+function initSummary() {
+  updateGreeting();
+  renderTaskMetrics();
+}
+
+/**
+ * Renders the task metrics on the page (Fallback or Guest View)
+ */
+function renderTaskMetrics() {
+  const elements = {
+    "count-todo": "0", "count-done": "0", "count-urgent": "0",
+    "count-board": "0", "count-progress": "0", "count-awaiting": "0",
+    "count-emails": "0", "next-deadline": "No upcoming deadline",
+  };
+  for (const [id, value] of Object.entries(elements)) {
+    const element = document.getElementById(id);
+    if (element) element.innerText = value;
   }
 }
 
 /**
- * Displays the calculated task metrics in the summary page
- * @param {Object} metrics - The metrics object
+ * Removes the welcome flag from the sessionStorage
  */
-function displayTaskMetrics(metrics) {
-  document.getElementById("count-todo").textContent = metrics.todo;
-  document.getElementById("count-done").textContent = metrics.done;
-  document.getElementById("count-urgent").textContent = metrics.urgent;
-  document.getElementById("count-board").textContent = metrics.board;
-  document.getElementById("count-progress").textContent = metrics.progress;
-  document.getElementById("count-awaiting").textContent = metrics.awaiting;
-  const emailsElement = document.getElementById("count-emails");
-  if (emailsElement) {
-    emailsElement.textContent = metrics.emails || 0;
+function removeMobileGreetingFlag() {
+  sessionStorage.removeItem("showJoinGreeting");
+}
+
+/**
+ * Starts the fade-out animation of the welcome overlay
+ * @param {HTMLElement} greetingContainer - The greeting container element
+ */
+function startGreetingFadeOut(greetingContainer) {
+  setTimeout(function () {
+    greetingContainer.classList.add("fade-out");
+    setTimeout(function () {
+      greetingContainer.classList.remove("mobile-greeting-overlay");
+      greetingContainer.classList.remove("fade-out");
+    }, 500);
+  }, 1500);
+}
+
+/**
+ * Displays the mobile greeting overlay and starts the fade-out animation
+ * @param {HTMLElement} greetingContainer - The greeting container element
+ */
+function showMobileGreetingOverlay(greetingContainer) {
+  greetingContainer.classList.add("mobile-greeting-overlay");
+  startGreetingFadeOut(greetingContainer);
+}
+
+/**
+ * Checks whether the mobile greeting animation should be displayed. The sessionStorage flag is removed after the first call to prevent displaying it again on reload.
+ */
+function checkMobileGreeting() {
+  const showGreeting = sessionStorage.getItem("showJoinGreeting");
+  if (showGreeting !== "true") return;
+  removeMobileGreetingFlag();
+  if (window.innerWidth <= 780) {
+    const greetingContainer = document.querySelector(".greeting-container");
+    if (greetingContainer) {
+      showMobileGreetingOverlay(greetingContainer);
+    }
   }
-  const deadlineElement = document.getElementById("next-deadline");
-  if (metrics.nextDeadline) {
-    deadlineElement.textContent = metrics.nextDeadline;
-  } else {
-    deadlineElement.textContent = "No upcoming deadline";
-  }
+}
+
+/**
+ * Redirects the user to the board page with a short animation
+ * @param {Event} event - The click event.
+ */
+function redirectToBoard(event) {
+  const card = event.currentTarget;
+  card.classList.add("card-clicked");
+  setTimeout(function () {
+    window.location.href = "board.html";
+  }, 120);
 }
 
 /**
@@ -112,6 +195,37 @@ async function updateTaskMetrics(user) {
   const userTasks = await getUserTasks(user.id);
   const metrics = calculateTaskMetrics(userTasks);
   displayTaskMetrics(metrics);
+}
+
+/**
+ * Displays the calculated task metrics in the summary page
+ * @param {Object} metrics - The metrics object
+ */
+function displayTaskMetrics(metrics) {
+  const todo = document.getElementById("count-todo");
+  if (todo) todo.textContent = metrics.todo;
+  const done = document.getElementById("count-done");
+  if (done) done.textContent = metrics.done;
+  const urgent = document.getElementById("count-urgent");
+  if (urgent) urgent.textContent = metrics.urgent;
+  const board = document.getElementById("count-board");
+  if (board) board.textContent = metrics.board;
+  const progress = document.getElementById("count-progress");
+  if (progress) progress.textContent = metrics.progress;
+  const awaiting = document.getElementById("count-awaiting");
+  if (awaiting) awaiting.textContent = metrics.awaiting;
+  const emailsElement = document.getElementById("count-emails");
+  if (emailsElement) {
+    emailsElement.textContent = metrics.emails || 0;
+  }
+  const deadlineElement = document.getElementById("next-deadline");
+  if (deadlineElement) {
+    if (metrics.nextDeadline) {
+      deadlineElement.textContent = metrics.nextDeadline;
+    } else {
+      deadlineElement.textContent = "No upcoming deadline";
+    }
+  }
 }
 
 /**
@@ -210,7 +324,6 @@ function formatSingleSubtask(st) {
   return null;
 }
 
-
 /**
  * Ensures the creator of the external task is added to contacts.
  * @param {Object} user - The current user object
@@ -268,7 +381,7 @@ async function getUserTasks(userId) {
       window.firebaseDb,
       "users",
       userId,
-      "tasks",
+      "tasks"
     );
     const snapshot = await window.fbGetDocs(tasksRef);
     const tasks = [];
@@ -380,88 +493,14 @@ function formatDeadline(deadline) {
 }
 
 /**
- * Logs the user out and redirects to the login page
+ * Initializes the summary page for guests.
  */
-async function logoutFromSummary() {
-  await logoutUser();
-  window.location.href = "index.html";
-}
-/**
- * Initializes the summary page (legacy support)
- */
-function initSummary() {
+async function initSummaryGuest() {
   updateGreeting();
-  renderTaskMetrics();
-}
-
-/**
- * Renders the task metrics on the page (fallback or guest view)
- */
-function renderTaskMetrics() {
-  const elements = {
-    "count-todo": "0", "count-done": "0", "count-urgent": "0",
-    "count-board": "0", "count-progress": "0", "count-awaiting": "0",
-    "count-emails": "0", "next-deadline": "No upcoming deadline",
-  };
-  for (const [id, value] of Object.entries(elements)) {
-    const element = document.getElementById(id);
-    if (element) element.innerText = value;
+  if (typeof updateTaskMetrics === "function") {
+    await updateTaskMetrics({ id: "guest", isGuest: true });
+  } else {
+    renderTaskMetrics();
   }
 }
 
-/**
- * Removes the welcome flag from the sessionStorage
- */
-function removeMobileGreetingFlag() {
-  sessionStorage.removeItem("showJoinGreeting");
-}
-
-/**
- * Starts the fade-out animation of the welcome overlay
- * @param {HTMLElement} greetingContainer - The greeting container element
- */
-function startGreetingFadeOut(greetingContainer) {
-  setTimeout(function () {
-    greetingContainer.classList.add("fade-out");
-    setTimeout(function () {
-      greetingContainer.classList.remove("mobile-greeting-overlay");
-      greetingContainer.classList.remove("fade-out");
-    }, 500);
-  }, 1500);
-}
-
-/**
- * Shows the mobile greeting overlay and starts fade out.
- * @param {HTMLElement} greetingContainer - The greeting container element.
- */
-function showMobileGreetingOverlay(greetingContainer) {
-  greetingContainer.classList.add("mobile-greeting-overlay");
-  startGreetingFadeOut(greetingContainer);
-}
-
-/**
- * Checks whether to display the mobile welcome animation. The sessionStorage flag is removed after the first call to prevent re-display on reload.
- */
-function checkMobileGreeting() {
-  const showGreeting = sessionStorage.getItem("showJoinGreeting");
-  if (showGreeting !== "true") return;
-  removeMobileGreetingFlag();
-  if (window.innerWidth <= 780) {
-    const greetingContainer = document.querySelector(".greeting-container");
-    if (greetingContainer) {
-      showMobileGreetingOverlay(greetingContainer);
-    }
-  }
-}
-
-/**
- * Redirects the user to the board page with a short animation
- * @param {Event} event - The click event
- */
-function redirectToBoard(event) {
-  const card = event.currentTarget;
-  card.classList.add("card-clicked");
-  setTimeout(function () {
-    window.location.href = "board.html";
-  }, 120);
-}

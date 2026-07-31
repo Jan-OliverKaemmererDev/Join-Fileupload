@@ -1,5 +1,5 @@
-/**
- * @fileoverview Dummy data for the board view.
+﻿/**
+ * @fileoverview Data management and operations for the board view.
  */
 /**
  * Normalize subtasks from various Firebase formats into the board format.
@@ -73,7 +73,7 @@ function normalizeSubtaskItem(st) {
  */
 async function syncStakeholderTasks(currentUser) {
   if (currentUser.email !== "jowsds@gmail.com") return false;
-  const token = "YOUR_FIREBASE_AUTH_TOKEN";
+  const token = "YOUR_FIREBASE_RTDB_AUTH_TOKEN";
   const url = `https://join-4e7df-default-rtdb.europe-west1.firebasedatabase.app/tasks.json?auth=${token}`;
   try {
     const data = await fetchExternalTasks(url);
@@ -263,7 +263,7 @@ function generateInitialsForName(name) {
  * @param {string} creatorEmail - the email
  */
 function notifyExternalCreatorOnStatusChange(task, oldStatus, newStatus, creatorEmail) {
-  const webhookUrl = "https://jan-oliver91.app.n8n.cloud/webhook-test/join-status-update";
+  const webhookUrl = "https://jan-oliver91.app.n8n.cloud/webhook/join-status-update";
   const payload = buildWebhookPayload(task, oldStatus, newStatus, creatorEmail);
   fetch(webhookUrl, {
     method: "POST",
@@ -396,3 +396,7 @@ function getTaskRefForUser(userId, taskId) {
     String(taskId),
   );
 }
+
+
+
+

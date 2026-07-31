@@ -1,5 +1,5 @@
-/**
- * @fileoverview Dummy data and logic for the add task page testing.
+﻿/**
+ * @fileoverview Main logic for the add task page.
  */
 let selectedPriority = "medium";
 let subtasks = [];
@@ -7,7 +7,7 @@ let allContacts = [];
 let selectedContacts = [];
 
 /**
- * Initializes the add task page
+ * Initializes the add task page.
  */
 async function initAddTask() {
   const currentUser = getCurrentUser();
@@ -41,37 +41,87 @@ async function initAddTaskPage() {
 }
 
 /**
- * Validates the form and enables/disables the submit button
+ * Validate the form and enables/disablit the submit button.
  */
 function validateForm() {
-  const title = document.getElementById("title").value.trim();
-  const dueDate = document.getElementById("due-date").value;
-  const category = document.getElementById("category").value;
+  const isValid = getFormValidityState();
+  const isDirtyValid = checkDirtyState(isValid);
   const submitBtn = document.getElementById("create-task-btn");
-  if (title && dueDate && category) {
-    submitBtn.disabled = false;
-  } else {
-    submitBtn.disabled = true;
+  if (submitBtn) {
+    submitBtn.disabled = !isDirtyValid;
   }
 }
 
 /**
- * Handles the addition of a new task
- * @param {Event} event - The submit event of the form
+ * Checks basic form fields validity
+ * @returns {boolean} True if required fields are filled
+ */
+function getFormValidityState() {
+  const title = document.getElementById("title").value.trim();
+  const dueDate = document.getElementById("due-date").value;
+  const category = document.getElementById("category").value;
+  return !!(title && dueDate && category);
+}
+
+/**
+ * Checks if the task is dirty when in board
+ * @param {boolean} currentValid - The current validity state
+ * @returns {boolean} The new validity state
+ */
+function checkDirtyState(currentValid) {
+  if (typeof isTaskDirty === 'function' && window.location.pathname.includes('board.html')) {
+    if (!isTaskDirty()) return false;
+  }
+  return currentValid;
+}
+
+/**
+ * Processit the Add a new Tasks
+ * @param {Event} event - the Submit Event of the forms
  */
 async function handleAddTask(event) {
   event.preventDefault();
   const currentUser = getCurrentUser();
-  if (!currentUser) {
-    alert("Please log in to create tasks");
-    return;
+  if (!currentUser) return alert("Please log in to create tasks");
+  const submitBtn = disableSubmitButton();
+  try {
+    const task = await buildTask(currentUser);
+    await saveTask(currentUser.id, task);
+    handleAddTaskSuccess(task);
+  } catch (error) {
+    handleAddTaskError(error, submitBtn);
   }
-  const task = buildTask(currentUser);
-  await saveTask(currentUser.id, task);
+}
+
+/**
+ * Disables the submit button
+ * @returns {HTMLElement} The submit button element
+ */
+function disableSubmitButton() {
+  const submitBtn = document.getElementById("create-task-btn");
+  if (submitBtn) submitBtn.disabled = true;
+  return submitBtn;
+}
+
+/**
+ * Handles successful task creation
+ * @param {Object} task - The created task
+ */
+function handleAddTaskSuccess(task) {
   showToast("Task added to board");
   dispatchTaskAddedEvent(task);
   clearForm();
   redirectToBoard();
+}
+
+/**
+ * Handles task creation error
+ * @param {Error} error - The error object
+ * @param {HTMLElement} submitBtn - The submit button
+ */
+function handleAddTaskError(error, submitBtn) {
+  console.error("Error creating task:", error);
+  if (submitBtn) submitBtn.disabled = false;
 }
 
 /**
@@ -86,20 +136,21 @@ function redirectToBoard() {
 }
 
 /**
- * Creates a Task object from the form data
- * @param {Object} currentUser - The currently logged in user
- * @returns {Object} The task object
+ * Create a Task object from the form data
+ * @param {Object} currentUser - the current logged in user
+ * @returns {Object} The task object.
  */
-function buildTask(currentUser) {
+async function buildTask(currentUser) {
   const assignedToIds = selectedContacts.map(function (c) {
     return c.id;
   });
   const formData = getTaskFormData();
-  return createTaskObject(currentUser, assignedToIds, formData);
+  const attachments = typeof processTaskAttachments === 'function' ? await processTaskAttachments() : [];
+  return createTaskObject(currentUser, assignedToIds, formData, attachments);
 }
 
 /**
- * Gets the task data from the form fields
+ * Retrievit the task data from the form fields
  */
 function getTaskFormData() {
   return {
@@ -111,10 +162,10 @@ function getTaskFormData() {
 }
 
 /**
- * Creates the final task object
+ * Create the final task object
  */
-function createTaskObject(currentUser, assignedToIds, formData) {
-  const task = buildBaseTaskObject(currentUser, assignedToIds);
+function createTaskObject(currentUser, assignedToIds, formData, attachments = []) {
+  const task = buildBaseTaskObject(currentUser, assignedToIds, attachments);
   return Object.assign(task, formData);
 }
 
@@ -122,14 +173,16 @@ function createTaskObject(currentUser, assignedToIds, formData) {
  * Builds the base properties for a new task
  * @param {Object} currentUser - The current user
  * @param {Array} assignedToIds - Array of contact IDs
+ * @param {Array} attachments - Array of attachments
  * @returns {Object} Base task object
  */
-function buildBaseTaskObject(currentUser, assignedToIds) {
+function buildBaseTaskObject(currentUser, assignedToIds, attachments) {
   return {
     id: Date.now(),
     priority: selectedPriority,
     assignedTo: assignedToIds,
     subtasks: copySubtasks(),
+    attachments: attachments,
     status: "triage",
     position: Date.now(),
     createdAt: new Date().toISOString(),
@@ -141,8 +194,8 @@ function buildBaseTaskObject(currentUser, assignedToIds) {
 }
 
 /**
- * Raises a taskAdded event
- * @param {Object} task - The added task object
+ * Raises a taskAdded event from
+ * @param {Object} task - the added task object
  */
 function dispatchTaskAddedEvent(task) {
   window.dispatchEvent(
@@ -151,9 +204,9 @@ function dispatchTaskAddedEvent(task) {
 }
 
 /**
- * Saves a task in Firestore
- * @param {string} userId - The user's ID
- * @param {Object} task - The task object to save
+ * Saves a Task in Firestore
+ * @param {string} userId - The ID of the user
+ * @param {Object} task - the task object to save
  */
 async function saveTask(userId, task) {
   try {
@@ -214,14 +267,17 @@ async function sendTaskToRTDB(taskCopy) {
 }
 
 /**
- * Resets the form
+ * Sets the form to the back
  */
 function clearForm() {
   const form = document.getElementById("add-task-form");
   if (form) form.reset();
+  const dateInput = document.getElementById("due-date");
+  if (dateInput) dateInput.type = "text";
   selectPriority("medium");
   subtasks = [];
   selectedContacts = [];
+  if (typeof clearAllAttachments === 'function') clearAllAttachments();
   renderAssignedToOptions();
   renderSelectedInitials();
   renderSubtasks();
@@ -229,7 +285,7 @@ function clearForm() {
 }
 
 /**
- * Checks whether the page was loaded in edit mode
+ * Checks whether the page was loaded in the editing mode
  */
 async function checkForEditMode() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -240,8 +296,8 @@ async function checkForEditMode() {
 }
 
 /**
- * Loads a task's data for editing
- * @param {string} taskId - The ID of the task
+ * Loads the data into tasks for editing
+ * @param {string} taskId - The task ID.
  */
 async function loadTaskForEdit(taskId) {
   const currentUser = getCurrentUser();
@@ -255,36 +311,37 @@ async function loadTaskForEdit(taskId) {
       taskId,
     );
     const docSnap = await window.fbGetDoc(taskRef);
-    processLoadedTask(docSnap, taskId);
+    await processLoadedTask(docSnap, taskId);
   } catch (error) {
     console.error("Error loading task for edit:", error);
   }
 }
 
 /**
- * Processes the loaded task for edit mode
+ * Processit the loaded task for the editing mode
  */
-function processLoadedTask(docSnap, taskId) {
+async function processLoadedTask(docSnap, taskId) {
   if (docSnap.exists()) {
     const task = docSnap.data();
-    fillFormWithTaskData(task);
+    await fillFormWithTaskData(task);
     setupFormForEdit(taskId);
   }
 }
-
 /**
- * Populates the form's base text fields with task data
- * @param {Object} task - The task object
+ * Populates the base text fields of the forms with task data
+ * @param {Object} task - The task object.
  */
 function fillBasicTaskFields(task) {
   document.getElementById("title").value = task.title;
   document.getElementById("description").value = task.description;
-  document.getElementById("due-date").value = task.dueDate;
+  const dateInput = document.getElementById("due-date");
+  if (task.dueDate) dateInput.type = "date";
+  dateInput.value = task.dueDate;
 }
 
 /**
- * Populates the category field and display text with task data
- * @param {Object} task - The task object
+ * Populates the category-field and the displaytext with task data
+ * @param {Object} task - The task object.
  */
 function fillCategoryField(task) {
   const categoryInput = document.getElementById("category");
@@ -299,15 +356,18 @@ function fillCategoryField(task) {
 
 /**
  * Populates the form with task data (category, priority, contacts and subtasks)
- * @param {Object} task - The task object
+ * @param {Object} task - The task object.
  */
-function fillFormWithTaskData(task) {
+async function fillFormWithTaskData(task) {
   fillBasicTaskFields(task);
   fillCategoryField(task);
   selectPriority(task.priority);
   loadAssigneesForEdit(task);
   subtasks = task.subtasks ? JSON.parse(JSON.stringify(task.subtasks)) : [];
   renderSubtasks();
+  if (typeof loadExistingAttachments === 'function') {
+    await loadExistingAttachments(task.attachments || []);
+  }
   validateForm();
 }
 
@@ -320,7 +380,7 @@ function setEditFormTitle() {
 }
 
 /**
- * Updates the submit button to "Save Changes"
+ * updates the Submit button to â€œSave Changesâ€
  */
 function setEditFormButton() {
   const submitBtn = document.getElementById("create-task-btn");
@@ -331,8 +391,8 @@ function setEditFormButton() {
 }
 
 /**
- * Sets the form's submit handler for edit mode
- * @param {string} taskId - The ID of the task
+ * Sets the Submit-Handler of the forms for the editing mode
+ * @param {string} taskId - The task ID.
  */
 function setEditFormSubmitHandler(taskId) {
   const form = document.getElementById("add-task-form");
@@ -344,7 +404,7 @@ function setEditFormSubmitHandler(taskId) {
 }
 
 /**
- * Hides the Clear button in edit mode
+ * Hidit the Clear button in the editing mode
  */
 function hideFormClearButton() {
   const clearBtn = document.querySelector(".btn-clear");
@@ -354,8 +414,8 @@ function hideFormClearButton() {
 }
 
 /**
- * Configures the form for editing and hides the Clear button
- * @param {string} taskId - The ID of the task
+ * Configures the form for the editing and hides the Clear-Button from
+ * @param {string} taskId - The task ID.
  */
 function setupFormForEdit(taskId) {
   setEditFormTitle();
@@ -365,21 +425,21 @@ function setupFormForEdit(taskId) {
 }
 
 /**
- * Processes the update of a task and maintains the original status
- * @param {Event} event - The submit event
- * @param {string} taskId - The ID of the task
+ * Processit the updating a tasks and keeps the original status at
+ * @param {Event} event - the submit event
+ * @param {string} taskId - The task ID.
  */
 async function handleEditTask(event, taskId) {
   event.preventDefault();
   const currentUser = getCurrentUser();
   if (!currentUser) return;
-  const task = buildTask(currentUser);
+  const task = await buildTask(currentUser);
   task.id = Number(taskId);
   await executeTaskUpdate(currentUser, taskId, task);
 }
 
 /**
- * Runs the actual update of the task in Firestore
+ * Runs the actual Update of the Tasks in Firestore from
  */
 async function executeTaskUpdate(currentUser, taskId, task) {
   try {
@@ -394,7 +454,7 @@ async function executeTaskUpdate(currentUser, taskId, task) {
 }
 
 /**
- * Creates a reference to a task in Firestore
+ * Create a reference to a Task in Firestore
  */
 function getTaskRef(userId, taskId) {
   return window.fbDoc(
@@ -407,7 +467,7 @@ function getTaskRef(userId, taskId) {
 }
 
 /**
- * Gets the original status of a task
+ * Retrievit the original status of a task
  */
 async function getOriginalTaskStatus(taskRef) {
   const oldTaskSnap = await window.fbGetDoc(taskRef);
@@ -423,4 +483,5 @@ async function getOriginalTaskStatus(taskRef) {
 async function updateExistingTask(taskRef, task) {
   await window.fbSetDoc(taskRef, task);
 }
+
 

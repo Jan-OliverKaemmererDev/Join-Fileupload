@@ -1,5 +1,5 @@
 /**
- * @fileoverview Dummy logic and mocked functions for the board view.
+ * @fileoverview Main logic and initialization for the board view.
  */
 let tasks = [];
 let currentDraggedTaskId = null;
@@ -11,7 +11,7 @@ let touchStartY = 0;
 let touchDragTaskId = null;
 
 /**
- * Initializes the board and loads the tasks and contacts (from addtask.js).
+ * Initializes the board and loads tasks and contacts (from addtask.js).
  */
 async function initBoard() {
   checkUser();
@@ -76,9 +76,9 @@ function renderTasks() {
 }
 
 /**
- * Renders a single task map.
- * @param {Object} task - The task object
- * @param {Object} counts - The counting object for task states
+ * Renders a single task card.
+ * @param {Object} task - The task object.
+ * @param {Object} counts - The count object for task statuses.
  */
 function renderTaskCard(task, counts) {
   const cardHtml = generateTaskCardHtml(task);
@@ -91,8 +91,8 @@ function renderTaskCard(task, counts) {
 }
 
 /**
- * Renders empty states for all empty columns.
- * @param {Object} counts - The counting object with task counts per status
+ * Renders empty statit for all empty columns.
+ * @param {Object} counts - The count object with task counts per status.
  */
 function renderAllEmptyStates(counts) {
   renderEmptyState("triage", counts.triage, "No tasks in Triage");
@@ -104,9 +104,9 @@ function renderAllEmptyStates(counts) {
 
 /**
  * Renders an empty state for a column.
- * @param {string} status - The status of the column
- * @param {number} count - The number of tasks in this column
- * @param {string} message - The message to display
+ * @param {string} status - The column status.
+ * @param {number} count - The number of tasks in this column.
+ * @param {string} message - The message to display.
  */
 function renderEmptyState(status, count, message) {
   const list = document.getElementById(status + "-list");
@@ -117,8 +117,8 @@ function renderEmptyState(status, count, message) {
 
 /**
  * Starts drag and drop for a task.
- * @param {number} id - The ID of the task
- * @param {Event} ev - The drag event
+ * @param {number} id - The task ID.
+ * @param {Event} ev - The drag event.
  */
 function startDragging(id, ev) {
   isDragging = true;
@@ -130,7 +130,7 @@ function startDragging(id, ev) {
 }
 
 /**
- * Stops drag and drop.
+ * Ends drag and drop.
  */
 function endDragging() {
   setTimeout(function () {
@@ -139,8 +139,8 @@ function endDragging() {
 }
 
 /**
- * Allows you to drop a task.
- * @param {Event} ev - The drag event
+ * Allows dropping a task.
+ * @param {Event} ev - The drag event.
  */
 function allowDrop(ev) {
   ev.preventDefault();
@@ -148,15 +148,15 @@ function allowDrop(ev) {
 
 /**
  * Highlights a drop zone.
- * @param {string} id - The ID of the drop zone
+ * @param {string} id - The drop zone ID.
  */
 function highlight(id) {
   document.getElementById(id).classList.add("drag-over");
 }
 
 /**
- * Removes highlighting of a drop zone.
- * @param {string} id - The ID of the drop zone
+ * Remove the highlight from a drop zone.
+ * @param {string} id - The drop zone ID.
  */
 function removeHighlight(id) {
   document.getElementById(id).classList.remove("drag-over");
@@ -164,8 +164,8 @@ function removeHighlight(id) {
 
 /**
  * Finds the index of a task by ID.
- * @param {number} taskId - The ID of the task
- * @returns {number} The index of the task or -1
+ * @param {number} taskId - The task ID.
+ * @returns {number} The task index or -1.
  */
 function findTaskById(taskId) {
   for (let i = 0; i < tasks.length; i++) {
@@ -177,10 +177,10 @@ function findTaskById(taskId) {
 }
 
 /**
- * Moves a task to a new state.
- * @param {string} status - The new status
- * @param {number|null} targetTaskId - The ID of the target
- * @param {string} relativePos - 'before' or 'after'
+ * Move a task to a new status.
+ * @param {string} status - The new status.
+ * @param {number|null} targetTaskId - The target task ID.
+ * @param {string} relativePos - 'before' or 'after'.
  */
 async function moveTo(status, targetTaskId = null, relativePos = "after") {
   const taskIndex = findTaskById(currentDraggedTaskId);
@@ -196,11 +196,11 @@ async function moveTo(status, targetTaskId = null, relativePos = "after") {
 }
 
 /**
- * Updates the position and status of a task.
- * @param {Object} task - The task
- * @param {string} status - The new status
- * @param {number|null} targetTaskId - Target task
- * @param {string} relativePos - Position relative to the target
+ * updates the position and status of a task.
+ * @param {Object} task - The task.
+ * @param {string} status - The new status.
+ * @param {number|null} targetTaskId - The target task.
+ * @param {string} relativePos - Position relative to the target.
  */
 function updateTaskPosition(task, status, targetTaskId, relativePos) {
   task.status = status;
@@ -212,10 +212,10 @@ function updateTaskPosition(task, status, targetTaskId, relativePos) {
 }
 
 /**
- * Checks and sends notifications when status changes.
- * @param {Object} task - The task
- * @param {string} oldStatus - Old status
- * @param {string} status - New status
+ * Checks and sends notifications on status change.
+ * @param {Object} task - The task.
+ * @param {string} oldStatus - The old status.
+ * @param {string} status - The new status.
  */
 function checkAndNotifyStatusChange(task, oldStatus, status) {
   const emailToNotify = task.creatorEmail ||
@@ -226,9 +226,9 @@ function checkAndNotifyStatusChange(task, oldStatus, status) {
 }
 
 /**
- * Calculates the new position for a task at the end of a column.
- * @param {string} status - The status
- * @returns {number} The new position
+ * Calculate the new position for a task at the end of a column.
+ * @param {string} status - The status.
+ * @returns {number} The new position.
  */
 function getNewPositionAtEnd(status) {
   const columnTasks = tasks.filter(t => t.status === status);
@@ -243,11 +243,11 @@ function getNewPositionAtEnd(status) {
 }
 
 /**
- * Calculates the new position between two tasks.
- * @param {string} status - The status
- * @param {number} targetTaskId - Target task ID
- * @param {string} relativePos - 'before' or 'after'
- * @returns {number} The new position
+ * Calculate the new position between two tasks.
+ * @param {string} status - The status.
+ * @param {number} targetTaskId - The target task ID.
+ * @param {string} relativePos - 'before' or 'after'.
+ * @returns {number} The new position.
  */
 function calculateNewPosition(status, targetTaskId, relativePos) {
   const columnTasks = getSortedTasksByStatus(status);
@@ -262,9 +262,9 @@ function calculateNewPosition(status, targetTaskId, relativePos) {
 }
 
 /**
- * Returns sorted tasks for a given status.
- * @param {string} status - The status
- * @returns {Array} Sorted tasks
+ * Returns sorted tasks for a specific status.
+ * @param {string} status - The status.
+ * @returns {Array} Sorted tasks.
  */
 function getSortedTasksByStatus(status) {
   return tasks
@@ -273,10 +273,10 @@ function getSortedTasksByStatus(status) {
 }
 
 /**
- * Calculates the position in front of the target task.
- * @param {Array} columnTasks - Tasks of the column
- * @param {number} targetIndex - Index of the target task
- * @returns {number} New position
+ * Calculate the position before the target task.
+ * @param {Array} columnTasks - The column tasks.
+ * @param {number} targetIndex - The target task index.
+ * @returns {number} The new position.
  */
 function calculatePositionBefore(columnTasks, targetIndex) {
   const prevTask = columnTasks[targetIndex - 1];
@@ -286,10 +286,10 @@ function calculatePositionBefore(columnTasks, targetIndex) {
 }
 
 /**
- * Calculates the position according to the target task.
- * @param {Array} columnTasks - Tasks of the column
- * @param {number} targetIndex - Index of the target task
- * @returns {number} New position
+ * Calculate the position after the target task.
+ * @param {Array} columnTasks - The column tasks.
+ * @param {number} targetIndex - The target task index.
+ * @returns {number} The new position.
  */
 function calculatePositionAfter(columnTasks, targetIndex) {
   const targetTask = columnTasks[targetIndex];
@@ -300,8 +300,8 @@ function calculatePositionAfter(columnTasks, targetIndex) {
 
 /**
  * Handles the drop event for a task.
- * @param {Event} ev - The drop event
- * @param {string} status - The new status
+ * @param {Event} ev - The drop event.
+ * @param {string} status - The new status.
  */
 function drop(ev, status) {
   ev.preventDefault();
@@ -313,8 +313,8 @@ function drop(ev, status) {
 }
 
 /**
- * Gets the moved task ID from the event.
- * @param {Event} ev - The event
+ * Retrievit the dragged task ID from the event.
+ * @param {Event} ev - The event.
  */
 function resolveDraggedTaskId(ev) {
   if (currentDraggedTaskId === null && ev.dataTransfer) {
@@ -324,10 +324,10 @@ function resolveDraggedTaskId(ev) {
 }
 
 /**
- * Determines the drop target and relative position.
- * @param {Event} ev - The drop event
- * @param {HTMLElement} targetCard - The targeted card element
- * @returns {Object} Target task and relative position
+ * Determine the drop target and relative position.
+ * @param {Event} ev - The drop event.
+ * @param {HTMLElement} targetCard - The targeted card element.
+ * @returns {Object} The target task and relative position.
  */
 function resolveDropTarget(ev, targetCard) {
   let targetTaskId = null;
@@ -335,20 +335,18 @@ function resolveDropTarget(ev, targetCard) {
   if (targetCard) {
     targetTaskId = getTaskIdFromCard(targetCard);
     const rect = targetCard.getBoundingClientRect();
-    if (window.innerWidth <= 780) {
-      if (ev.clientX < rect.left + rect.width / 2) relativePos = "before";
-    } else {
-      if (ev.clientY < rect.top + rect.height / 2) relativePos = "before";
-    }
+    const isMobile = window.innerWidth <= 780;
+    const isBefore = isMobile ? ev.clientX < rect.left + rect.width / 2 : ev.clientY < rect.top + rect.height / 2;
+    if (isBefore) relativePos = "before";
   }
   return { targetTaskId, relativePos };
 }
 
 
 /**
- * Finds a task by ID.
- * @param {number} taskId - The ID of the task
- * @returns {Object|null} The task object or null
+ * Finds a task by its ID.
+ * @param {number} taskId - The task ID.
+ * @returns {Object|null} The task object or null.
  */
 function findTask(taskId) {
   for (let i = 0; i < tasks.length; i++) {
@@ -361,8 +359,8 @@ function findTask(taskId) {
 
 /**
  * Reads the task ID from the data attribute of a card.
- * @param {HTMLElement} card - The task card element
- * @returns {number|null} The task ID or null
+ * @param {HTMLElement} card - The task card element.
+ * @returns {number|null} The task ID or null.
  */
 function getTaskIdFromCard(card) {
   const id = card.getAttribute("data-task-id");

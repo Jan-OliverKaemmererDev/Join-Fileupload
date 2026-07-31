@@ -1,8 +1,8 @@
-/**
- * @fileoverview Dummy logic and data for stakeholder views.
+﻿/**
+ * @fileoverview Main logic for stakeholder views.
  */
 const DAILY_LIMIT = 10;
-const AUTH_TOKEN = "YOUR_FIREBASE_AUTH_TOKEN";
+const AUTH_TOKEN = "YOUR_FIREBASE_RTDB_AUTH_TOKEN";
 let currentCount = 0;
 
 /**
@@ -37,7 +37,7 @@ function initStakeholder() {
 
 /**
  * Handles incoming stream events from Firebase RTDB.
- * @param {MessageEvent} e - The Server-Sent Event message.
+ * @param {MessageEvent} e - The Server Sent Event message.
  */
 function handleStreamEvent(e) {
   try {
@@ -57,7 +57,7 @@ function handleStreamError(err) {
 }
 
 /**
- * Parses Firebase data object and updates the current count.
+ * Parsit Firebase data object and updates the current count.
  * @param {Object} parsedData - The parsed JSON data from Firebase.
  */
 function parseFirebaseData(parsedData) {
@@ -70,7 +70,7 @@ function parseFirebaseData(parsedData) {
 }
 
 /**
- * Updates count from the root data object.
+ * updates count from the root data object.
  * @param {Object|number|null} data - The root data from Firebase.
  */
 function updateCountFromRoot(data) {
@@ -85,7 +85,7 @@ function updateCountFromRoot(data) {
 }
 
 /**
- * Updates the DOM based on the current request count.
+ * updates the DOM based on the current request count.
  * @param {number} count - The number of requests used today.
  */
 function updateStakeholderUI(count) {
@@ -133,8 +133,8 @@ function toggleStateVisibility(showId, hideId) {
 }
 
 /**
- * Updates the stakeholder illustration image.
- * @param {string} imageName - The filename of the image.
+ * updates the stakeholder illustration image.
+ * @param {string} imageName - The file name of the image.
  */
 function setStakeholderImage(imageName) {
   const img = document.getElementById("stakeholder-img");
@@ -161,4 +161,5 @@ function openEmailClient() {
   link.click();
   document.body.removeChild(link);
 }
+
 
