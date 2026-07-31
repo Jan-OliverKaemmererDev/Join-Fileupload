@@ -89,7 +89,7 @@
 }
 
 .metric-card b {
-  font-size: 48px;
+  font-size: 64px;
   line-height: 1.2;
 }
 
@@ -169,7 +169,7 @@
 }
 
 .card-small b {
-  font-size: 48px;
+  font-size: 64px;
   display: block;
 }
 
@@ -223,7 +223,7 @@
 }
 
 .urgent-info b {
-  font-size: 48px;
+  font-size: 64px;
 }
 
 .urgent-info p {
@@ -313,7 +313,7 @@
   }
   
   .urgent-info b {
-    font-size: 32px;
+    font-size: 64px;
   }
   
   .urgent-info p, .deadline-info b, .deadline-info p {
