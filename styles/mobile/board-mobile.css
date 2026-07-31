@@ -410,6 +410,15 @@
     gap: 8px;
   }
 
+  .assignee-details-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .assignee-details-list {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
   /* ========================================================= */
   /* MOBILE NAV AUSBLENDEN (WIRD DURCH SIDEBAR ERSETZT)        */
   /* ========================================================= */
