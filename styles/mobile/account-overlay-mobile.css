@@ -92,6 +92,14 @@
     margin: 0;
   }
 
+  #account-overlay .btn-close {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  #account-overlay .btn-close:hover {
+    background-color: transparent;
+  }
+
   #account-overlay .btn-close img {
     filter: brightness(0) invert(1);
   }
