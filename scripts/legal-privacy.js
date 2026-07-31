@@ -60,6 +60,11 @@ function setupMobileBackArrow(isPublic, currentUser) {
   const contentTitle = document.querySelector("h1");
   if (!contentTitle || contentTitle.querySelector(".mobile-back-arrow")) return;
 
-  const backHref = isPublic || !currentUser ? "index.html" : "summaryuser.html";
+  let backHref = isPublic || !currentUser ? "index.html" : "summaryuser.html";
+  
+  if (document.referrer && document.referrer.includes(window.location.host)) {
+    backHref = "javascript:history.back()";
+  }
+
   contentTitle.innerHTML += getMobileBackArrowTemplate(backHref);
 }

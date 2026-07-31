@@ -61,4 +61,44 @@ function setupClickOutsideListener() {
   document.addEventListener("click", handleClickOutside, true);
 }
 
-document.addEventListener("DOMContentLoaded", setupClickOutsideListener);
+/**
+ * Ensures dropdown is closed when returning via back button (bfcache)
+ */
+function setupBfCacheListener() {
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+      const dropdown = document.getElementById("user-dropdown");
+      if (dropdown) {
+        dropdown.style.transition = "none";
+        dropdown.classList.remove("active");
+        setTimeout(() => {
+          dropdown.style.transition = "";
+        }, 50);
+      }
+    }
+  });
+}
+
+/**
+ * Closes the dropdown immediately when a link inside it is clicked
+ */
+function setupDropdownLinksListener() {
+  const dropdown = document.getElementById("user-dropdown");
+  if (dropdown) {
+    dropdown.addEventListener("click", (event) => {
+      if (event.target.tagName === "A" || event.target.closest("a")) {
+        dropdown.style.transition = "none";
+        dropdown.classList.remove("active");
+        setTimeout(() => {
+          dropdown.style.transition = "";
+        }, 50);
+      }
+    });
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  setupClickOutsideListener();
+  setupBfCacheListener();
+  setupDropdownLinksListener();
+});
