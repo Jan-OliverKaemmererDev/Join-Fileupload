@@ -27,9 +27,9 @@ function generateTaskCardHtml(task) {
  */
 function getTaskSourceIconHtml(task) {
   if (task.createdBy === "extern") {
-    return `<img src="./assets/icons/issue-collector/wand.svg" class="task-source-icon" alt="Extern">`;
+    return getTaskSourceIconExternTemplate();
   } else if (task.creatorType === "internal-user" || (task.createdBy && task.createdBy !== "extern")) {
-    return `<img src="./assets/icons/issue-collector/profile.svg" class="task-source-icon" alt="User">`;
+    return getTaskSourceIconUserTemplate();
   }
   return "";
 }

@@ -276,3 +276,86 @@ function getTaskAttachmentsSectionTemplate(thumbnailsHtml) {
     </section>
   `;
 }
+
+/**
+ * HTML template for the extern task source icon
+ * @returns {string} HTML
+ */
+function getTaskSourceIconExternTemplate() {
+  return `<img src="./assets/icons/issue-collector/wand.svg" class="task-source-icon" alt="Extern">`;
+}
+
+/**
+ * HTML template for the internal user task source icon
+ * @returns {string} HTML
+ */
+function getTaskSourceIconUserTemplate() {
+  return `<img src="./assets/icons/issue-collector/profile.svg" class="task-source-icon" alt="User">`;
+}
+
+/**
+ * HTML template for the AI indicator
+ * @returns {string} HTML
+ */
+function getTaskAiIndicatorTemplate() {
+  return `
+    <span style="display: flex; align-items: center; gap: 8px;">
+      <img src="./assets/icons/issue-collector/wand.svg" alt="AI">
+      <span style="background: linear-gradient(to right, #9327FF, #2EA1DC); -webkit-background-clip: text; color: transparent; font-size: 16px;">Ai-generated ticket</span>
+    </span>
+  `;
+}
+
+/**
+ * HTML template for the external creator section
+ * @param {string} name - Creator's name
+ * @param {string} email - Creator's email
+ * @returns {string} HTML
+ */
+function getTaskCreatorExternTemplate(name, email) {
+  return `
+    <section class="task-details-info task-creator-section" aria-label="Task creator info">
+      <span class="task-details-label">Creator:</span>
+      <div class="task-creator-info">
+        <span class="creator-badge creator-badge-extern">
+          <img src="./assets/icons/issue-collector/globe.svg" alt="Extern">
+          Extern
+        </span>
+        <div class="creator-person-info">
+          <span class="creator-name">${name}</span>
+          <a href="mailto:${email}" target="_blank" class="creator-contact-link">
+            <img src="./assets/icons/issue-collector/email.svg" class="creator-contact-icon-email" alt="Email">
+            E-mail
+          </a>
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+/**
+ * HTML template for the internal creator section
+ * @param {string} name - Creator's name
+ * @param {string} email - Creator's email
+ * @returns {string} HTML
+ */
+function getTaskCreatorMemberTemplate(name, email) {
+  return `
+    <section class="task-details-info task-creator-section" aria-label="Task creator info">
+      <span class="task-details-label">Creator:</span>
+      <div class="task-creator-info">
+        <span class="creator-badge creator-badge-member">
+          <img src="./assets/icons/issue-collector/member.svg" alt="Member">
+          Member
+        </span>
+        <div class="creator-person-info">
+          <span class="creator-name">${name}</span>
+          <a href="contacts.html" onclick="sessionStorage.setItem('selectedContactEmail', '${email}')" class="creator-contact-link">
+            <img src="./assets/icons/issue-collector/profile.svg" class="creator-contact-icon-profile" alt="Profil">
+            Profil
+          </a>
+        </div>
+      </div>
+    </section>
+  `;
+}
