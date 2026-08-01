@@ -148,7 +148,7 @@ function deleteContactFromFirestoreDb(currentUser, id) {
  * The alert fades in, stays briefly, then fades out and is removed.
  * @returns {void}
  */
-function showSuccessAlert(message = "Kontakt erfolgreich erstellt!") {
+function showSuccessAlert(message = "Contact successfully created") {
   const alert = document.createElement("div");
   alert.className = "success-alert";
   alert.innerText = message;

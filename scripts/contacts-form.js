@@ -418,7 +418,7 @@ function finalizeContactUpdate(contact) {
     content.innerHTML = getDesktopContactDetailsTemplate(contact);
   }
   closeAddContactDialog();
-  showSuccessAlert("Kontakt erfolgreich aktualisiert!");
+  showSuccessAlert("Contact successfully updated");
 }
 
 /**
