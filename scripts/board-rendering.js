@@ -16,7 +16,22 @@ function generateTaskCardHtml(task) {
     generateProgressHtml(task),
     generateAssigneesHtml(task),
     getPriorityIcon(task.priority),
+    getTaskSourceIconHtml(task)
   );
+}
+
+/**
+ * Returns the HTML for the source icon of a task
+ * @param {Object} task - The task object
+ * @returns {string} The HTML for the source icon
+ */
+function getTaskSourceIconHtml(task) {
+  if (task.createdBy === "extern") {
+    return `<img src="./assets/icons/issue-collector/wand.svg" class="task-source-icon" alt="Extern">`;
+  } else if (task.creatorType === "internal-user" || (task.createdBy && task.createdBy !== "extern")) {
+    return `<img src="./assets/icons/issue-collector/profile.svg" class="task-source-icon" alt="User">`;
+  }
+  return "";
 }
 
 /**
@@ -48,7 +63,8 @@ function generateProgressHtml(task) {
   if (task.subtasks && task.subtasks.length > 0) {
     const completed = countCompletedSubtasks(task.subtasks);
     const total = task.subtasks.length;
-    return getProgressBarTemplate(completed, total);
+    const percent = (completed / total) * 100;
+    return getProgressBarTemplate(completed, total, percent);
   }
   return "";
 }
@@ -102,7 +118,10 @@ function buildSingleAssigneeBadge(contactId) {
   if (!contact) return "";
   const initials = getInitialsFromName(contact.name);
   const profileImg = getContactProfileImage(contact);
-  return getAssigneeBadgeTemplate(initials, contact.color, profileImg);
+  if (profileImg) {
+    return getAssigneeImageBadgeTemplate(initials, contact.color, profileImg);
+  }
+  return getAssigneeInitialsBadgeTemplate(initials, contact.color);
 }
 
 /**
@@ -118,7 +137,7 @@ function getContactProfileImage(contact) {
  * Adds the "+X" badge
  */
 function addExtraAssigneesBadge(totalCount) {
-  return getAssigneeBadgeTemplate(`+${totalCount - 3}`, "#2A3647");
+  return getAssigneeInitialsBadgeTemplate(`+${totalCount - 3}`, "#2A3647");
 }
 
 /**
@@ -169,12 +188,10 @@ function processAssigneeItem(contactId) {
   const initials = getInitialsFromName(contact.name);
   const profileImg = getContactProfileImage(contact);
   
-  return getAssignedToDetailItemTemplate(
-    initials,
-    contact.color,
-    contact.name,
-    profileImg
-  );
+  if (profileImg) {
+    return getAssignedToDetailImageItemTemplate(contact.color, contact.name, profileImg);
+  }
+  return getAssignedToDetailInitialsItemTemplate(initials, contact.color, contact.name);
 }
 
 /**

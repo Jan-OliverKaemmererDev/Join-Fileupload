@@ -97,8 +97,77 @@ function buildTaskDetailsHtml(task) {
     getCategoryClass(task.category),
     getCategoryLabel(task.category),
     buildAssignedToDetailsHtml(task),
-    buildTaskAttachmentsHtml(task)
+    typeof buildTaskAttachmentsHtml === 'function' ? buildTaskAttachmentsHtml(task) : "",
+    getTaskAiIndicatorHtml(task),
+    getTaskCreatorSectionHtml(task)
   );
+}
+
+/**
+ * Generates the AI indicator HTML if applicable
+ * @param {Object} task - The task object
+ * @returns {string} The HTML for the AI indicator
+ */
+function getTaskAiIndicatorHtml(task) {
+  if (task.createdBy === "extern") {
+    return `
+      <span style="display: flex; align-items: center; gap: 8px;">
+        <img src="./assets/icons/issue-collector/wand.svg" alt="AI">
+        <span style="background: linear-gradient(to right, #9327FF, #2EA1DC); -webkit-background-clip: text; color: transparent; font-size: 16px;">Ai-generated ticket</span>
+      </span>
+    `;
+  }
+  return "";
+}
+
+/**
+ * Generates the creator section HTML
+ * @param {Object} task - The task object
+ * @returns {string} The HTML for the creator section
+ */
+function getTaskCreatorSectionHtml(task) {
+  if (task.createdBy === "extern") {
+    return `
+      <section class="task-details-info task-creator-section" aria-label="Task creator info">
+        <span class="task-details-label">Creator:</span>
+        <div class="task-creator-info">
+          <span class="creator-badge creator-badge-extern">
+            <img src="./assets/icons/issue-collector/globe.svg" alt="Extern">
+            Extern
+          </span>
+          <div class="creator-person-info">
+            <span class="creator-name">${task.creatorName || "Externer Benutzer"}</span>
+            <a href="mailto:${task.creatorEmail || ''}" target="_blank" class="creator-contact-link">
+              <img src="./assets/icons/issue-collector/email.svg" class="creator-contact-icon-email" alt="Email">
+              E-mail
+            </a>
+          </div>
+        </div>
+      </section>
+    `;
+  } else if (task.creatorType === "internal-user" || (task.createdBy && task.createdBy !== "extern")) {
+    const name = task.creatorName || "Member";
+    const email = task.creatorEmail || "";
+    return `
+      <section class="task-details-info task-creator-section" aria-label="Task creator info">
+        <span class="task-details-label">Creator:</span>
+        <div class="task-creator-info">
+          <span class="creator-badge creator-badge-member">
+            <img src="./assets/icons/issue-collector/member.svg" alt="Member">
+            Member
+          </span>
+          <div class="creator-person-info">
+            <span class="creator-name">${name}</span>
+            <a href="contacts.html" onclick="sessionStorage.setItem('selectedContactEmail', '${email}')" class="creator-contact-link">
+              <img src="./assets/icons/issue-collector/profile.svg" class="creator-contact-icon-profile" alt="Profil">
+              Profil
+            </a>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+  return "";
 }
 
 /**

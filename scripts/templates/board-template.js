@@ -18,17 +18,11 @@ function getTaskCardTemplate(
   progressHtml,
   assigneesHtml,
   priorityIcon,
+  sourceIconHtml,
 ) {
-  let sourceIcon = "";
-  if (task.createdBy === "extern") {
-    sourceIcon = `<img src="./assets/icons/issue-collector/wand.svg" class="task-source-icon" alt="Extern">`;
-  } else if (task.creatorType === "internal-user" || (task.createdBy && task.createdBy !== "extern")) {
-    sourceIcon = `<img src="./assets/icons/issue-collector/profile.svg" class="task-source-icon" alt="User">`;
-  }
-
   return `
     <article class="task-card" tabindex="0" draggable="true" data-task-id="${task.id}" ondragstart="startDragging(${task.id}, event)" ondragend="endDragging()" onclick="openTaskDetails(${task.id})" onkeydown="if(event.key === 'Enter'){ openTaskDetails(${task.id}); event.preventDefault(); }" aria-label="Task: ${task.title}">
-      ${sourceIcon}
+      ${sourceIconHtml}
       <span class="category-tag ${categoryClass}" aria-label="Category: ${categoryLabel}">${categoryLabel}</span>
       <h3 class="task-title">${task.title}</h3>
       <p class="task-description">${task.description}</p>
@@ -50,10 +44,10 @@ function getTaskCardTemplate(
  * Generates the HTML template for a progress bar
  * @param {number} completed - Number of subtasks completed
  * @param {number} total - Total number of subtasks
+ * @param {number} percent - The calculated percentage of completion
  * @returns {string} The HTML template for the progress bar
  */
-function getProgressBarTemplate(completed, total) {
-  const percent = (completed / total) * 100;
+function getProgressBarTemplate(completed, total, percent) {
   return `
     <section class="task-subtasks" aria-label="Subtasks progress">
       <div class="progress-bar-container" role="progressbar" aria-label="Progress bar" aria-valuenow="${percent}" aria-valuemin="0" aria-valuemax="100">
@@ -66,15 +60,26 @@ function getProgressBarTemplate(completed, total) {
 
 
 /**
- * Generates the HTML template for an assignee badge
+ * Generates the HTML template for an assignee badge with an image
  * @param {string} initials - The assignee's initials
+ * @param {string} color - The background color
+ * @param {string} profileImageBase64 - The base64 string of the image
  * @returns {string} The HTML template for the assignee badge
  */
-function getAssigneeBadgeTemplate(initials, color, profileImageBase64 = null) {
+function getAssigneeImageBadgeTemplate(initials, color, profileImageBase64) {
   const backgroundColor = color || "#00bee8";
-  if (profileImageBase64) {
-    return `<span class="assignee-badge" style="background-color: ${backgroundColor};" aria-label="Assignee: ${initials}"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="Profile picture of ${initials}"></span>`;
-  }
+  return `<span class="assignee-badge" style="background-color: ${backgroundColor};" aria-label="Assignee: ${initials}"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="Profile picture of ${initials}"></span>`;
+}
+
+
+/**
+ * Generates the HTML template for an assignee badge with initials
+ * @param {string} initials - The assignee's initials
+ * @param {string} color - The background color
+ * @returns {string} The HTML template for the assignee badge
+ */
+function getAssigneeInitialsBadgeTemplate(initials, color) {
+  const backgroundColor = color || "#00bee8";
   return `<span class="assignee-badge" style="background-color: ${backgroundColor};" aria-label="Assignee: ${initials}">${initials}</span>`;
 }
 
@@ -124,66 +129,15 @@ function getTaskDetailsTemplate(
   categoryClass,
   categoryLabel,
   assignedToHtml,
-  attachmentsHtml = ""
+  attachmentsHtml = "",
+  aiIndicatorHtml = "",
+  creatorSectionHtml = ""
 ) {
-  let aiIndicator = "";
-  if (task.createdBy === "extern") {
-    aiIndicator = `
-      <span style="display: flex; align-items: center; gap: 8px;">
-        <img src="./assets/icons/issue-collector/wand.svg" alt="AI">
-        <span style="background: linear-gradient(to right, #9327FF, #2EA1DC); -webkit-background-clip: text; color: transparent; font-size: 16px;">Ai-generated ticket</span>
-      </span>
-    `;
-  }
-
-  let creatorSection = "";
-  if (task.createdBy === "extern") {
-    creatorSection = `
-      <section class="task-details-info task-creator-section" aria-label="Task creator info">
-        <span class="task-details-label">Creator:</span>
-        <div class="task-creator-info">
-          <span class="creator-badge creator-badge-extern">
-            <img src="./assets/icons/issue-collector/globe.svg" alt="Extern">
-            Extern
-          </span>
-          <div class="creator-person-info">
-            <span class="creator-name">${task.creatorName || "Externer Benutzer"}</span>
-            <a href="mailto:${task.creatorEmail || ''}" target="_blank" class="creator-contact-link">
-              <img src="./assets/icons/issue-collector/email.svg" class="creator-contact-icon-email" alt="Email">
-              E-mail
-            </a>
-          </div>
-        </div>
-      </section>
-    `;
-  } else if (task.creatorType === "internal-user" || (task.createdBy && task.createdBy !== "extern")) {
-    const name = task.creatorName || "Member";
-    const email = task.creatorEmail || "";
-    creatorSection = `
-      <section class="task-details-info task-creator-section" aria-label="Task creator info">
-        <span class="task-details-label">Creator:</span>
-        <div class="task-creator-info">
-          <span class="creator-badge creator-badge-member">
-            <img src="./assets/icons/issue-collector/member.svg" alt="Member">
-            Member
-          </span>
-          <div class="creator-person-info">
-            <span class="creator-name">${name}</span>
-            <a href="contacts.html" onclick="sessionStorage.setItem('selectedContactEmail', '${email}')" class="creator-contact-link">
-              <img src="./assets/icons/issue-collector/profile.svg" class="creator-contact-icon-profile" alt="Profil">
-              Profil
-            </a>
-          </div>
-        </div>
-      </section>
-    `;
-  }
-
   return `
     <header class="task-details-header" aria-label="Task header">
       <div style="display: flex; align-items: center; gap: 16px;">
         <span class="category-tag ${categoryClass}" aria-label="Category: ${categoryLabel}">${categoryLabel}</span>
-        ${aiIndicator}
+        ${aiIndicatorHtml}
       </div>
       <button class="task-details-close" onclick="closeTaskDetails()" aria-label="Close task details">
         <img src="./assets/icons/clear-X-icon.svg" alt="Close">
@@ -191,7 +145,7 @@ function getTaskDetailsTemplate(
     </header>
     <h1 class="task-details-title">${task.title}</h1>
     <p class="task-description task-description-full">${task.description}</p>
-    ${creatorSection}
+    ${creatorSectionHtml}
     <div class="task-details-info">
       <span class="task-details-label">Due date:</span>
       <span>${task.dueDate}</span>
@@ -230,18 +184,27 @@ function getTaskDetailsTemplate(
 
 
 /**
- * Generates an HTML template for an assigned contact in the details view
+ * Generates an HTML template for an assigned contact in the details view with an image
+ * @param {string} color - background color of the badge
+ * @param {string} name - Full name of the contact
+ * @param {string} profileImageBase64 - The profile image base64
+ * @returns {string} The HTML for the contact entry
+ */
+function getAssignedToDetailImageItemTemplate(color, name, profileImageBase64) {
+  return `
+    <span class="assignee-badge assignee-badge-detail" style="background-color: ${color};" aria-label="Assignee: ${name}"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="Profile picture of ${name}"></span>
+  `;
+}
+
+
+/**
+ * Generates an HTML template for an assigned contact in the details view with initials
  * @param {string} initials - Initials of the contact
  * @param {string} color - background color of the badge
  * @param {string} name - Full name of the contact
  * @returns {string} The HTML for the contact entry
  */
-function getAssignedToDetailItemTemplate(initials, color, name, profileImageBase64 = null) {
-  if (profileImageBase64) {
-    return `
-      <span class="assignee-badge assignee-badge-detail" style="background-color: ${color};" aria-label="Assignee: ${name}"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="Profile picture of ${name}"></span>
-    `;
-  }
+function getAssignedToDetailInitialsItemTemplate(initials, color, name) {
   return `
     <span class="assignee-badge assignee-badge-detail" style="background-color: ${color};" aria-label="Assignee: ${name}">${initials}</span>
   `;
