@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @fileoverview Main logic for stakeholder views.
  */
 const DAILY_LIMIT = 10;
@@ -152,7 +152,7 @@ function createEmailRequest() {
  * Opens the user's default email client with a pre-filled subject.
  */
 function openEmailClient() {
-  const bodyText = "Your name: \nTitle: \nDescription (optional): \nPriority (urgent, medium, low): \nDue date: \nsubtasks: ";
+  const bodyText = "Your name: \nTitle: \nDescription (optional): \nCategory: Technical Task\nPriority (urgent, medium, low): \nDue date: \nsubtasks: ";
   const encodedBody = encodeURIComponent(bodyText);
   const link = document.createElement("a");
   link.href = `mailto:jowsds@gmail.com?subject=New%20Join%20Request&body=${encodedBody}`;

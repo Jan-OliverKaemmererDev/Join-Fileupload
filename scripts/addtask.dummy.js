@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @fileoverview Main logic for the add task page.
  */
 let selectedPriority = "medium";
@@ -338,19 +338,23 @@ function fillBasicTaskFields(task) {
   if (task.dueDate) dateInput.type = "date";
   dateInput.value = task.dueDate;
 }
-
 /**
  * Populates the category-field and the displaytext with task data
  * @param {Object} task - The task object.
  */
 function fillCategoryField(task) {
+  let mappedCategory = "technical";
+  if (task.category === "user-story" || task.category === "User Story" || task.category === "User Story/Feature") {
+    mappedCategory = "user-story";
+  }
+
   const categoryInput = document.getElementById("category");
-  if (categoryInput) categoryInput.value = task.category;
+  if (categoryInput) categoryInput.value = mappedCategory;
 
   const categoryText = document.getElementById("selected-category-text");
   if (categoryText) {
     categoryText.textContent =
-      task.category === "user-story" ? "User Story" : "Technical Task";
+      mappedCategory === "user-story" ? "User Story" : "Technical Task";
   }
 }
 

@@ -331,9 +331,14 @@ async function fillFormWithTaskData(task) {
  * Saves the original task state to check for dirtiness later
  */
 function saveOriginalEditState(task) {
+  let mappedCategory = "technical";
+  if (task.category === "user-story" || task.category === "User Story" || task.category === "User Story/Feature") {
+    mappedCategory = "user-story";
+  }
+
   currentEditTaskOriginalState = JSON.stringify({
     title: task.title, description: task.description, dueDate: task.dueDate,
-    category: task.category, priority: task.priority,
+    category: mappedCategory, priority: task.priority,
     assignedTo: task.assignedTo ? [...task.assignedTo].sort() : [],
     subtasks: task.subtasks ? JSON.parse(JSON.stringify(task.subtasks)) : [],
     attachments: task.attachments ? task.attachments.length : 0
@@ -355,10 +360,17 @@ function fillBasicTaskFields(task) {
  * Fills category and priority UI elements
  */
 function fillCategoryAndPriority(task) {
-  document.getElementById("category").value = task.category;
+  let mappedCategory = "technical";
+  if (task.category === "user-story" || task.category === "User Story" || task.category === "User Story/Feature") {
+    mappedCategory = "user-story";
+  }
+
+  const catElement = document.getElementById("category");
+  if (catElement) catElement.value = mappedCategory;
+
   const categoryText = document.getElementById("selected-category-text");
   if (categoryText) {
-    categoryText.textContent = task.category === "user-story" ? "User Story" : "Technical Task";
+    categoryText.textContent = mappedCategory === "user-story" ? "User Story" : "Technical Task";
   }
   selectPriority(task.priority);
 }
