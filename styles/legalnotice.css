@@ -7,11 +7,34 @@
   margin: 0 auto;
 }
 
-.legal-notice-container h1 {
+.policy-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.policy-header h1 {
   font-size: 61px;
   font-weight: 700;
-  margin-bottom: 40px;
+  margin-bottom: 0;
   color: #000;
+}
+
+.back-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.back-link:hover {
+  transform: translateX(-5px);
+}
+
+.back-link img {
+  width: 32px;
+  height: 32px;
 }
 
 .legal-notice-container h2 {

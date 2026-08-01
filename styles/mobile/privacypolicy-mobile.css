@@ -201,6 +201,14 @@
     height: 24px;
   }
 
+  .policy-header {
+    display: block !important;
+  }
+
+  .policy-header .back-link {
+    display: none !important;
+  }
+
   /* ========================================================= */
   /*                  DER BLAUE PFEIL IM H1                    */
   /* ========================================================= */
