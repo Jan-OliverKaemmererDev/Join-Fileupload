@@ -4,19 +4,18 @@
 /**
  * Generates the HTML template for a contact list element
  */
-function getContactItemTemplate(contact) {
-  let avatarInner = contact.initials;
-  let avatarStyle = `background-color: ${contact.color};`;
-  
-  if (contact.profileImageSmall && contact.profileImageSmall.base64) {
-    avatarInner = `<img src="${contact.profileImageSmall.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
-  }
+/**
+ * Generates the HTML template for a contact list element
+ * @param {Object} contact - The contact object
+ * @param {string} avatarInnerHtml - The HTML string for the avatar content
+ * @param {string} avatarStyle - The CSS style string for the avatar wrapper
+ */
+function getContactItemTemplate(contact, avatarInnerHtml, avatarStyle) {
 
   return `
     <article class="contact-item" tabindex="0" onclick="showContactDetails('${contact.id}')" data-id="${contact.id}" onkeydown="if(event.key === 'Enter'){ showContactDetails('${contact.id}'); event.preventDefault(); }" aria-label="Show details for ${contact.name}">
       <div class="contact-avatar" style="${avatarStyle}">
-        ${avatarInner}
+        ${avatarInnerHtml}
       </div>
       <div class="contact-info-list">
         <span class="contact-name-list">${contact.name}${contact.isYou ? ' (You)' : ''}</span>
@@ -30,19 +29,18 @@ function getContactItemTemplate(contact) {
  * --- DETAIL VIEW LOGIC ---
  */
 
-function getDesktopContactDetailsTemplate(contact) {
-  let avatarInner = contact.initials;
-  let avatarStyle = `background-color: ${contact.color};`;
-  
-  if (contact.profileImage && contact.profileImage.base64) {
-    avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
-  }
+/**
+ * Generates the HTML template for the desktop contact details view
+ * @param {Object} contact - The contact object
+ * @param {string} avatarInnerHtml - The HTML string for the avatar content
+ * @param {string} avatarStyle - The CSS style string for the avatar wrapper
+ */
+function getDesktopContactDetailsTemplate(contact, avatarInnerHtml, avatarStyle) {
 
   return `
     <header class="contact-header-details">
         <div class="contact-avatar-large" style="${avatarStyle}">
-            ${avatarInner}
+            ${avatarInnerHtml}
         </div>
         <div class="contact-name-section">
             <h1 class="contact-name-details">${contact.name}${contact.isYou ? ' (You)' : ''}</h1>
@@ -72,14 +70,13 @@ function getDesktopContactDetailsTemplate(contact) {
   `;
 }
 
-function getMobileContactDetailsTemplate(contact) {
-  let avatarInner = contact.initials;
-  let avatarStyle = `background-color: ${contact.color};`;
-  
-  if (contact.profileImage && contact.profileImage.base64) {
-    avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
-  }
+/**
+ * Generates the HTML template for the mobile contact details view
+ * @param {Object} contact - The contact object
+ * @param {string} avatarInnerHtml - The HTML string for the avatar content
+ * @param {string} avatarStyle - The CSS style string for the avatar wrapper
+ */
+function getMobileContactDetailsTemplate(contact, avatarInnerHtml, avatarStyle) {
 
   return `
     <header class="details-header-mobile">
@@ -93,7 +90,7 @@ function getMobileContactDetailsTemplate(contact) {
 
     <div class="contact-view-title">
         <div class="initials-large" style="${avatarStyle}">
-            ${avatarInner}
+            ${avatarInnerHtml}
         </div>
         <h2 class="contact-name-large">${contact.name}${contact.isYou ? ' (You)' : ''}</h2>
     </div>
@@ -126,14 +123,13 @@ function getMobileContactDetailsTemplate(contact) {
  * --- EDIT DIALOG LOGIC (Screenshot Design) ---
  */
 
-function getDesktopEditContactTemplate(contact) {
-  let avatarInner = contact.initials;
-  let avatarStyle = `background-color: ${contact.color}; margin: 0;`;
-  
-  if (contact.profileImage && contact.profileImage.base64) {
-    avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-    avatarStyle = `background-color: transparent; margin: 0; position: relative; overflow: hidden;`;
-  }
+/**
+ * Generates the HTML template for the desktop edit contact dialog
+ * @param {Object} contact - The contact object
+ * @param {string} avatarInnerHtml - The HTML string for the avatar content
+ * @param {string} avatarStyle - The CSS style string for the avatar wrapper
+ */
+function getDesktopEditContactTemplate(contact, avatarInnerHtml, avatarStyle) {
 
   return `
     <div class="slide-in-dialog" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="edit-dialog-title">
@@ -153,7 +149,7 @@ function getDesktopEditContactTemplate(contact) {
         <div class="edit-content-container">
           <div class="account-avatar-wrapper" style="margin: 0 auto; display: flex; justify-content: center; align-items: center;">
             <div class="contact-form-avatar" id="contact-initials" style="${avatarStyle} margin: 0;">
-              ${avatarInner}
+              ${avatarInnerHtml}
             </div>
             <div id="contact-camera-badge" class="account-camera-badge" style="display: flex;" role="button" tabindex="0" aria-label="Change profile picture" onkeydown="if(event.key === 'Enter') this.click();">
               <img class="account-camera-icon" src="./assets/icons/camera.svg" alt="Change photo">
@@ -193,14 +189,13 @@ function getDesktopEditContactTemplate(contact) {
   `;
 }
 
-function getMobileEditContactTemplate(contact) {
-  let avatarInner = contact.initials;
-  let avatarStyle = `background-color: ${contact.color};`;
-  
-  if (contact.profileImage && contact.profileImage.base64) {
-    avatarInner = `<img src="${contact.profileImage.base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
-    avatarStyle = `background-color: transparent; position: relative; overflow: hidden;`;
-  }
+/**
+ * Generates the HTML template for the mobile edit contact dialog
+ * @param {Object} contact - The contact object
+ * @param {string} avatarInnerHtml - The HTML string for the avatar content
+ * @param {string} avatarStyle - The CSS style string for the avatar wrapper
+ */
+function getMobileEditContactTemplate(contact, avatarInnerHtml, avatarStyle) {
 
   return `
     <div class="edit-contact-mobile-overlay" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="edit-mobile-dialog-title">
@@ -216,7 +211,7 @@ function getMobileEditContactTemplate(contact) {
         <div class="contact-form-avatar-center" style="border: none; background: transparent; overflow: visible; display: flex; justify-content: center;">
           <div class="account-avatar-wrapper" style="width: 120px; height: 120px; position: relative;">
             <div class="contact-form-avatar" id="contact-initials" style="${avatarStyle} width: 100%; height: 100%; margin: 0; position: absolute; top: 0; left: 0;">
-              ${avatarInner}
+              ${avatarInnerHtml}
             </div>
             <div id="contact-camera-badge" class="account-camera-badge" style="display: flex; z-index: 10;" role="button" tabindex="0" aria-label="Change profile picture" onkeydown="if(event.key === 'Enter') this.click();">
               <img class="account-camera-icon" src="./assets/icons/camera.svg" alt="Change photo">
@@ -376,6 +371,24 @@ function getMobileAddContactTemplate() {
 /**
  * --- HELPER TEMPLATES ---
  */
+
+/**
+ * Generates the HTML for an avatar image
+ * @param {string} base64 - The base64 encoded image string
+ * @returns {string} HTML string
+ */
+function getAvatarImageTemplate(base64) {
+  return `<img src="${base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
+}
+
+/**
+ * Generates the HTML for avatar initials
+ * @param {string} initials - The initials string
+ * @returns {string} HTML string
+ */
+function getAvatarInitialsTemplate(initials) {
+  return initials;
+}
 function getContactGroupLetterTemplate(letter) {
   return `<h2 class="contact-group-letter">${letter}</h2>`;
 }

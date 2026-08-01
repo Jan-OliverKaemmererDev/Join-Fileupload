@@ -181,3 +181,24 @@ function hideAndRemoveAlert(alert) {
     alert.remove();
   }, 500);
 }
+
+/**
+ * Computes avatar inner HTML and styles for a contact.
+ * @param {Object} contact - The contact object
+ * @param {boolean} useSmallImage - Whether to use the small profile image or the full one
+ * @returns {{avatarInnerHtml: string, avatarStyle: string}} Object containing avatarInnerHtml and avatarStyle
+ */
+function getContactAvatarData(contact, useSmallImage = false) {
+  const imgObj = useSmallImage ? contact.profileImageSmall : contact.profileImage;
+  
+  if (imgObj && imgObj.base64) {
+    return {
+      avatarInnerHtml: getAvatarImageTemplate(imgObj.base64),
+      avatarStyle: "background-color: transparent; position: relative; overflow: hidden;"
+    };
+  }
+  return {
+    avatarInnerHtml: getAvatarInitialsTemplate(contact.initials),
+    avatarStyle: `background-color: ${contact.color};`
+  };
+}

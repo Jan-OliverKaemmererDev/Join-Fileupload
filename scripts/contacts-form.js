@@ -58,7 +58,8 @@ function openEditContactDialog(id) {
  * @returns {string} The HTML string
  */
 function getEditContactHTML(contact) {
-  return window.innerWidth <= 780 ? getMobileEditContactTemplate(contact) : getDesktopEditContactTemplate(contact);
+  const { avatarInnerHtml, avatarStyle } = getContactAvatarData(contact, false);
+  return window.innerWidth <= 780 ? getMobileEditContactTemplate(contact, avatarInnerHtml, avatarStyle) : getDesktopEditContactTemplate(contact, avatarInnerHtml, avatarStyle);
 }
 
 /**

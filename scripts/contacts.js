@@ -131,7 +131,8 @@ function addLetterGroupIfNeeded(list, contact) {
  */
 function appendContactItemToList(list, contact) {
   addLetterGroupIfNeeded(list, contact);
-  list.innerHTML += getContactItemTemplate(contact);
+  const { avatarInnerHtml, avatarStyle } = getContactAvatarData(contact, true);
+  list.innerHTML += getContactItemTemplate(contact, avatarInnerHtml, avatarStyle);
 }
 
 let lastRenderedLetter = "";
@@ -193,10 +194,11 @@ function showContactDetails(id) {
  */
 function renderContactDetailsView(contact, id) {
   const content = document.getElementById("contact-details-content");
+  const { avatarInnerHtml, avatarStyle } = getContactAvatarData(contact, false);
   if (window.innerWidth > 780) {
-    content.innerHTML = getDesktopContactDetailsTemplate(contact);
+    content.innerHTML = getDesktopContactDetailsTemplate(contact, avatarInnerHtml, avatarStyle);
   } else {
-    content.innerHTML = getMobileContactDetailsTemplate(contact);
+    content.innerHTML = getMobileContactDetailsTemplate(contact, avatarInnerHtml, avatarStyle);
   }
 }
 
