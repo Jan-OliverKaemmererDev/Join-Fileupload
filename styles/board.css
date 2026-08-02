@@ -217,3 +217,11 @@
     flex-shrink: 0;
   }
 }
+
+@media (min-width: 1201px) {
+  .board-columns::after {
+    content: "";
+    flex: 0 0 56px;
+  }
+}
+
