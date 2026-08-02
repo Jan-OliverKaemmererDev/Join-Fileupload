@@ -1,5 +1,5 @@
 /* ========================================================= */
-/*       MOBILE STYLES FOR LOGIN AND GENERAL COMPONENTS  */
+/*       MOBILE STYLES FOR GENERAL COMPONENTS AND WELCOME    */
 /* ========================================================= */
 
 /* ========================================================= */
@@ -71,7 +71,7 @@
   }
 
   /* ========================================================= */
-  /* DESKTOP LOGO FLIEGT ZUR OBEREN LINKEN ECKE, DANN UNSICHTBAR */
+  /* DESKTOP LOGO FLIES TO TOP LEFT CORNER, THEN INVISIBLE     */
   /* ========================================================= */
   #flying-logo {
     opacity: 0;
@@ -104,7 +104,7 @@
   }
 
   /* ========================================================= */
-  /* MOBILE LOGO: STARTET MITTIG, FLIEGT NACH OBEN LINKS, UNSICHTBAR */
+  /* MOBILE LOGO: STARTS CENTER, FLIES TOP LEFT, INVISIBLE     */
   /* ========================================================= */
   .mobile-logo {
     display: block;
@@ -143,7 +143,7 @@
   }
 
   /* ========================================================= */
-  /*   LOGO PERMANENT OBEN LINKS SICHTBAR NACH ANIMATION       */
+  /*     LOGO PERMANENTLY VISIBLE TOP LEFT AFTER ANIMATION     */
   /* ========================================================= */
   #flying-logo {
     position: absolute;
@@ -154,271 +154,7 @@
   }
 
   /* ========================================================= */
-  /* HEADER AUSBLENDEN - WIRD DURCH MOBILE-SIGNUP ERSETZT      */
-  /* ========================================================= */
-  .login-header {
-    display: none;
-  }
-
-  /* ========================================================= */
-  /*                      HAUPT-LAYOUT                         */
-  /* ========================================================= */
-  .login-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 120px 16px 100px;
-    box-sizing: border-box;
-    height: auto;
-    min-height: auto;
-  }
-
-  /* ========================================================= */
-  /*                       LOGIN CARD                          */
-  /* ========================================================= */
-  .login-card {
-    padding: 32px 24px 36px;
-    box-shadow: 0 0 14px 3px rgba(0, 0, 0, 0.06);
-    background: var(--white, #ffffff);
-    border-radius: 30px;
-    width: 100%;
-    max-width: 420px;
-    box-sizing: border-box;
-  }
-
-  .login-card h1 {
-    font-size: 44px;
-    font-weight: 700;
-    margin: 0;
-    color: var(--dark-blue, #2a3647);
-    line-height: 1.1;
-  }
-
-  /* ========================================================= */
-  /*             BLAUER UNTERSTRICH UNTER "LOG IN"             */
-  /* ========================================================= */
-  .blue-underline {
-    width: 130px;
-    height: 3px;
-    background-color: var(--blue, #29abe2);
-    border-radius: 2px;
-    margin: 4px 0 20px 0;
-  }
-
-  /* ========================================================= */
-  /*                         FORMULAR                          */
-  /* ========================================================= */
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-  }
-
-  /* ========================================================= */
-  /*                       INPUT-FELDER                        */
-  /* ========================================================= */
-  input[type="email"],
-  input[type="password"],
-  input[type="text"] {
-    font-size: 16px;
-    padding: 14px 48px 14px 16px;
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid var(--light-grey, #d1d5db);
-    border-radius: 12px;
-    background: var(--white, #ffffff);
-    color: var(--dark-blue, #2a3647);
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  input[type="email"]:focus,
-  input[type="password"]:focus,
-  input[type="text"]:focus {
-    border-color: var(--blue, #29abe2);
-  }
-
-  input::placeholder {
-    color: var(--grey, #a8a8a8);
-  }
-
-  #email,
-  #password {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  .login-input-wrap {
-    width: 100%;
-    box-sizing: border-box;
-  }
-
-  /* ========================================================= */
-  /*                 INPUT WRAPPER (FOR ICONS)                 */
-  /* ========================================================= */
-  .input-wrapper {
-    position: relative;
-    width: 100%;
-  }
-
-  .input-wrapper input {
-    width: 100%;
-  }
-
-  .input-wrapper .input-icon {
-    position: absolute;
-    right: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    pointer-events: none;
-    opacity: 0.4;
-  }
-
-  /* ========================================================= */
-  /*                 LOGIN AKTIONEN (BUTTONS)                  */
-  /* ========================================================= */
-  .login-actions {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 8px;
-    gap: 12px;
-    width: 100%;
-  }
-
-  /* ========================================================= */
-  /*                 PRIMARY BUTTON (DUNKEL)                  */
-  /* ========================================================= */
-  .btn-dark {
-    flex: unset;
-    font-size: 18px;
-    font-weight: 600;
-    padding: 4px 10px;
-    width: 180px;
-    height: 51px;
-    border-radius: 8px;
-    background-color: var(--dark-blue, #2a3647);
-    color: var(--white, #ffffff);
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition:
-      background-color 0.2s,
-      transform 0.1s;
-  }
-
-  .btn-dark:hover {
-    background-color: var(--dark-blue-hover, #29abe2);
-  }
-
-  .btn-dark:active {
-    transform: scale(0.97);
-  }
-
-  /* ========================================================= */
-  /*             SECONDARY BUTTON (HELL/OUTLINED)             */
-  /* ========================================================= */
-  .btn-light {
-    flex: unset;
-    font-size: 18px;
-    font-weight: 600;
-    padding: 4px 10px;
-    width: 180px;
-    height: 51px;
-    border-radius: 8px;
-    background-color: var(--white, #ffffff);
-    color: var(--dark-blue, #2a3647);
-    border: 2px solid var(--dark-blue, #2a3647);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition:
-      background-color 0.2s,
-      color 0.2s,
-      transform 0.1s;
-  }
-
-  .btn-light:hover {
-    background-color: var(--dark-blue, #2a3647);
-    color: var(--white, #ffffff);
-  }
-
-  .btn-light:active {
-    transform: scale(0.97);
-  }
-
-  /* ========================================================= */
-  /*             MOBILE SIGNUP-BEREICH UNTER DER CARD          */
-  /* ========================================================= */
-  .mobile-signup {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-    max-width: 420px;
-    margin-top: 24px;
-    font-size: 16px;
-    color: var(--dark-blue, #2a3647);
-  }
-
-  .mobile-signup span {
-    white-space: nowrap;
-  }
-
-  .mobile-signup .btn-signup {
-    padding: 13px 20px;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 8px;
-    background-color: var(--dark-blue, #2a3647);
-    color: var(--white, #ffffff);
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    white-space: nowrap;
-  }
-
-  .mobile-signup .btn-signup:hover {
-    background-color: var(--blue, #29abe2);
-  }
-
-  /* ========================================================= */
-  /* FOOTER UNTERM CONTENT STOPPEN LASSEN (VERHINDERT ÜBERLAPPUNG) */
-  /* ========================================================= */
-  .login-footer {
-    position: relative;
-    bottom: auto;
-    margin-top: 24px;
-    margin-bottom: 22px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-  }
-
-  .login-footer a {
-    font-size: 16px;
-    color: var(--dark-blue, #2a3647);
-    text-decoration: none;
-    opacity: 0.7;
-  }
-
-  .login-footer a:hover {
-    opacity: 1;
-    text-decoration: underline;
-  }
-
-  /* ========================================================= */
-  /*         ANPASSUNGEN FOR THE WELCOME OVERLAY AUF MOBILE    */
+  /*         ADJUSTMENTS FOR THE WELCOME OVERLAY ON MOBILE     */
   /* ========================================================= */
   .welcome-overlay {
     position: absolute;
@@ -512,10 +248,6 @@
 }
 
 @media (max-width: 400px) {
-  .mobile-signup {
-    margin-top: 16px !important;
-  }
-
   .welcome-overlay .welcome-card {
     padding: 24px 16px;
   }
@@ -531,14 +263,5 @@
 
   .welcome-overlay .option-header {
     font-size: 16px;
-  }
-}
-
-/* ========================================================= */
-/* GALAXY S9+ SPECIFIC FIX (380PX WIDTH) TO RESERVE SPACE FOR 2-LINE ERROR TEXT */
-/* ========================================================= */
-@media (max-width: 360px) {
-  .login-input-wrap {
-    min-height: 90px;
   }
 }

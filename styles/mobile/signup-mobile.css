@@ -14,7 +14,7 @@
   }
 
   /* ========================================================= */
-  /*   ÜBERSCHREIBT STYLE-MOBILE.CSS (PADDING: 225PX 16PX 0)   */
+  /*   OVERWRITES STYLE-MOBILE.CSS (PADDING: 225PX 16PX 0)     */
   /* ========================================================= */
   .login-main {
     justify-content: flex-start;

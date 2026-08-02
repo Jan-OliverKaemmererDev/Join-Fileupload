@@ -89,7 +89,7 @@
   width: 100%;
 }
 
-/* Legal Links auf Desktop ganz nach unten schieben */
+/* Push legal links to the very bottom on desktop */
 .sidebar-content-wrapper .legal-links {
   margin-top: auto;
   display: flex;
@@ -98,7 +98,7 @@
   padding-bottom: 16px;
 }
 
-/* Auf Desktop wollen wir Log In Text NEBEN dem Icon (Standard) */
+/* On desktop we want Log In text NEXT to the icon (default) */
 .nav-links a.login-link {
   display: flex;
   align-items: center;

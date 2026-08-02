@@ -13,7 +13,7 @@
   }
 
   /* ========================================================= */
-  /*            SIDEBAR BOTTOM NAV IMMER SICHTBAR              */
+  /*            SIDEBAR BOTTOM NAV ALWAYS VISIBLE              */
   /* ========================================================= */
   .sidebar {
     visibility: visible;
@@ -31,7 +31,7 @@
   }
 
   /* ========================================================= */
-  /*                  2. HEADER ANPASSUNGEN                    */
+  /*                  2. HEADER ADJUSTMENTS                    */
   /* ========================================================= */
   .dashboard-header {
     position: fixed;
@@ -162,7 +162,7 @@
   }
 
   /* ========================================================= */
-  /*           4. LEGAL NOTICE CONTENT ANPASSUNGEN             */
+  /*           4. LEGAL NOTICE CONTENT ADJUSTMENTS             */
   /* ========================================================= */
   .legal-notice-container {
     padding: 40px 16px 100px 16px !important; 
@@ -185,7 +185,7 @@
   }
 
   /* ========================================================= */
-  /*               DER NEUE FUNKTIONALE PFEIL                  */
+  /*                 THE NEW FUNCTIONAL ARROW                  */
   /* ========================================================= */
   .mobile-back-arrow {
     display: flex !important;
@@ -207,7 +207,7 @@
   }
 
   /* ========================================================= */
-  /*                  DER BLAUE PFEIL IM H1                    */
+  /*                  THE BLUE ARROW IN H1                     */
   /* ========================================================= */
   .privacy-policy-container h1::after,
   .legal-notice-container h1::after {
