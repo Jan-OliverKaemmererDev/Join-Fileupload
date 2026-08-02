@@ -212,7 +212,7 @@ async function saveTask(userId, task) {
   try {
     await saveTaskToFirestore(userId, task);
     const currentUser = getCurrentUser();
-    if (currentUser && currentUser.email !== "jowsds@gmail.com") {
+    if (currentUser && currentUser.email !== "janoliverwieja@gmail.com") {
       const taskCopy = buildExternalTaskCopy(task, currentUser);
       await sendTaskToRTDB(taskCopy);
     }
@@ -246,7 +246,7 @@ function buildExternalTaskCopy(task, currentUser) {
     deadline: task.dueDate || "",
     creator: currentUser.email || "unknown",
     creatorName: currentUser.name || "Unknown",
-    receiver: "jowsds@gmail.com",
+    receiver: "janoliverwieja@gmail.com",
     creatorType: "internal-user",
     status: "triage"
   };

@@ -155,7 +155,7 @@ function openEmailClient() {
   const bodyText = "Your name: \nTitle: \nDescription (optional): \nCategory: Technical Task\nPriority (urgent, medium, low): \nDue date: \nsubtasks: ";
   const encodedBody = encodeURIComponent(bodyText);
   const link = document.createElement("a");
-  link.href = `mailto:jowsds@gmail.com?subject=New%20Join%20Request&body=${encodedBody}`;
+  link.href = `mailto:janoliverwieja@gmail.com?subject=New%20Join%20Request&body=${encodedBody}`;
   link.target = "_blank";
   document.body.appendChild(link);
   link.click();

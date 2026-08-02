@@ -1,4 +1,4 @@
-﻿/**
+/**
  * @fileoverview Data management and operations for the board view.
  */
 /**
@@ -72,7 +72,7 @@ function normalizeSubtaskItem(st) {
  * @returns {Promise<boolean>} whether new tasks were synchronized
  */
 async function syncStakeholderTasks(currentUser) {
-  if (currentUser.email !== "jowsds@gmail.com") return false;
+  if (currentUser.email !== "janoliverwieja@gmail.com") return false;
   const token = "YOUR_FIREBASE_RTDB_AUTH_TOKEN";
   const url = `https://join-4e7df-default-rtdb.europe-west1.firebasedatabase.app/tasks.json?auth=${token}`;
   try {
@@ -263,7 +263,7 @@ function generateInitialsForName(name) {
  * @param {string} creatorEmail - the email
  */
 function notifyExternalCreatorOnStatusChange(task, oldStatus, newStatus, creatorEmail) {
-  const webhookUrl = "https://jan-oliver91.app.n8n.cloud/webhook/join-status-update";
+  const webhookUrl = "https://jan-oliver92.app.n8n.cloud/webhook/join-status-update";
   const payload = buildWebhookPayload(task, oldStatus, newStatus, creatorEmail);
   fetch(webhookUrl, {
     method: "POST",
