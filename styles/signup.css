@@ -170,13 +170,13 @@ button:disabled {
 
 /* ---- Tablet / small-laptop fix (e.g. 1024×600) ---- */
 /* Prevents signup-card from overlapping logo while keeping horizontal centering */
-@media (min-width: 781px) and (max-height: 750px) {
+@media (min-width: 781px) and (max-height: 900px) {
   .login-main {
     height: auto;
     min-height: calc(100vh - 100px);
     padding-top: 0;
     padding-bottom: 60px;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
   }
 
