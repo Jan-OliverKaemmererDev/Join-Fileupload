@@ -34,16 +34,11 @@
   --font-main: "Inter", sans-serif;
 }
 
-html {
-  overflow-x: hidden;
-}
-
 body {
   margin: 0;
   padding: 0;
   font-family: var(--font-main);
   background-color: var(--bg-color);
-  overflow-x: hidden;
 }
 
 /* ========================================================= */
