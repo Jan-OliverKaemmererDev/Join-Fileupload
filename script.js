@@ -110,39 +110,7 @@ function togglePasswordVisibility(inputId, iconElement) {
   }
 }
 
-/**
- * Initialisiert die Summary-Seite für angemeldete Benutzer
- */
-function initSummary() {
-  initSideMenu("summary");
-  const currentUser = getCurrentUser();
-  if (currentUser) {
-    displayUserInitials(currentUser.name);
-  } else {
-    window.location.href = "index.html";
-  }
-}
 
-/**
- * Initialisiert die Summary-Seite für Gast-Benutzer
- */
-async function initSummaryGuest() {
-  await waitForFirebase();
-  initSideMenu("summary");
-  displayGuestInitials();
-  updateGreeting();
-
-  const currentUser = getCurrentUser();
-  if (currentUser) {
-    if (typeof updateTaskMetrics === "function") {
-      await updateTaskMetrics(currentUser);
-    } else if (typeof renderTaskMetrics === "function") {
-      renderTaskMetrics();
-    }
-  }
-
-  checkMobileGreeting();
-}
 
 /**
  * Checks the validity of the login form fields.

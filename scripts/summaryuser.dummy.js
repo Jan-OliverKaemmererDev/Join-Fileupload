@@ -106,13 +106,7 @@ async function logoutFromSummary() {
   await logoutUser();
   window.location.href = "index.html";
 }
-/**
- * Initializes the summary page (legacy support)
- */
-function initSummary() {
-  updateGreeting();
-  renderTaskMetrics();
-}
+
 
 /**
  * Renders the task metrics on the page (Fallback or Guest View)
@@ -373,14 +367,36 @@ function createExternalContactObject(email, name) {
 
 
 /**
- * Initializes the summary page for guests.
+ * Initializes the summary page for logged-in users
+ */
+function initSummary() {
+  initSideMenu("summary");
+  const currentUser = getCurrentUser();
+  if (currentUser) {
+    displayUserInitials(currentUser.name);
+  } else {
+    window.location.href = "index.html";
+  }
+}
+
+/**
+ * Initializes the summary page for guest users
  */
 async function initSummaryGuest() {
+  await waitForFirebase();
+  initSideMenu("summary");
+  displayGuestInitials();
   updateGreeting();
-  if (typeof updateTaskMetrics === "function") {
-    await updateTaskMetrics({ id: "guest", isGuest: true });
-  } else {
-    renderTaskMetrics();
+
+  const currentUser = getCurrentUser();
+  if (currentUser) {
+    if (typeof updateTaskMetrics === "function") {
+      await updateTaskMetrics(currentUser);
+    } else if (typeof renderTaskMetrics === "function") {
+      renderTaskMetrics();
+    }
   }
+
+  checkMobileGreeting();
 }
 
