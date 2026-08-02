@@ -61,7 +61,7 @@ function validateAccountName(name, showErrors = false) {
  * @returns {boolean} True if the email is valid.
  */
 function validateAccountEmail(email, showErrors = false) {
-  const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  const isValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/.test(email);
   if (showErrors || isValid || email.length === 0) {
     const msg = email.length > 0 && !isValid ? "Bitte eine gültige E-Mail-Adresse eingeben." : null;
     setAccountFieldHint("account-email", msg);

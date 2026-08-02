@@ -159,7 +159,7 @@ function checkLoginValidity(showErrors = false) {
 
   if (!emailInput || !passInput || !btn) return;
 
-  var emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+  var emailValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/.test(email);
   var passValid = password.length >= 6;
 
   if (showErrors || emailValid || email.length === 0) {

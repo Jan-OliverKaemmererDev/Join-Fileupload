@@ -25,7 +25,7 @@ function validateNameField(nameId) {
  */
 function validateEmailField(emailId) {
   const email = document.getElementById(emailId).value.trim();
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
   if (!emailRegex.test(email)) {
     showFieldError(emailId, "Bitte eine gültige E-Mail-Adresse eingeben.");
     return false;
@@ -135,7 +135,7 @@ function getContactFieldValues(nameId, emailId, phoneId) {
 function getContactFieldValidities(name, email, phone) {
   return {
     nameValid: name.replace(/[^a-zA-ZäöüÄÖÜß]/g, "").length >= 3,
-    emailValid: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email),
+    emailValid: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/.test(email),
     phoneValid: phone.length >= 11
   };
 }
@@ -186,7 +186,7 @@ function addEmailBlurValidator(emailId) {
   const el = document.getElementById(emailId);
   if (el) el.addEventListener('blur', () => {
     const val = el.value.trim();
-    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val);
+    const valid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/.test(val);
     updateContactFieldFeedback(emailId, val, valid, "Bitte eine gültige E-Mail-Adresse eingeben.");
   });
 }

@@ -99,7 +99,7 @@ function validateSignupFields(name, email, pass, confirm) {
   const nameLetters = name.replace(/[^a-zA-ZäöüÄÖÜß]/g, "");
   return {
     nameValid: nameLetters.length >= 3,
-    emailValid: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email),
+    emailValid: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/.test(email),
     passValid: pass.length >= 6,
     confirmComplete: confirm.length >= 1 && pass === confirm,
   };
