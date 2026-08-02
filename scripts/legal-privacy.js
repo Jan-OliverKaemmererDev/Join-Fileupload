@@ -27,10 +27,6 @@ function setupPublicView() {
   const sidebar = document.querySelector(".sidebar");
   const headerIcons = document.getElementById("header-icons");
 
-  if (sidebar) {
-    sidebar.innerHTML = getPublicSidebarTemplate();
-  }
-
   if (headerIcons) {
     headerIcons.style.display = "none";
   }
@@ -42,6 +38,11 @@ function setupPublicView() {
  */
 function setupUserView(currentUser) {
   document.body.classList.add("is-logged-in");
+
+  const sidebar = document.querySelector(".sidebar");
+  if (sidebar) {
+    sidebar.innerHTML = getUserSidebarTemplate();
+  }
 
   if (currentUser.isGuest) {
     if (typeof displayGuestInitials === "function") displayGuestInitials();

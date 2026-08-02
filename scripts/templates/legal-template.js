@@ -35,6 +35,45 @@ function getPublicSidebarTemplate() {
 }
 
 /**
+ * Generates the HTML template for the sidebar in user mode (logged in)
+ * @returns {string} The HTML template for the user sidebar
+ */
+function getUserSidebarTemplate() {
+  const isPrivacyActive = window.location.pathname.includes("privacypolicy")
+    ? "active"
+    : "";
+  const isLegalActive = window.location.pathname.includes("legalnotice")
+    ? "active"
+    : "";
+
+  return `
+    <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" />
+    <div class="nav-links">
+      <a href="summaryuser.html">
+        <img src="./assets/summary-page/summary-icon.svg" alt="" />
+        Summary
+      </a>
+      <a href="addtask.html">
+        <img src="./assets/summary-page/add-task-icon.svg" alt="" />
+        Add Task
+      </a>
+      <a href="board.html">
+        <img src="./assets/summary-page/board-icon.svg" alt="" />
+        Board
+      </a>
+      <a href="contacts.html">
+        <img src="./assets/summary-page/contacts-icon.svg" alt="" />
+        Contacts
+      </a>
+    </div>
+    <div class="legal-links">
+      <a href="privacypolicy.html" class="${isPrivacyActive}">Privacy Policy</a>
+      <a href="legalnotice.html" class="${isLegalActive}">Legal notice</a>
+    </div>
+  `;
+}
+
+/**
  * Generates the HTML template for the mobile back arrow
  * @param {string} backHref - The target of the link
  * @returns {string} The HTML template for the back arrow
