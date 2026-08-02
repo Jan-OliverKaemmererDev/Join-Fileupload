@@ -146,7 +146,7 @@ async function loadUserProfile(uid) {
  * @returns {Object}
  */
 function buildGuestSession(uid) {
-  return { id: uid, name: "Gast", email: "guest@join.com", phone: "", isGuest: true };
+  return { id: uid, name: "Guest", email: "guest@join.com", phone: "", isGuest: true };
 }
 
 /**
@@ -174,7 +174,7 @@ async function guestLoginUser() {
 async function createGuestProfile(uid) {
   const userRef = window.fbDoc(window.firebaseDb, "users", uid);
   const batch = window.fbWriteBatch(window.firebaseDb);
-  batch.set(userRef, { name: "Gast", email: "guest@join.com", isGuest: true, createdAt: new Date().toISOString() });
+  batch.set(userRef, { name: "Guest", email: "guest@join.com", isGuest: true, createdAt: new Date().toISOString() });
   await Promise.all([initDefaultContacts(uid, batch), initDefaultTasks(uid, batch)]);
   await batch.commit();
 }

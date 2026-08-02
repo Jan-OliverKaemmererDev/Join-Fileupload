@@ -89,6 +89,7 @@ function sortContacts() {
  * @returns {string} The initials
  */
 function getInitials(name) {
+  if (name.trim().toLowerCase() === "guest" || name.trim().toLowerCase() === "gast") return "G";
   const parts = name.split(" ");
   const initials = parts
     .map(function (part) {

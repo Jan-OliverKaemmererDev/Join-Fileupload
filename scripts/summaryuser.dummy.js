@@ -68,6 +68,7 @@ function updateUserInitials(user) {
  * @returns {string} The generated initials
  */
 function getInitials(name) {
+  if (name.trim().toLowerCase() === "guest" || name.trim().toLowerCase() === "gast") return "G";
   const parts = name.trim().split(" ");
   if (parts.length === 1) {
     return parts[0].substring(0, 2).toUpperCase();
@@ -82,9 +83,8 @@ function getInitials(name) {
  * updates the greeting message based on the time of day
  */
 function updateGreeting() {
-  const isGuest = getCurrentUser()?.isGuest === true;
   let greeting = getGreetingTime();
-  greeting += isGuest ? "!" : ",";
+  greeting += ",";
   const el = document.getElementById("greeting-text");
   if (el) el.textContent = greeting;
 }
@@ -390,6 +390,7 @@ async function initSummaryGuest() {
 
   const currentUser = getCurrentUser();
   if (currentUser) {
+    updateUserName(currentUser);
     if (typeof updateTaskMetrics === "function") {
       await updateTaskMetrics(currentUser);
     } else if (typeof renderTaskMetrics === "function") {
