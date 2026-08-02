@@ -193,11 +193,12 @@ function updateContactFromForm(contact) {
  */
 function finalizeContactUpdate(contact) {
   renderContactList();
+  const { avatarInnerHtml, avatarStyle } = getContactAvatarData(contact, false);
   const content = document.getElementById("contact-details-content");
   if (window.innerWidth <= 780) {
-    content.innerHTML = getMobileContactDetailsTemplate(contact);
+    content.innerHTML = getMobileContactDetailsTemplate(contact, avatarInnerHtml, avatarStyle);
   } else {
-    content.innerHTML = getDesktopContactDetailsTemplate(contact);
+    content.innerHTML = getDesktopContactDetailsTemplate(contact, avatarInnerHtml, avatarStyle);
   }
   closeAddContactDialog();
   showSuccessAlert("Contact successfully updated");
