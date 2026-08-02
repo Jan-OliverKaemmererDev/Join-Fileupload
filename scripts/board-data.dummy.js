@@ -396,7 +396,3 @@ function getTaskRefForUser(userId, taskId) {
     String(taskId),
   );
 }
-
-
-
-

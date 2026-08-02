@@ -1,0 +1,125 @@
+/**
+ * @fileoverview Logic for calculating and formatting task metrics on the summary dashboard.
+ */
+
+/**
+ * Retrieves a user's tasks from Firestore
+ * @param {string} userId - The user's ID
+ * @returns {Array} Array with the user's tasks
+ */
+async function getUserTasks(userId) {
+  try {
+    const tasksRef = window.fbCollection(
+      window.firebaseDb,
+      "users",
+      userId,
+      "tasks"
+    );
+    const snapshot = await window.fbGetDocs(tasksRef);
+    const tasks = [];
+    snapshot.forEach(function (doc) {
+      tasks.push(doc.data());
+    });
+    return tasks;
+  } catch (error) {
+    console.error("Error loading tasks:", error);
+    return [];
+  }
+}
+
+/**
+ * Calculates task metrics from a task array
+ * @param {Array} tasks - Array with tasks
+ * @returns {Object} Object with calculated metrics
+ */
+function calculateTaskMetrics(tasks) {
+  const metrics = createInitialMetrics();
+  if (!tasks || tasks.length === 0) return metrics;
+  let nearestDeadline = null;
+  tasks.forEach(task => {
+    processTaskStatus(task, metrics);
+    countUrgentTasks(task, metrics);
+    if (task.status !== "done") nearestDeadline = trackNearestDeadline(task, nearestDeadline);
+  });
+  metrics.board = tasks.length;
+  if (nearestDeadline) metrics.nextDeadline = formatDeadline(nearestDeadline);
+  return metrics;
+}
+
+function createInitialMetrics() {
+  return {
+    todo: 0,
+    done: 0,
+    urgent: 0,
+    board: 0,
+    progress: 0,
+    awaiting: 0,
+    emails: 0,
+    nextDeadline: null,
+  };
+}
+
+/**
+ * Processes the status of a task and updates the metrics
+ * @param {Object} task - The task object
+ * @param {Object} metrics - The metrics object
+ */
+function processTaskStatus(task, metrics) {
+  switch (task.status) {
+    case "todo":
+      metrics.todo++;
+      break;
+    case "done":
+      metrics.done++;
+      break;
+    case "inprogress":
+      metrics.progress++;
+      break;
+    case "awaitfeedback":
+      metrics.awaiting++;
+      break;
+    case "triage":
+      if (task.createdBy === "extern") {
+        metrics.emails++;
+      }
+      break;
+  }
+}
+
+/**
+ * Counts urgent tasks in metrics
+ * @param {Object} task - The task object
+ * @param {Object} metrics - The metrics object
+ */
+function countUrgentTasks(task, metrics) {
+  if (task.priority === "urgent") {
+    metrics.urgent++;
+  }
+}
+
+/**
+ * Tracks the next deadline
+ * @param {Object} task - The task object
+ * @param {string|null} nearestDeadline - The current next deadline
+ * @returns {string|null} The updated next deadline
+ */
+function trackNearestDeadline(task, nearestDeadline) {
+  if (task.dueDate) {
+    const taskDate = new Date(task.dueDate);
+    if (!nearestDeadline || taskDate < new Date(nearestDeadline)) {
+      nearestDeadline = task.dueDate;
+    }
+  }
+  return nearestDeadline;
+}
+
+/**
+ * Formats a deadline for the ad
+ * @param {string} deadline - The deadline as a string
+ * @returns {string} The formatted deadline
+ */
+function formatDeadline(deadline) {
+  const date = new Date(deadline);
+  const options = { year: "numeric", month: "long", day: "numeric" };
+  return date.toLocaleDateString("en-US", options);
+}
