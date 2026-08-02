@@ -324,11 +324,6 @@
   transform: scale(1.1);
 }
 
-.help-link img {
-  width: 100%;
-  height: 100%;
-}
-
 /* ========================================================= */
 /*     MOBILE NAVIGATION (HIDDEN BY DEFAULT)       */
 /* ========================================================= */
@@ -359,7 +354,7 @@
 /* ========================================================= */
 .signup-hint {
   display: none;
-  color: #ff3d00;
+  color: #E60026;
   font-size: 16px;
   margin-top: 4px;
   padding-left: 4px;
