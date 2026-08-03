@@ -155,8 +155,6 @@
   /* ========================================================= */
   /*               DELETE CONFIRMATION DIALOG                  */
   /* ========================================================= */
-  /* Delete Confirmation Dialog – hide when inactive so it doesn't
-     take up space in the flex layout and push the main dialog left */
   #account-overlay .delete-confirm-dialog {
     display: none !important;
     width: 92vw;

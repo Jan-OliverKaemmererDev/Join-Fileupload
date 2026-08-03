@@ -12,7 +12,6 @@
     z-index: 3000;
   }
 
-  /* Hide thumbnail download button on mobile to prevent accidental touches */
   .btn-download-thumbnail {
     display: none !important;
   }
@@ -47,7 +46,6 @@
     flex-shrink: 0;
   }
 
-  /* Ensure hover doesn't interfere */
   .viewer-content:hover .viewer-controls {
     opacity: 1 !important;
   }
@@ -69,7 +67,6 @@
     width: 100%;
   }
 
-  /* Filename + Filesize – inline row */
   .viewer-content .viewer-info {
     display: flex;
     flex-direction: row;
@@ -96,7 +93,6 @@
     flex-shrink: 0;
   }
 
-  /* Download + Close buttons – always visible */
   .viewer-content .viewer-actions {
     display: flex !important;
     gap: 8px;
@@ -116,12 +112,10 @@
     height: 22px;
   }
 
-  /* Hide zoom controls from header – they move to footer */
   .viewer-content .viewer-zoom {
     display: none !important;
   }
 
-  /* Hide desktop navigation arrows (inside .viewer-controls) */
   .viewer-controls > .viewer-nav {
     display: none !important;
   }
@@ -158,7 +152,6 @@
     order: 1;
   }
 
-  /* Navigation arrows – at the far edges */
   .viewer-footer-mobile .viewer-nav {
     position: static !important;
     transform: none !important;
@@ -185,7 +178,6 @@
     height: 32px;
   }
 
-  /* Zoom controls – centered between arrows */
   .viewer-footer-mobile .viewer-zoom-mobile {
     display: flex;
     align-items: center;

@@ -402,7 +402,6 @@
 /* ========================================================= */
 /*                     MEDIA QUERIES                         */
 /* ========================================================= */
-/* ---- Intermediate breakpoint: Sidebar vorhanden, aber Screen noch schmal ---- */
 @media (min-width: 781px) and (max-width: 1100px) {
   .add-task-section {
     padding: 24px 32px;

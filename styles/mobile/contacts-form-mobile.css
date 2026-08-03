@@ -229,10 +229,6 @@
     flex: 1;
   }
 
-  /* 
-   * Available width at 320px: 320px - 32px padding - 72px avatar - 16px gap = 200px
-   * "Anja Schulz" at 24px ≈ 11 chars * 14px = 154px → fits on one line
-   */
   .contact-name-details {
     font-size: clamp(18px, 6vw, 32px);
     white-space: normal;

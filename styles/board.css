@@ -166,7 +166,6 @@
 /*                     MEDIA QUERIES                         */
 /* ========================================================= */
 
-/* ---- Intermediate breakpoint: Sidebar vorhanden, aber Screen noch schmal ---- */
 @media (min-width: 781px) and (max-width: 1200px) {
   .board-columns {
     flex-wrap: wrap;

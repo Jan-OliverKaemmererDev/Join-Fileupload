@@ -157,7 +157,6 @@
 }
 
 .metric-card.card-small:hover .icon-badge img {
-  /* Filter to convert icon color to #273447 */
   filter: brightness(0) saturate(100%) invert(18%) sepia(12%) saturate(1450%)
     hue-rotate(178deg) brightness(96%) contrast(91%);
 }
