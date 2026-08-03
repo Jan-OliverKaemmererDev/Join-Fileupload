@@ -1,9 +1,7 @@
 /**
  * @fileoverview HTML template generating functions for the contacts page.
  */
-/**
- * Generates the HTML template for a contact list element
- */
+
 /**
  * Generates the HTML template for a contact list element
  * @param {Object} contact - The contact object
@@ -24,10 +22,6 @@ function getContactItemTemplate(contact, avatarInnerHtml, avatarStyle) {
     </article>
   `;
 }
-
-/**
- * --- DETAIL VIEW LOGIC ---
- */
 
 /**
  * Generates the HTML template for the desktop contact details view
@@ -118,10 +112,6 @@ function getMobileContactDetailsTemplate(contact, avatarInnerHtml, avatarStyle) 
     </div>
   `;
 }
-
-/**
- * --- EDIT DIALOG LOGIC (Screenshot Design) ---
- */
 
 /**
  * Generates the HTML template for the desktop edit contact dialog
@@ -249,10 +239,6 @@ function getMobileEditContactTemplate(contact, avatarInnerHtml, avatarStyle) {
   `;
 }
 
-/**
- * --- ADD CONTACT DIALOG LOGIC ---
- */
-
 function getDesktopAddContactTemplate() {
   return `
     <div class="slide-in-dialog" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="add-dialog-title">
@@ -367,10 +353,6 @@ function getMobileAddContactTemplate() {
     </div>
   `;
 }
-
-/**
- * --- HELPER TEMPLATES ---
- */
 
 /**
  * Generates the HTML for an avatar image
