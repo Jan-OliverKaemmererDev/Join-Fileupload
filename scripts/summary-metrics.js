@@ -3,23 +3,25 @@
  */
 
 /**
+ * Gets a task collection reference
+ * @param {string} userId - User ID
+ * @returns {Object} Collection reference
+ */
+function getTaskCollection(userId) {
+  return window.fbCollection(window.firebaseDb, "users", userId, "tasks");
+}
+
+/**
  * Retrieves a user's tasks from Firestore
  * @param {string} userId - The user's ID
  * @returns {Array} Array with the user's tasks
  */
 async function getUserTasks(userId) {
   try {
-    const tasksRef = window.fbCollection(
-      window.firebaseDb,
-      "users",
-      userId,
-      "tasks"
-    );
+    const tasksRef = getTaskCollection(userId);
     const snapshot = await window.fbGetDocs(tasksRef);
     const tasks = [];
-    snapshot.forEach(function (doc) {
-      tasks.push(doc.data());
-    });
+    snapshot.forEach(doc => tasks.push(doc.data()));
     return tasks;
   } catch (error) {
     console.error("Error loading tasks:", error);
@@ -64,29 +66,26 @@ function createInitialMetrics() {
 }
 
 /**
+ * Handles incrementing metrics for active tasks
+ * @param {string} status - Task status
+ * @param {Object} metrics - Metrics object
+ */
+function handleActiveTaskStatus(status, metrics) {
+  if (status === "todo") metrics.todo++;
+  else if (status === "done") metrics.done++;
+  else if (status === "inprogress") metrics.progress++;
+  else if (status === "awaitfeedback") metrics.awaiting++;
+}
+
+/**
  * Processes the status of a task and updates the metrics
  * @param {Object} task - The task object
  * @param {Object} metrics - The metrics object
  */
 function processTaskStatus(task, metrics) {
-  switch (task.status) {
-    case "todo":
-      metrics.todo++;
-      break;
-    case "done":
-      metrics.done++;
-      break;
-    case "inprogress":
-      metrics.progress++;
-      break;
-    case "awaitfeedback":
-      metrics.awaiting++;
-      break;
-    case "triage":
-      if (task.createdBy === "extern") {
-        metrics.emails++;
-      }
-      break;
+  handleActiveTaskStatus(task.status, metrics);
+  if (task.status === "triage" && task.createdBy === "extern") {
+    metrics.emails++;
   }
 }
 

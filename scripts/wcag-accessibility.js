@@ -32,49 +32,157 @@ function closeActiveOverlayByPriority() {
 }
 
 /**
+ * Image viewer overlay check configuration
+ * @returns {Object}
+ */
+function imgViewerOverlayCheck() {
+  return {
+    check: () => isOverlayActive("image-viewer-overlay"),
+    close: () => {
+      if (typeof closeImageViewer === "function") closeImageViewer();
+    },
+  };
+}
+
+/**
+ * Delete confirm dialog check configuration
+ * @returns {Object}
+ */
+function deleteConfirmCheck() {
+  return {
+    check: () => isDialogActive("delete-confirm-dialog"),
+    close: () => {
+      if (typeof closeDeleteConfirmOverlay === "function")
+        closeDeleteConfirmOverlay();
+    },
+  };
+}
+
+/**
+ * Account overlay check configuration
+ * @returns {Object}
+ */
+function accountOverlayCheck() {
+  return {
+    check: () => isOverlayActive("account-overlay"),
+    close: () => {
+      if (typeof closeAccountOverlay === "function") closeAccountOverlay();
+    },
+  };
+}
+
+/**
+ * Mobile edit overlay check configuration
+ * @returns {Object}
+ */
+function mobileEditCheck() {
+  return {
+    check: () => isOverlayActive("mobile-edit-overlay"),
+    close: () => {
+      if (typeof closeMobileEditOverlay === "function")
+        closeMobileEditOverlay();
+    },
+  };
+}
+
+/**
+ * Returns high priority overlays
+ * @returns {Array}
+ */
+function getHighPriorityOverlays() {
+  return [
+    imgViewerOverlayCheck(),
+    deleteConfirmCheck(),
+    accountOverlayCheck(),
+    mobileEditCheck(),
+  ];
+}
+
+/**
+ * Task details check configuration
+ * @returns {Object}
+ */
+function taskDetailsCheck() {
+  return {
+    check: () => isOverlayActive("task-details-overlay"),
+    close: () => {
+      if (typeof closeTaskDetails === "function") closeTaskDetails();
+    },
+  };
+}
+
+/**
+ * Add task overlay check configuration
+ * @returns {Object}
+ */
+function addTaskOverlayCheck() {
+  return {
+    check: () => isOverlayActive("add-task-overlay"),
+    close: () => {
+      if (typeof closeAddTaskOverlay === "function") closeAddTaskOverlay();
+    },
+  };
+}
+
+/**
+ * Add contact check configuration
+ * @returns {Object}
+ */
+function addContactCheck() {
+  return {
+    check: () => isOverlayActive("add-contact-overlay"),
+    close: () => {
+      if (typeof closeAddContactDialog === "function")
+        closeAddContactDialog();
+    },
+  };
+}
+
+/**
+ * User dropdown check configuration
+ * @returns {Object}
+ */
+function userDropdownCheck() {
+  return {
+    check: () => isDropdownActive("user-dropdown"),
+    close: closeUserDropdownMenu,
+  };
+}
+
+/**
+ * Welcome overlay check configuration
+ * @returns {Object}
+ */
+function welcomeOverlayCheck() {
+  return {
+    check: () => isOverlayActive("welcome-overlay"),
+    close: () => {
+      if (typeof closeWelcomeOverlay === "function") closeWelcomeOverlay();
+    },
+  };
+}
+
+/**
+ * Returns low priority overlays
+ * @returns {Array}
+ */
+function getLowPriorityOverlays() {
+  return [
+    taskDetailsCheck(),
+    addTaskOverlayCheck(),
+    addContactCheck(),
+    userDropdownCheck(),
+    welcomeOverlayCheck(),
+  ];
+}
+
+/**
  * Returns the ordered list of overlay checks and close functions.
  * Priority: Image Viewer > Delete Confirm > Account > Mobile Edit > Task Details > Add Task > Contact
  * @returns {Array<{check: Function, close: Function}>}
  */
 function getOverlayPriorityList() {
-  return [
-    {
-      check: function () { return isOverlayActive("image-viewer-overlay"); },
-      close: function () { if (typeof closeImageViewer === "function") closeImageViewer(); }
-    },
-    {
-      check: function () { return isDialogActive("delete-confirm-dialog"); },
-      close: function () { if (typeof closeDeleteConfirmOverlay === "function") closeDeleteConfirmOverlay(); }
-    },
-    {
-      check: function () { return isOverlayActive("account-overlay"); },
-      close: function () { if (typeof closeAccountOverlay === "function") closeAccountOverlay(); }
-    },
-    {
-      check: function () { return isOverlayActive("mobile-edit-overlay"); },
-      close: function () { if (typeof closeMobileEditOverlay === "function") closeMobileEditOverlay(); }
-    },
-    {
-      check: function () { return isOverlayActive("task-details-overlay"); },
-      close: function () { if (typeof closeTaskDetails === "function") closeTaskDetails(); }
-    },
-    {
-      check: function () { return isOverlayActive("add-task-overlay"); },
-      close: function () { if (typeof closeAddTaskOverlay === "function") closeAddTaskOverlay(); }
-    },
-    {
-      check: function () { return isOverlayActive("add-contact-overlay"); },
-      close: function () { if (typeof closeAddContactDialog === "function") closeAddContactDialog(); }
-    },
-    {
-      check: function () { return isDropdownActive("user-dropdown"); },
-      close: function () { closeUserDropdownMenu(); }
-    },
-    {
-      check: function () { return isOverlayActive("welcome-overlay"); },
-      close: function () { if (typeof closeWelcomeOverlay === "function") closeWelcomeOverlay(); }
-    }
-  ];
+  return getHighPriorityOverlays().concat(getLowPriorityOverlays());
 }
 
 /**
@@ -136,42 +244,13 @@ function handleRoleButtonKeydown(event) {
  * @returns {boolean}
  */
 function isClickableDiv(el) {
-  if (el.tagName === "BUTTON" || el.tagName === "A" || el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA") {
-    return false;
-  }
-  return el.hasAttribute("onclick") && el.hasAttribute("tabindex");
-}
-
-/**
- * Sets up focus trapping within the currently active modal dialog.
- */
-function closeUserDropdownMenu() {
-  const dropdown = document.getElementById("user-dropdown");
-  if (dropdown) dropdown.classList.remove("active");
-}
-
-/**
- * Handles Enter and Space key presses on elements with role="button".
- * This allows keyboard activation of custom button elements.
- * @param {KeyboardEvent} event - The keyboard event.
- */
-function handleRoleButtonKeydown(event) {
-  if (event.key !== "Enter" && event.key !== " ") return;
-  const target = event.target;
-  if (!target) return;
-  if (target.getAttribute("role") === "button" || isClickableDiv(target)) {
-    event.preventDefault();
-    target.click();
-  }
-}
-
-/**
- * Checks if an element is a non-native clickable div with onclick and tabindex.
- * @param {HTMLElement} el - The element to check.
- * @returns {boolean}
- */
-function isClickableDiv(el) {
-  if (el.tagName === "BUTTON" || el.tagName === "A" || el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA") {
+  if (
+    el.tagName === "BUTTON" ||
+    el.tagName === "A" ||
+    el.tagName === "INPUT" ||
+    el.tagName === "SELECT" ||
+    el.tagName === "TEXTAREA"
+  ) {
     return false;
   }
   return el.hasAttribute("onclick") && el.hasAttribute("tabindex");
@@ -208,23 +287,24 @@ function findActiveModal() {
  */
 function getModalIds() {
   return [
-    "image-viewer-overlay", "delete-confirm-dialog", "account-overlay",
-    "mobile-edit-overlay", "task-details-overlay", "add-task-overlay",
-    "add-contact-overlay", "welcome-overlay"
+    "image-viewer-overlay",
+    "delete-confirm-dialog",
+    "account-overlay",
+    "mobile-edit-overlay",
+    "task-details-overlay",
+    "add-task-overlay",
+    "add-contact-overlay",
+    "welcome-overlay",
   ];
 }
 
 /**
- * Traps focus within a given container element.
- * @param {HTMLElement} container - The container to trap focus in.
- * @param {KeyboardEvent} event - The keyboard event.
+ * Handles bounds for focus trapping
+ * @param {KeyboardEvent} event 
+ * @param {HTMLElement} firstEl 
+ * @param {HTMLElement} lastEl 
  */
-function trapFocusInElement(container, event) {
-  const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
-  const focusableElements = container.querySelectorAll(focusableSelector);
-  if (focusableElements.length === 0) return;
-  const firstEl = focusableElements[0];
-  const lastEl = focusableElements[focusableElements.length - 1];
+function handleFocusTrapBounds(event, firstEl, lastEl) {
   if (event.shiftKey && document.activeElement === firstEl) {
     event.preventDefault();
     lastEl.focus();
@@ -235,16 +315,33 @@ function trapFocusInElement(container, event) {
 }
 
 /**
+ * Traps focus within a given container element.
+ * @param {HTMLElement} container - The container to trap focus in.
+ * @param {KeyboardEvent} event - The keyboard event.
+ */
+function trapFocusInElement(container, event) {
+  const focusableSelector =
+    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const focusableElements = container.querySelectorAll(focusableSelector);
+  if (focusableElements.length === 0) return;
+  
+  const firstEl = focusableElements[0];
+  const lastEl = focusableElements[focusableElements.length - 1];
+  handleFocusTrapBounds(event, firstEl, lastEl);
+}
+
+/**
  * Focuses the first focusable element within a container.
  * @param {HTMLElement} container - The container element.
  */
 function focusFirstElementInContainer(container) {
-  const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  const focusableSelector =
+    'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
   const focusableElements = container.querySelectorAll(focusableSelector);
   if (focusableElements.length > 0) {
     focusableElements[0].focus();
   } else {
-    container.setAttribute('tabindex', '-1');
+    container.setAttribute("tabindex", "-1");
     container.focus();
   }
 }
@@ -257,11 +354,11 @@ function initModalObserver() {
   const observer = new MutationObserver((mutations) => {
     mutations.forEach(processMutation);
   });
-  observer.observe(document.body, { 
-    attributes: true, 
-    subtree: true, 
-    attributeFilter: ['class'],
-    attributeOldValue: true
+  observer.observe(document.body, {
+    attributes: true,
+    subtree: true,
+    attributeFilter: ["class"],
+    attributeOldValue: true,
   });
 }
 
@@ -269,12 +366,13 @@ function initModalObserver() {
  * Processes a single mutation for modal focus.
  */
 function processMutation(mutation) {
-  if (mutation.type !== "attributes" || mutation.attributeName !== "class") return;
+  if (mutation.type !== "attributes" || mutation.attributeName !== "class")
+    return;
   const target = mutation.target;
   const oldClass = mutation.oldValue || "";
   const isNowActive = target.classList.contains("active");
   const wasActive = oldClass.split(" ").includes("active");
-  
+
   if (getModalIds().includes(target.id) && isNowActive && !wasActive) {
     setTimeout(() => focusFirstElementInContainer(target), 50);
   }

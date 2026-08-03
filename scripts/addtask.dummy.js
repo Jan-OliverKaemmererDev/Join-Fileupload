@@ -171,6 +171,20 @@ function createTaskObject(currentUser, assignedToIds, formData, attachments = []
 }
 
 /**
+ * Gets creator information from user
+ * @param {Object} currentUser - The current user object
+ * @returns {Object} Creator info object
+ */
+function getCreatorInfo(currentUser) {
+  return {
+    createdBy: currentUser.id,
+    creatorName: currentUser.name || "Unknown",
+    creatorEmail: currentUser.email || "",
+    creatorType: "internal-user"
+  };
+}
+
+/**
  * Builds the base properties for a new task
  * @param {Object} currentUser - The current user
  * @param {Array} assignedToIds - Array of contact IDs
@@ -178,7 +192,7 @@ function createTaskObject(currentUser, assignedToIds, formData, attachments = []
  * @returns {Object} Base task object
  */
 function buildBaseTaskObject(currentUser, assignedToIds, attachments) {
-  return {
+  const base = {
     id: Date.now(),
     priority: selectedPriority,
     assignedTo: assignedToIds,
@@ -187,11 +201,8 @@ function buildBaseTaskObject(currentUser, assignedToIds, attachments) {
     status: "triage",
     position: Date.now(),
     createdAt: new Date().toISOString(),
-    createdBy: currentUser.id,
-    creatorName: currentUser.name || "Unknown",
-    creatorEmail: currentUser.email || "",
-    creatorType: "internal-user"
   };
+  return Object.assign(base, getCreatorInfo(currentUser));
 }
 
 /**

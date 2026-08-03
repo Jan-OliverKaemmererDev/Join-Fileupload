@@ -34,6 +34,19 @@ function setupPublicView() {
 }
 
 /**
+ * Displays initials for user or guest
+ * @param {Object} currentUser - The current user object
+ */
+function displayUserOrGuestInitials(currentUser) {
+  if (currentUser.isGuest) {
+    if (typeof displayGuestInitials === "function") displayGuestInitials();
+  } else {
+    if (typeof displayUserInitials === "function")
+      displayUserInitials(currentUser.name);
+  }
+}
+
+/**
  * Sets the view for logged in users.
  * @param {Object} currentUser - The current user object
  */
@@ -41,16 +54,9 @@ function setupUserView(currentUser) {
   document.body.classList.add("is-logged-in");
 
   const sidebar = document.querySelector(".sidebar");
-  if (sidebar) {
-    sidebar.innerHTML = getUserSidebarTemplate();
-  }
+  if (sidebar) sidebar.innerHTML = getUserSidebarTemplate();
 
-  if (currentUser.isGuest) {
-    if (typeof displayGuestInitials === "function") displayGuestInitials();
-  } else {
-    if (typeof displayUserInitials === "function")
-      displayUserInitials(currentUser.name);
-  }
+  displayUserOrGuestInitials(currentUser);
 }
 
 /**

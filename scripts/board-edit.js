@@ -29,6 +29,16 @@ async function editTask(taskId) {
 }
 
 /**
+ * Prepares and renders subtasks for editing
+ * @param {Object} task - The task object
+ */
+function prepareEditSubtasks(task) {
+  subtasks = task.subtasks && task.subtasks.length > 0 
+    ? JSON.parse(JSON.stringify(task.subtasks)) : [];
+  renderSubtasks();
+}
+
+/**
  * Fills the form with the data of a task
  * @param {Object} task - The task object
  */
@@ -37,10 +47,7 @@ async function fillFormWithTaskData(task) {
   fillBasicTaskFields(task);
   loadAssigneesForEdit(task);
   fillCategoryAndPriority(task);
-  
-  subtasks = task.subtasks && task.subtasks.length > 0 
-    ? JSON.parse(JSON.stringify(task.subtasks)) : [];
-  renderSubtasks();
+  prepareEditSubtasks(task);
   
   if (typeof loadExistingAttachments === 'function') {
     await loadExistingAttachments(task.attachments || []);
@@ -78,20 +85,28 @@ function fillBasicTaskFields(task) {
 }
 
 /**
+ * Maps original category to standard category string
+ * @param {string} cat - The original category
+ * @returns {string} The mapped category
+ */
+function getMappedCategory(cat) {
+  if (cat === "user-story" || cat === "User Story" || cat === "User Story/Feature") {
+    return "user-story";
+  }
+  return "technical";
+}
+
+/**
  * Fills category and priority UI elements
  */
 function fillCategoryAndPriority(task) {
-  let mappedCategory = "technical";
-  if (task.category === "user-story" || task.category === "User Story" || task.category === "User Story/Feature") {
-    mappedCategory = "user-story";
-  }
-
+  const mapped = getMappedCategory(task.category);
   const catElement = document.getElementById("category");
-  if (catElement) catElement.value = mappedCategory;
+  if (catElement) catElement.value = mapped;
 
   const categoryText = document.getElementById("selected-category-text");
   if (categoryText) {
-    categoryText.textContent = mappedCategory === "user-story" ? "User Story" : "Technical Task";
+    categoryText.textContent = mapped === "user-story" ? "User Story" : "Technical Task";
   }
   selectPriority(task.priority);
 }

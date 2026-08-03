@@ -190,14 +190,12 @@ function stopAutoScroll() {
 }
 
 /**
- * Updates horizontal auto-scroll direction based on touch position within a column
+ * Checks horizontal scroll position and adjusts auto-scroll
+ * @param {number} x - Touch X coordinate
+ * @param {DOMRect} rect - Bounding rectangle of the list
+ * @param {HTMLElement} list - The list element
  */
-function updateHorizontalAutoScroll(x, y) {
-  const column = getColumnUnderPoint(x, y);
-  const list = column ? column.querySelector(".task-list") : null;
-  if (!list) return stopHorizontalAutoScroll();
-  
-  const rect = list.getBoundingClientRect();
+function checkHorizontalScroll(x, rect, list) {
   const threshold = 50;
   if (x < rect.left + threshold) {
     scrollDirectionX = -1;
@@ -208,6 +206,17 @@ function updateHorizontalAutoScroll(x, y) {
   } else {
     stopHorizontalAutoScroll();
   }
+}
+
+/**
+ * Updates horizontal auto-scroll direction based on touch position within a column
+ */
+function updateHorizontalAutoScroll(x, y) {
+  const column = getColumnUnderPoint(x, y);
+  const list = column ? column.querySelector(".task-list") : null;
+  if (!list) return stopHorizontalAutoScroll();
+  
+  checkHorizontalScroll(x, list.getBoundingClientRect(), list);
 }
 
 /**

@@ -193,34 +193,55 @@ async function updateTaskMetrics(user) {
 }
 
 /**
+ * Sets text content of an element
+ * @param {string} id - Element ID
+ * @param {string|number} value - Value to set
+ */
+function setElementText(id, value) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = value;
+}
+
+/**
+ * Displays basic metrics
+ * @param {Object} metrics - Metrics
+ */
+function displayBasicTaskMetrics(metrics) {
+  setElementText("count-todo", metrics.todo);
+  setElementText("count-done", metrics.done);
+  setElementText("count-urgent", metrics.urgent);
+  setElementText("count-board", metrics.board);
+  setElementText("count-progress", metrics.progress);
+  setElementText("count-awaiting", metrics.awaiting);
+}
+
+/**
  * Displays the calculated task metrics in the summary page
  * @param {Object} metrics - The metrics object
  */
 function displayTaskMetrics(metrics) {
-  const todo = document.getElementById("count-todo");
-  if (todo) todo.textContent = metrics.todo;
-  const done = document.getElementById("count-done");
-  if (done) done.textContent = metrics.done;
-  const urgent = document.getElementById("count-urgent");
-  if (urgent) urgent.textContent = metrics.urgent;
-  const board = document.getElementById("count-board");
-  if (board) board.textContent = metrics.board;
-  const progress = document.getElementById("count-progress");
-  if (progress) progress.textContent = metrics.progress;
-  const awaiting = document.getElementById("count-awaiting");
-  if (awaiting) awaiting.textContent = metrics.awaiting;
-  const emailsElement = document.getElementById("count-emails");
-  if (emailsElement) {
-    emailsElement.textContent = metrics.emails || 0;
-  }
+  displayBasicTaskMetrics(metrics);
+  setElementText("count-emails", metrics.emails || 0);
   const deadlineElement = document.getElementById("next-deadline");
   if (deadlineElement) {
-    if (metrics.nextDeadline) {
-      deadlineElement.textContent = metrics.nextDeadline;
-    } else {
-      deadlineElement.textContent = "No upcoming deadline";
-    }
+    deadlineElement.textContent = metrics.nextDeadline || "No upcoming deadline";
   }
+}
+
+/**
+ * Process external tasks loop
+ * @param {Object} user 
+ * @param {Object} data 
+ * @param {string} token 
+ * @returns {boolean}
+ */
+async function processAllExternalTasks(user, data, token) {
+  let hasNewTasks = false;
+  for (const key in data) {
+    await processExternalTask(user, key, data[key], token);
+    hasNewTasks = true;
+  }
+  return hasNewTasks;
 }
 
 /**
@@ -234,12 +255,7 @@ async function syncExternalTasksToFirestore(user) {
     const response = await fetch(url);
     const data = await response.json();
     if (!data) return false;
-    let hasNewTasks = false;
-    for (const key in data) {
-      await processExternalTask(user, key, data[key], token);
-      hasNewTasks = true;
-    }
-    return hasNewTasks;
+    return await processAllExternalTasks(user, data, token);
   } catch (err) {
     console.error("Error syncing external tasks:", err);
     return false;
@@ -381,6 +397,19 @@ function initSummary() {
 }
 
 /**
+ * Updates guest summary data
+ * @param {Object} currentUser 
+ */
+async function updateSummaryGuestData(currentUser) {
+  updateUserName(currentUser);
+  if (typeof updateTaskMetrics === "function") {
+    await updateTaskMetrics(currentUser);
+  } else if (typeof renderTaskMetrics === "function") {
+    renderTaskMetrics();
+  }
+}
+
+/**
  * Initializes the summary page for guest users
  */
 async function initSummaryGuest() {
@@ -390,14 +419,7 @@ async function initSummaryGuest() {
   updateGreeting();
 
   const currentUser = getCurrentUser();
-  if (currentUser) {
-    updateUserName(currentUser);
-    if (typeof updateTaskMetrics === "function") {
-      await updateTaskMetrics(currentUser);
-    } else if (typeof renderTaskMetrics === "function") {
-      renderTaskMetrics();
-    }
-  }
+  if (currentUser) await updateSummaryGuestData(currentUser);
 
   checkMobileGreeting();
 }

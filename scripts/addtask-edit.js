@@ -14,6 +14,16 @@ async function checkForEditMode() {
 }
 
 /**
+ * Gets a Firestore document reference for a task
+ * @param {string} userId - The user ID
+ * @param {string} taskId - The task ID
+ * @returns {Object} The Firestore document reference
+ */
+function getTaskDocRef(userId, taskId) {
+  return window.fbDoc(window.firebaseDb, "users", userId, "tasks", taskId);
+}
+
+/**
  * Loads the data into tasks for editing
  * @param {string} taskId - The task ID.
  */
@@ -21,13 +31,7 @@ async function loadTaskForEdit(taskId) {
   const currentUser = getCurrentUser();
   if (!currentUser) return;
   try {
-    const taskRef = window.fbDoc(
-      window.firebaseDb,
-      "users",
-      currentUser.id,
-      "tasks",
-      taskId,
-    );
+    const taskRef = getTaskDocRef(currentUser.id, taskId);
     const docSnap = await window.fbGetDoc(taskRef);
     await processLoadedTask(docSnap, taskId);
   } catch (error) {
@@ -57,15 +61,23 @@ function fillBasicTaskFields(task) {
   dateInput.value = task.dueDate;
 }
 /**
+ * Maps the category to standard values
+ * @param {string} cat - Category string
+ * @returns {string} Mapped category
+ */
+function mapTaskCategory(cat) {
+  if (cat === "user-story" || cat === "User Story" || cat === "User Story/Feature") {
+    return "user-story";
+  }
+  return "technical";
+}
+
+/**
  * Populates the category-field and the displaytext with task data
  * @param {Object} task - The task object.
  */
 function fillCategoryField(task) {
-  let mappedCategory = "technical";
-  if (task.category === "user-story" || task.category === "User Story" || task.category === "User Story/Feature") {
-    mappedCategory = "user-story";
-  }
-
+  const mappedCategory = mapTaskCategory(task.category);
   const categoryInput = document.getElementById("category");
   if (categoryInput) categoryInput.value = mappedCategory;
 
