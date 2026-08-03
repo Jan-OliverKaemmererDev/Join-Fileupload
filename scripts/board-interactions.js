@@ -1,6 +1,7 @@
 /**
  * @fileoverview User interactions logic for the board view.
  */
+
 let currentEditTaskOriginalState = null;
 
 /**

@@ -1,6 +1,7 @@
 /**
  * @fileoverview Logic for the account overlay UI.
  */
+
 /**
  * Closes the user dropdown menu.
  */

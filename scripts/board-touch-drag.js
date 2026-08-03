@@ -1,6 +1,7 @@
 /**
  * @fileoverview Touch and drag-and-drop logic for the board on mobile devices.
  */
+
 let autoScrollInterval;
 let scrollDirection = 0; // 1 for down, -1 for up, 0 for none
 let horizontalAutoScrollInterval;

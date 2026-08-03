@@ -1,6 +1,7 @@
 /**
  * @fileoverview Logic for validating user accounts.
  */
+
 /**
  * Checks account overlay form values.
  */

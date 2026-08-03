@@ -1,6 +1,7 @@
 /**
  * @fileoverview Authentication logic for user login and sessions.
  */
+
 /**
  * Waiting for Firebase to initialize
  * @returns {Promise}

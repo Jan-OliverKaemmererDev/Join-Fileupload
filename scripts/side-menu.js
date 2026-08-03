@@ -1,6 +1,7 @@
 /**
  * @fileoverview Logic for the side navigation menu.
  */
+
 /**
  * Initializes the page menu and highlights the active page
  * @param {string} currentPage - The currently active page

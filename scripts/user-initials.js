@@ -1,6 +1,7 @@
 /**
  * @fileoverview Logic for generating and displaying user initials.
  */
+
 /**
  * Generates initials from a name
  * @param {string} name - The full name

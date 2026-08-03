@@ -1,6 +1,7 @@
 /**
  * @fileoverview Attachment handling for the mobile board edit overlay.
  */
+
 /**
  * Handles file selection in mobile edit overlay.
  * Submits the selected files for processing and resets the input.

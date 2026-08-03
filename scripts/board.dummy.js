@@ -1,6 +1,7 @@
 /**
  * @fileoverview Main logic and initialization for the board view.
  */
+
 let tasks = [];
 let currentDraggedTaskId = null;
 let isDragging = false;

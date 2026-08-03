@@ -1,6 +1,7 @@
 /**
  * @fileoverview Main logic for the add task page.
  */
+
 let selectedPriority = "medium";
 let subtasks = [];
 let allContacts = [];

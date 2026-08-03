@@ -1,6 +1,7 @@
 /**
  * @fileoverview Utility functions for contact management operations.
  */
+
 /**
  * Loads all contacts for the given user from Firestore and populates the local contacts array.
  * @param {{id: string}} currentUser - The currently authenticated user object.

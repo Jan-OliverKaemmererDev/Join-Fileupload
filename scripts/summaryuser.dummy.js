@@ -1,6 +1,7 @@
 /**
  * @fileoverview Logic for the user summary dashboard view.
  */
+
 /**
  * Initializes the summary page for logged-in users.
  */

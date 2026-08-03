@@ -23,6 +23,7 @@ function getContactItemTemplate(contact, avatarInnerHtml, avatarStyle) {
   `;
 }
 
+
 /**
  * Generates the HTML template for the desktop contact details view
  * @param {Object} contact - The contact object
@@ -63,6 +64,7 @@ function getDesktopContactDetailsTemplate(contact, avatarInnerHtml, avatarStyle)
     </section>
   `;
 }
+
 
 /**
  * Generates the HTML template for the mobile contact details view
@@ -112,6 +114,7 @@ function getMobileContactDetailsTemplate(contact, avatarInnerHtml, avatarStyle) 
     </div>
   `;
 }
+
 
 /**
  * Generates the HTML template for the desktop edit contact dialog
@@ -179,6 +182,7 @@ function getDesktopEditContactTemplate(contact, avatarInnerHtml, avatarStyle) {
   `;
 }
 
+
 /**
  * Generates the HTML template for the mobile edit contact dialog
  * @param {Object} contact - The contact object
@@ -238,6 +242,7 @@ function getMobileEditContactTemplate(contact, avatarInnerHtml, avatarStyle) {
     </div>
   `;
 }
+
 
 function getDesktopAddContactTemplate() {
   return `
@@ -301,6 +306,7 @@ function getDesktopAddContactTemplate() {
   `;
 }
 
+
 function getMobileAddContactTemplate() {
   return `
     <div class="edit-contact-mobile-overlay" onclick="event.stopPropagation()" role="dialog" aria-modal="true" aria-labelledby="add-mobile-dialog-title">
@@ -354,6 +360,7 @@ function getMobileAddContactTemplate() {
   `;
 }
 
+
 /**
  * Generates the HTML for an avatar image
  * @param {string} base64 - The base64 encoded image string
@@ -363,6 +370,7 @@ function getAvatarImageTemplate(base64) {
   return `<img src="${base64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;">`;
 }
 
+
 /**
  * Generates the HTML for avatar initials
  * @param {string} initials - The initials string
@@ -371,6 +379,7 @@ function getAvatarImageTemplate(base64) {
 function getAvatarInitialsTemplate(initials) {
   return initials;
 }
+
 function getContactGroupLetterTemplate(letter) {
   return `<h2 class="contact-group-letter">${letter}</h2>`;
 }

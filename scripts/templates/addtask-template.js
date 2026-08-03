@@ -1,6 +1,7 @@
 /**
  * @fileoverview HTML template generating functions for the add task page.
  */
+
 /**
  * Generates the HTML template for a subtask element (normal view)
  * @param {Object} subtask - The subtask object

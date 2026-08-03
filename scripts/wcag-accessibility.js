@@ -1,6 +1,7 @@
 /**
  * @fileoverview WCAG Accessibility Enhancements for keyboard navigation.
  */
+
 /**
  * Handles ESC key to close active overlays in priority order.
  * The image viewer already has its own ESC handler in board-image-viewer.js,

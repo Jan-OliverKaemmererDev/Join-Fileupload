@@ -1,6 +1,7 @@
 /**
  * @fileoverview Default authentication settings and configurations.
  */
+
 /**
  * Default guest user object used when no authenticated user is present.
  * @type {{id: string, name: string, email: string, isGuest: boolean}}

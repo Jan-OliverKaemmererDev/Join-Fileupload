@@ -1,6 +1,7 @@
 /**
  * @fileoverview HTML templates for the mobile board view overlay.
  */
+
 /**
  * Returns the HTML for a Contact option in the Assigned To dropdown.
  * @param {Object} contact - The contact object
@@ -25,6 +26,7 @@ function getMobileEditContactOptionHtml(contact, selectedClass, nameSuffix, avat
   `;
 }
 
+
 /**
  * Returns the HTML for a selected contact avatar.
  * @param {string} avatarInner - Inner HTML of the avatar
@@ -34,6 +36,7 @@ function getMobileEditContactOptionHtml(contact, selectedClass, nameSuffix, avat
 function getMobileEditSelectedAvatarHtml(avatarInner, avatarStyle) {
   return `<span class="selected-avatar" style="${avatarStyle}">${avatarInner}</span>`;
 }
+
 
 /**
  * Returns the HTML for a subtask list entry.
@@ -53,6 +56,7 @@ function getMobileEditSubtaskItemHtml(subtask) {
   `;
 }
 
+
 /**
  * Returns the HTML for a subtask in edit mode.
  * @param {Object} subtask - The subtask object
@@ -70,6 +74,7 @@ function getMobileEditSubtaskEditHtml(subtask) {
     </li>
   `;
 }
+
 
 /**
  * Returns the HTML for an attachment thumbnail preview.

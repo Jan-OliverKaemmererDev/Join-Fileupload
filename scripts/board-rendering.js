@@ -1,6 +1,7 @@
 /**
  * @fileoverview Rendering logic for the board view and its tasks.
  */
+
 /**
  * Generates the HTML for a task card
  * @param {Object} task - The task object

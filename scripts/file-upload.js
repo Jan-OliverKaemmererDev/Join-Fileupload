@@ -1,6 +1,7 @@
 /**
  * @fileoverview Main logic for the file upload component.
  */
+
 let fileInput = null;
 let pendingProfileImageFile = null;
 let currentOffsetY = 0;

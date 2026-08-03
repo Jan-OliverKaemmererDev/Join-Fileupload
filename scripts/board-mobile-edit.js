@@ -1,6 +1,7 @@
 /**
  * @fileoverview Main logic for the mobile board edit overlay.
  */
+
 let mobileEditTaskId = null;
 let mobileEditSelectedContacts = [];
 let mobileEditSubtasks = [];

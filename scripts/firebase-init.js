@@ -1,6 +1,7 @@
 /**
  * @fileoverview Firebase initialization module and global setup.
  */
+
 import { auth, db } from "./firebase-config.js";
 import {
   createUserWithEmailAndPassword,

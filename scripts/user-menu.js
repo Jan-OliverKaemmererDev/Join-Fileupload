@@ -1,6 +1,7 @@
 /**
  * @fileoverview Logic for handling the user dropdown menu.
  */
+
 /**
  * Adds a help link to the dropdown if not already present (mobile only)
  * @param {HTMLElement} dropdown - The dropdown element

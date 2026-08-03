@@ -1,6 +1,7 @@
 /**
  * @fileoverview Subtask management for the mobile board edit overlay.
  */
+
 /**
  * Shows the subtask icons in mobile edit.
  */

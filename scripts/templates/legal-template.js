@@ -1,6 +1,7 @@
 /**
  * @fileoverview HTML template generating functions for legal and privacy pages.
  */
+
 /**
  * Generates the HTML template for the sidebar in public mode (not logged in)
  * @returns {string} The HTML template for the public sidebar
@@ -33,6 +34,7 @@ function getPublicSidebarTemplate() {
     </div>
   `;
 }
+
 
 /**
  * Generates the HTML template for the sidebar in user mode (logged in)
@@ -72,6 +74,7 @@ function getUserSidebarTemplate() {
     </div>
   `;
 }
+
 
 /**
  * Generates the HTML template for the mobile back arrow

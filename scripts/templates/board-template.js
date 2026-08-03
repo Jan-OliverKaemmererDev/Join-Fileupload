@@ -1,6 +1,7 @@
 /**
  * @fileoverview HTML templates generating functions for the board view.
  */
+
 /**
  * Generates the HTML template for a task card
  * @param {Object} task - The task object
@@ -237,6 +238,7 @@ function getLowPriorityIcon() {
   return `<img src="./assets/icons/low-iconAddTask.png" alt="Low">`;
 }
 
+
 /**
  * HTML template for an attachment thumbnail
  * @param {number} taskId 
@@ -261,6 +263,7 @@ function getTaskAttachmentThumbnailTemplate(taskId, index, previewSrc, name) {
   `;
 }
 
+
 /**
  * HTML template for the attachments section
  * @param {string} thumbnailsHtml 
@@ -276,6 +279,7 @@ function getTaskAttachmentsSectionTemplate(thumbnailsHtml) {
     </section>
   `;
 }
+
 
 /**
  * HTML template for the extern task source icon
@@ -293,6 +297,7 @@ function getTaskSourceIconUserTemplate() {
   return `<img src="./assets/icons/issue-collector/profile.svg" class="task-source-icon" alt="User">`;
 }
 
+
 /**
  * HTML template for the AI indicator
  * @returns {string} HTML
@@ -305,6 +310,7 @@ function getTaskAiIndicatorTemplate() {
     </span>
   `;
 }
+
 
 /**
  * HTML template for the external creator section
@@ -332,6 +338,7 @@ function getTaskCreatorExternTemplate(name, email) {
     </section>
   `;
 }
+
 
 /**
  * HTML template for the internal creator section

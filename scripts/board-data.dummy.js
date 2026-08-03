@@ -1,6 +1,7 @@
 /**
  * @fileoverview Data management and operations for the board view.
  */
+
 /**
  * Normalize subtasks from various Firebase formats into the board format.
  * @param {*} raw - The raw subtask data from Firebase

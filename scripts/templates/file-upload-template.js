@@ -1,6 +1,7 @@
 /**
  * @fileoverview HTML template generating functions for file uploads.
  */
+
 /**
  * Returns the HTML for the file format error overlay.
  * @returns {string} HTML string
@@ -16,6 +17,7 @@ function getFileFormatErrorTemplate() {
     </button>
   `;
 }
+
 
 /**
  * Returns the HTML for the file size error overlay.

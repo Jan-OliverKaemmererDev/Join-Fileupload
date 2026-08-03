@@ -1,6 +1,7 @@
 /**
  * @fileoverview Profile picture upload logic for contacts.
  */
+
 let contactFileInput = null;
 let pendingContactProfileImageFile = null;
 let contactCurrentOffsetY = 0;

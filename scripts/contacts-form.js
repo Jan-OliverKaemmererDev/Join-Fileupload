@@ -1,6 +1,7 @@
 /**
  * @fileoverview Form handling logic for managing contacts.
  */
+
 /**
  * Sets the HTML of the overlay, activates it and locks scrolling
  * @param {string} html - The HTML for the overlay content

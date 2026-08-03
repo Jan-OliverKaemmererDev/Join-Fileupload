@@ -1,13 +1,14 @@
 /**
  * @fileoverview Utility functions for handling file uploads.
  */
+
 /**
- Allowed MIME types for image files
+ * Allowed MIME types for image files
  */
 const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png"];
 
 /**
- Maximum file size in bytes (2 MB)
+ * Maximum file size in bytes (2 MB)
  */
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
 
