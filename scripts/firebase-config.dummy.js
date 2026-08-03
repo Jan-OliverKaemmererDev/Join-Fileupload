@@ -1,14 +1,21 @@
 /**
- * @fileoverview Dummy Firebase configuration for testing.
+ * @fileoverview Dummy Firebase configuration module for testing.
+ * This module sets up the connection to a mock Firebase backend, including
+ * authentication and Firestore database services.
  */
 
-// Import the functions you need from the SDKs you need
+/**
+ * Required Firebase SDKs for app initialization, authentication, and Firestore.
+ */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Your web app's Firebase configuration
-// Replace with your project's config object from Firebase Console
+/**
+ * Dummy configuration object containing the Firebase project credentials.
+ * Replace with your project's configuration object from the Firebase Console.
+ * @type {Object}
+ */
 const firebaseConfig = {
   apiKey: "YOUR_API_KEY",
   authDomain: "YOUR_AUTH_DOMAIN",
@@ -20,11 +27,19 @@ const firebaseConfig = {
   measurementId: "YOUR_MEASUREMENT_ID",
 };
 
-// Initialize Firebase
+/**
+ * Initializes the Firebase application instance.
+ */
 const app = initializeApp(firebaseConfig);
 
-// Initialize services
+/**
+ * Initializes the Firebase Authentication service.
+ */
 const auth = getAuth(app);
+
+/**
+ * Initializes the Cloud Firestore database service.
+ */
 const db = getFirestore(app);
 
 export { auth, db };

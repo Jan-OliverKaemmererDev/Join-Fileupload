@@ -44,7 +44,11 @@ function selectCategory(category, event) {
 }
 
 
-// Schließt das Kategorie-Dropdown bei Klick außerhalb
+/**
+ * Closes the category dropdown when clicking outside of it.
+ * Listens for click events on the document and hides the dropdown options
+ * if the click target is not within the category wrapper.
+ */
 document.addEventListener(
   "click",
   function (event) {

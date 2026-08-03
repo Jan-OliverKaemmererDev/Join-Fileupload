@@ -46,6 +46,10 @@ function calculateTaskMetrics(tasks) {
   return metrics;
 }
 
+/**
+ * Creates and returns the initial metrics object with all counters set to zero.
+ * @returns {Object} Object containing initial empty metrics.
+ */
 function createInitialMetrics() {
   return {
     todo: 0,
