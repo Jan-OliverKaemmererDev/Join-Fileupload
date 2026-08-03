@@ -91,8 +91,10 @@ function openTaskDetails(taskId) {
  * @returns {string} The HTML for the detailed view
  */
 function buildTaskDetailsHtml(task) {
+  const priorityText = task.priority.charAt(0).toUpperCase() + task.priority.slice(1);
   return getTaskDetailsTemplate(
     task,
+    priorityText,
     buildSubtasksHtml(task),
     getPriorityIcon(task.priority),
     getCategoryClass(task.category),

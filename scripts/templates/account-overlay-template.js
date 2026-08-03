@@ -93,9 +93,9 @@ function getAccountAvatarHTML() {
 function getAccountFormFieldsHTML() {
   return `
     <form class="edit-form-fields" onsubmit="event.preventDefault();">
-      ${getAccountInputHTML("text", "account-name", "person.svg")}
-      ${getAccountInputHTML("email", "account-email", "mail.svg")}
-      ${getAccountInputHTML("tel", "account-phone", "phone.svg")}
+      ${getAccountInputHTML("text", "account-name", getAccountIconPath("person.svg"))}
+      ${getAccountInputHTML("email", "account-email", getAccountIconPath("mail.svg"))}
+      ${getAccountInputHTML("tel", "account-phone", getAccountIconPath("phone.svg"))}
       ${getAccountActionButtonsHTML()}
     </form>
   `;
@@ -106,13 +106,10 @@ function getAccountFormFieldsHTML() {
  * Returns the HTML for a single input field
  * @param {string} type - The input type (text, email, tel)
  * @param {string} id - The ID of the input element
- * @param {string} iconFile - The filename of the icon
+ * @param {string} iconPath - The full path of the icon
  * @returns {string} HTML string with input wrapper and icon
  */
-function getAccountInputHTML(type, id, iconFile) {
-  const iconPath = iconFile === "phone.svg"
-    ? `./assets/icons/${iconFile}`
-    : `./assets/login-screen/${iconFile}`;
+function getAccountInputHTML(type, id, iconPath) {
   return `
     <div class="input-group">
       <span class="input-wrapper">

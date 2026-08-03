@@ -22,12 +22,27 @@ function initLegalPrivacy() {
 }
 
 /**
+ * Checks if the given page name is active based on the URL.
+ * @param {string} pageName - The page name to check.
+ * @returns {string} "active" if it matches, else "".
+ */
+function getActiveLegalClass(pageName) {
+  return window.location.pathname.includes(pageName) ? "active" : "";
+}
+
+/**
  * Sets the view for non-logged in users or public access.
  */
 function setupPublicView() {
   const sidebar = document.querySelector(".sidebar");
-  const headerIcons = document.getElementById("header-icons");
+  if (sidebar) {
+    sidebar.innerHTML = getPublicSidebarTemplate(
+      getActiveLegalClass("privacypolicy"),
+      getActiveLegalClass("legalnotice")
+    );
+  }
 
+  const headerIcons = document.getElementById("header-icons");
   if (headerIcons) {
     headerIcons.style.display = "none";
   }
@@ -54,7 +69,12 @@ function setupUserView(currentUser) {
   document.body.classList.add("is-logged-in");
 
   const sidebar = document.querySelector(".sidebar");
-  if (sidebar) sidebar.innerHTML = getUserSidebarTemplate();
+  if (sidebar) {
+    sidebar.innerHTML = getUserSidebarTemplate(
+      getActiveLegalClass("privacypolicy"),
+      getActiveLegalClass("legalnotice")
+    );
+  }
 
   displayUserOrGuestInitials(currentUser);
 }

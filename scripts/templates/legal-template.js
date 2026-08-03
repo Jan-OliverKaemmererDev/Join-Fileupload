@@ -4,16 +4,11 @@
 
 /**
  * Generates the HTML template for the sidebar in public mode (not logged in)
+ * @param {string} isPrivacyActive - "active" if privacy page is active, else ""
+ * @param {string} isLegalActive - "active" if legal notice is active, else ""
  * @returns {string} The HTML template for the public sidebar
  */
-function getPublicSidebarTemplate() {
-  const isPrivacyActive = window.location.pathname.includes("privacypolicy")
-    ? "active"
-    : "";
-  const isLegalActive = window.location.pathname.includes("legalnotice")
-    ? "active"
-    : "";
-
+function getPublicSidebarTemplate(isPrivacyActive, isLegalActive) {
   return `
     <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" class="sidebar-logo"/>
     
@@ -38,16 +33,11 @@ function getPublicSidebarTemplate() {
 
 /**
  * Generates the HTML template for the sidebar in user mode (logged in)
+ * @param {string} isPrivacyActive - "active" if privacy page is active, else ""
+ * @param {string} isLegalActive - "active" if legal notice is active, else ""
  * @returns {string} The HTML template for the user sidebar
  */
-function getUserSidebarTemplate() {
-  const isPrivacyActive = window.location.pathname.includes("privacypolicy")
-    ? "active"
-    : "";
-  const isLegalActive = window.location.pathname.includes("legalnotice")
-    ? "active"
-    : "";
-
+function getUserSidebarTemplate(isPrivacyActive, isLegalActive) {
   return `
     <img src="./assets/main-page/join-logo-white.svg" alt="Join Logo" />
     <div class="nav-links">

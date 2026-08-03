@@ -63,12 +63,11 @@ function getProgressBarTemplate(completed, total, percent) {
 /**
  * Generates the HTML template for an assignee badge with an image
  * @param {string} initials - The assignee's initials
- * @param {string} color - The background color
+ * @param {string} backgroundColor - The background color
  * @param {string} profileImageBase64 - The base64 string of the image
  * @returns {string} The HTML template for the assignee badge
  */
-function getAssigneeImageBadgeTemplate(initials, color, profileImageBase64) {
-  const backgroundColor = color || "#00bee8";
+function getAssigneeImageBadgeTemplate(initials, backgroundColor, profileImageBase64) {
   return `<span class="assignee-badge" style="background-color: ${backgroundColor};" aria-label="Assignee: ${initials}"><img src="${profileImageBase64}" style="width:100%;height:100%;border-radius:50%;object-fit:cover;" alt="Profile picture of ${initials}"></span>`;
 }
 
@@ -76,11 +75,10 @@ function getAssigneeImageBadgeTemplate(initials, color, profileImageBase64) {
 /**
  * Generates the HTML template for an assignee badge with initials
  * @param {string} initials - The assignee's initials
- * @param {string} color - The background color
+ * @param {string} backgroundColor - The background color
  * @returns {string} The HTML template for the assignee badge
  */
-function getAssigneeInitialsBadgeTemplate(initials, color) {
-  const backgroundColor = color || "#00bee8";
+function getAssigneeInitialsBadgeTemplate(initials, backgroundColor) {
   return `<span class="assignee-badge" style="background-color: ${backgroundColor};" aria-label="Assignee: ${initials}">${initials}</span>`;
 }
 
@@ -99,15 +97,15 @@ function getNoTasksTemplate(message) {
  * Generates the HTML template for a subtask element in the details view
  * @param {number} taskId - The ID of the task
  * @param {number} index - The index of the subtask
- * @param {Object} st - The subtask object
+ * @param {string} text - The subtask text
+ * @param {string} checkedClass - The class if checked (e.g. "checked")
  * @returns {string} The HTML template for the subtask element
  */
-function getSubtaskItemDetailTemplate(taskId, index, st) {
-  const checkedClass = st.completed ? "checked" : "";
+function getSubtaskItemDetailTemplate(taskId, index, text, checkedClass) {
   return `
-    <label class="subtask-item-detail" onclick="toggleSubtask(${taskId}, ${index})" aria-label="Subtask: ${st.text}">
+    <label class="subtask-item-detail" onclick="toggleSubtask(${taskId}, ${index})" aria-label="Subtask: ${text}">
       <div class="subtask-checkbox ${checkedClass}" aria-hidden="true"></div>
-      <span>${st.text}</span>
+      <span>${text}</span>
     </label>
   `;
 }
@@ -116,6 +114,7 @@ function getSubtaskItemDetailTemplate(taskId, index, st) {
 /**
  * Generates the HTML template for the task detail view
  * @param {Object} task - The task object
+ * @param {string} priorityText - The formatted priority text
  * @param {string} subtasksHtml - The HTML for the subtasks
  * @param {string} priorityIcon - The HTML for the priority icon
  * @param {string} categoryClass - The CSS class for the category
@@ -125,6 +124,7 @@ function getSubtaskItemDetailTemplate(taskId, index, st) {
  */
 function getTaskDetailsTemplate(
   task,
+  priorityText,
   subtasksHtml,
   priorityIcon,
   categoryClass,
@@ -154,7 +154,7 @@ function getTaskDetailsTemplate(
     <div class="task-details-info">
       <span class="task-details-label">Priority:</span>
       <div class="task-details-priority">
-        <span>${task.priority.charAt(0).toUpperCase() + task.priority.slice(1)}</span>
+        <span>${priorityText}</span>
         ${priorityIcon}
       </div>
     </div>

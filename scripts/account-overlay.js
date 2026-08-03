@@ -69,6 +69,17 @@ function getAccountUserData() {
 }
 
 /**
+ * Resolves the correct path for an account input icon.
+ * @param {string} iconFile - The filename of the icon.
+ * @returns {string} The full path to the icon.
+ */
+function getAccountIconPath(iconFile) {
+  return iconFile === "phone.svg"
+    ? `./assets/icons/${iconFile}`
+    : `./assets/login-screen/${iconFile}`;
+}
+
+/**
  * Populates the account overlay with current user data.
  */
 function populateAccountData() {

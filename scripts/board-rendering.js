@@ -119,10 +119,11 @@ function buildSingleAssigneeBadge(contactId) {
   if (!contact) return "";
   const initials = getInitialsFromName(contact.name);
   const profileImg = getContactProfileImage(contact);
+  const bgColor = contact.color || "#00bee8";
   if (profileImg) {
-    return getAssigneeImageBadgeTemplate(initials, contact.color, profileImg);
+    return getAssigneeImageBadgeTemplate(initials, bgColor, profileImg);
   }
-  return getAssigneeInitialsBadgeTemplate(initials, contact.color);
+  return getAssigneeInitialsBadgeTemplate(initials, bgColor);
 }
 
 /**
@@ -219,7 +220,8 @@ function buildSubtasksHtml(task) {
   let subtasksHtml = "";
   for (let i = 0; i < task.subtasks.length; i++) {
     const st = task.subtasks[i];
-    subtasksHtml += getSubtaskItemDetailTemplate(task.id, i, st);
+    const checkedClass = st.completed ? "checked" : "";
+    subtasksHtml += getSubtaskItemDetailTemplate(task.id, i, st.text, checkedClass);
   }
   return subtasksHtml;
 }
