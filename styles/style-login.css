@@ -72,6 +72,11 @@
   display: none;
 }
 
+.welcome-overlay:not(.hidden) ~ .login-main,
+.welcome-overlay:not(.hidden) ~ .login-footer {
+  display: none;
+}
+
 @keyframes fadeIn {
   to {
     opacity: 1;
@@ -255,6 +260,18 @@
 
   .blue-underline {
     margin: 10px 0 24px 0;
+  }
+
+  .welcome-card {
+    padding: 32px 48px;
+  }
+
+  .welcome-card p {
+    margin-bottom: 24px;
+  }
+
+  .welcome-overlay .overlay-footer {
+    bottom: 24px;
   }
 
   .login-footer {

@@ -79,6 +79,9 @@ body {
   background-color: #a8a8a8;
   border-radius: 4px;
 }
+.contacts-list-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--dark-blue);
+}
 .contacts-list-scroll::-webkit-scrollbar-track {
   background-color: transparent;
 }
