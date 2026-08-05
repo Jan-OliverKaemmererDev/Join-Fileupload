@@ -26,6 +26,7 @@
   width: 3px;
   height: 60px;
   background-color: var(--light-blue);
+  flex-shrink: 0;
 }
 
 .summary-title h1 {
@@ -195,7 +196,7 @@
 }
 
 #count-emails {
-  background: linear-gradient(to bottom, #8933FC, #29ABE2);
+  background: linear-gradient(to bottom, #8933fc, #29abe2);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -280,23 +281,19 @@
 /*                     MEDIA QUERIES                         */
 /* ========================================================= */
 @media (max-width: 1300px) {
-  .summary-section {
-    padding: 40px 40px; 
-  }
-
   .summary-container {
-    gap: 30px; 
+    gap: 30px;
   }
 
   .card-large {
     gap: 15px;
     padding: 15px;
   }
-  
+
   .deadline-info {
     padding-left: 15px;
   }
-  
+
   .urgent-info {
     gap: 10px;
   }
@@ -310,24 +307,44 @@
     width: 24px;
     height: 24px;
   }
-  
+
   .urgent-info b {
     font-size: 64px;
   }
-  
-  .urgent-info p, .deadline-info b, .deadline-info p {
+
+  .urgent-info p,
+  .deadline-info b,
+  .deadline-info p {
     font-size: 16px;
   }
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 1200px) {
+  .summary-title {
+    margin-bottom: 0px;
+  }
+
+  .summary-title h1 {
+    font-size: 42px;
+    margin-bottom: 0px;
+  }
+
   .summary-container {
     flex-direction: column-reverse;
     align-items: flex-start;
   }
 
   .greeting-container {
-    margin-bottom: 40px;
+    margin-bottom: 0;
   }
 }
 
+@media (max-width: 900px) {
+  .summary-title span {
+    white-space: nowrap;
+  }
+
+  .summary-title h1 {
+    white-space: nowrap;
+  }
+}
