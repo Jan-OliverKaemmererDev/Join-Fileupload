@@ -264,6 +264,8 @@ function generateInitialsForName(name) {
  * @param {string} creatorEmail - the email
  */
 function notifyExternalCreatorOnStatusChange(task, oldStatus, newStatus, creatorEmail) {
+  // N8N_DISABLED: n8n trial expired – re-enable when n8n is active again
+  return;
   const webhookUrl = "https://jan-oliver92.app.n8n.cloud/webhook/join-status-update";
   const payload = buildWebhookPayload(task, oldStatus, newStatus, creatorEmail);
   fetch(webhookUrl, {
